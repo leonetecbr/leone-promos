@@ -1,0 +1,169 @@
+*{margin: 0;padding: 0;font-size:100%;border: none;outline: none;font-weight: 300;box-sizing: border-box; font-family: sans-serif;color: color:#130400;}
+
+body{background-color: #f5f5f5;}
+a{text-decoration: none;color: #cecece;}
+img{max-width: 100%;}
+#logo{width: 56px;height: 56px;background: url(../img/logo-mobile.png) center center/56px no-repeat;font-size: 0;float:left;}
+
+#btn-menu{width: 56px;height: 56px;float:right;color:#fff; border-radius:56px;}
+#menu{width: 100%;height:100%;position: fixed;background: rgba(0,0,0,.9);top:0;left:0;display: none;float:left;}
+#close{font-size: 3em;color: #fff;width: 56px;height: 56px;float:right; cursor:pointer;margin:4% 4% 0 0;}
+#menu ul {width: 100%;margin-top: 70px;list-style: none;}
+#menu li {padding: 1.5em;}
+#menu li a {font-size: 2em;color:#fff;padding: 1.5% 3%;}
+#menu li a:hover{border: 1px solid #da6709}
+
+#banner{background-color: #ce2e3c;}
+.title {color: #fff;width:100%;}
+#banner h2 {font-size: 2.5em;font-weight: 700;margin-bottom:2%;}
+#banner h3 {font-size: 1.5em;font-weight: 400;padding:1%;}
+#buttons{width: 100%;margin-top:2%;}
+.btn, .btn-static{width: 100% ;font-size:1.5em;cursor: pointer;padding: 5%;}
+.btn, .btn-static, input[type=submit], button[type=submit], div.inner a button{box-shadow: 4px 4px 8px #1C1C1C;}
+#btn-categorias{margin-top:2%;}
+.promo, .cupom{width: 100%;border-radius:7px;margin-bottom: 5%;padding: 5%;}
+.promo img{border-radius: 7px 7px 0 0;max-height:250px;margin:auto;}
+.inner{padding: 10px;}
+.inner a {font-size: 1.3em;font-weight: 700;color: #130400;}
+.inner p a {color: #525252;font-size:1em;font-weight:400;}
+.inner p {margin-bottom: 3%;}
+.inner h4{font-size: 1.5em;margin-top: 7%;font-weight:700;}
+.loja {float: right;margin-top:0;}
+.loja a img{width:70px;}
+.icon{width:90px;}
+
+#newsletter h2 {font-size: 1.5em;font-weight: 700;}
+#newsletter form{margin-top: 3%;}
+.center{text-align: center;}
+#newsletter input, #deeplink input, form input{background-color: #130400;border: 1px solid #fff;padding: 2%;color: #fff;width:75%;}
+#newsletter button, #deeplink button, form button, .promo button, .cupom button{width: 100%;padding: 2%;cursor: pointer;}
+p{margin: 15px 0;font-size:1.2em;}
+.small{font-size: 0.6em;}
+.w100{width: 100%}
+.fs-12{font-size: 1.2em !important;}
+.fs-20{font-size: 2.0em !important;}
+.mt-1{margin-top: 10px !important;}
+.mt-2{margin-top: 20px !important;}
+.mt-3{margin-top: 30px !important;}
+#rodape{margin-bottom:0;}
+#social a {font-size: 1.5em;color: rgba(255,255,255,.7);margin-right: 3%;}
+#social a:last-child{margin-right:0;}
+#social a:hover {color: rgb(255,255,255);}
+#copyright{margin-top:2%;color: rgba(255,255,255,.7);}
+
+.grecaptcha-badge {visibility: hidden;}
+.container{width:100%;float:left;padding:3% 4%;}
+.bg-gradiente{background: linear-gradient(to right, #ce2e3c, #da6709);color:#fff;}
+.bg-orange{background-color:#da6709;color:#fff;}
+.text-orange{color:#da6709;}
+.bg-red{background-color: #ce2e3c;color:#fff;}
+.bg-black{background-color: #130400; color: #fff;}
+.bg-white{background-color: #fff;color: #130400;}
+.bg-gradiente a{color:#fff;}
+.bg-orange a{color:#fff;}
+.bg-red a{color:#fff;}
+.bg-black a{color: #fff;}
+.bg-white a{color: #130400;}
+.bg-red::-webkit-input-placeholder,.bg-gradiente::-webkit-input-placeholder, .bg-orange::-webkit-input-placeholder{color: #fff;}
+.bg-red::-moz-placeholder, .bg-orange::-moz-placeholder, .bg-gradiente::-moz-placeholder{color: #fff;}
+.bg-red:-ms-input-placeholder, .bg-orange:-ms-input-placeholder, bg-gradiente:-ms-input-placeholder{color: #fff;}
+.radius{border-radius: 10px;}
+#title, .h2{font-weight: 700;font-size: 1.8em;}
+.padding{padding:3% 4%;}
+.text-white{color:#fff !important;}
+
+.categoria{padding: 6%;font-size:1.5em;margin-bottom: 4%;}
+.categoria i {float: left;}
+#categorias a{color:#130400;}
+.promo h4, .cupom h4{font-size: 1.3em;margin: 5% 0;font-weight:700;color: #130400;}
+.site img{width: 40%;}
+.code input{width: 150px;text-transform: uppercase;margin:2% 0;} 
+
+#btn-search{float:right;width:56px;height:56px;margin-top;}
+#form input{width:86%;margin:0 1%;}
+#form button{width: 9%;border-radius:56px;color: #fff;}
+.hidden{display: none;}
+.erro{color: #ce2e3c;margin:0 2.5px}
+input{transition-duration:1s;}
+#pagination{padding: 3% 4%;}
+#pagination a {font-size: 1em;color: white;margin-right: 0.5%;margin-left: 0.5%;padding: 1% 2%;}
+#pagination a:last-child{margin-right:0;}
+.atual-page{background: linear-gradient(to right, #a62430, #AE5207);}
+.left i{float: left;color:#130400;margin-right:3%;}
+.left:last-child i{margin-right:0;}
+.right i{float: right;color:#130400;margin-left:3%;}
+.righ:last-child i{margin-left:0;}
+.bolder{font-weight: 700;margin-right: 0.5%;margin-left: 0.5%;}
+code{font-family: monospace;}
+#btn-whatsapp{width: 60px;height:60px;position:fixed;right:30px;bottom:15px;border-radius:60px;background-color: #34af23;color:#fff; text-align:center;line-height:60px;font-size:2em;z-index:1;}
+#div_accept{float: right;}
+#accept {padding: 10px;background-color:#da6709;color:#fff;border:1px solid #fff;}
+.aviso_eu_cookie{bottom:1em;left:1em;border:1px solid #fff;position:fixed;right:1em;width:auto;padding:6px 6px 6px 15px;background-color:#da6709;color:#fff;z-index:99;}
+.share .wpp{background-color: #34af23;}
+.share .tlg{background-color: #0088cc;}
+.share .fbm{background: linear-gradient(to top, #0078FF, #00C6FF);}
+.share .twt{background-color: #00acee;}
+.share .pls{background-color: #000;color:#fff;}
+.share a{padding: 3px 6px;border-radius:40px;height:40px;line-height:34px;text-align:center;}
+.share i, share a{color:#fff;}
+.share {margin: auto;}
+.menu-fixo {position: fixed;top: 0;z-index: 999;border-bottom: 2px solid #da6709;box-shadow: 0px 3px 3px #606060;}
+#copy_sucess{background-color:#198754 ;position: fixed;top: 90px;z-index: 100;color:#fff;}
+#btn-notify{margin: auto;width:270px;}
+button a{color: #000;}
+#btn-categorias a{color: #fff;}
+ul{margin-left:20px;}
+ul li{margin-bottom:15px;}
+:disabled{box-shadow: none;}
+.bg-orange:disabled {background-color: #984806;}
+.bg-white:disabled {background-color: #b2b2b2;}
+
+@media only screen and (min-width : 380px) {
+  #logo{width: 214px;background: url(../img/logo.png) center center/214px no-repeat;}
+}
+
+@media only screen and (min-width : 480px) {
+  .btn{font-size: 2em;}
+}
+
+@media only screen and (min-width : 768px) {
+  #promos{display: flex;flex-wrap: wrap;}
+  .promo{width: 48%;margin-right: 2%;padding: 5%;margin-bottom:2%;}
+  #cupons{display: flex;flex-wrap: wrap;}
+  .cupom{width: 48%;margin-right: 2%;padding: 5%;margin-bottom:2%;}
+  #newsletter h2 {font-size: 2em;}
+  #newsletter h3{font-size: 1.5em;}
+  #logo{width: 428px;background: url(../img/logo.png) center center/428px no-repeat;height:79px;}
+  #title, .h2{font-size: 2em;}
+  .padding{padding: 1.5% 2%;}
+  h3.container{font-size: 1.5em;}
+  .categoria{padding: 3%;font-size:2em;margin-bottom: 2%;}
+  #pagination, .container{padding:1.5% 2%;}
+  #social a {font-size: 2.5em;}
+  form button{font-size: 2em;}
+  .radius{border-radius: 20px;}
+  #btn-search{height:79px;margin-top;}
+  #form {font-size:1em;}
+  form label{font-size: 1.2em;}
+}
+
+@media only screen and (min-width : 900px) {
+  .title{width: 65%;float: left;text-align:left;font-size:1em;padding:2%;}
+  .btn{width: 35% ;float:right;padding:2%;margin-top:4%;}
+  .btn-static{padding: 2%;}
+  .cupom{width: 31%;padding: 3%;}
+  .promo{width: 31%;padding: 3%;}
+  form button{padding: 1.5%;}
+  #title, .h2{font-size: 2.5em;}
+}
+
+@media only screen and (min-width : 960px) {
+  #btn-menu{display:none;}
+  #close{display:none;}
+  #menu{width:auto;float: right;background-color: #fff; display: block !important;color:#130400;position: static;padding:0;margin:0;height:79px;line-height: 72px;}
+  #menu ul {margin-top: 0;}
+  #menu li{padding: 0;float: left;}
+  #menu li a{color: #130400;font-size: 1em;padding: 10px;}
+  #menu li a:hover{border:none;color:#da6709;}
+  #logo{width: 305px;background: url(../img/logo.png) center center/305px no-repeat;height:79px;}
+}
