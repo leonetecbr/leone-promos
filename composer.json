@@ -1,0 +1,23 @@
+{
+  "name":"leone/promos",
+  "description":"Buscando levar ofertas relevantes e sem sites seguros eu criei o Leone Promos.",
+  "autoload":{
+    "psr-4":{
+      "Promos\\":"app/"
+    }
+  },
+  "require":{
+    "phpmailer/phpmailer": "^6.2",
+    "minishlink/web-push": "^6.0"
+  },
+  "license": "MIT",
+  "support": {
+    "email": "falecom@leone.tec.br"
+  },
+  "authors": [{
+    "name": "Leone Oliveira",
+    "email": "falecom@leone.tec.br",
+    "homepage": "https://leone.tec.br",
+    "role": "Developer"
+  }]
+}
