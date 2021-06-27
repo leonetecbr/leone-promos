@@ -14,13 +14,3 @@ $router->get('/api/v1/{key}/postback', [
     $result = Api\Push::sendAdmin($key);
     return new Response($result['code'], $result, 'application/json');
   }]);
-
-$router->get('/api/v1/{action}', [
-  function ($action){
-    return new Response(404, ['code' => 404, 'message' => 'Não encontrado'], 'application/json');
-  }]);
-
-$router->post('/api/v1/{action}', [
-  function ($action){
-    return new Response(404, ['code' => 404, 'message' => 'Não encontrado'], 'application/json');
-  }]);
