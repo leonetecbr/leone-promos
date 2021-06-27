@@ -48,12 +48,11 @@ class Router{
       $params['variables'] = $matches[1];
     }
     
+    $route = rtrim($route, '/');
+    
     $patternRoute = '/^'.str_replace('/', '\/', $route).'$/';
     
-    $patternRoute2 = '/^'.str_replace('/', '\/', $route.'/').'$/';
-    
     $this->routes[$patternRoute][$method] = $params;
-    $this->routes[$patternRoute2][$method] = $params;
   }
   
   /**
@@ -61,7 +60,7 @@ class Router{
    * @return string
    */
   public function getUri(){
-    $uri = $this->request->getUri();
+    $uri = rtrim($this->request->getUri(), '/');
     return $uri;
   }
   
