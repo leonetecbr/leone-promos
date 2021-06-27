@@ -50,7 +50,7 @@ class Search extends Page{
         'page' => $pagination??'',
         'promo' => $text
       ]);
-      return Page::getPage('Pesquisa por: '.$q, $content, $headers??'');
+      return Page::getPage('Pesquisa por: "'.$q.'" - Página '.$page, $content, $headers??'');
     }
   }
 }
