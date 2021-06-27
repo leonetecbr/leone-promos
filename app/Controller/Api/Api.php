@@ -12,11 +12,19 @@ class Api{
    * @return boolean
    */
   public static function auth(){
-    $dados = base64_decode(str_ireplace('Basic ', '', $_SERVER['HTTP_AUAUTHORIZATION']??''));
-    $dados = explode(':', $dados, 2);
-    if ($dados[0] === '{user-admin}' && password_verify($dados[1], 'password-admin-em-password-hash') {
-      return true;
+    if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
+      $dados = [$_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']];
+    }elseif (!empty($_SERVER['HTTP_AUAUTHORIZATION'])) {
+      $dados = base64_decode(str_ireplace('Basic ', '', $_SERVER['HTTP_AUAUTHORIZATION']));
+      $dados = explode(':', $dados, 2);
+    }else{
+      return false;
     }
-    return false;
+    
+    if ($dados[0] === '{user-admin}' && password_verify($dados[1], '{password-admin-em-password-hash}') {
+      return true;
+    }else{
+      return false;
+    }
   }
 }
