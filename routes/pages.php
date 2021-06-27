@@ -3,6 +3,7 @@
 use \Promos\Controller\Pages;
 use \Promos\Http\Response;
 use \Promos\Utils;
+use \Exception;
 
 $router->get('/', [
   function (){
@@ -121,4 +122,9 @@ $router->get('/notificacoes', [
 $router->post('/send/{rota-screta}', [
   function (){
     return new Response(200, Pages\Push::sendAll(), 'application/json');
+  }]);
+
+$router->get('/403', [
+  function (){
+    throw new Exception('', 403);
   }]);
