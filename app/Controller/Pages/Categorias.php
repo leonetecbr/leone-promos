@@ -137,7 +137,7 @@ class Categorias extends Page{
         'page' => $pagination??'',
         'promo' => $text
       ]);
-      return Page::getPage('Categoria: '.$dados['title'], $content);
+      return Page::getPage('Categoria: '.$dados['title'].' - Página '.$page, $content);
     }
   }
 }
