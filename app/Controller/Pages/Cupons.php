@@ -25,6 +25,6 @@ class Cupons extends Page{
       'promo' => Utils\Promotions::getCupons($cupons, $page)
       ]);
       
-    return Page::getPage('Cupons de desconto', $content);
+    return Page::getPage('Cupons de desconto - Página '.$page, $content);
   }
 }
