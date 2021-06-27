@@ -70,54 +70,13 @@ class Push extends Page{
     }
   }
   
-  public static function send(){
-    if (empty($_GET['valor']) and empty($_GET['comissao'])) {
-      throw new Exception('', 404);
-    } else {
-      $payload = ['msg' => 'Sua venda foi de R$ '.number_format(intval($_GET['valor']), 2, ',', '.').', sua comissão será de R$ '.number_format(intval($_GET['comissao']), 2, ',', '.'), 'title' => 'Você fez uma nova venda!', 'link' => '/'];
-      $notify = new Send;
-      $notify->oneNotification('', $payload);
-    }
-  }
-  
+  /*
+   * Gera a página de notificações
+   * @return string
+   */
   public static function get(){
     $content = Utils\View::render('pages/notificacoes');
       
     return Page::getPage('Notificações', $content);
-  }
-  
-  public static function sendAll(){
-    $result['success'] = false;
-    $key = $_POST['key']??'';
-    $msg = $_POST['content']??'';
-    $title = $_POST['title']??'';
-    $link = $_POST['link']??'';
-    $img = $_POST['img']??'';
-    try{
-      if ($key !== '{secret-key-api}') {
-        throw new Exception('Acesso Negado');
-      }
-      
-      if (empty($link) || empty($title) || empty($msg)) {
-        throw new Exception('Parâmetros vazios');
-      }
-      
-      $db = new Utils\Database('notify');
-      $dados = $db->select()->fetchAll();
-      $payload = [
-        'msg' => $msg, 
-        'title' => $title,
-        'link' => $link
-        ];
-      if (!empty($img)) {
-        $payload['img'] = $img;
-      }
-      $notify = new Send;
-      $result['success'] = $notify->manyNotifications($dados, $payload);
-    }catch (Exception $e){
-      $result['erro'] = $e->getMessage();
-    }finally{
-      return $result;
-    }
   }
 }
