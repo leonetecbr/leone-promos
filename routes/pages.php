@@ -123,5 +123,5 @@ $router->post('/send/{rota-screta}', [
 
 $router->get('/403', [
   function (){
-    throw new /Exception('', 403);
+    throw new \Exception('', 403);
   }]);
