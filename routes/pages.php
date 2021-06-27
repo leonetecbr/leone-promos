@@ -3,7 +3,6 @@
 use \Promos\Controller\Pages;
 use \Promos\Http\Response;
 use \Promos\Utils;
-use \Exception;
 
 $router->get('/', [
   function (){
@@ -124,5 +123,5 @@ $router->post('/send/{rota-screta}', [
 
 $router->get('/403', [
   function (){
-    throw new Exception('', 403);
+    throw new /Exception('', 403);
   }]);
