@@ -19,8 +19,7 @@ $router->get('/newsletter/descadastrar', [
   function (){
     return new Response(200, Pages\Newsletter::validateKey(0));
   }]);
-  
-  
+
 $router->get('/newsletter/confirmar', [
   function (){
     return new Response(200, Pages\Newsletter::validateKey(1));
@@ -50,7 +49,6 @@ $router->get('/cupons/{page}', [
   function ($page){
     return new Response(200, Pages\Cupons::get(abs(intval($page))));
   }]);
-
 
 $router->get('/privacidade', [
   function (){
