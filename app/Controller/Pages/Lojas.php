@@ -118,7 +118,7 @@ class Lojas extends Page{
         'page' => $pagination??'',
         'promo' => $text
       ]);
-      return Page::getPage('Loja: '.$dados['title'], $content);
+      return Page::getPage('Loja: '.$dados['title'].' - Página '.$page, $content);
     }
   }
 }
