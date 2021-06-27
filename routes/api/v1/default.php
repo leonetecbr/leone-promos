@@ -17,10 +17,10 @@ $router->get('/api/v1/{key}/postback', [
 
 $router->get('/api/v1/{action}', [
   function ($action){
-    return new Response(404, ['error' => 404, 'message' => 'Não encontrado'], 'application/json');
+    return new Response(404, ['code' => 404, 'message' => 'Não encontrado'], 'application/json');
   }]);
 
 $router->post('/api/v1/{action}', [
   function ($action){
-    return new Response(404, ['error' => 404, 'message' => 'Não encontrado'], 'application/json');
+    return new Response(404, ['code' => 404, 'message' => 'Não encontrado'], 'application/json');
   }]);
