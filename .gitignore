@@ -3,3 +3,5 @@
 subscription.json
 vendor/
 composer.lock
+resources/cache/cupons/
+resources/cache/lojas/
