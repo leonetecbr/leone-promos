@@ -5,3 +5,8 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ ./index.php [QSA]
 
 ErrorDocument 403 https://ofertas.leone.tec.br/403
+
+<Files .env>
+order allow,deny
+Deny from all
+</Files>

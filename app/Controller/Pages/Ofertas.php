@@ -12,7 +12,7 @@ class Ofertas{
    * Encontra a URL correta para fazer o redirecionamento
    * @params integer $cat_id $page $oferta_id
    */
-  public function process($cat_id, $page, $oferta_id){
+  public static function process($cat_id, $page, $oferta_id){
     switch ($cat_id) {
       case 77:
         $path = 'categorias/smartphones';
