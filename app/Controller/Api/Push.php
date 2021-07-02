@@ -56,7 +56,7 @@ class Push extends Api{
   public static function sendAdmin($key){
     $result['success'] = false;
     try{
-      if ($key !== 'a80fc5518d19f699f') {
+      if ($key !== $_ENV['KEY_POSTBACK']) {
         throw new Exception('Acesso Negado', 403);
       }
       

@@ -11,10 +11,6 @@ use \Promos\Controller\Notify\Send;
  */
 class Database{
   
-  const HOST = '{host-do-banco-de-dados}';
-  const NAME = '{nome-do-banco-de-dados}';
-  const USER = '{usuario-do-banco-de-dados}';
-  const PASS = '{senha-do-banco-de-dados}';
   private $table;
   private $connection;
   
@@ -31,7 +27,7 @@ class Database{
    */
   private function setConnection(){
     try{
-      $this->connection = new PDO('mysql:host='.self::HOST.';dbname='.self::NAME,self::USER,self::PASS);
+      $this->connection = new PDO('mysql:host='.$_ENV['HOST_DB'].';dbname='.$_ENV['BANK_DB'],$_ENV['USER_DB'],$_ENV['PASS_DB']);
       $this->connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
     }catch(PDOException $e){
       $content = file_exists('app/error_db.txt')?file_get_contents('app/error_db.txt'):'';
@@ -44,7 +40,7 @@ class Database{
         ];
       $notify = new Send;
       $notify->oneNotification('', $data);
-      throw new Exception('<h1>Erro interno no servidor</h1>', 500);
+      throw new Exception('', 500);
     }
   }
   
@@ -72,7 +68,7 @@ class Database{
         ];
       $notify = new Send;
       $notify->oneNotification('', $data);
-      throw new Exception('<h1>Erro interno no servidor</h1>', 500);
+      throw new Exception('', 500);
     }
   }
 

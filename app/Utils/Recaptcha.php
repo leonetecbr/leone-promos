@@ -17,9 +17,9 @@ class Recaptcha{
   public function __construct($response, $type = 'v3'){
     $this->ip = $_SERVER['HTTP_CF_CONNECTING_IP']?? $_SERVER['REMOTE_ADDR'];
     if ($type == 'v3') {
-      $this->secret = '{secret-v3}';
+      $this->secret = $_ENV['SECRET_RECAPTCHA_V3'];
     }else {
-      $this->secret = '{secret-v2}';
+      $this->secret =  $_ENV['SECRET_RECAPTCHA_V2'];
     }
     $this->response = $response;
   }

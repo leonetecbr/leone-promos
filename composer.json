@@ -8,7 +8,8 @@
   },
   "require":{
     "phpmailer/phpmailer": "^6.2",
-    "minishlink/web-push": "^6.0"
+    "minishlink/web-push": "^6.0",
+    "vlucas/phpdotenv": "^5.3"
   },
   "license": "MIT",
   "support": {

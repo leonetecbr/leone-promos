@@ -115,12 +115,7 @@ $router->get('/notificacoes', [
   function (){
     return new Response(200, Pages\Push::get());
   }]);
-
-$router->post('/send/{rota-screta}', [
-  function (){
-    return new Response(200, Pages\Push::sendAll(), 'application/json');
-  }]);
-
+  
 $router->get('/403', [
   function (){
     throw new \Exception('', 403);

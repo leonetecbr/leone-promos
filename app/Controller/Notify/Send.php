@@ -14,8 +14,8 @@ class Send{
   private $publicKey;
   
   public function __construct(){
-    $this->privateKey = file_get_contents(__DIR__.'/Private.key');
-    $this->publicKey = file_get_contents(__DIR__.'/Public.key');
+    $this->privateKey = $_ENV['VAPID_PRIVATE_KEY'];
+    $this->publicKey = $_ENV['VAPID_PUBLIC_KEY'];
   }
   
   /**

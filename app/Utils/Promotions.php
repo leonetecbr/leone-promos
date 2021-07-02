@@ -176,7 +176,7 @@ class Promotions{
       $share = self::getShareParams();
       
       $i = (intval($page)-1)*18;
-      $imax = intval($page)*18;
+      $imax = intval($page)*18-1;
       for ($i; !empty($cupom[$i]) && $i<=$imax; $i++) {
         $content .= '<article class="cupom bg-white radius" id="cupom_'.$i.'">
   <div class="share">

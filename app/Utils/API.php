@@ -7,16 +7,13 @@ use \Exception;
  * Faz consultas nas APIs e retorna arrays com o resultado
  */
 class API{
-  const SOURCE_ID = '{soucer-id-lomadee}';
-  const API_URL = 'http://api.lomadee.com';
-  const APP_TOKEN = '{app-token-lomadee}';
   
   /*
    * Pega os cupons da api do Awin em CVS e converte para JSON
    * return string JSON
    */
   private static function getAwin(){
-    $dado = array_map('str_getcsv', file('{link-da-api-Awin-csv}'));
+    $dado = array_map('str_getcsv', file($_ENV['API_URL_CSV_AWIN']));
     $a=1;
     for ($i=0; !empty($dado[$i]); $i++) {
       if ($dado[$i][1] === 'Aliexpress BR & LATAM'){
@@ -41,16 +38,16 @@ class API{
    * @return string JSON 
    */
   private static function getAPI($id, $page=1, $loja=0){
-    $dados = ['sourceId' => self::SOURCE_ID];
+    $dados = ['sourceId' => $_ENV['SOURCE_ID_LOMADEE']];
     if ($loja!==0){$dados['storeId'] = $loja;}
     if ($id===999){
       $dados['page'] = $page;
-      $json = file_get_contents(self::API_URL.'/v3/'.self::APP_TOKEN.'/offer/_store/'.$loja.'?'.http_build_query($dados));
+      $json = file_get_contents($_ENV['API_URL_LOMADEE'].'/v3/'.$_ENV['APP_TOKEN_LOMADEE'].'/offer/_store/'.$loja.'?'.http_build_query($dados));
     }elseif ($id!==0) {
       $dados['page'] = $page;
-      $json = file_get_contents(self::API_URL.'/v3/'.self::APP_TOKEN.'/offer/_category/'.$id.'?'.http_build_query($dados));
+      $json = file_get_contents($_ENV['API_URL_LOMADEE'].'/v3/'.$_ENV['APP_TOKEN_LOMADEE'].'/offer/_category/'.$id.'?'.http_build_query($dados));
     }else {
-      $json = file_get_contents(self::API_URL.'/v2/'.self::APP_TOKEN.'/coupon/_all?'.http_build_query($dados));
+      $json = file_get_contents($_ENV['API_URL_LOMADEE'].'/v2/'.$_ENV['APP_TOKEN_LOMADEE'].'/coupon/_all?'.http_build_query($dados));
     }
     if (empty($json)) {
       throw new Exception('Parece que tivemos um probleminha, que tal tentar de novo ?');
@@ -135,8 +132,8 @@ class API{
   public static function search($q, $page){
     $dados = [
       'keyword' => $q,
-      'sourceId' => self::SOURCE_ID,
+      'sourceId' => $_ENV['SOURCE_ID_LOMADEE'],
       'page' => $page];
-    return json_decode(file_get_contents(self::API_URL.'/v3/'.self::APP_TOKEN.'/offer/_search?'.http_build_query($dados)), true);
+    return json_decode(file_get_contents($_ENV['API_URL_LOMADEE'].'/v3/'.$_ENV['APP_TOKEN_LOMADEE'].'/offer/_search?'.http_build_query($dados)), true);
   }
 }

@@ -14,7 +14,7 @@ class Mail{
    * @param array $auth
    * @return true/string
    */
-  public static function sendOne($to, $name, $subject, $html, $auth = ['email'=>'naoresponda@ofertas.leone.tec.br', 'pass' => '{senha-do-email}']){
+  public static function sendOne($to, $name, $subject, $html, $auth = ['email'=> $_ENV['SMTP_USER'], 'pass' => $_ENV['SMTP_PASS']]){
     $mail = new PHPMailer();
     $mail->setLanguage('pt_br', __DIR__.'/../../vendor/phpmailer/phpmailer/language/phpmailer.lang-pt_br.php');
     $mail->CharSet = 'UTF-8';
