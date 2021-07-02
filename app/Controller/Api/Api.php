@@ -21,6 +21,6 @@ class Api{
       return false;
     }
     
-    return ($dados[0] === $_ENV['USER_API'] && password_verify($dados[1], $_ENV['PASS_API']);
+    return ($dados[0] === $_ENV['USER_API'] && password_verify($dados[1], $_ENV['PASS_API']));
   }
 }
