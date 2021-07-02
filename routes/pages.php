@@ -106,11 +106,6 @@ $router->post('/register', [
     return new Response(200, Pages\Push::setRegister(), 'application/json');
   }]);
 
-$router->get('/postback/{secret-path}', [
-  function (){
-    return new Response(200, Pages\Push::send());
-  }]);
-
 $router->get('/notificacoes', [
   function (){
     return new Response(200, Pages\Push::get());
