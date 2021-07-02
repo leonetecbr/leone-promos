@@ -1,0 +1,1 @@
+Nessa pasta vão ficar salvas as consultas as APIs de cupons

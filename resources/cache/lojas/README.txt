@@ -1,0 +1,1 @@
+Nessa pasta vão ficar salvas as consultas a API de promoções por loja
