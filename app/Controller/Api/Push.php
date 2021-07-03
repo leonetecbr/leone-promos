@@ -63,7 +63,7 @@ class Push extends Api{
       if (empty($_GET['valor']) || empty($_GET['comissao'])) {
         throw new Exception('Parâmetros vazios', 400);
       }
-      $payload = ['msg' => 'Sua venda foi de R$ '.number_format(intval($_GET['valor']), 2, ',', '.').', sua comissão será de R$ '.number_format(intval($_GET['comissao']), 2, ',', '.'), 'title' => 'Você fez uma nova venda!', 'link' => '/'];
+      $payload = ['msg' => 'Sua venda foi de R$ '.number_format(floatval($_GET['valor']), 2, ',', '.').', sua comissão será de R$ '.number_format(floatval($_GET['comissao']), 2, ',', '.'), 'title' => 'Você fez uma nova venda!', 'link' => '/'];
       $notify = new Send;
       $result['success'] = $notify->oneNotification('', $payload);
       $result['code'] = 200;

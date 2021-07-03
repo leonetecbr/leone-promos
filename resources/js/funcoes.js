@@ -1,3 +1,5 @@
+const KeyV3Recaptcha = '6LdiepQaAAAAAAzLXLD1le5GHf0JRShTQvNX2LHt';
+
 $(document).ready(function(){
   if (navigator.share) {
     $('.plus-share').fadeIn("slow");
@@ -105,7 +107,7 @@ $(document).ready(function(){
     event.preventDefault();
     var href = $(this).attr('href');
     grecaptcha.ready(function() {
-        grecaptcha.execute('6LdiepQaAAAAAAzLXLD1le5GHf0JRShTQvNX2LHt', {action: 'pagination'}).then(function(token) {
+        grecaptcha.execute(KeyV3Recaptcha, {action: 'pagination'}).then(function(token) {
           $('body').append('<form method="post" id="reload" action="'+href+'"><input type="hidden" name="g-recaptcha-response" value="'+token+'"/></form>');
           $('#reload').submit();
         });
@@ -141,7 +143,7 @@ function validate_search(){
     $('.iqs').show();
   }else{
     grecaptcha.ready(function() {
-      grecaptcha.execute('6LdiepQaAAAAAAzLXLD1le5GHf0JRShTQvNX2LHt', {action: 'search'}).then(function(token) {
+      grecaptcha.execute(KeyV3Recaptcha, {action: 'search'}).then(function(token) {
           $("#form").append('<input type="hidden" name="g-recaptcha-response" value="'+token+'">');
           var valores = new Object();
           for(var valor of $('#form').serializeArray()){
@@ -172,7 +174,7 @@ function validate_newsletter(){
   
   if (!erro) {
     grecaptcha.ready(function() {
-      grecaptcha.execute('6LdiepQaAAAAAAzLXLD1le5GHf0JRShTQvNX2LHt', {action: 'newsletter'}).then(function(token) {
+      grecaptcha.execute(KeyV3Recaptcha, {action: 'newsletter'}).then(function(token) {
           $("#news").append('<input type="hidden" name="g-recaptcha-response" value="'+token+'">');
           $("#news").submit();
       });

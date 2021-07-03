@@ -41,7 +41,7 @@ class Search extends Page{
     } catch (Exception $e){
       $text = '<p class="fs-12 erro">'.$e->getMessage().'</p>';
       if ($e->getCode()===499) {
-        $text .= '<div class="center container mt-2"><form id="checkbox" method="post"><input type="hidden" name="type" value="v2"><div class="g-recaptcha" data-sitekey="6LeuK5UaAAAAAGlPXLMsCh9L0XpH1qOHR285Ho2m" data-callback="submit"></div></form></div>';
+        $text .= '<div class="center container mt-2"><form id="checkbox" method="post"><input type="hidden" name="type" value="v2"><div class="g-recaptcha" data-sitekey="'.$_ENV['PUBLIC_RECAPTCHA_V2'].'" data-callback="submit"></div></form></div>';
         $headers = '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
       }
     } finally{

@@ -4,6 +4,13 @@ require __DIR__.'/vendor/autoload.php';
 use \Promos\Http\Router;
 use \Dotenv\Dotenv;
 
+$dominio = 'http';
+$dominio .= !empty($_SERVER['HTTPS'])?'s':'';
+$dominio .= '://'.$_SERVER['HTTP_HOST'];
+
+$_SERVER['HOST'] = $dominio;
+unset($dominio);
+
 $router = new Router;
 
 $dotenv = Dotenv::createImmutable(__DIR__);
