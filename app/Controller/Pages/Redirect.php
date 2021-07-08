@@ -32,8 +32,8 @@ class Redirect{
    * @param string $url
    * @return string
    */
-  private static function processAwin($url){
-    return 'https://www.awin1.com/cread.php?awinmid=18879&awinaffid=872385&clickref=deeplink&ued='.urlencode($url);
+  private static function processAwin($url, $advertiserId){
+    return 'https://www.awin1.com/cread.php?awinmid='.$advertiserId.'&awinaffid=872385&clickref=deeplink&ued='.urlencode($url);
   }
   
   /**
@@ -65,7 +65,13 @@ class Redirect{
       if (strpos($url, 'https://m.magazineluiza.com.br')===0 || strpos($url, 'https://www.magazineluiza.com.br/')===0 || strpos($url, 'https://www.magazinevoce.com.br/')===0) {
         $to = self::processMagalu($url);
       } elseif(strpos($url, 'https://mbest.aliexpress.com')===0 || strpos($url, 'https://m.pt.aliexpress.com')===0 || strpos($url, 'https://best.aliexpress.com')===0 || strpos($url, 'https://pt.aliexpress.com')===0 || strpos($url, 'https://aliexpress.com')===0 || strpos($url, 'https://m.aliexpress.com')===0){
-        $to = self::processAwin($url);
+        $to = self::processAwin($url, 18879);
+      }elseif(strpos($url, 'https://m.pontofrio.com.br')===0 || strpos($url, 'https://www.pontofrio.com.br')===0 || strpos($url, 'https://pontofrio.com.br')===0){
+        $to = self::processAwin($url, 17621);
+      }elseif( strpos($url, 'https://m.extra.com.br')===0 || strpos($url, 'https://www.extra.com.br')===0 || strpos($url, 'https://extra.com.br')===0){
+        $to = self::processAwin($url, 17874);
+      }elseif (strpos($url, 'https://m.casasbahia.com.br')===0 || strpos($url, 'https://www.casasbahia.com.br')===0 || strpos($url, 'https://casasbahia.com.br')===0) {
+        $to = self::processAwin($url, 17629);
       }else{
         $to = self::processLomadee($url);
       }

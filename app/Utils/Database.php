@@ -30,9 +30,8 @@ class Database{
       $this->connection = new PDO('mysql:host='.$_ENV['HOST_DB'].';dbname='.$_ENV['BANK_DB'],$_ENV['USER_DB'],$_ENV['PASS_DB']);
       $this->connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
     }catch(PDOException $e){
-      $content = file_exists('app/error_db.txt')?file_get_contents('app/error_db.txt'):'';
-      $content .= $e->getMessage();
-      file_put_contents('app/error_db.txt', $content);
+      $content = "\n\n".$e->getMessage();
+      file_put_contents('app/error_db.txt', $content, FILE_APPEND);
       $data = [
         'title' => 'Erro no banco de dados!',
         'msg' => $e->getMessage(),
@@ -56,11 +55,8 @@ class Database{
       $statement->execute($params);
       return $statement;
     }catch(PDOException $e){
-      echo $query;
-      die;
-      $content = file_exists('app/error_db.txt')?file_get_contents('app/error_db.txt'):'';
-      $content .= $e->getMessage();
-      file_put_contents('app/error_db.txt', $content);
+      $content = "\n\n".$e->getMessage();
+      file_put_contents('app/error_db.txt', $content, FILE_APPEND);
       $data = [
         'title' => 'Erro no banco de dados!',
         'msg' => $e->getMessage(),

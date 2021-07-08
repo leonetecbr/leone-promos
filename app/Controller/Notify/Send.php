@@ -82,9 +82,8 @@ class Send{
         $db = new Database('notify');
         $values = ['col' => 'endpoint', 'val' => $endpoint];
         $db->delete($values);
-        $content = file_exists('app/fail_notify.txt')?file_get_contents('app/fail_notify.txt'):'';
-        $content .= $endpoint.'==='.$report->getReason();
-        file_put_contents('app/fail_notify.txt', $content);
+        $content = "\n\n".$endpoint.'==='.$report->getReason();
+        file_put_contents('app/fail_notify.txt', $content, FILE_APPEND);
         $result = false;
       }
     }

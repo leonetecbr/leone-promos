@@ -25,6 +25,30 @@ class API{
         $cupom[$a-1]['store']['image'] = 'https://ae01.alicdn.com/kf/H2111329c7f0e475aac3930a727edf058z.png';
         $cupom[$a-1]['store']['name'] = 'Aliexpress';
         $a++;
+      }elseif ($dado[$i][1] === 'Casas Bahia BR'){
+        $cupom[$a-1]['code'] = $dado[$i][4];
+        $cupom[$a-1]['vigency'] = $dado[$i][7];
+        $cupom[$a-1]['description'] = $dado[$i][5];
+        $cupom[$a-1]['link'] = $dado[$i][11];
+        $cupom[$a-1]['store']['image'] = 'https://m.casasbahia.com.br/assets/images/casasbahia-logo-new.svg';
+        $cupom[$a-1]['store']['name'] = 'Casas Bahia';
+        $a++;
+      }elseif ($dado[$i][1] === 'Extra BR') {
+        $cupom[$a-1]['code'] = $dado[$i][4];
+        $cupom[$a-1]['vigency'] = $dado[$i][7];
+        $cupom[$a-1]['description'] = $dado[$i][5];
+        $cupom[$a-1]['link'] = $dado[$i][11];
+        $cupom[$a-1]['store']['image'] = 'https://m.extra.com.br/assets/images/ic-extra-navbar.svg';
+        $cupom[$a-1]['store']['name'] = 'Extra';
+        $a++;
+      }elseif ($dado[$i][1] === 'Ponto BR') {
+        $cupom[$a-1]['code'] = $dado[$i][4];
+        $cupom[$a-1]['vigency'] = $dado[$i][7];
+        $cupom[$a-1]['description'] = $dado[$i][5];
+        $cupom[$a-1]['link'] = $dado[$i][11];
+        $cupom[$a-1]['store']['image'] = 'https://m.pontofrio.com.br/assets/images/ic-navbar-logo.svg';
+        $cupom[$a-1]['store']['name'] = 'Ponto';
+        $a++;
       }
     }
     
