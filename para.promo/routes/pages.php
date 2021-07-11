@@ -3,7 +3,7 @@
 use \Promos\Controller\Pages\Ofertas;
 use \Promos\Http\Response;
 
-define('URL', 'https://redir.lomadee.com/v2/deeplink?sourceId={source-id-lomadee}&url=');
+define('URL', 'https://redir.lomadee.com/v2/deeplink?sourceId='.$_ENV['SOURCE_ID_LOMADEE'].'&url=');
 
 define('SITE', 'https://ofertas.leone.tec.br/');
  

@@ -28,8 +28,9 @@ class Redirect{
   
   
   /**
-   * Gera os links de afiliado para protudos das lojas parceira pelo awin, por enquanto apenas Aliexpress
+   * Gera os links de afiliado para protudos das lojas parceira pelo awin, por enquanto apenas Aliexpress, Extra, Ponto e Casas Bahia
    * @param string $url
+   * @param integer $advertiserId
    * @return string
    */
   private static function processAwin($url, $advertiserId){
