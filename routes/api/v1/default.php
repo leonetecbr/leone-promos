@@ -1,7 +1,7 @@
 <?php
 
-use \Promos\Http\Response;
-use \Promos\Controller\Api;
+use \Leone\Promos\Http\Response;
+use \Leone\Promos\Controller\Api;
 
 $router->post('/api/v1/sendAll', [
   function (){

@@ -1,7 +1,7 @@
 <?php
-namespace Promos\Controller\Pages;
+namespace Leone\Promos\Controller\Pages;
 
-use \Promos\Http\Response;
+use \Leone\Promos\Http\Response;
 use \Exception;
 
 /**
@@ -34,7 +34,7 @@ class Redirect{
    * @return string
    */
   private static function processAwin($url, $advertiserId){
-    return 'https://www.awin1.com/cread.php?awinmid='.$advertiserId.'&awinaffid=872385&clickref=deeplink&ued='.urlencode($url);
+    return 'https://www.awin1.com/cread.php?awinmid='.$advertiserId.'&awinaffid='.$_ENV['ID_AFILIADO_AWIN'].'&clickref=deeplink&ued='.urlencode($url);
   }
   
   /**
@@ -47,7 +47,7 @@ class Redirect{
       $url = strstr($url, '/ref', true);
     }
     
-    return 'https://redir.lomadee.com/v2/deeplink?sourceId=37058785&url='.urlencode($url);
+    return 'https://redir.lomadee.com/v2/deeplink?sourceId='.$_ENV['SOURCE_ID_LOMADEE'].'&url='.urlencode($url);
   }
   
   /**

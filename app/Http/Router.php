@@ -1,10 +1,10 @@
 <?php
-namespace Promos\Http;
+namespace Leone\Promos\Http;
 
 use \Closure;
 use \Exception;
 use \ReflectionFunction;
-use \Promos\Controller\Pages\ErrorsHTTP;
+use \Leone\Promos\Controller\Pages\ErrorsHTTP;
 
 /**
  * Classes responsável por identificar as rotas acessadas

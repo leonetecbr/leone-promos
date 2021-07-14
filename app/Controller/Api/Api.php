@@ -1,6 +1,6 @@
 <?php
 
-namespace Promos\Controller\Api;
+namespace Leone\Promos\Controller\Api;
 
 /**
  * Gere as páginas da Api

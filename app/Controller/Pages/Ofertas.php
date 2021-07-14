@@ -1,5 +1,5 @@
 <?php
-namespace Promos\Controller\Pages;
+namespace Leone\Promos\Controller\Pages;
 
 use \Exception;
 

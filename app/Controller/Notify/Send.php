@@ -1,9 +1,9 @@
 <?php
 
-namespace Promos\Controller\Notify;
+namespace Leone\Promos\Controller\Notify;
 
 use \Minishlink\WebPush;
-use \Promos\Utils\Database;
+use \Leone\Promos\Utils\Database;
 
 /**
  * Class responsável pelo envio da notificação

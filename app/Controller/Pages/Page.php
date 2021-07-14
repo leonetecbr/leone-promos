@@ -1,7 +1,7 @@
 <?php
-namespace Promos\Controller\Pages;
+namespace Leone\Promos\Controller\Pages;
 
-use \Promos\Utils\View;
+use \Leone\Promos\Utils\View;
 
 /**
  * Classe responsável por gerar a página genérica

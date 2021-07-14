@@ -1,7 +1,7 @@
 <?php
-namespace Promos\Model\Entity;
+namespace Leone\Promos\Model\Entity;
 
-use \Promos\Utils\Database;
+use \Leone\Promos\Utils\Database;
 
 /**
  * Classe criada para gerenciar a Newsletter

@@ -1,9 +1,9 @@
 <?php
 
-namespace Promos\Controller\Api;
+namespace Leone\Promos\Controller\Api;
 
-use \Promos\Controller\Notify\Send;
-use \Promos\Utils;
+use \Leone\Promos\Controller\Notify\Send;
+use \Leone\Promos\Utils;
 use \Exception;
 
 /**

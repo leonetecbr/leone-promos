@@ -1,9 +1,9 @@
 <?php
-namespace Promos\Controller\Pages;
+namespace Leone\Promos\Controller\Pages;
 
-use \Promos\Utils;
+use \Leone\Promos\Utils;
 use \Exception;
-use \Promos\Model\Entity\Newsletter as News;
+use \Leone\Promos\Model\Entity\Newsletter as News;
 
 /**
  * Classe responsável por controlar todas as páginas da Newsletter

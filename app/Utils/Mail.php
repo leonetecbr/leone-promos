@@ -1,5 +1,5 @@
 <?php
-namespace Promos\Utils;
+namespace Leone\Promos\Utils;
 
 use \PHPMailer\PHPMailer\PHPMailer;
 

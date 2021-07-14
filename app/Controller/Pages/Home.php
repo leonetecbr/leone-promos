@@ -1,7 +1,7 @@
 <?php
-namespace Promos\Controller\Pages;
+namespace Leone\Promos\Controller\Pages;
 
-use \Promos\Utils;
+use \Leone\Promos\Utils;
 
 /**
  * Classe responsável por gerar a página inicial

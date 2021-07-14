@@ -1,5 +1,5 @@
 <?php
-namespace Promos\Http;
+namespace Leone\Promos\Http;
 
 /**
  * Classe responsável por tratar as informações da requisição do cliente

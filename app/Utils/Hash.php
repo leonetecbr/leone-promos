@@ -1,5 +1,5 @@
 <?php
-namespace Promos\Utils;
+namespace Leone\Promos\Utils;
 
 /**
  * Classe responsável por gerar strings aleatórias

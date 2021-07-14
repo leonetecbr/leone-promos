@@ -1,5 +1,5 @@
 <?php
-namespace Promos\Utils;
+namespace Leone\Promos\Utils;
 
 /**
  * Verifica se é usuário mobile

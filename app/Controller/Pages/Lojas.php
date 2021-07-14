@@ -1,9 +1,9 @@
 <?php
-namespace Promos\Controller\Pages;
+namespace Leone\Promos\Controller\Pages;
 
-use \Promos\Utils;
+use \Leone\Promos\Utils;
 use \Exception;
-use \Promos\Http\Response;
+use \Leone\Promos\Http\Response;
 
 /**
  * Processa todas as páginas de categoria

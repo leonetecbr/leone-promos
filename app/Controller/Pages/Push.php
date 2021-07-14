@@ -1,8 +1,8 @@
 <?php
-namespace Promos\Controller\Pages;
+namespace Leone\Promos\Controller\Pages;
 
-use \Promos\Utils;
-use \Promos\Controller\Notify\Send;
+use \Leone\Promos\Utils;
+use \Leone\Promos\Controller\Notify\Send;
 use \Exception;
 
 /**

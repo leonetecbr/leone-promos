@@ -1,8 +1,8 @@
 <?php
 
-use \Promos\Controller\Pages;
-use \Promos\Http\Response;
-use \Promos\Utils;
+use \Leone\Promos\Controller\Pages;
+use \Leone\Promos\Http\Response;
+use \Leone\Promos\Utils;
 
 $router->get('/', [
   function (){

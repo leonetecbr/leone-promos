@@ -3,7 +3,7 @@
   "description":"Buscando levar ofertas relevantes e sem sites seguros eu criei o Leone Promos.",
   "autoload":{
     "psr-4":{
-      "Promos\\":"app/"
+      "Leone\\Promos\\":"app/"
     }
   },
   "require":{

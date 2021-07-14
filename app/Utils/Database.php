@@ -1,10 +1,10 @@
 <?php
-namespace Promos\Utils;
+namespace Leone\Promos\Utils;
 
 use \PDO;
 use \PDOException;
 use \Exception;
-use \Promos\Controller\Notify\Send;
+use \Leone\Promos\Controller\Notify\Send;
 
 /**
  * Classe responsável por fazer a conexão com o banco de dados
