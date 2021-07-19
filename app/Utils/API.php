@@ -13,9 +13,17 @@ class API{
    * return string JSON
    */
   private static function getAwin(){
-    $dado = array_map('str_getcsv', file($_ENV['API_URL_CSV_AWIN']));
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $_ENV['API_URL_CSV_AWIN']);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $csv = curl_exec($ch);
+    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    if (empty($csv) || $status !== 200) {
+      throw new Exception('Parece que tivemos um probleminha, que tal tentar de novo ?');
+    }
+    $dado = array_map('str_getcsv', explode("\n", $csv));
     $a=1;
-    for ($i=0; !empty($dado[$i]); $i++) {
+    for ($i=0; !empty($dado[$i][1]); $i++) {
       if ($dado[$i][1] === 'Aliexpress BR & LATAM'){
         $text = str_replace('Para todos os compradores', '', $dado[$i][5]);
         $cupom[$a-1]['code'] = $dado[$i][4];
@@ -66,14 +74,19 @@ class API{
     if ($loja!==0){$dados['storeId'] = $loja;}
     if ($id===999){
       $dados['page'] = $page;
-      $json = file_get_contents($_ENV['API_URL_LOMADEE'].'/v3/'.$_ENV['APP_TOKEN_LOMADEE'].'/offer/_store/'.$loja.'?'.http_build_query($dados));
+      $url = $_ENV['API_URL_LOMADEE'].'/v3/'.$_ENV['APP_TOKEN_LOMADEE'].'/offer/_store/'.$loja.'?'.http_build_query($dados);
     }elseif ($id!==0) {
       $dados['page'] = $page;
-      $json = file_get_contents($_ENV['API_URL_LOMADEE'].'/v3/'.$_ENV['APP_TOKEN_LOMADEE'].'/offer/_category/'.$id.'?'.http_build_query($dados));
+      $url = $_ENV['API_URL_LOMADEE'].'/v3/'.$_ENV['APP_TOKEN_LOMADEE'].'/offer/_category/'.$id.'?'.http_build_query($dados);
     }else {
-      $json = file_get_contents($_ENV['API_URL_LOMADEE'].'/v2/'.$_ENV['APP_TOKEN_LOMADEE'].'/coupon/_all?'.http_build_query($dados));
+      $url = $_ENV['API_URL_LOMADEE'].'/v2/'.$_ENV['APP_TOKEN_LOMADEE'].'/coupon/_all?'.http_build_query($dados);
     }
-    if (empty($json)) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $json = curl_exec($ch);
+    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    if (empty($json) || $status !== 200) {
       throw new Exception('Parece que tivemos um probleminha, que tal tentar de novo ?');
     }
     return $json;
@@ -158,6 +171,14 @@ class API{
       'keyword' => $q,
       'sourceId' => $_ENV['SOURCE_ID_LOMADEE'],
       'page' => $page];
-    return json_decode(file_get_contents($_ENV['API_URL_LOMADEE'].'/v3/'.$_ENV['APP_TOKEN_LOMADEE'].'/offer/_search?'.http_build_query($dados)), true);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $_ENV['API_URL_LOMADEE'].'/v3/'.$_ENV['APP_TOKEN_LOMADEE'].'/offer/_search?'.http_build_query($dados));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $json = curl_exec($ch);
+    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    if (empty($json) || $status !== 200) {
+      throw new Exception('Parece que tivemos um probleminha, que tal tentar de novo ?');
+    }
+    return json_decode($json);
   }
 }

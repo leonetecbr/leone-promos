@@ -39,7 +39,6 @@ $(document).ready(function(){
     let btn = $('#'+id+'_submit');
     btn.attr('disabled', true);
     btn.html('Aguarde ...');
-    console.log(btn);
     $.ajax({
       url: this.action,
       data: JSON.stringify(valores),
