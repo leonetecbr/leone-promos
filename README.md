@@ -10,7 +10,7 @@ Estando rodando essa versão do PHP ou superior, basta usar o composer usando o 
 
 ```composer install```
 
-Caso esteja em versões anteriores do PHP, você precisará usar versões menos recentes de alguns pacotes e meu código pode não funcionar bem com as versões anteriores, faça as modificações nescessarias.
+Caso esteja em versões anteriores do PHP, você precisará usar versões menos recentes de alguns pacotes e este código pode não funcionar bem com as versões anteriores, faça as modificações nescessarias.
 
 ## Site [para.promo](https://para.promo/)
 
