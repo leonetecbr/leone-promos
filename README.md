@@ -18,4 +18,4 @@ A pasta [para.promo](https://github.com/leonetecbr/leone-promos/tree/main/para.p
 
 ## História do site
 
-Aqui está todo o código usado no [Leone Promos](https://ofertas.leone.tec.br), um projeto idealizado e desenvolvido por mim. Diante ao receio de muitas pessoas de comprar pela internet eu resolvi criar um site de promoções onde eu reúno as melhores promoções de sites confiáveis para que as pessoas possam aproveitar em segurança.
+Diante ao receio de muitas pessoas de comprar pela internet eu resolvi criar um site de promoções onde eu reúno as melhores promoções de sites confiáveis para que as pessoas possam aproveitar em segurança.

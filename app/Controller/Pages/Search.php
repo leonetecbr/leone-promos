@@ -48,7 +48,7 @@ class Search extends Page{
       $content = Utils\View::render('pages/promos',[
         'title' => 'Pesquisa por "'.$q.'"',
         'page' => $pagination??'',
-        'promo' => $text
+        'promo' => $text??'<p class="fs-12 erro">Parece que tivemos um probleminha, que tal tentar de novo, escrevendo de outra forma ?</p>'
       ]);
       return Page::getPage('Pesquisa por: "'.$q.'" - Página '.$page, $content, $headers??'');
     }

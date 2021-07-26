@@ -26,6 +26,7 @@ class API{
     for ($i=0; !empty($dado[$i][1]); $i++) {
       if ($dado[$i][1] === 'Aliexpress BR & LATAM'){
         $text = str_replace('Para todos os compradores', '', $dado[$i][5]);
+        $text = str_replace('•', '', $dado[$i][5]);
         $cupom[$a-1]['code'] = $dado[$i][4];
         $cupom[$a-1]['vigency'] = $dado[$i][7];
         $cupom[$a-1]['description'] = $text;
@@ -177,7 +178,7 @@ class API{
     $json = curl_exec($ch);
     $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     if (empty($json) || $status !== 200) {
-      throw new Exception('Parece que tivemos um probleminha, que tal tentar de novo ?');
+      throw new Exception('Parece que tivemos um probleminha, que tal tentar de novo, escrevendo de outra forma ?');
     }
     return json_decode($json);
   }
