@@ -49,7 +49,22 @@
 <meta property="og:url" content="{{URL}}" />
 <script src="https://www.google.com/recaptcha/api.js?render={{public_recaptcha_v3}}" async></script>{{headers}}
 </head>
-<body>{{aviso}}
+<body>
+  <div id="ig-share">
+    <div id="logomarca">
+      <img src="/resources/img/logo.png" alt="Logo">
+    </div>
+    <img id="product-image" class="mt-2">
+    <h4 class="h4" id="product-title"></h4>
+    <div class="mt-2 fs-12">
+      <div id="price-from"><small id="top">De:</small> <del id="product-price-from"></del></div>
+      <small id="top2">Por:</small><span class="fs-20 bolder" id="product-price-to"></span>
+      <p id="installment"></p>
+    </div>
+    <div id="product-desc" class="mt-2"></div>
+    <div id="product-code" class="mt-2 code"><input type="text" disabled="true" value="Acesse o link para obter o cupom" class="w100 center"></div>
+    <p id="share-link" class="mt-3"></p>
+  </div>{{aviso}}
 <header id="cabecalho" class="container center bg-white">
   <a href="/">
     <h1 id="logo">
@@ -58,14 +73,13 @@
   </a>
   <button id="btn-menu" class="bg-gradiente"><i class="fas fa-bars"></i></button>
   <label for="qs"><button id="btn-search" class="bg-white"><i class="fas fa-search"></i></button></label>
-  <nav id="menu" class="center">
+  <nav id="menu" class="center right">
     <a id="close"><i class="fas fa-times"></i></a>
     <ul>
       <li><a href="/">Início</a></li>
       <li><a href="/cupons">Cupons</a></li>
       <li><a href="/lojas">Lojas</a></li>
       <li><a href="/categorias">Categorias</a></li>
-      <li><a href="/privacidade">Privacidade</a></li>
       <li><a href="/notificacoes">Notificações</a></li>
     </ul>
   </nav>
