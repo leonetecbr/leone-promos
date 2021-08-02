@@ -65,7 +65,7 @@ class Promotions{
         $btn = empty($ofertas[$i]['code'])?'
           <a target="_blank" href="'.$ofertas[$i]['link'].'"><button class="bg-black radius">
             Ir para a loja
-          </button></a>':'<button onclick="copy('."'{$ofertas[$i]['link']}', '#input{$i}')".'" class="bg-black radius">Copiar e ir para a loja</button>';
+          </button></a>':'<button onclick="copy('."'{$ofertas[$i]['link']}', '#input{$i}')".'" class="fs-12 btn bg-black radius">Copiar e ir para a loja</button>';
         
         $code = empty($ofertas[$i]['code'])?'':'<p class="code">Cupom: <input value="'.$ofertas[$i]['code'].'" disabled="true" class="center discount" id="input'.$i.'"/></p>';
         
