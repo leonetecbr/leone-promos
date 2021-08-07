@@ -43,9 +43,10 @@ class Promotions{
       for ($i=0; !empty($ofertas[$i]); $i++) {
         $ofertas[$i]['name'] = htmlspecialchars($ofertas[$i]['name'], ENT_QUOTES);
         if (!empty($ofertas[$i]['description'])){
-          $d['w'] = '%0A%0A'.$ofertas[$i]['description_text'];
-          $d['j'] = str_ireplace('&apos;', '', $ofertas[$i]['description_text']);
-          $d['j'] = str_ireplace("\n", '  ', $d['j']);
+          $patter = '/\<.+\>(.*)\<\/.+\>/';
+          $description_text = preg_replace($patter, '$1', $ofertas[$i]['description']); 
+          $d['w'] = '%0A%0A'.$description_text;
+          $d['j'] = str_replace('&apos;', '', $description_text);
         }else{
           $d['w'] = '';
           $d['j'] = '';
