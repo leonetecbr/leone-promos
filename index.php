@@ -11,10 +11,10 @@ $dominio .= '://'.$_SERVER['HTTP_HOST'];
 $_SERVER['HOST'] = $dominio;
 unset($dominio);
 
-$router = new Router;
-
 $dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->safeLoad();
+$dotenv->load();
+
+$router = new Router;
 
 require __DIR__.'/routes/pages.php';
 require __DIR__.'/routes/api.php';
