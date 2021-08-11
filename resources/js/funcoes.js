@@ -149,7 +149,7 @@ function ig_share(element){
     $('#product-code').hide();
   }
   $('#product-price-to').html($(element).find('h4').html());
-  $('#share-link').html('https://para.promo/o/'+element.replace('#', ''));
+  $('#share-link').html($(element).attr('data-short-link'));
   $('#ig-share').fadeIn('slow');
 }
 

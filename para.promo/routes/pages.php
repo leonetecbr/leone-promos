@@ -55,8 +55,14 @@ $router->get('/submarino/{product_id}', [
     $redirect->addHeader('Location', URL.'https://www.submarino.com.br/produto/'.$product_id);
     return $redirect;
   }]);
-
-
+  
+$router->get('/aliexpress/{product_id}', [
+  function ($product_id){
+    $redirect = new Response(303);
+    $redirect->addHeader('Location', URL.'https://pt.aliexpress.com/item/'.$product_id.'.html');
+    return $redirect;
+  }]);
+  
 $router->get('/amazon', [
   function (){
     $redirect = new Response(303);
@@ -89,6 +95,13 @@ $router->get('/submarino', [
   function (){
     $redirect = new Response(303);
     $redirect->addHeader('Location', URL.'https://www.submarino.com.br');
+    return $redirect;
+  }]);
+  
+$router->get('/aliexpress', [
+  function (){
+    $redirect = new Response(303);
+    $redirect->addHeader('Location', URL.'https://pt.aliexpress.com');
     return $redirect;
   }]);
 

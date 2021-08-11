@@ -6,9 +6,9 @@ img{max-width: 100%;max-height:90%;}
 #logo{width: 56px;height: 56px;background: url(../img/logo-mobile.png) center center/56px no-repeat;font-size: 0;float:left;}
 
 #btn-menu{width: 56px;height: 56px;float:right;color:#fff; border-radius:56px;}
-#menu{width: 100%;height:100%;position: fixed;background: rgba(0,0,0,.9);top:0;left:0;display: none;margin: auto;}
+#menu{width: 100%;height:120vh;position: fixed;background: rgba(0,0,0,.9);top:0;left:0;display: none;margin: auto;}
 #close{font-size: 3em;color: #fff;width: 56px;height: 56px;float:right; cursor:pointer;margin:4% 4% 0 0;}
-#menu ul {width: 100%;margin-top: 70px;list-style: none;}
+#menu ul {width: 100%;margin-top: 100px;list-style: none;}
 #menu li {padding: 1.5em;}
 #menu li a {font-size: 2em;color:#fff;padding: 1.5% 3%;}
 #menu li a:hover{border: 1px solid #da6709}
@@ -37,6 +37,8 @@ img{max-width: 100%;max-height:90%;}
 .center{text-align: center;}
 #newsletter input, #deeplink input, form input{background-color: #130400;border: 1px solid #fff;padding: 10px;color: #fff;width:75%;}
 #newsletter button, #deeplink button, form button, .promo button, .cupom button{width: 100%;padding: 10px;cursor: pointer;}
+.promo{display: flex;flex-direction: column;}
+.final{margin-top: auto;}
 .promo button, .cupom button{padding: 2% !important;}
 p{margin: 15px 0;font-size:1.2em;}
 .small, small{font-size: 0.75em !important;}
@@ -103,7 +105,7 @@ code{font-family: monospace;}
 .share .pls{background-color: #000;color:#fff;}
 .share a{padding: 3px 6px;border-radius:40px;height:40px;line-height:34px;text-align:center;}
 .share i, share a{color:#fff;}
-.share {margin: auto;}
+.share {margin-right: auto;margin-left: auto;}
 .menu-fixo {position: fixed;top: 0;z-index: 19;border-bottom: 2px solid #da6709;box-shadow: 0px 3px 3px #606060;}
 #copy_sucess{background-color:#198754 ;position: fixed;top: 90px;z-index: 20;color:#fff;}
 #btn-notify{margin: auto;width:270px;}
@@ -115,8 +117,8 @@ ul li{margin-bottom:15px;}
 .bg-orange:disabled {background-color: #984806;}
 .bg-white:disabled {background-color: #b2b2b2;}
 img[alt=Extra], img[alt=Ponto]{background-color: #606060;padding:5px;}
-#ig-share{width: 100%;height:100%;position: fixed;background: #fff;top:0;left:0;float:left;z-index:99;text-align: center;padding: 10px  20px;display:none;}
-#ig-share #product-image{max-height: 35%;}
+#ig-share{width: 100%;height:120vh;position: fixed;background: #fff;top:0;left:0;float:left;z-index:99;text-align: center;padding: 10px;display:none;}
+#ig-share #product-image{max-height: 26%;}
 #logomarca{width: 100%;height: 80px;border-bottom: 1px solid gray;}
 .flex-center{margin: 0 auto;}
 .flex-column{display:flex;flex-direction: column;}
@@ -124,6 +126,7 @@ img[alt=Extra], img[alt=Ponto]{background-color: #606060;padding:5px;}
 .top{width: 50px;}
 #top{position: relative;bottom: 5px;}
 #top2{position: relative;bottom: 19px;}
+#share-link{font-weight: 1000;font-size:1.1em;}
 
 @media only screen and (min-width : 380px) {
   #logo{width: 214px;background: url(../img/logo.png) center center/214px no-repeat;}
@@ -135,6 +138,7 @@ img[alt=Extra], img[alt=Ponto]{background-color: #606060;padding:5px;}
 
 @media only screen and (min-width : 768px) {
   #promos, #cupons{display: flex;flex-wrap: wrap;}
+  .inner{position: relative;top: 43%;transform: translateY(-50%);}
   .promo, .cupom{width: 48%;margin-right: 2%;padding: 5%;margin-bottom:2%;}
   #newsletter h2 {font-size: 2em;}
   #newsletter h3{font-size: 1.5em;}
@@ -167,7 +171,7 @@ img[alt=Extra], img[alt=Ponto]{background-color: #606060;padding:5px;}
 @media only screen and (min-width : 960px) {
   #btn-menu{display:none;}
   #close{display:none;}
-  #menu{display:block;background-color: transparent;position:static !important;display:flex;width: auto;font-size:0.75em;float: center;}
+  #menu{display:block;background-color: transparent;position:static !important;display:flex;width: auto;font-size:0.75em;float: center;height: 100%;}
   #menu ul {margin:25px 10px 0 0;display:flex;}
   #menu li {margin:0;padding:0;margin-right:15px;}
   #menu li:last-child{margin-right:0;}

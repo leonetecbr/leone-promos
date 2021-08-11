@@ -27,6 +27,30 @@ class Promotions{
   }
   
   /**
+   * Gera o link curto para compartilhamento nas redes sociais
+   * @param string $url
+   * @return string
+   */
+  private static function getShortLink($url){
+    if (preg_match('/amazon\.com\.br\/.+\/dp\/(\w+)/', $url, $product_id) || preg_match('/amazon\.com\.br\/gp\/product\/(\w+)/', $url, $product_id)) {
+      $short = 'amazon/'.$product_id[1];
+    }elseif (preg_match('/magazinevoce\.com\.br\/magazineofertasleone\/p\/(\w+)/', $url, $product_id) || preg_match('/magazinevoce\.com\.br\/magazineofertasleone\/.+\/p\/(\w+)/', $url, $product_id)){
+      $short = 'magalu/'.$product_id[1];
+    }elseif (preg_match('/americanas\.com\.br\/produto\/(\w+)/', $url, $product_id)){
+      $short = 'americanas/'.$product_id[1];
+    }elseif (preg_match('/submarino\.com\.br\/produto\/(\w+)/', $url, $product_id)){
+      $short = 'submarino/'.$product_id[1];
+    }elseif (preg_match('/shoptime\.com\.br\/produto\/(\w+)/', $url, $product_id)){
+      $short = 'shoptime/'.$product_id[1];
+    }elseif (preg_match('/pt\.aliexpress\.com\/item\/(\w+)\.html/', $url, $product_id)){
+      $short = 'aliexpress/'.$product_id[1];
+    }else{
+      $short = '';
+    }
+    return 'https://para.promo/'.$short;
+  }
+  
+  /**
    * Transforma o array de ofertas em conteúdo legível
    * @param array $ofertas
    * @params integer $cat_id $page
@@ -52,7 +76,7 @@ class Promotions{
           $d['j'] = '';
         }
         
-        $from = ($ofertas[$i]['discount']>=0.01)?'<p>De: <del>R$ '.number_format($ofertas[$i]['priceFrom'], 2, ',', '.').'</del></p>':'';
+        $from = (!empty($ofertas[$i]['discount']) && $ofertas[$i]['discount']>=0.01)?'<p>De: <del>R$ '.number_format($ofertas[$i]['priceFrom'], 2, ',', '.').'</del></p>':'';
         
         if (!empty($ofertas[$i]['installment'])){
           if (($ofertas[$i]['installment']['quantity']*$ofertas[$i]['installment']['value']) <= $ofertas[$i]['price']+0.05) {
@@ -61,6 +85,15 @@ class Promotions{
           $parcelas = '<p class="installment">'.$ofertas[$i]['installment']['quantity'].'x'.$sj.' de R$ '.number_format($ofertas[$i]['installment']['value'], 2, ',', '.').'</p>';
         }else{
           $parcelas = '<p class="installment">Apenas à vista!</p>';
+        }
+        
+        if ($cat_id===0) {
+          $short_link = self::getShortLink($ofertas[$i]['link']);
+          $short_link = ($short_link!='https://para.promo/')?$short_link:$short_link."o/{$cat_id}_{$page}_{$i}";
+        }
+        
+        if (empty($short_link)){
+          $short_link = "https://para.promo/o/{$cat_id}_{$page}_{$i}";
         }
         
         $btn = empty($ofertas[$i]['code'])?'
@@ -72,20 +105,22 @@ class Promotions{
         
         $desc = empty($ofertas[$i]['description'])?'':'<p class="description">'.$ofertas[$i]['description'].'</p>';
         
-        $content .= '<article class="promo bg-white" id="'.$cat_id.'_'.$page.'_'.$i.'">
+        $content .= '<article class="promo bg-white" id="'.$cat_id.'_'.$page.'_'.$i.'" data-short-link="'.$short_link.'">
           <div class="share">
            <p><a href="#story" class="igs"><i class="fab fa-instagram"></i></a>
-           <a href="'.$share['w'].urlencode($ofertas[$i]['name']).'%0A%0A'.urlencode('*Por apenas: R$ '.number_format($ofertas[$i]['price'], 2, ',', '.').'*').$d['w'].'%0A%0A'.urlencode($share['u']).'o%2F'.$cat_id.'_'.$page.'_'.$i.'" class="wpp" target="_blank"><i class="fab fa-whatsapp"></i></a>
-           <a href="'.$share['t'].'%0A'.urlencode($ofertas[$i]['name']).'%0A%0A'.urlencode('**Por apenas: R$ '.number_format($ofertas[$i]['price'], 2, ',', '.')).'**'.$d['w'].'&url='.urlencode($share['u']).'o%2F'.$cat_id.'_'.$page.'_'.$i.'" class="tlg" target="_blank"><i class="fab fa-telegram-plane"></i></a>
-            <a href="'.$share['m'].urlencode($share['u']).'o%2F'.$cat_id.'_'.$page.'_'.$i.'" class="fbm" target="_blank"><i class="fab fa-facebook-messenger"></i></a>
-            <a href="http://twitter.com/share?text='.urlencode($ofertas[$i]['name']).'%0A%0A'.urlencode('Por apenas: R$ '.number_format($ofertas[$i]['price'], 2, ',', '.')).$d['w'].'%0A%0A'.'&url='.urlencode($share['u']).'o%2F'.$cat_id.'_'.$page.'_'.$i.'" class="twt" target="_blank"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="pls plus-share" onclick="event.preventDefault();copy_s('."'".$ofertas[$i]['name'].' '.$d['j'].'  Por apenas: R$ '.number_format($ofertas[$i]['price'], 2, ',', '.').' '.$share['u']."o/{$cat_id}_{$page}_{$i}'".');"><i class="fas fa-copy"></i></a>
-            <a href="#" class="pls hidden plus-share" onclick="event.preventDefault();navigator.share({title: '."'{$ofertas[$i]['name']}', text: '{$ofertas[$i]['name']}".'\n\n'."Por apenas: R$ ".number_format($ofertas[$i]['price'], 2, ',', '.').'\n'."', url: '{$share['u']}o/{$cat_id}_{$page}_{$i}'});".'"><i class="fas fa-share-alt"></i></a></p>
+           <a href="'.$share['w'].urlencode($ofertas[$i]['name']).'%0A%0A'.urlencode('*Por apenas: R$ '.number_format($ofertas[$i]['price'], 2, ',', '.').'*').$d['w'].'%0A%0A'.urlencode($short_link).'" class="wpp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+           <a href="'.$share['t'].'%0A'.urlencode($ofertas[$i]['name']).'%0A%0A'.urlencode('**Por apenas: R$ '.number_format($ofertas[$i]['price'], 2, ',', '.')).'**'.$d['w'].'&url='.urlencode($short_link).'" class="tlg" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+            <a href="'.$share['m'].urlencode($short_link).'" class="fbm" target="_blank"><i class="fab fa-facebook-messenger"></i></a>
+            <a href="http://twitter.com/share?text='.urlencode($ofertas[$i]['name']).'%0A%0A'.urlencode('Por apenas: R$ '.number_format($ofertas[$i]['price'], 2, ',', '.')).$d['w'].'%0A%0A'.'&url='.urlencode($short_link).'" class="twt" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="pls plus-share" onclick="event.preventDefault();copy_s(\''.$ofertas[$i]['name'].' '.$d['j'].'  Por apenas: R$ '.number_format($ofertas[$i]['price'], 2, ',', '.').' '.$short_link.'\');"><i class="fas fa-copy"></i></a>
+            <a href="#" class="pls hidden plus-share" onclick="event.preventDefault();navigator.share({title: '."'{$ofertas[$i]['name']}', text: '{$ofertas[$i]['name']}".'\n\n'."Por apenas: R$ ".number_format($ofertas[$i]['price'], 2, ',', '.').'\n'."', url: '{$short_link}'});".'"><i class="fas fa-share-alt"></i></a></p>
             </div>
-        <img src="'.$ofertas[$i]['thumbnail'].'" alt="'.$ofertas[$i]['name'].'" class="product-image"/>
         <div class="inner">
+        <img src="'.$ofertas[$i]['thumbnail'].'" alt="'.$ofertas[$i]['name'].'" class="product-image"/><br/>
           <a target="_blank" href="'.$ofertas[$i]['link'].'" class="product-title">'. mb_strimwidth($ofertas[$i]['name'], 0, 50, '...' ).'</a>'.$from.'<h4>R$ '.number_format($ofertas[$i]['price'], 2, ',', '.').'</h4>
           '.$parcelas.$desc.$code."\n".'
+        </div>
+        <div class="final">
           <div class="loja"><a target="_blank" href="'.$ofertas[$i]['store']['link'].'"><img src="'. $ofertas[$i]['store']['thumbnail'].'" alt="'.$ofertas[$i]['store']['name'].'"></a></div>'."\n".$btn.'
         </div>
       </article>';
@@ -187,14 +222,14 @@ class Promotions{
         <a href="'.$share['t'].'%0A'.urlencode($cupom[$i]['description']).'%0A%0A'.urlencode('**Cupom:** `'.$cupom[$i]['code'].'`').'&url='.urlencode($share['u'])."c%2F$i".'" class="tlg" target="_blank"><i class="fab fa-telegram-plane"></i></a>
         <a href="'.$share['m'].urlencode($share['u'])."c%2F$i".'" class="fbm" target="_blank"><i class="fab fa-facebook-messenger"></i></a>
         <a href="http://twitter.com/share?text='.urlencode($cupom[$i]['description']).'%0A%0A'.urlencode('Cupom: '.$cupom[$i]['code'].'').'%0A'.'&url='.urlencode($share['u'])."c%2F$i".'" class="twt" target="_blank"><i class="fab fa-twitter"></i></a>
-        <a href="#" class="pls plus-share" onclick="event.preventDefault();copy_s('."'".$cupom[$i]['description'].'  Cupom: '.$cupom[$i]['code'].' Link: '.$share['u']."c/$i')".'"><i class="fas fa-copy"></i></a>
-        <a href="#" class="pls hidden plus-share" onclick="event.preventDefault();navigator.share({title: '."'".$cupom[$i]['description']."'".', text: '."'".$cupom[$i]['description'].'\n\nCupom: '.$cupom[$i]['code'].'\n'."'".', url: '."'".$share['u']."c/$i'".'});"><i class="fas fa-share-alt"></i></a>
+        <a href="#" class="pls plus-share" onclick="event.preventDefault();copy_s(\''.$cupom[$i]['description'].'  Cupom: '.$cupom[$i]['code'].' Link: '.$share['u']."c/$i')".'"><i class="fas fa-copy"></i></a>
+        <a href="#" class="pls hidden plus-share" onclick="event.preventDefault();navigator.share({title: \''.$cupom[$i]['description'].'\', text: \''.$cupom[$i]['description'].'\n\nCupom: '.$cupom[$i]['code'].'\n\''.', url: \''.$share['u']."c/$i'".'});"><i class="fas fa-share-alt"></i></a>
         </p>
         <div class="site"><img src="'.$cupom[$i]['store']['image'].'" alt="'.$cupom[$i]['store']['name'].'"></div>
         <h4>'.mb_strimwidth($cupom[$i]['description'], 0, 100, '...' ).'</h4>
         <p>Válido até '.str_replace(":59:00", ":59:59", $cupom[$i]['vigency']).'</p>
 <p class="code">Cupom: <input value="'.$cupom[$i]['code'].'" disabled="true" class="center" id="input_'.$i.'"/></p>
-<button onclick="copy('."'".$cupom[$i]['link']."', '#input_".$i."')".'" class="bg-black radius">
+<button onclick="copy(\''.$cupom[$i]['link']."', '#input_".$i."')".'" class="bg-black radius">
   Copiar e ir para a loja
 </button>
         </div>

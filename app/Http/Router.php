@@ -48,7 +48,7 @@ class Router{
       $params['variables'] = $matches[1];
     }
     
-    $route = rtrim($route, '/');
+    $route = rtrim(strtolower($route), '/');
     
     $patternRoute = '/^'.str_replace('/', '\/', $route).'$/';
     
@@ -60,7 +60,7 @@ class Router{
    * @return string
    */
   public function getUri(){
-    $uri = rtrim($this->request->getUri(), '/');
+    $uri = rtrim(strtolower($this->request->getUri()), '/');
     return $uri;
   }
   
@@ -80,7 +80,7 @@ class Router{
           $methods[$httpMethod]['variables'] = array_combine($keys, $matches);
           return $methods[$httpMethod];
         }
-        throw new Exception('<h1>Método não permitido</h1>', 405);
+        throw new Exception('', 405);
       }
     }
   }

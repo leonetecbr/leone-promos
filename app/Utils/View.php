@@ -23,7 +23,7 @@ class View{
    * @return string
    */
   public static function render($view, $vars = []){
-    $vars['URL'] = $_SERVER['HOST'].$_SERVER['REQUEST_URI'];
+    $vars['URL'] = $_SERVER['HOST'].strtolower($_SERVER['REQUEST_URI']);
     $vars['public_recaptcha_v3'] = $_ENV['PUBLIC_RECAPTCHA_V3'];
     $vars['ano'] = date("Y");
     $contentView = self::getContentView($view);
