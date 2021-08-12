@@ -31,7 +31,7 @@ class Database{
       $this->connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
     }catch(PDOException $e){
       $content = "\n\n".$e->getMessage();
-      file_put_contents('app/error_db.txt', $content, FILE_APPEND);
+      file_put_contents('resources/logs/error_db.txt', $content, FILE_APPEND);
       $data = [
         'title' => 'Erro no banco de dados!',
         'msg' => $e->getMessage(),
@@ -56,7 +56,7 @@ class Database{
       return $statement;
     }catch(PDOException $e){
       $content = "\n\n".$e->getMessage();
-      file_put_contents('app/error_db.txt', $content, FILE_APPEND);
+      file_put_contents('resources/logs/error_db.txt', $content, FILE_APPEND);
       $data = [
         'title' => 'Erro no banco de dados!',
         'msg' => $e->getMessage(),

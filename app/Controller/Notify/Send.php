@@ -83,7 +83,7 @@ class Send{
         $values = ['col' => 'endpoint', 'val' => $endpoint];
         $db->delete($values);
         $content = "\n\n".$endpoint.'==='.$report->getReason();
-        file_put_contents('app/fail_notify.txt', $content, FILE_APPEND);
+        file_put_contents('resources/logs/fail_notify.txt', $content, FILE_APPEND);
         $result = false;
       }
     }

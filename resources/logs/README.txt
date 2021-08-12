@@ -1,0 +1,1 @@
+Aqui ficará guardados os logs de erro no banco de dados, falhas no envio de notificações push e atualização do código por git pull.
