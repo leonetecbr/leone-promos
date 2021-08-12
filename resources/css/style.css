@@ -29,7 +29,7 @@ img{max-width: 100%;max-height:90%;}
 .inner p {margin-bottom: 3%;}
 .inner h4, .h4{font-size: 1.5em;margin-top: 7%;font-weight:700;}
 .loja {float: right;}
-.loja a img{width:70px;}
+.loja a img{max-width:50px;}
 .icon{width:90px;}
 
 #newsletter h2 {font-size: 1.5em;font-weight: 700;}
@@ -37,7 +37,7 @@ img{max-width: 100%;max-height:90%;}
 .center{text-align: center;}
 #newsletter input, #deeplink input, form input{background-color: #130400;border: 1px solid #fff;padding: 10px;color: #fff;width:75%;}
 #newsletter button, #deeplink button, form button, .promo button, .cupom button{width: 100%;padding: 10px;cursor: pointer;}
-.promo{display: flex;flex-direction: column;}
+.promo, .cupom{display: flex;flex-direction: column;}
 .final{margin-top: auto;}
 .promo button, .cupom button{padding: 2% !important;}
 p{margin: 15px 0;font-size:1.2em;}
@@ -139,7 +139,7 @@ img[alt=Extra], img[alt=Ponto]{background-color: #606060;padding:5px;}
 
 @media only screen and (min-width : 768px) {
   #promos, #cupons{display: flex;flex-wrap: wrap;}
-  .inner{position: relative;top: 43%;transform: translateY(-50%);}
+  .inner{position: relative;top: 43%;transform: translateY(-50%);margin-bottom: 40px;}
   .promo, .cupom{width: 48%;margin-right: 2%;padding: 5%;margin-bottom:2%;}
   #newsletter h2 {font-size: 2em;}
   #newsletter h3{font-size: 1.5em;}

@@ -61,7 +61,7 @@ class Promotions{
       if (empty($ofertas)) {
         throw new Exception('Nenhuma oferta encontrada!');
       }
-      $content = '<main id="promos" class="container center">
+      $content = '<article id="promos" class="container center">
       <div id="noeye"></div>';
       $share = self::getShareParams();
       for ($i=0; !empty($ofertas[$i]); $i++) {
@@ -105,7 +105,7 @@ class Promotions{
         
         $desc = empty($ofertas[$i]['description'])?'':'<p class="description">'.$ofertas[$i]['description'].'</p>';
         
-        $content .= '<article class="promo bg-white" id="'.$cat_id.'_'.$page.'_'.$i.'" data-short-link="'.$short_link.'">
+        $content .= '<div class="promo bg-white" id="'.$cat_id.'_'.$page.'_'.$i.'" data-short-link="'.$short_link.'">
           <div class="share">
            <p><a href="#story" class="igs"><i class="fab fa-instagram"></i></a>
            <a href="'.$share['w'].urlencode($ofertas[$i]['name']).'%0A%0A'.urlencode('*Por apenas: R$ '.number_format($ofertas[$i]['price'], 2, ',', '.').'*').$d['w'].'%0A%0A'.urlencode($short_link).'" class="wpp" target="_blank"><i class="fab fa-whatsapp"></i></a>
@@ -123,11 +123,12 @@ class Promotions{
         <div class="final">
           <div class="loja"><a target="_blank" href="'.$ofertas[$i]['store']['link'].'"><img src="'. $ofertas[$i]['store']['thumbnail'].'" alt="'.$ofertas[$i]['store']['name'].'"></a></div>'."\n".$btn.'
         </div>
-      </article>';
+      </div>';
       }
-      $content .= '<div class="flex-column flex-center fs-12 bolder top"><button class="padding bg-orange" onclick="'."$('html, body').animate({scrollTop : 0},800);".'"><i class="fas fa-angle-double-up text-white"></i></button><p>
+      $content .= '</article>
+      <div class="flex-column flex-center fs-12 bolder top"><button class="padding bg-orange" onclick="'."$('html, body').animate({scrollTop : 0},800);".'"><i class="fas fa-angle-double-up text-white"></i></button><p>
       Topo</p>
-      </div></main>';
+      </div>';
     } catch (Exception $e) {
       $content = $e->getMessage();
     } finally{
@@ -209,15 +210,15 @@ class Promotions{
    */
   public static function getCupons($cupom, $page){
     try{
-      $content = '<main id="cupons" class="container center">
+      $content = '<article id="cupons" class="container center">
       <div id="noeye"></div>';
       $share = self::getShareParams();
       
       $i = (intval($page)-1)*18;
       $imax = intval($page)*18-1;
       for ($i; !empty($cupom[$i]) && $i<=$imax; $i++) {
-        $content .= '<article class="cupom bg-white radius" id="cupom_'.$i.'">
-  <div class="share">
+        $content .= '<div class="cupom bg-white radius" id="cupom_'.$i.'">
+      <div class="share">
        <p><a href="'.$share['w'].urlencode($cupom[$i]['description']).'%0A%0A'.urlencode('*Cupom:* ```'.$cupom[$i]['code'].'```').'%0A%0A*Link:* '.urlencode($share['u'])."c%2F$i".'" class="wpp" target="_blank"><i class="fab fa-whatsapp"></i></a>
         <a href="'.$share['t'].'%0A'.urlencode($cupom[$i]['description']).'%0A%0A'.urlencode('**Cupom:** `'.$cupom[$i]['code'].'`').'&url='.urlencode($share['u'])."c%2F$i".'" class="tlg" target="_blank"><i class="fab fa-telegram-plane"></i></a>
         <a href="'.$share['m'].urlencode($share['u'])."c%2F$i".'" class="fbm" target="_blank"><i class="fab fa-facebook-messenger"></i></a>
@@ -225,20 +226,24 @@ class Promotions{
         <a href="#" class="pls plus-share" onclick="event.preventDefault();copy_s(\''.$cupom[$i]['description'].'  Cupom: '.$cupom[$i]['code'].' Link: '.$share['u']."c/$i')".'"><i class="fas fa-copy"></i></a>
         <a href="#" class="pls hidden plus-share" onclick="event.preventDefault();navigator.share({title: \''.$cupom[$i]['description'].'\', text: \''.$cupom[$i]['description'].'\n\nCupom: '.$cupom[$i]['code'].'\n\''.', url: \''.$share['u']."c/$i'".'});"><i class="fas fa-share-alt"></i></a>
         </p>
-        <div class="site"><img src="'.$cupom[$i]['store']['image'].'" alt="'.$cupom[$i]['store']['name'].'"></div>
-        <h4>'.mb_strimwidth($cupom[$i]['description'], 0, 100, '...' ).'</h4>
-        <p>Válido até '.str_replace(":59:00", ":59:59", $cupom[$i]['vigency']).'</p>
-<p class="code">Cupom: <input value="'.$cupom[$i]['code'].'" disabled="true" class="center" id="input_'.$i.'"/></p>
-<button onclick="copy(\''.$cupom[$i]['link']."', '#input_".$i."')".'" class="bg-black radius">
-  Copiar e ir para a loja
-</button>
         </div>
-      </article>';
+        <div class="inner">
+          <div class="site"><img src="'.$cupom[$i]['store']['image'].'" alt="'.$cupom[$i]['store']['name'].'"></div>
+          <h4>'.mb_strimwidth($cupom[$i]['description'], 0, 100, '...' ).'</h4>
+          <p>Válido até '.str_replace(":59:00", ":59:59", $cupom[$i]['vigency']).'</p>
+          <p class="code">Cupom: <input value="'.$cupom[$i]['code'].'" disabled="true" class="center" id="input_'.$i.'"/></p>
+          </div>
+          <div class="final">
+            <button onclick="copy(\''.$cupom[$i]['link']."', '#input_".$i."')".'" class="bg-black radius">
+              Copiar e ir para a loja</button>
+          </div>
+      </div>';
       }
     
-      $content .= '<div class="flex-column flex-center fs-12 bolder top"><button class="padding bg-orange" onclick="'."$('html, body').animate({scrollTop : 0},800);".'"><i class="fas fa-angle-double-up text-white"></i></button><p>
+      $content .= '</article>
+      <div class="flex-column flex-center fs-12 bolder top"><button class="padding bg-orange" onclick="'."$('html, body').animate({scrollTop : 0},800);".'"><i class="fas fa-angle-double-up text-white"></i></button><p>
       Topo</p>
-      </div></main>';
+      </div>';
     }catch (Exception $e) {
       $content = $e->getMessage();
     } finally{
