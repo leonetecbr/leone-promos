@@ -89,8 +89,9 @@ p{margin: 15px 0;font-size:1.2em;}
 .hidden{display: none;}
 .erro{color: #ce2e3c;margin:0 2.5px}
 input{transition-duration:1s;}
-#pagination a {font-size: 1em;color: white;margin-right: 0.5%;margin-left: 0.5%;padding: 5px 8px;}
+#pagination a {font-size: 1em;color: #fff;margin-right: 0.5%;margin-left: 0.5%;padding: 5px 8px;}
 #pagination a:last-child{margin-right:0;}
+#pagination > a > i{color: #000;}
 .atual-page{background: linear-gradient(to right, #a62430, #AE5207);}
 .bolder{font-weight: 700;margin-right: 0.5%;margin-left: 0.5%;}
 code{font-family: monospace;}
