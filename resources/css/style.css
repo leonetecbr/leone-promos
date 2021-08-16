@@ -66,7 +66,7 @@ p{margin: 15px 0;font-size:1.2em;}
 .bg-gradiente a{color:#fff;}
 .bg-orange a{color:#fff;}
 .bg-red a{color:#fff;}
-.bg-black a{color: #fff;}
+.bg-black a{color: #cecece;}
 .bg-white a{color: #130400;}
 .bg-red::-webkit-input-placeholder,.bg-gradiente::-webkit-input-placeholder, .bg-orange::-webkit-input-placeholder{color: #fff;}
 .bg-red::-moz-placeholder, .bg-orange::-moz-placeholder, .bg-gradiente::-moz-placeholder{color: #fff;}
