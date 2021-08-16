@@ -20,6 +20,7 @@ class Search extends Page{
       $type = ($type!=='v2')?'v3':'v2';
       $g_response = $_POST['g-recaptcha-response']??'';
       $page = ($page===0)?1:$page;
+      
       if (empty($q) || mb_strlen($q, 'UTF-8')<3 || mb_strlen($q, 'UTF-8')>64){
         throw new Exception('Pesquisa inválida!');
       }
@@ -30,9 +31,11 @@ class Search extends Page{
       
       $robot = new Utils\Recaptcha($g_response, $type);
       $isRobot = ($type==='v2')?$robot->isOrNotV2():$robot->isOrNotV3();
+      
       if($isRobot){
         throw new Exception('Não temos certeza que você não é um robô, marque a caixa de verificação abaixo para continuar com sua pesquisa:', 499);
       }
+      
       $dado = Utils\API::search($q, $page);
       $ofertas = $dado['offers'];
       $pages = $dado['pagination']['totalPage'];

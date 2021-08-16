@@ -180,6 +180,6 @@ class API{
     if (empty($json) || $status !== 200) {
       throw new Exception('Parece que tivemos um probleminha, que tal tentar de novo, escrevendo de outra forma ?');
     }
-    return json_decode($json);
+    return json_decode($json, true);
   }
 }
