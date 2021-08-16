@@ -120,7 +120,7 @@ $(document).ready(function(){
   }
   $('.igs').click(function() {
     alert('Tire print e compartilhe nas suas storys, para fechar dê um duplo clique!');
-    ig_share('#'+$(this).closest('article').attr('id'));
+    ig_share('#'+$(this).closest('.promo').attr('id'));
   });
   
   $('#ig-share').dblclick(function(){
