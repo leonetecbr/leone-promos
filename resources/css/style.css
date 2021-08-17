@@ -41,6 +41,8 @@ img{max-width: 100%;max-height:90%;}
 .final{margin-top: auto;}
 .promo button, .cupom button{padding: 2% !important;}
 p{margin: 15px 0;font-size:1.2em;}
+ul{font-size: 1.2em;}
+article > p{text-indent: 10px;}
 .small, small{font-size: 0.75em !important;}
 .right{float: right;}
 .w100{width: 100% !important;}
@@ -73,6 +75,7 @@ p{margin: 15px 0;font-size:1.2em;}
 .bg-red:-ms-input-placeholder, .bg-orange:-ms-input-placeholder, bg-gradiente:-ms-input-placeholder{color: #fff;}
 .radius{border-radius: 10px;}
 #title, .h2{font-weight: 700;font-size: 1.8em;}
+.h3{font-weight: 700;font-size: 1.3em;}
 .padding{padding:3% 4%;}
 .text-white{color:#fff !important;}
 
@@ -145,6 +148,7 @@ img[alt=Extra], img[alt=Ponto]{background-color: #606060;padding:5px;}
   #newsletter h3{font-size: 1.5em;}
   #logo{width: 428px;background: url(../img/logo.png) center center/428px no-repeat;height:79px;}
   #title, .h2{font-size: 2em;}
+  .h3{font-weight: 700;font-size: 1.5em;}
   .padding{padding: 1.5% 2%;}
   h3.container{font-size: 1.5em;}
   .categoria{padding: 3%;font-size:2em;margin-bottom: 2%;}
@@ -167,6 +171,7 @@ img[alt=Extra], img[alt=Ponto]{background-color: #606060;padding:5px;}
   .promo{width: 31.33%;padding: 2%;}
   form button{padding: 1.5%;}
   #title, .h2{font-size: 2.5em;}
+  .h3{font-weight: 700;font-size: 2em;}
 }
 
 @media only screen and (min-width : 960px) {

@@ -36,8 +36,9 @@ class Lojas extends Page{
           $redirect->sendResponse();
         
         case 'amazon':
-          $dados['loja'] = 5992;
-          $dados['title'] = 'Amazon';
+          $redirect = new Response(303);
+          $redirect->addHeader('Location', '/amazon');
+          $redirect->sendResponse();
           break;
         
         case 'americanas':

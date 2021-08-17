@@ -9,6 +9,11 @@ $router->get('/', [
     return new Response(200, Pages\Home::getHome());
   }]);
 
+$router->get('/amazon', [
+  function (){
+    return new Response(200, Pages\Removed::getAmazon());
+  }]);
+
 $router->post('/newsletter', [
   function (){
     return new Response(200, Pages\Newsletter::processAjax(), 'application/json');

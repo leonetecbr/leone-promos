@@ -55,7 +55,7 @@ class Redirect{
    * @return true
    */
   public static function process(){
-    $url = $_GET['url']??'';
+    $url = strtolower($_GET['url']??'');
     try{
       if (empty($url) || strpos($url, 'https://')!==0) {
         throw new Exception;
@@ -63,7 +63,10 @@ class Redirect{
       if (strpos($url, '?')!== false) {
         $url = strstr($url, '?', true);
       }
-      if (strpos($url, 'https://m.magazineluiza.com.br')===0 || strpos($url, 'https://www.magazineluiza.com.br/')===0 || strpos($url, 'https://www.magazinevoce.com.br/')===0) {
+      
+      if (strpos($url, 'https://www.amazon.com.br/')===0 || strpos($url, 'https://amazon.com.br/')===0) {
+        $to = '/amazom';
+      }elseif (strpos($url, 'https://m.magazineluiza.com.br')===0 || strpos($url, 'https://www.magazineluiza.com.br')===0 || strpos($url, 'https://magazineluiza.com.br')===0 || strpos($url, 'https://www.magazinevoce.com.br')===0) {
         $to = self::processMagalu($url);
       } elseif(strpos($url, 'https://mbest.aliexpress.com')===0 || strpos($url, 'https://m.pt.aliexpress.com')===0 || strpos($url, 'https://best.aliexpress.com')===0 || strpos($url, 'https://pt.aliexpress.com')===0 || strpos($url, 'https://aliexpress.com')===0 || strpos($url, 'https://m.aliexpress.com')===0){
         $to = self::processAwin($url, 18879);
