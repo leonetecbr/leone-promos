@@ -2,10 +2,11 @@
 
 use \Leone\Promos\Controller\Pages\Ofertas;
 use \Leone\Promos\Http\Response;
+use \Leone\Promos\Controller\Pages\Redirect;
 
 define('URL', 'https://redir.lomadee.com/v2/deeplink?sourceId='.$_ENV['SOURCE_ID_LOMADEE'].'&url=');
 
-define('SITE', 'https://ofertas.leone.tec.br/');
+define('SITE', 'https://ofertas.leone.tec.br');
  
 $router->get('/', [
   function (){
@@ -22,7 +23,8 @@ $router->get('/listore', [
 $router->get('/amazon/{product_id}', [
   function ($product_id){
     $redirect = new Response(303);
-    $redirect->addHeader('Location', URL.'https://www.amazon.com.br/gp/product/'.$product_id);
+    /*$redirect->addHeader('Location', URL.'https://www.amazon.com.br/gp/product/'.$product_id);*/
+    $redirect->addHeader('Location', SITE.'/amazon');
     return $redirect;
   }]);
 
@@ -59,14 +61,15 @@ $router->get('/submarino/{product_id}', [
 $router->get('/aliexpress/{product_id}', [
   function ($product_id){
     $redirect = new Response(303);
-    $redirect->addHeader('Location', URL.'https://pt.aliexpress.com/item/'.$product_id.'.html');
+    $redirect->addHeader('Location', Redirect::process('https://pt.aliexpress.com/item/'.$product_id.'.html'));
     return $redirect;
   }]);
   
 $router->get('/amazon', [
   function (){
     $redirect = new Response(303);
-    $redirect->addHeader('Location', URL.'https://www.amazon.com.br/');
+    /*$redirect->addHeader('Location', URL.'https://www.amazon.com.br/');*/
+    $redirect->addHeader('Location', SITE.'/amazon');
     return $redirect;
   }]);
 
@@ -101,7 +104,7 @@ $router->get('/submarino', [
 $router->get('/aliexpress', [
   function (){
     $redirect = new Response(303);
-    $redirect->addHeader('Location', URL.'https://pt.aliexpress.com');
+    $redirect->addHeader('Location', Redirect::process('https://pt.aliexpress.com'));
     return $redirect;
   }]);
 
@@ -109,13 +112,13 @@ $router->get('/c/{cupom_id}', [
   function ($cupom_id){
     $page = ceil((abs(intval($cupom_id))+1)/18);
     $redirect = new Response(303);
-    $redirect->addHeader('Location', SITE.'cupons/'.$page.'#cupom_'.$cupom_id);
+    $redirect->addHeader('Location', SITE.'/cupons/'.$page.'#cupom_'.$cupom_id);
     return $redirect;
   }]);
 
 $router->get('/o/{cat_id}_{page}_{oferta_id}', [
   function ($cat_id, $page, $oferta_id){
     $redirect = new Response(303);
-    $redirect->addHeader('Location', SITE.Ofertas::process(abs(intval($cat_id)), abs(intval($page)), abs(intval($oferta_id))));
+    $redirect->addHeader('Location', SITE.'/'.Ofertas::process(abs(intval($cat_id)), abs(intval($page)), abs(intval($oferta_id))));
     return $redirect;
   }]);

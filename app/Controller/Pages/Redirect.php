@@ -54,8 +54,11 @@ class Redirect{
    * Procesa a URL recebida, encaminha para o método responsável e retorna o link já com parâmetros de afiliados
    * @return true
    */
-  public static function process(){
-    $url = strtolower($_GET['url']??'');
+  public static function process($url=''){
+    if (empty($url)) {
+      $url = strtolower($_GET['url']??'');
+    }
+    
     try{
       if (empty($url) || strpos($url, 'https://')!==0) {
         throw new Exception;
