@@ -1,4 +1,4 @@
-# leone-promos
+# Leone Promos
 
 ## Instalação
 

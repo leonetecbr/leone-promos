@@ -132,15 +132,15 @@ img[alt=Extra], img[alt=Ponto]{background-color: #606060;padding:5px;}
 #top2{position: relative;bottom: 19px;}
 #share-link{font-weight: 1000;font-size:1.1em;}
 
-@media only screen and (min-width : 380px) {
+@media only screen and (min-width: 380px) {
   #logo{width: 214px;background: url(../img/logo.png) center center/214px no-repeat;}
 }
 
-@media only screen and (min-width : 480px) {
+@media only screen and (min-width: 480px) {
   .btn{font-size: 2em;}
 }
 
-@media only screen and (min-width : 768px) {
+@media only screen and (min-width: 768px) {
   #promos, #cupons{display: flex;flex-wrap: wrap;}
   .inner{position: relative;top: 43%;transform: translateY(-50%);margin-bottom: 40px;}
   .promo, .cupom{width: 48%;margin-right: 2%;padding: 5%;margin-bottom:2%;}
@@ -163,7 +163,7 @@ img[alt=Extra], img[alt=Ponto]{background-color: #606060;padding:5px;}
   #buttons{width: 35%;margin-top:40px;margin-left:3%;margin-right:2%;}
 }
 
-@media only screen and (min-width : 900px) {
+@media only screen and (min-width: 900px) {
   .title{width: 65%;}
   .btn{width: 35% ;float:right;padding: 1.5% 2%;margin-top:4%;}
   .btn-static{padding: 1.5% 2%;}
@@ -174,7 +174,7 @@ img[alt=Extra], img[alt=Ponto]{background-color: #606060;padding:5px;}
   .h3{font-weight: 700;font-size: 2em;}
 }
 
-@media only screen and (min-width : 960px) {
+@media only screen and (min-width: 960px) {
   #btn-menu{display:none;}
   #close{display:none;}
   #menu{display:block;background-color: transparent;position:static !important;display:flex;width: auto;font-size:0.75em;float: center;height: 100%;}
