@@ -35,7 +35,7 @@ $router->get('/magalu/{product_id}', [
     return $redirect;
   }]);
 
-$router->get('/americanas/{product_id}', [
+$router->get('/americanas/{int:product_id}', [
   function ($product_id){
     $redirect = new Response(303);
     $redirect->addHeader('Location', URL.'https://www.americanas.com.br/produto/'.$product_id);
@@ -43,7 +43,7 @@ $router->get('/americanas/{product_id}', [
   }]);
 
 
-$router->get('/shoptime/{product_id}', [
+$router->get('/shoptime/{int:product_id}', [
   function ($product_id){
     $redirect = new Response(303);
     $redirect->addHeader('Location', URL.'https://www.shoptime.com.br/produto/'.$product_id);
@@ -51,14 +51,14 @@ $router->get('/shoptime/{product_id}', [
   }]);
 
 
-$router->get('/submarino/{product_id}', [
+$router->get('/submarino/{int:product_id}', [
   function ($product_id){
     $redirect = new Response(303);
     $redirect->addHeader('Location', URL.'https://www.submarino.com.br/produto/'.$product_id);
     return $redirect;
   }]);
   
-$router->get('/aliexpress/{product_id}', [
+$router->get('/aliexpress/{int:product_id}', [
   function ($product_id){
     $redirect = new Response(303);
     $redirect->addHeader('Location', Redirect::process('https://pt.aliexpress.com/item/'.$product_id.'.html'));
@@ -108,7 +108,7 @@ $router->get('/aliexpress', [
     return $redirect;
   }]);
 
-$router->get('/c/{cupom_id}', [
+$router->get('/c/{int:cupom_id}', [
   function ($cupom_id){
     $page = ceil((abs(intval($cupom_id))+1)/18);
     $redirect = new Response(303);
@@ -116,7 +116,7 @@ $router->get('/c/{cupom_id}', [
     return $redirect;
   }]);
 
-$router->get('/o/{cat_id}_{page}_{oferta_id}', [
+$router->get('/o/{int:cat_id}_{int:page}_{int:oferta_id}', [
   function ($cat_id, $page, $oferta_id){
     $redirect = new Response(303);
     $redirect->addHeader('Location', SITE.'/'.Ofertas::process(abs(intval($cat_id)), abs(intval($page)), abs(intval($oferta_id))));

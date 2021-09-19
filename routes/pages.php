@@ -34,9 +34,9 @@ $router->get('/categorias', [
     return new Response(200, Pages\Categorias::get());
   }]);
 
-$router->get('/categorias/{categoria}/{page}', [
+$router->get('/categorias/{categoria}/{int:page}', [
   function ($categoria, $page){
-    return new Response(200, Pages\Categorias::process($categoria, abs(intval($page))));
+    return new Response(200, Pages\Categorias::process($categoria, $page));
   }]);
   
 $router->get('/categorias/{categoria}', [
@@ -49,9 +49,9 @@ $router->get('/cupons', [
     return new Response(200, Pages\Cupons::get(1));
   }]);
 
-$router->get('/cupons/{page}', [
+$router->get('/cupons/{int:page}', [
   function ($page){
-    return new Response(200, Pages\Cupons::get(abs(intval($page))));
+    return new Response(200, Pages\Cupons::get($page));
   }]);
 
 $router->get('/privacidade', [
@@ -69,9 +69,9 @@ $router->get('/lojas', [
     return new Response(200, Pages\Lojas::get());
   }]);
 
-$router->get('/lojas/{loja}/{page}', [
+$router->get('/lojas/{loja}/{int:page}', [
   function ($loja, $page){
-    return new Response(200, Pages\Lojas::process($loja, abs(intval($page))));
+    return new Response(200, Pages\Lojas::process($loja, $page));
   }]);
 
 $router->get('/lojas/{loja}', [
@@ -79,9 +79,9 @@ $router->get('/lojas/{loja}', [
     return new Response(200, Pages\Lojas::process($loja, 1));
   }]);
 
-$router->post('/search/{query}/{page}', [
+$router->post('/search/{query}/{int:page}', [
   function ($query, $page){
-    return new Response(200, Pages\Search::process(urldecode($query), abs(intval($page))));
+    return new Response(200, Pages\Search::process(urldecode($query), $page));
   }]);
 
 $router->post('/search/{query}', [
@@ -91,7 +91,7 @@ $router->post('/search/{query}', [
 
 $router->get('/search/{query}/{page}', [
   function ($query, $page){
-    return new Response(200, Pages\Search::process(urldecode($query), abs(intval($page))));
+    return new Response(200, Pages\Search::process(urldecode($query), $page));
   }]);
 
 $router->get('/search/{query}', [

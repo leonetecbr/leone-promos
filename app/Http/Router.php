@@ -43,7 +43,20 @@ class Router{
     $patternVar = '/{(.*?)}/';
     
     if (preg_match_all($patternVar, $route, $matches)) {
-      $route = preg_replace($patternVar, '(.*?)', $route);
+      
+      foreach ($matches[1] as $match){
+        $variaveis = explode(':', $match, 2);
+        if ($variaveis[0] == 'int' && count($variaveis)==2) {
+          $replace = '([0-9]+)';
+        }else {
+          $variaveis[1] = $variaveis[0];
+          $variaveis[0] = 'string';
+          $replace = '(\w+)';
+        }
+        
+        $route = preg_replace($patternVar, $replace, $route);
+      }
+      
       $params['variables'] = $matches[1];
     }
     
@@ -82,6 +95,7 @@ class Router{
         throw new Exception('', 405);
       }
     }
+    return [];
   }
   
   /**

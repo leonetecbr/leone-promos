@@ -83,7 +83,7 @@ function updateBtn(){
   
   btn.attr('disabled', false);
   if (isSubscribed) {
-    setTimeout(function() {createCookie('no_notify', 1, 365);$('#notify').hide('slow');}, 3000);
+    setTimeout(function() {createCookie('no_notify', 1, 60);$('#notify').hide('slow');}, 1000);
     btn.html('Desativar notificações');
   } else {
     btn.html('Ativar notificações');

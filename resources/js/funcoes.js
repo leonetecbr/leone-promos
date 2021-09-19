@@ -225,7 +225,7 @@ $(document).ready(function(){
   
   $('#inotify').click(function(){
     $('#notify').fadeOut('slow');
-    createCookie('no_notify', 1, 365);
+    createCookie('no_notify', 1, 60);
   });
   
   $('.pages').click(function() {
