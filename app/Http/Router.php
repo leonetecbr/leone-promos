@@ -44,7 +44,8 @@ class Router{
     
     if (preg_match_all($patternVar, $route, $matches)) {
       
-      foreach ($matches[1] as $match){
+      for ($i = 0; $i < count($matches[1]); $i++) {
+        $match = $matches[1][$i];
         $variaveis = explode(':', $match, 2);
         if ($variaveis[0] == 'int' && count($variaveis)==2) {
           $replace = '([0-9]+)';
@@ -54,7 +55,9 @@ class Router{
           $replace = '(\w+)';
         }
         
-        $route = preg_replace($patternVar, $replace, $route);
+        $matches[1][$i] = $variaveis[1];
+        
+        $route = preg_replace('/{'.$match.'}/', $replace, $route);
       }
       
       $params['variables'] = $matches[1];
