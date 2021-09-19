@@ -5,4 +5,4 @@ vendor/
 composer.lock
 resources/cache/cupons/*.json
 resources/cache/lojas/*.json
-0_1.json
+resources/cache/promos/*.json
