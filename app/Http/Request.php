@@ -27,7 +27,7 @@ class Request{
    * Retorna o método HTTP usado na requisição
    * @return string
    */
-  public function getHttpMethod(){
+  public function getHttpMethod() : string{
     return $this->HttpMethod;
   }
   
@@ -35,7 +35,7 @@ class Request{
    * Retorna os dados passados por POST
    * @return array
    */
-  public function getPostVars(){
+  public function getPostVars() : array{
     return $this->postVars;
   }
   
@@ -43,7 +43,7 @@ class Request{
    * Retorna o cabeçalho da requisição
    * @return array
    */
-  public function getHeaders(){
+  public function getHeaders() : array{
     return $this->headers;
   }
   
@@ -51,7 +51,7 @@ class Request{
    * Retorna a URI requisitada
    * @return string
    */
-  public function getUri(){
+  public function getUri() : string{
     return $this->uri;
   }
   
@@ -59,7 +59,7 @@ class Request{
    * Retorna os dados passados por GET
    * @return array
    */
-  public function getQueryParams(){
+  public function getQueryParams() : array{
     return $this->queryParams;
   }
 }

@@ -1,10 +1,10 @@
 <?php
 namespace Leone\Promos\Http;
 
-use \Closure;
-use \Exception;
-use \ReflectionFunction;
-use \Leone\Promos\Controller\Pages\ErrorsHTTP;
+use Closure;
+use Exception;
+use ReflectionFunction;
+use Leone\Promos\Controller\Pages\ErrorsHTTP;
 
 /**
  * Classes responsável por identificar as rotas acessadas
@@ -28,9 +28,8 @@ class Router{
    * @var string $method
    * @var string $route
    * @var array $params
-   * @return mixed
    */
-  private function addRoute($method, $route, $params = []){
+  private function addRoute(string $method, string $route, array $params = []){
     foreach ($params as $key=>$value){
       if ($value instanceof Closure) {
         $params['controller'] = $value;
@@ -59,16 +58,16 @@ class Router{
    * Pega o URI
    * @return string
    */
-  public function getUri(){
+  public function getUri() : string{
     $uri = rtrim(strtolower($this->request->getUri()), '/');
     return $uri;
   }
   
   /**
    * Verifica se o método e a rota está correta, caso o método não esteja, um HTTP 405 é retornado, caso a rota não esteja run() emite o HTTP 404
-   * @return mixed
+   * @return array
    */
-  private function getRoute(){
+  private function getRoute() : array{
     $uri = $this->getUri();
     $httpMethod = $this->request->getHttpMethod();
     
@@ -88,18 +87,18 @@ class Router{
   /**
    * Processa Requisições GET
    * @var string $route
-   * @var array $params (instancia de response)
+   * @var array $params (instância de response)
    */
-  public function get($route, $params = []){
+  public function get(string $route, array $params = []){
     return $this->addRoute('GET', $route, $params);
   }
   
   /**
    * Processa Requisições POST
    * @var string $route
-   * @var array $params (instancia de response)
+   * @var array $params (instância de response)
    */
-  public function post($route, $params = []){
+  public function post(string $route, array $params = []){
     return $this->addRoute('POST', $route, $params);
   }
   

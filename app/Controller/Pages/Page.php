@@ -10,9 +10,10 @@ class Page{
   
   /**
    * Método responsável por retornar o conteúdo da página genérica processada.
+   * @params string $title, $headers, $content
    * @return string
    */
-  public static function getPage($title, $content, $headers = ''){
+  public static function getPage(string $title, string $content, string $headers = '') : string{
     $dados = [
       'content' => $content,
       'title' => $title,

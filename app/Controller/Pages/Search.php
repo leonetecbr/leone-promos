@@ -1,8 +1,8 @@
 <?php
 namespace Leone\Promos\Controller\Pages;
 
-use \Leone\Promos\Utils;
-use \Exception;
+use Leone\Promos\Utils;
+use Exception;
 
 /**
  * Processa as pesquisas
@@ -10,10 +10,12 @@ use \Exception;
 class Search extends Page{
   
   /**
-   * Processa a pesquisa e retorna o resultado
+   * Processa a pesquisa e retorna o resstring
+   * @param string $q
+   * @param integer $page
    * @return string
    */
-  public static function process($q, $page){
+  public static function process(string $q, int $page){
     try{
       $q = filter_var($q, FILTER_SANITIZE_STRING);
       $type = $_POST['type']??'';

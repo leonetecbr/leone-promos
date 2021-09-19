@@ -1,8 +1,8 @@
 <?php
 require __DIR__.'/vendor/autoload.php';
 
-use \Leone\Promos\Http\Router;
-use \Dotenv\Dotenv;
+use Leone\Promos\Http\Router;
+use Dotenv\Dotenv;
 
 $dominio = 'http';
 $dominio .= !empty($_SERVER['HTTPS'])?'s':'';

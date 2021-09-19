@@ -1,8 +1,8 @@
 <?php
 namespace Leone\Promos\Controller\Pages;
 
-use \Leone\Promos\Http\Response;
-use \Exception;
+use Leone\Promos\Http\Response;
+use Exception;
 
 /**
  * Gera os links de afiliado para as lojas  
@@ -15,7 +15,7 @@ class Redirect{
    * @param string $url
    * @return string
    */
-  private static function processMagalu($url){
+  private static function processMagalu(string $url) : string{
     if (strpos($url, 'https://www.magazinevoce.com.br/')!==0) {
       $partes = explode('/', $url, 7);
       return 'https://www.magazinevoce.com.br/magazineofertasleone/p/'.$partes[3].'/'.$partes[5];
@@ -33,7 +33,7 @@ class Redirect{
    * @param integer $advertiserId
    * @return string
    */
-  private static function processAwin($url, $advertiserId){
+  private static function processAwin(string $url, int $advertiserId) : string{
     return 'https://www.awin1.com/cread.php?awinmid='.$advertiserId.'&awinaffid='.$_ENV['ID_AFILIADO_AWIN'].'&clickref=deeplink&ued='.urlencode($url);
   }
   
@@ -42,7 +42,7 @@ class Redirect{
    * @param string $url
    * @return string
    */
-  private static function processLomadee($url){
+  private static function processLomadee(string $url) : string{
     if ((strpos($url, 'https://www.amazon.com.br')===0 || strpos($url, 'https://amazon.com.br')===0) && strpos($url, '/ref=')!== false) {
       $url = strstr($url, '/ref', true);
     }
@@ -52,9 +52,9 @@ class Redirect{
   
   /**
    * Procesa a URL recebida, encaminha para o método responsável e retorna o link já com parâmetros de afiliados
-   * @return true
+   * @return string URN
    */
-  public static function process($url=''){
+  public static function process(string $url='') : string{
     if (empty($url)) {
       $url = strtolower($_GET['url']??'');
     }

@@ -1,9 +1,9 @@
 <?php
 namespace Leone\Promos\Controller\Pages;
 
-use \Leone\Promos\Utils;
-use \Leone\Promos\Controller\Notify\Send;
-use \Exception;
+use Leone\Promos\Utils;
+use Leone\Promos\Controller\Notify\Send;
+use Exception;
 
 /**
  * Classe responsável por gerar a página de gerenciamento de notificações
@@ -14,7 +14,7 @@ class Push extends Page{
    * Método responsável por processar o dados da subscrição do usuário.
    * @return array
    */
-  public static function setRegister(){
+  public static function setRegister() : array{
     $response['success'] = false;
     try{
       $dado = json_decode(file_get_contents('php://input'), true);
@@ -74,7 +74,7 @@ class Push extends Page{
    * Gera a página de notificações
    * @return string
    */
-  public static function get(){
+  public static function get() : string{
     $content = Utils\View::render('pages/notificacoes');
       
     return Page::getPage('Notificações', $content);

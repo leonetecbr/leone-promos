@@ -14,7 +14,7 @@ class Recaptcha{
    * @param string $response
    * @param string $type
    */
-  public function __construct($response, $type = 'v3'){
+  public function __construct(string $response, string $type = 'v3'){
     $this->ip = $_SERVER['HTTP_CF_CONNECTING_IP']?? $_SERVER['REMOTE_ADDR'];
     if ($type == 'v3') {
       $this->secret = $_ENV['SECRET_RECAPTCHA_V3'];
@@ -28,7 +28,7 @@ class Recaptcha{
    * Faz a consulta na API
    * @return array
    */
-  private function getApi(){
+  private function getApi() : array{
     $dados = array(
      "secret" => $this->secret,
      "response" => $this->response,
@@ -49,7 +49,7 @@ class Recaptcha{
    * @param float $min 0 a 1
    * @return boolean (false caso não seja um robô)
    */
-  public function isOrNotV3($min = 0.6){
+  public function isOrNotV3(float $min = 0.6) : bool{
     $response = $this->getApi();
     if (!empty($response['success'])){
       if ($response['success']==1 && $response['hostname']===$_SERVER['HTTP_HOST'] && $response['score']>=$min){
@@ -66,7 +66,7 @@ class Recaptcha{
    * Faz a validação usando a API V2
    * @return boolean (false caso não seja um robô)
    */
-  public function isOrNotV2(){
+  public function isOrNotV2() : bool{
     $response = $this->getApi();
     if (!empty($response['success'])){
       if ($response['success']==1 && $response['hostname']===$_SERVER['HTTP_HOST']){

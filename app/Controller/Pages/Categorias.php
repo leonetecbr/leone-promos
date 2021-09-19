@@ -1,8 +1,8 @@
 <?php
 namespace Leone\Promos\Controller\Pages;
 
-use \Leone\Promos\Utils;
-use \Exception;
+use Leone\Promos\Utils;
+use Exception;
 
 /**
  * Processa todas as páginas de categoria
@@ -13,7 +13,7 @@ class Categorias extends Page{
    * Gera a página com a lista das categorias
    * @return string
    */
-  public static function get(){
+  public static function get() : string{
     $content = Utils\View::render('pages/categorias');
       
     return Page::getPage('Categorias', $content);
@@ -25,7 +25,7 @@ class Categorias extends Page{
    * @param integer $page
    * @return string
    */
-  public static function process($categoria, $page){
+  public static function process(string $categoria, int $page) : string{
     try{
       $page = ($page===0)?1:$page;
       switch ($categoria) {

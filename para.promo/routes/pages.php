@@ -1,8 +1,8 @@
 <?php
 
-use \Leone\Promos\Controller\Pages\Ofertas;
-use \Leone\Promos\Http\Response;
-use \Leone\Promos\Controller\Pages\Redirect;
+use Leone\Promos\Controller\Pages\Ofertas;
+use Leone\Promos\Http\Response;
+use Leone\Promos\Controller\Pages\Redirect;
 
 define('URL', 'https://redir.lomadee.com/v2/deeplink?sourceId='.$_ENV['SOURCE_ID_LOMADEE'].'&url=');
 

@@ -1,7 +1,7 @@
 <?php
 namespace Leone\Promos\Utils;
 
-use \PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\PHPMailer;
 
 /**
  * Classe para enviar e-mails
@@ -14,7 +14,7 @@ class Mail{
    * @param array $auth
    * @return true/string
    */
-  public static function sendOne($to, $name, $subject, $html, $auth = ['email'=> $_ENV['SMTP_USER'], 'pass' => $_ENV['SMTP_PASS']]){
+  public static function sendOne(string $to, string $name, string $subject, string $html, array $auth = ['email'=> $_ENV['SMTP_USER'], 'pass' => $_ENV['SMTP_PASS']]){
     $mail = new PHPMailer();
     $mail->setLanguage('pt_br', __DIR__.'/../../vendor/phpmailer/phpmailer/language/phpmailer.lang-pt_br.php');
     $mail->CharSet = 'UTF-8';

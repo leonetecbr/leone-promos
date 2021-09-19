@@ -3,7 +3,7 @@
 namespace Leone\Promos\Controller\Api;
 
 /**
- * Gere as páginas da Api
+ * Modelo para as páginas da Api
  */
 class Api{
   
@@ -11,7 +11,7 @@ class Api{
    * Faz as devidas verificações para autenticar o usuário
    * @return boolean
    */
-  public static function auth(){
+  public static function auth() : bool{
     if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
       $dados = [$_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']];
     }elseif (!empty($_SERVER['HTTP_AUAUTHORIZATION'])) {

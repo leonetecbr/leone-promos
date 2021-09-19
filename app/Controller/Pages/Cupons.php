@@ -1,8 +1,8 @@
 <?php
 namespace Leone\Promos\Controller\Pages;
 
-use \Leone\Promos\Utils;
-use \Exception;
+use Leone\Promos\Utils;
+use Exception;
 
 /**
  * Pega os cupons e os exibe 
@@ -14,7 +14,7 @@ class Cupons extends Page{
    * @param integer $page
    * @return string
    */
-  public static function get($page){
+  public static function get(int $page) : string{
     $page = ($page===0)?1:$page;
     $cupons = Utils\API::getCupons();
     $final = ceil(count($cupons)/18);

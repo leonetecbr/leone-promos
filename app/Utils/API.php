@@ -1,7 +1,7 @@
 <?php
 namespace Leone\Promos\Utils;
 
-use \Exception;
+use Exception;
 
 /**
  * Faz consultas nas APIs e retorna arrays com o resultado
@@ -12,7 +12,7 @@ class API{
    * Pega os cupons da api do Awin em CVS e converte para JSON
    * return string JSON
    */
-  private static function getAwin(){
+  private static function getAwin() : string{
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $_ENV['API_URL_CSV_AWIN']);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -70,7 +70,7 @@ class API{
    * @params integer $id $page $loja
    * @return string JSON 
    */
-  private static function getAPI($id, $page=1, $loja=0){
+  private static function getAPI(int $id, int $page=1, int $loja=0) : string{
     $dados = ['sourceId' => $_ENV['SOURCE_ID_LOMADEE']];
     if ($loja!==0){$dados['storeId'] = $loja;}
     if ($id===999){
@@ -98,7 +98,7 @@ class API{
    * @params integer $id $page $loja
    * @return array
    */
-  public static function getPromo($id, $page=1, $loja=0){
+  public static function getPromo(int $id, int $page=1, int $loja=0) : array{
     $path = ($id!==999)?__DIR__.'/../../resources/cache/promos/'.$id.'_'.$page.'.json':__DIR__.'/../../resources/cache/lojas/'.$loja.'_'.$page.'.json';
    
     if ($id===0 || file_exists($path)) {
@@ -114,10 +114,9 @@ class API{
   
   /**
     * Verifica se os cupons salvos no servidor ainda estão adequados para uso, se sim, os usa, se não pega da API
-   * @params integer $page
    * @return array
    */
-  public static function getCupons(){
+  public static function getCupons() : array{
     $path[0] = __DIR__.'/../../resources/cache/cupons/awin.json';
     $path[1] = __DIR__.'/../../resources/cache/cupons/lomadee.json';
     $path['success'][0] = false;
@@ -165,9 +164,10 @@ class API{
   /**
    * Faz a pesquisa nas ofertas usando a API do Lomadee
    * @param string $q
+   * @param integer $page
    * @return array
    */
-  public static function search($q, $page){
+  public static function search(string $q, int $page) : array{
     $dados = [
       'keyword' => $q,
       'sourceId' => $_ENV['SOURCE_ID_LOMADEE'],

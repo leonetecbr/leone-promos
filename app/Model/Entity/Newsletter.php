@@ -1,7 +1,7 @@
 <?php
 namespace Leone\Promos\Model\Entity;
 
-use \Leone\Promos\Utils\Database;
+use Leone\Promos\Utils\Database;
 
 /**
  * Classe criada para gerenciar a Newsletter
@@ -16,7 +16,7 @@ class Newsletter{
    * Passa os dados para as variáveis da classe
    * @params string $email $nome $key
    */
-  public function __construct($email='', $nome='', $key=''){
+  public function __construct(string $email='', string $nome='', string $key=''){
     $this->email = $email;
     $this->nome = $nome;
     $this->key = $key;
@@ -37,7 +37,7 @@ class Newsletter{
    * Insere os dados no banco de dados e retorna a chave
    * @return string
    */
-  public function insert(){
+  public function insert() : string{
     $dados = [
       'nome' => $this->nome,
       'email' => $this->email,
@@ -53,7 +53,7 @@ class Newsletter{
    * Verifica se o e-mail já está inscrito, retorna true se estiver
    * @return boolean
    */
-  public function verifyByEmail(){
+  public function verifyByEmail() : bool{
     $dados = [
       'col' => 'email',
       'val' => $this->email
@@ -67,7 +67,7 @@ class Newsletter{
    * Verifica se a chave é correspondente a um e-mail inscrito, retorna true se for correspondente
    * @return boolean
    */
-  public function verifyByKey(){
+  public function verifyByKey() : bool{
     $dados = [
       'col' => 'hash',
       'val' => $this->key
@@ -81,7 +81,7 @@ class Newsletter{
    * Verifica se o e-mail ainda não foi confirmado, retorna true se não estiver
    * @return boolean
    */
-  public function verifyNoConfirmByKey(){
+  public function verifyNoConfirmByKey() : bool{
     $db = $this->getDB();
     $dado = $db->select('hash = "'.$this->key.'" AND verifed = 0')->fetch();
     return !empty($dado);

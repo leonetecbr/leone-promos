@@ -1,7 +1,7 @@
 <?php
 namespace Leone\Promos\Controller\Pages;
 
-use \Exception;
+use Exception;
 
 /**
  * Classe responsável por redirecionar para a oferta correspondente
@@ -12,7 +12,7 @@ class Ofertas{
    * Encontra a URL correta para fazer o redirecionamento
    * @params integer $cat_id $page $oferta_id
    */
-  public static function process($cat_id, $page, $oferta_id){
+  public static function process(int $cat_id, int $page, int $oferta_id){
     switch ($cat_id) {
       case 77:
         $path = 'categorias/smartphones';
