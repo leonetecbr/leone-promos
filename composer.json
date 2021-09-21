@@ -9,7 +9,7 @@
   "require":{
     "minishlink/web-push": "^6.0",
     "vlucas/phpdotenv": "^5.3",
-    "php": "^8.0"
+    "php": "^7.4"
   },
   "license": "MIT",
   "support": {

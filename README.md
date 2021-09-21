@@ -2,9 +2,9 @@
 
 ## Instalação
 
-Este código foi desenvolvido para funcionar corretamente na versão 8 do PHP, caso você use uma versão antiga ele pode não funcionar corretamente.
+Este código foi desenvolvido para funcionar corretamente na versão 8 do PHP, caso você use uma versão antiga ele pode não funcionar corretamente. O mínimo recomendo é:
 
-```PHP 8.0 ou superior```
+```PHP 7.4 ou superior```
 
 Estando rodando essa versão do PHP ou superior, basta usar o composer usando o comando abaixo no terminal no diretório do projeto:
 
