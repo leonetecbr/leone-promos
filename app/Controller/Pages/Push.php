@@ -3,6 +3,7 @@ namespace Leone\Promos\Controller\Pages;
 
 use Leone\Promos\Utils;
 use Leone\Promos\Controller\Notify\Send;
+use Exception;
 
 /**
  * Classe responsável por gerar a página de gerenciamento de notificações

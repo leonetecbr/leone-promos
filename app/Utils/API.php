@@ -1,6 +1,8 @@
 <?php
 namespace Leone\Promos\Utils;
 
+use Exception;
+
 /**
  * Faz consultas nas APIs e retorna arrays com o resultado
  */

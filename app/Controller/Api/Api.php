@@ -1,5 +1,4 @@
 <?php
-
 namespace Leone\Promos\Controller\Api;
 
 /**

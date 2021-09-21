@@ -2,6 +2,7 @@
 namespace Leone\Promos\Controller\Pages;
 
 use Leone\Promos\Utils;
+use Exception;
 
 /**
  * Processa todas as páginas de categoria

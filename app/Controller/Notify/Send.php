@@ -1,5 +1,4 @@
 <?php
-
 namespace Leone\Promos\Controller\Notify;
 
 use Minishlink\WebPush;

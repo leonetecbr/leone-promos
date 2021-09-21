@@ -3,6 +3,7 @@ namespace Leone\Promos\Utils;
 
 use PDO;
 use PDOException;
+use Exception;
 use Leone\Promos\Controller\Notify\Send;
 
 /**
