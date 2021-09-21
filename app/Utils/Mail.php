@@ -20,12 +20,12 @@ class Mail{
     $mail->setLanguage('pt_br', __DIR__.'/../../vendor/phpmailer/phpmailer/language/phpmailer.lang-pt_br.php');
     $mail->CharSet = 'UTF-8';
     $mail->isSMTP();
-    $mail->Host = '{host-do-servidor-SMTP}';
+    $mail->Host = $_ENV['SMTP_HOST'];
     $mail->SMTPAuth = true;
     $mail->SMTPSecure = 'tls';
     $mail->Username = $auth['email'];
     $mail->Password = $auth['pass'];
-    $mail->Port = 587;
+    $mail->Port = $_ENV['SMTP_PORT'];
     $mail->setFrom($auth['email'], "Leone Promos");
     if (!empty($auth['reply']) and !empty($auth['reply_name'])){
       $mail->addReplyTo($auth['reply'], $auth['reply_name']);
