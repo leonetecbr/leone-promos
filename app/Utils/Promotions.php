@@ -57,7 +57,7 @@ class Promotions{
    */
   public static function getPromos(array $ofertas, int $cat_id, int $page=1): string{
     if (empty($ofertas)) {
-      $content = '<p>Nenhuma oferta encontrada!</p></article>';
+      $content = '<p class="center">Nenhuma oferta encontrada!</p></article>';
     }else{
       $content = '<div id="noeye"></div>';
       $share = self::getShareParams();
