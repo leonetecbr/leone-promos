@@ -52,7 +52,7 @@ class Recaptcha{
   public function isOrNotV3(float $min = 0.6): bool{
     $response = $this->getApi();
     if (!empty($response['success'])){
-      if ($response['success']==1 && /*$response['hostname']===$_SERVER['HTTP_HOST'] &&*/ $response['score']>=$min){
+      if ($response['success']==1 && $response['hostname']===$_SERVER['HTTP_HOST'] && $response['score']>=$min){
         return false;
       }else{
         return true;
@@ -69,7 +69,7 @@ class Recaptcha{
   public function isOrNotV2(): bool{
     $response = $this->getApi();
     if (!empty($response['success'])){
-      if ($response['success']==1 /*&& $response['hostname']===$_SERVER['HTTP_HOST']*/){
+      if ($response['success']==1 && $response['hostname']===$_SERVER['HTTP_HOST']){
         return false;
       }else{
         return true;

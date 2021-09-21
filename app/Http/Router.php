@@ -2,7 +2,6 @@
 namespace Leone\Promos\Http;
 
 use Closure;
-use Exception;
 use ReflectionFunction;
 use Leone\Promos\Controller\Pages\ErrorsHTTP;
 

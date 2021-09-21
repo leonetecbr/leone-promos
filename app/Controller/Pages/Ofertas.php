@@ -1,8 +1,6 @@
 <?php
 namespace Leone\Promos\Controller\Pages;
 
-use Exception;
-
 /**
  * Classe responsável por redirecionar para a oferta correspondente
  */

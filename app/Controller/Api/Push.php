@@ -4,7 +4,6 @@ namespace Leone\Promos\Controller\Api;
 
 use Leone\Promos\Controller\Notify\Send;
 use Leone\Promos\Utils;
-use Exception;
 
 /**
  * Gerencia as notificações push enviadas pela Api

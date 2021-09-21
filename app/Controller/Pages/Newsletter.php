@@ -2,7 +2,6 @@
 namespace Leone\Promos\Controller\Pages;
 
 use Leone\Promos\Utils;
-use Exception;
 use Leone\Promos\Model\Entity\Newsletter as News;
 
 /**

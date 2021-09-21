@@ -3,7 +3,6 @@ namespace Leone\Promos\Utils;
 
 use PDO;
 use PDOException;
-use Exception;
 use Leone\Promos\Controller\Notify\Send;
 
 /**
@@ -16,9 +15,8 @@ class Database{
   
   /**
    * Define a tabela e a instância da conexão
-   * @param string $table
    */
-  public function __construct(string $table=''){
+  public function __construct($table=null){
     $this->table = $table;
     $this->setConnection();
   }
@@ -26,7 +24,7 @@ class Database{
   /**
    * Método responsável por criar uma conexão com o banco de dados
    */
-  private function setConnection(): void{
+  private function setConnection(){
     try{
       $this->connection = new PDO('mysql:host='.$_ENV['HOST_DB'].';dbname='.$_ENV['BANK_DB'],$_ENV['USER_DB'],$_ENV['PASS_DB']);
       $this->connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
@@ -46,11 +44,11 @@ class Database{
   
   /**
    * Método responsável por executar queries dentro do banco de dados
-   * @param string $query
-   * @param array  $params
+   * @param  string $query
+   * @param  array  $params
    * @return PDOStatement
    */
-  public function execute(string $query, array $params = []){
+  public function execute($query,$params = []){
     try{
       $statement = $this->connection->prepare($query);
       $statement->execute($params);
@@ -71,26 +69,26 @@ class Database{
 
   /**
    * Método responsável por inserir dados no banco
-   * @param array $values [ field => value ]
-   * @return PDOStatement
+   * @param  array $values [ field => value ]
+   * @return integer ID inserido
    */
-  public function insert(array $values){
+  public function insert($values){
     $fields = array_keys($values);
     $binds  = array_pad([],count($fields),'?');
     $query = 'INSERT INTO '.$this->table.' ('.implode(',',$fields).') VALUES ('.implode(',',$binds).')';
-    $this->execute($query, array_values($values));
+    $this->execute($query,array_values($values));
     return $this->connection;
   }
 
   /**
    * Método responsável por executar uma consulta no banco
-   * @param array|string $where
-   * @param string $order
-   * @param string $limit
-   * @param string $fields
+   * @param  array|string $where
+   * @param  string $order
+   * @param  string $limit
+   * @param  string $fields
    * @return PDOStatement
    */
-  public function select($where = '', string $limit = '', string $fields = '*', string $order = ''){
+  public function select($where = '', $limit = null, $fields = '*', $order = null){
     if (is_array($where)) {
       $text = 'WHERE '.$where['col'].' = ?';
       $params[0] = $where['val'];
@@ -113,7 +111,7 @@ class Database{
    * @param array|string $values [ field => value ]
    * @return boolean
    */
-  public function update($values, string $where = ''): bool{
+  public function update($values, $where = ''){
     $where = strlen($where)?' WHERE '.$where:'';
     if (is_array($values)) {
       $fields = array_keys($values);
@@ -128,10 +126,10 @@ class Database{
 
   /**
    * Método responsável por excluir dados do banco
-   * @param string|array $where
+   * @param  string|array $where
    * @return boolean
    */
-  public function delete($where): bool{
+  public function delete($where){
     if (is_array($where)) {
       $text = 'WHERE '.$where['col'].' = ?';
       $params[0] = $where['val'];
@@ -148,7 +146,7 @@ class Database{
    * Método responsável por alterar a tabela padrão para querys no dados do banco
    * @param string $table
    */
-  public function setTable(string $table): void{
+  public function setTable($table){
     if ($table !== $this->table){
       $this->table = $table;
     }

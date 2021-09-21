@@ -1,7 +1,6 @@
 <?php
 namespace Leone\Promos\Utils;
 
-use Exception;
 /**
  * Transforma as promoções e cupons de arrays em HTML
  */

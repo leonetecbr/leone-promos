@@ -2,7 +2,6 @@
 namespace Leone\Promos\Controller\Pages;
 
 use Leone\Promos\Http\Response;
-use Exception;
 
 /**
  * Gera os links de afiliado para as lojas  
