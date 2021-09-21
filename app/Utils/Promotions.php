@@ -55,13 +55,11 @@ class Promotions{
    * @params integer $cat_id $page
    * @return string
    */
-  public static function getPromos(array $ofertas, int $cat_id, int $page=1): string{
-    try {
-      if (empty($ofertas)) {
-        throw new Exception('Nenhuma oferta encontrada!');
-      }
-      $content = '<article id="promos" class="container center">
-      <div id="noeye"></div>';
+  public static function getPromos(array $ofertas, int $cat_id, int $page=1): ?string{
+    if (empty($ofertas)) {
+      $content = '<p>Nenhuma oferta encontrada!</p></article>';
+    }else{
+      $content = '<div id="noeye"></div>';
       $share = self::getShareParams();
       for ($i=0; !empty($ofertas[$i]); $i++) {
         $ofertas[$i]['name'] = htmlspecialchars($ofertas[$i]['name'], ENT_QUOTES);
@@ -128,11 +126,8 @@ class Promotions{
       <div class="flex-column flex-center fs-12 bolder top"><button class="padding bg-orange" onclick="'."$('html, body').animate({scrollTop : 0},800);".'"><i class="fas fa-angle-double-up text-white"></i></button><p>
       Topo</p>
       </div>';
-    } catch (Exception $e) {
-      $content = $e->getMessage();
-    } finally{
-      return $content;
     }
+    return '<article id="promos" class="container center">'.$content;
   }
   
   /*
