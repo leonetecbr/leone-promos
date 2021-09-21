@@ -4,6 +4,7 @@ namespace Leone\Promos\Http;
 use Closure;
 use ReflectionFunction;
 use Leone\Promos\Controller\Pages\ErrorsHTTP;
+use Exception;
 
 /**
  * Classes responsável por identificar as rotas acessadas
@@ -126,7 +127,7 @@ class Router{
     try {
       $route = $this->getRoute();
       if (empty($route['controller'])) {
-        throw new Exception('<h1>Página não encontrada</h1>', 404);
+        throw new Exception('', 404);
       }
       $args = [];
       
