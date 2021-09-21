@@ -37,7 +37,7 @@ class Newsletter{
    * Insere os dados no banco de dados e retorna a chave
    * @return string
    */
-  public function insert() : string{
+  public function insert(): string{
     $dados = [
       'nome' => $this->nome,
       'email' => $this->email,
@@ -53,7 +53,7 @@ class Newsletter{
    * Verifica se o e-mail já está inscrito, retorna true se estiver
    * @return boolean
    */
-  public function verifyByEmail() : bool{
+  public function verifyByEmail(): bool{
     $dados = [
       'col' => 'email',
       'val' => $this->email
@@ -67,7 +67,7 @@ class Newsletter{
    * Verifica se a chave é correspondente a um e-mail inscrito, retorna true se for correspondente
    * @return boolean
    */
-  public function verifyByKey() : bool{
+  public function verifyByKey(): bool{
     $dados = [
       'col' => 'hash',
       'val' => $this->key
@@ -81,7 +81,7 @@ class Newsletter{
    * Verifica se o e-mail ainda não foi confirmado, retorna true se não estiver
    * @return boolean
    */
-  public function verifyNoConfirmByKey() : bool{
+  public function verifyNoConfirmByKey(): bool{
     $db = $this->getDB();
     $dado = $db->select('hash = "'.$this->key.'" AND verifed = 0')->fetch();
     return !empty($dado);
@@ -90,7 +90,7 @@ class Newsletter{
   /**
    * Deleta o usuário do banco de dados
    */
-  public function delete(){
+  public function delete(): void{
     $db = $this->getDB();
     $dado = $db->delete('hash = "'.$this->key.'"');
   }
@@ -98,7 +98,7 @@ class Newsletter{
   /**
    * Faz a confirmação do e-mail
    */
-  public function confirm(){
+  public function confirm(): void{
     $db = $this->getDB();
     $dado = $db->update('verifed = 1','hash = "'.$this->key.'"');
   }

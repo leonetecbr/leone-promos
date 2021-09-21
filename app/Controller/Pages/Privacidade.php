@@ -12,7 +12,7 @@ class Privacidade extends Page{
    * Método responsável por retornar o conteúdo da página de privacidade processada.
    * @return string
    */
-  public static function getPrivacidade() : string{
+  public static function getPrivacidade(): string{
     $content = Utils\View::render('pages/privacidade');
       
     return Page::getPage('Políticas de privacidade', $content);

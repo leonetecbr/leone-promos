@@ -11,8 +11,9 @@ class Ofertas{
   /**
    * Encontra a URL correta para fazer o redirecionamento
    * @params integer $cat_id $page $oferta_id
+   * @return string
    */
-  public static function process(int $cat_id, int $page, int $oferta_id){
+  public static function process(int $cat_id, int $page, int $oferta_id): string{
     switch ($cat_id) {
       case 77:
         $path = 'categorias/smartphones';

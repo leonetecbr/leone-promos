@@ -14,7 +14,7 @@ class Newsletter extends Page{
    * Método responsável por processar a requisição Ajax e retorna uma resposta 
    * @return array
    */
-  public static function processAjax() : array{
+  public static function processAjax(): array{
     $data = json_decode(file_get_contents('php://input'), true);
     $result['success'] = false;
     $nome = $data['nome']??'';
@@ -72,7 +72,7 @@ class Newsletter extends Page{
    * @param integer 1|0 $action
    * @return string
    */
-  public static function validateKey(int $action) : string{
+  public static function validateKey(int $action): string{
     $key = $_GET['key']??'';
     if (strlen($key)!=32 || !ctype_xdigit($key)){
       throw new Exception('', 401);

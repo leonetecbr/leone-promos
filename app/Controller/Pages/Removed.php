@@ -12,7 +12,7 @@ class Removed extends Page{
    * Método responsável por retornar o conteúdo da página "Amazon foi removida" processada
    * @return string
    */
-  public static function getAmazon() : string{
+  public static function getAmazon(): string{
     $content = Utils\View::render('pages/amazon');
       
     return Page::getPage('Amazon foi removida', $content);

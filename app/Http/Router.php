@@ -29,7 +29,7 @@ class Router{
    * @var string $route
    * @var array $params
    */
-  private function addRoute(string $method, string $route, array $params = []){
+  private function addRoute(string $method, string $route, array $params = []): void{
     foreach ($params as $key=>$value){
       if ($value instanceof Closure) {
         $params['controller'] = $value;
@@ -74,7 +74,7 @@ class Router{
    * Pega o URI
    * @return string
    */
-  public function getUri() : string{
+  public function getUri(): string{
     $uri = rtrim(strtolower($this->request->getUri()), '/');
     return $uri;
   }
@@ -83,7 +83,7 @@ class Router{
    * Verifica se o método e a rota está correta, caso o método não esteja, um HTTP 405 é retornado, caso a rota não esteja run() emite o HTTP 404
    * @return array
    */
-  private function getRoute() : array{
+  private function getRoute(): array{
     $uri = $this->getUri();
     $httpMethod = $this->request->getHttpMethod();
     
@@ -106,8 +106,8 @@ class Router{
    * @var string $route
    * @var array $params (instância de response)
    */
-  public function get(string $route, array $params = []){
-    return $this->addRoute('GET', $route, $params);
+  public function get(string $route, array $params = []): void{
+    $this->addRoute('GET', $route, $params);
   }
   
   /**
@@ -115,8 +115,8 @@ class Router{
    * @var string $route
    * @var array $params (instância de response)
    */
-  public function post(string $route, array $params = []){
-    return $this->addRoute('POST', $route, $params);
+  public function post(string $route, array $params = []): void{
+    $this->addRoute('POST', $route, $params);
   }
   
   /**

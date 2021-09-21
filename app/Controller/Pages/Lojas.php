@@ -14,7 +14,7 @@ class Lojas extends Page{
    * Gera a página com a lista das categorias
    * @return string
    */
-  public static function get() : string{
+  public static function get(): string{
     $content = Utils\View::render('pages/lojas');
       
     return Page::getPage('Lojas', $content);
@@ -26,7 +26,7 @@ class Lojas extends Page{
    * @param integer $page
    * @return string
    */
-  public static function process(string $loja, int $page) : string{
+  public static function process(string $loja, int $page): string{
     try{
       $page = ($page===0)?1:$page;
       switch ($loja) {

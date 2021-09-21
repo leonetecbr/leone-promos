@@ -15,7 +15,7 @@ class Push extends Api{
    * Envia uma notificação para todos os usuários cadastrados
    * @return array
    */
-  public static function sendAll() : array{
+  public static function sendAll(): array{
     $result['success'] = false;
     $msg = $_POST['content']??'';
     $title = $_POST['title']??'';
@@ -55,7 +55,7 @@ class Push extends Api{
   * Envia mensagem push para o administrador
   * @return array
   */
-  public static function sendAdmin(string $key) : array{
+  public static function sendAdmin(string $key): array{
     $result['success'] = false;
     try{
       if ($key !== $_ENV['KEY_POSTBACK']) {

@@ -26,7 +26,7 @@ class Database{
   /**
    * Método responsável por criar uma conexão com o banco de dados
    */
-  private function setConnection(){
+  private function setConnection(): void{
     try{
       $this->connection = new PDO('mysql:host='.$_ENV['HOST_DB'].';dbname='.$_ENV['BANK_DB'],$_ENV['USER_DB'],$_ENV['PASS_DB']);
       $this->connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
@@ -72,13 +72,13 @@ class Database{
   /**
    * Método responsável por inserir dados no banco
    * @param array $values [ field => value ]
-   * @return integer ID inserido
+   * @return PDOStatement
    */
-  public function insert(array $values) : int{
+  public function insert(array $values){
     $fields = array_keys($values);
     $binds  = array_pad([],count($fields),'?');
     $query = 'INSERT INTO '.$this->table.' ('.implode(',',$fields).') VALUES ('.implode(',',$binds).')';
-    $this->execute($query,array_values($values));
+    $this->execute($query, array_values($values));
     return $this->connection;
   }
 
@@ -113,7 +113,7 @@ class Database{
    * @param array|string $values [ field => value ]
    * @return boolean
    */
-  public function update($values, string $where = '') : bool{
+  public function update($values, string $where = ''): bool{
     $where = strlen($where)?' WHERE '.$where:'';
     if (is_array($values)) {
       $fields = array_keys($values);
@@ -131,7 +131,7 @@ class Database{
    * @param string|array $where
    * @return boolean
    */
-  public function delete($where) : bool{
+  public function delete($where): bool{
     if (is_array($where)) {
       $text = 'WHERE '.$where['col'].' = ?';
       $params[0] = $where['val'];
@@ -148,7 +148,7 @@ class Database{
    * Método responsável por alterar a tabela padrão para querys no dados do banco
    * @param string $table
    */
-  public function setTable(string $table){
+  public function setTable(string $table): void{
     if ($table !== $this->table){
       $this->table = $table;
     }

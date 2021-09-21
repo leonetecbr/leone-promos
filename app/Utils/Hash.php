@@ -11,7 +11,7 @@ class Hash{
    * @param integer $size
    * @return string
    */
-  public static function generateHash(int $size = 32) : string{
+  public static function generateHash(int $size = 32): string{
     $chars = "ABCDEFabcdef0123456789";
     $randomString = '';
     for($i=0;$i<$size;$i++){

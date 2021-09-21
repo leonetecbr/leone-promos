@@ -28,7 +28,7 @@ class Recaptcha{
    * Faz a consulta na API
    * @return array
    */
-  private function getApi() : array{
+  private function getApi(): array{
     $dados = array(
      "secret" => $this->secret,
      "response" => $this->response,
@@ -49,10 +49,10 @@ class Recaptcha{
    * @param float $min 0 a 1
    * @return boolean (false caso não seja um robô)
    */
-  public function isOrNotV3(float $min = 0.6) : bool{
+  public function isOrNotV3(float $min = 0.6): bool{
     $response = $this->getApi();
     if (!empty($response['success'])){
-      if ($response['success']==1 && $response['hostname']===$_SERVER['HTTP_HOST'] && $response['score']>=$min){
+      if ($response['success']==1 && /*$response['hostname']===$_SERVER['HTTP_HOST'] &&*/ $response['score']>=$min){
         return false;
       }else{
         return true;
@@ -66,10 +66,10 @@ class Recaptcha{
    * Faz a validação usando a API V2
    * @return boolean (false caso não seja um robô)
    */
-  public function isOrNotV2() : bool{
+  public function isOrNotV2(): bool{
     $response = $this->getApi();
     if (!empty($response['success'])){
-      if ($response['success']==1 && $response['hostname']===$_SERVER['HTTP_HOST']){
+      if ($response['success']==1 /*&& $response['hostname']===$_SERVER['HTTP_HOST']*/){
         return false;
       }else{
         return true;

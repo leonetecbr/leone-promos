@@ -3,6 +3,7 @@ namespace Leone\Promos\Utils;
 
 use PHPMailer\PHPMailer\PHPMailer;
 
+define('AUTH_PARAMS', ['email'=> $_ENV['SMTP_USER'], 'pass' => $_ENV['SMTP_PASS']]);
 /**
  * Classe para enviar e-mails
  */
@@ -14,7 +15,7 @@ class Mail{
    * @param array $auth
    * @return true/string
    */
-  public static function sendOne(string $to, string $name, string $subject, string $html, array $auth = ['email'=> $_ENV['SMTP_USER'], 'pass' => $_ENV['SMTP_PASS']]){
+  public static function sendOne(string $to, string $name, string $subject, string $html, array $auth = AUTH_PARAMS){
     $mail = new PHPMailer();
     $mail->setLanguage('pt_br', __DIR__.'/../../vendor/phpmailer/phpmailer/language/phpmailer.lang-pt_br.php');
     $mail->CharSet = 'UTF-8';

@@ -14,7 +14,7 @@ class Cupons extends Page{
    * @param integer $page
    * @return string
    */
-  public static function get(int $page) : string{
+  public static function get(int $page): string{
     $page = ($page===0)?1:$page;
     $cupons = Utils\API::getCupons();
     $final = ceil(count($cupons)/18);

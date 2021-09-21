@@ -13,7 +13,7 @@ class Page{
    * @params string $title, $headers, $content
    * @return string
    */
-  public static function getPage(string $title, string $content, string $headers = '') : string{
+  public static function getPage(string $title, string $content, string $headers = ''): string{
     $dados = [
       'content' => $content,
       'title' => $title,

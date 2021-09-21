@@ -12,7 +12,7 @@ class Cookies extends Page{
    * Método responsável por retornar o conteúdo da página de cookies processada.
    * @return string
    */
-  public static function getCookies() : string{
+  public static function getCookies(): string{
     $content = Utils\View::render('pages/cookies');
       
     return Page::getPage('Políticas de cookies', $content);

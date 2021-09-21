@@ -13,7 +13,7 @@ class Categorias extends Page{
    * Gera a página com a lista das categorias
    * @return string
    */
-  public static function get() : string{
+  public static function get(): string{
     $content = Utils\View::render('pages/categorias');
       
     return Page::getPage('Categorias', $content);
@@ -25,7 +25,7 @@ class Categorias extends Page{
    * @param integer $page
    * @return string
    */
-  public static function process(string $categoria, int $page) : string{
+  public static function process(string $categoria, int $page): string{
     try{
       $page = ($page===0)?1:$page;
       switch ($categoria) {

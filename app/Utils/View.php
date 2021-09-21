@@ -11,7 +11,7 @@ class View{
    * @param string $view
    * @return string
    */
-  private static function getContentView(string $view) : string{
+  private static function getContentView(string $view): string{
     $file = __DIR__.'/../../resources/view/'.$view.'.html';
     return file_exists($file)?file_get_contents($file):'';
   }
@@ -22,7 +22,7 @@ class View{
    * @param array $vars (string/integer)
    * @return string
    */
-  public static function render(string $view, array $vars = []) : string{
+  public static function render(string $view, array $vars = []): string{
     $vars['URL'] = $_SERVER['HOST'].strtolower($_SERVER['REQUEST_URI']);
     $vars['public_recaptcha_v3'] = $_ENV['PUBLIC_RECAPTCHA_V3'];
     $vars['ano'] = date("Y");

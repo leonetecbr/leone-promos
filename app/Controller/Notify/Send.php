@@ -23,7 +23,7 @@ class Send{
    * @params array $subscription $payload
    * @return boolean
    */
-  public function oneNotification(array $subscription, array $payload = ['msg' => 'Agora você será notificado a cada promoção imperdível!', 'title' => 'Notificações Ativadas ;)', 'link' => '/notificacoes']) : bool{
+  public function oneNotification(array $subscription, array $payload = ['msg' => 'Agora você será notificado a cada promoção imperdível!', 'title' => 'Notificações Ativadas ;)', 'link' => '/notificacoes']): bool{
     if (empty($subscription)) {
       $subscription = json_decode(file_get_contents(__DIR__.'/subscription.json'), true);
     }
@@ -51,7 +51,7 @@ class Send{
    * @params array $subscription $payload
    * @return boolean
    */
-  public function manyNotifications(array $subscriptions, array $payload) : bool{
+  public function manyNotifications(array $subscriptions, array $payload): bool{
     
     for ($i=0;!empty($subscriptions[$i]); $i++) {
       $notifications[$i]['subscription'] = WebPush\Subscription::create(["endpoint" => $subscriptions[$i]['endpoint'], "keys" => ['p256dh' => $subscriptions[$i]['p256dh'], 'auth' => $subscriptions[$i]['auth']]]);

@@ -11,7 +11,7 @@ class Promotions{
    * Passa URLs de compartilhamento a depender do tipo do dispositivo do usuário
    * @return array $share
    */
-  private static function getShareParams() : array{
+  private static function getShareParams(): array{
     $mobile = Mobile::isOrNot();
     if ($mobile) {
       $share['w'] = 'whatsapp://send?text=';
@@ -31,7 +31,7 @@ class Promotions{
    * @param string $url
    * @return string
    */
-  private static function getShortLink(string $url) : string{
+  private static function getShortLink(string $url): string{
     if (preg_match('/amazon\.com\.br\/.+\/dp\/(\w+)/', $url, $product_id) || preg_match('/amazon\.com\.br\/gp\/product\/(\w+)/', $url, $product_id)) {
       $short = 'amazon/'.$product_id[1];
     }elseif (preg_match('/magazinevoce\.com\.br\/magazineofertasleone\/p\/(\w+)/', $url, $product_id) || preg_match('/magazinevoce\.com\.br\/magazineofertasleone\/.+\/p\/(\w+)/', $url, $product_id)){
@@ -56,7 +56,7 @@ class Promotions{
    * @params integer $cat_id $page
    * @return string
    */
-  public static function getPromos(array $ofertas, int $cat_id, int $page=1) : string{
+  public static function getPromos(array $ofertas, int $cat_id, int $page=1): string{
     try {
       if (empty($ofertas)) {
         throw new Exception('Nenhuma oferta encontrada!');
@@ -141,7 +141,7 @@ class Promotions{
    * @params integer $atual $final
    * @return string
    */
-  public static function getPages(int $atual, int $final) : string{
+  public static function getPages(int $atual, int $final): string{
     
     if (stripos($_SERVER['REQUEST_URI'], '/search') === 0){
       $class = ' pages';
@@ -209,7 +209,7 @@ class Promotions{
    * @param integer $page
    * @return string
    */
-  public static function getCupons(array $cupom, int $page) : string{
+  public static function getCupons(array $cupom, int $page): string{
     try{
       $content = '<article id="cupons" class="container center">
       <div id="noeye"></div>';

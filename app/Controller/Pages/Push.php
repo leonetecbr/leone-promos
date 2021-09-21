@@ -14,7 +14,7 @@ class Push extends Page{
    * Método responsável por processar o dados da subscrição do usuário.
    * @return array
    */
-  public static function setRegister() : array{
+  public static function setRegister(): array{
     $response['success'] = false;
     try{
       $dado = json_decode(file_get_contents('php://input'), true);
@@ -53,7 +53,6 @@ class Push extends Page{
           if(!$sucess){
             throw new Exception('Não foi possível enviar a notificação de confirmação!');
           }
-          $db->insert($values);
           $response['success'] = true;
         }else{
           throw new Exception('Tente novamente!');
@@ -74,7 +73,7 @@ class Push extends Page{
    * Gera a página de notificações
    * @return string
    */
-  public static function get() : string{
+  public static function get(): string{
     $content = Utils\View::render('pages/notificacoes');
       
     return Page::getPage('Notificações', $content);

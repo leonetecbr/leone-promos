@@ -6,7 +6,7 @@ namespace Leone\Promos\Utils;
  */
 class Mobile{
   
-  public static function isOrNot() : bool{
+  public static function isOrNot(): bool{
     $mobile = false;
     $user_agents = ["iPhone","iPad","Android","webOS","BlackBerry","iPod","Symbian","IsGeneric"];
     foreach($user_agents as $user_agent){

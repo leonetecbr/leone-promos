@@ -15,7 +15,7 @@ class Search extends Page{
    * @param integer $page
    * @return string
    */
-  public static function process(string $q, int $page){
+  public static function process(string $q, int $page): string{
     try{
       $q = filter_var($q, FILTER_SANITIZE_STRING);
       $type = $_POST['type']??'';
