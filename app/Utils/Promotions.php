@@ -55,7 +55,7 @@ class Promotions{
    * @params integer $cat_id $page
    * @return string
    */
-  public static function getPromos(array $ofertas, int $cat_id, int $page=1): ?string{
+  public static function getPromos(array $ofertas, int $cat_id, int $page=1): string{
     if (empty($ofertas)) {
       $content = '<p>Nenhuma oferta encontrada!</p></article>';
     }else{
