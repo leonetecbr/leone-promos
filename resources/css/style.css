@@ -112,6 +112,7 @@ code{font-family: monospace;}
 .menu-fixo {position: fixed;top: 0;z-index: 19;border-bottom: 2px solid #da6709;box-shadow: 0px 3px 3px #606060;}
 #copy_sucess{background-color:#198754 ;position: fixed;top: 90px;z-index: 20;color:#fff;}
 #btn-notify{margin: auto;width:270px;}
+.m-auto{margin: auto !important;}
 button a{color: #000;}
 #btn-categorias a{color: #fff;}
 ul{margin-left:20px;}
