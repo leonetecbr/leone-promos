@@ -9,7 +9,7 @@ self.addEventListener('install', function(event) {
           'resources/js/jquery.min.js',
           'resources/js/funcoes.js',
           'resources/js/notify.js',
-          '/resources/json/manifest.json'
+          'resources/json/manifest.json'
         ]
       );
     })
