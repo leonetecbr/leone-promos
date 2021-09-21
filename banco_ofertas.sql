@@ -24,19 +24,6 @@ SET time_zone = "-03:00";
 
 -- --------------------------------------------------------
 
---
--- Estrutura para tabela `newsletter`
---
-
-CREATE TABLE `newsletter` (
-  `hash` varchar(32) NOT NULL,
-  `nome` varchar(20) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `verifed` tinyint(1) NOT NULL DEFAULT '0',
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
 -- --------------------------------------------------------
 
 --
@@ -53,12 +40,6 @@ CREATE TABLE `notify` (
 --
 -- Índices para tabelas despejadas
 --
-
---
--- Índices de tabela `newsletter`
---
-ALTER TABLE `newsletter`
-  ADD PRIMARY KEY (`hash`);
 
 --
 -- Índices de tabela `notify`

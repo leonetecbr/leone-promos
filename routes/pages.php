@@ -14,21 +14,6 @@ $router->get('/amazon', [
     return new Response(200, Pages\Removed::getAmazon());
   }]);
 
-$router->post('/newsletter', [
-  function (){
-    return new Response(200, Pages\Newsletter::processAjax(), 'application/json');
-  }]);
-
-$router->get('/newsletter/descadastrar', [
-  function (){
-    return new Response(200, Pages\Newsletter::validateKey(0));
-  }]);
-
-$router->get('/newsletter/confirmar', [
-  function (){
-    return new Response(200, Pages\Newsletter::validateKey(1));
-  }]);
-
 $router->get('/categorias', [
   function (){
     return new Response(200, Pages\Categorias::get());

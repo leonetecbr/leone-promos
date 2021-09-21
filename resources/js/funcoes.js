@@ -72,32 +72,6 @@ function validate_search(){
   }
 }
 
-function validate_newsletter(){
-  var erro = false;
-  var er = new RegExp(/^[A-Za-z0-9_\-\.]+@[A-Za-z0-9_\-\.]{2,}\.[A-Za-z0-9]{2,}(\.[A-Za-z0-9])?/);
-
-  if($('#name').val().length < 3 || $('#name').val().length > 20){
-    $('#name').css({'border':'1px solid #F00'});
-    $('.iname').fadeIn('slow');
-    erro = true;
-  }
-  
-  if(!er.test($('#email').val())){
-    $('#email').css({'border':'1px solid #F00'});
-    $('.iemail').fadeIn('slow');
-    erro = true;
-  }
-  
-  if (!erro) {
-    grecaptcha.ready(function() {
-      grecaptcha.execute(KeyV3Recaptcha, {action: 'newsletter'}).then(function(token) {
-          $('#news').append('<input type="hidden" name="g-recaptcha-response" value="'+token+'">');
-          $('#news').submit();
-      });
-    });
-  }
-}
-
 function submit(token){
   $('#checkbox').submit();
 }

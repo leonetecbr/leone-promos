@@ -20,17 +20,3 @@
   <label for="name">Link:</label> <input type="url" id="url" placeholder="Digite o link da promoção ..." name="url" class="radius"><br/><div class="small erro iurl center hidden"><br>Link inválido! Lembre-se de usar "https://".</div><br/>
   <button type="submit" class="bg-black radius">Ir para a promoção</button>
   </form>
-<section id="newsletter" class="container center bg-black">
-  <h2>Cadastre seu e-mail agora!</h2>
-  <h3>Cadastre seu email para receber as melhores promoções todos os dias.</h3>
-<div id="error_news">
-</div>
-<form id="news" action="/newsletter" method="POST" autocomplete="off" novalidate class="ajax_form">
-  <label for="name">Nome:</label> <input type="text" id="name" placeholder="Como você quer ser chamado(a) ?" name="nome" class="radius"><br/><div class="small erro iname center hidden"><br>Nome inválido (Mínimo de 3 caracteres e máximo 20)</div><br/>
-  <label for="email">E-mail:</label> <input type="email" placeholder="Digite seu e-mail ..." id="email" name="email" class="radius"/><div class="small erro iemail center padding hidden">Email inválido!</div>
-  <p class="small">Este formulário é protegido pelo Google reCAPTCHA para garantir que você não é um robô. <a target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas de Privacidade</a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de Serviço</a> do Google são aplicáveis.<p>
-<div class="center">
-<button type="submit" class="bg-white radius" onclick="event.preventDefault();validate_newsletter();" id="news_submit">Cadastrar-se</button>
-</div>
-</form>
-</section>
