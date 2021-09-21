@@ -2,9 +2,9 @@
 
 ## Instalação
 
-Minha recomendação e também a exigência de alguns pacotes usados é PHP 7.2 ou mais recente
+Este código foi desenvolvido para funcionar corretamente na versão 8 do PHP, caso você use uma versão antiga ele pode não funcionar corretamente.
 
-```PHP 7.2 ou superior```
+```PHP 8.0 ou superior```
 
 Estando rodando essa versão do PHP ou superior, basta usar o composer usando o comando abaixo no terminal no diretório do projeto:
 
