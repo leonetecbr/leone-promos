@@ -1,4 +1,4 @@
-let staticCacheName = 'v1.0.2';
+let staticCacheName = 'v1.0.3';
 
 self.addEventListener('install', function(event) {
   event.waitUntil(
