@@ -23,8 +23,7 @@ $router->get('/listore', [
 $router->get('/amazon/{product_id}', [
   function ($product_id){
     $redirect = new Response(303);
-    /*$redirect->addHeader('Location', URL.'https://www.amazon.com.br/gp/product/'.$product_id);*/
-    $redirect->addHeader('Location', SITE.'/amazon');
+    $redirect->addHeader('Location', URL.'https://www.amazon.com.br/gp/product/'.$product_id.'?tag=leonepromos-20');
     return $redirect;
   }]);
 
@@ -68,8 +67,7 @@ $router->get('/aliexpress/{int:product_id}', [
 $router->get('/amazon', [
   function (){
     $redirect = new Response(303);
-    /*$redirect->addHeader('Location', URL.'https://www.amazon.com.br/');*/
-    $redirect->addHeader('Location', SITE.'/amazon');
+    $redirect->addHeader('Location', 'https://www.amazon.com.br/?tag=leonepromos-20');
     return $redirect;
   }]);
 

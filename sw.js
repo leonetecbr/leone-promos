@@ -1,4 +1,4 @@
-let staticCacheName = 'v1.0.3';
+/*let staticCacheName = 'v1.0.3';
 
 self.addEventListener('install', function(event) {
   event.waitUntil(
@@ -41,6 +41,7 @@ self.addEventListener('fetch', function(event) {
     })
   );
 });
+*/
 
 /*
 *

@@ -9,11 +9,6 @@ $router->get('/', [
     return new Response(200, Pages\Home::getHome());
   }]);
 
-$router->get('/amazon', [
-  function (){
-    return new Response(200, Pages\Removed::getAmazon());
-  }]);
-
 $router->get('/categorias', [
   function (){
     return new Response(200, Pages\Categorias::get());
