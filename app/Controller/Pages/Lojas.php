@@ -35,12 +35,6 @@ class Lojas extends Page{
           $redirect->addHeader('Location', 'https://www.magazinevoce.com.br/magazineofertasleone/');
           $redirect->sendResponse();
         
-        case 'amazon':
-          $redirect = new Response(303);
-          $redirect->addHeader('Location', '/amazon');
-          $redirect->sendResponse();
-          break;
-        
         case 'americanas':
           $dados['loja'] = 5632;
           $dados['title'] = 'Americanas';
