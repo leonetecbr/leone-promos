@@ -21,7 +21,7 @@
 <? else:?>
 @foreach ($top_promos as $promo)
   <div class="promo bg-white" id="{{ $cat_id }}_{{ $page }}_{{ $loop->index }}" data-short-link="'.$short_link.'">
-      <div class="share">
+      <!--div class="share">
         <p><a href="#story" class="igs"><i class="fab fa-instagram"></i></a>
            <a href="#whatsapp" class="wpp" target="_blank"><i class="fab fa-whatsapp"></i></a>
            <a href="#telegram" class="tlg" target="_blank"><i class="fab fa-telegram-plane"></i></a>
@@ -29,7 +29,7 @@
             <a href="#twitter" class="twt" target="_blank"><i class="fab fa-twitter"></i></a>
             <a href="#copy" class="pls plus-share"><i class="fas fa-copy"></i></a>
             <a href="#share" class="pls hidden plus-share"><i class="fas fa-share-alt"></i></a></p>
-      </div>
+      </div-->
       <div class="inner">
         <img src="{{ $promo['thumbnail'] }}" alt="{{ $promo['name'] }}" class="product-image"/><br/>
         <a target="_blank" href="{{ $promo['link'] }}" class="product-title"><? echo mb_strimwidth($promo['name'], 0, 50, '...' ); ?></a>
