@@ -2,17 +2,17 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8"/>
-<!--script async src="https://www.googletagmanager.com/gtag/js?id=G-VHZEX7GYK2"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VHZEX7GYK2"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
+  
   gtag('config', 'G-VHZEX7GYK2');
-</script-->
+</script>
 <link rel="stylesheet" type="text/css" href="/css/style.css"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<title>@yield('title') | Leone Promos</title>
+<title>@yield('title') | {{ env('APP_NAME') }}</title>
 <meta name="description" content="Aproveite as melhores promoções da internet com total segurança!">
 <meta name="og:description" content="Aproveite as melhores promoções da internet com total segurança!">
 <meta name="keywords" content="Smartphone, promoção, melhor preço, site seguro, promoção real">
@@ -23,7 +23,7 @@
 <link rel="icon" href="/img/icon.png">
 <meta property="og:locale" content="pt_BR" />
 <meta property="og:type" content="website" />
-<meta property="og:site_name" content="Leone Promos" />
+<meta property="og:site_name" content="{{ env('APP_NAME') }}" />
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Ofertas"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -81,7 +81,7 @@
 <header id="cabecalho" class="container center bg-white">
   <a href="/">
     <h1 id="logo">
-    Leone Promos - As melhores promoções para você aproveita com segurança
+    {{ env('APP_NAME') }} - As melhores promoções para você aproveita com segurança
     </h1>
   </a>
   <button id="btn-menu" class="bg-gradiente"><i class="fas fa-bars"></i></button>
@@ -136,7 +136,7 @@
     <a href="https://github.com/leonetecbr/leone-promos/"><i class="fab fa-github-square"></i></a>
   </div>
   <p id="copyright" class="fs-1">Ao abrir ou comprar um produto mostrado aqui no site, algumas lojas poderam nos pagar uma comissão, mas isso não influencia em quais promoções são postadas por aqui. Em caso de divergência no preço, o preço válido é o da loja. Somos apenas um canal que te ajuda a encontrar o menor preço, não somos loja!<br/><br/>
-    <span class="bolder">&copy; <? echo date('Y'); ?> - Leone Promos</span> - Todos os direitos reservados.</p>
+    <span class="bolder">&copy; <? echo date('Y'); ?> - {{ env('APP_NAME') }}</span> - Todos os direitos reservados.</p>
     <p class="fs-1"><span class="bolder">Políticas: </span> <a href="/privacidade" target="_blank">de Privacidade</a> | <a href="/cookies" target="_blank">de Cookies</a></p>
 </footer>
 </body>

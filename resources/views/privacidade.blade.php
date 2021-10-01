@@ -4,7 +4,7 @@
 <article class="container">
 <h2 id="title" class="container">Políticas de Privacidade</h2>
 <h3 class="h2">Introdução</h3>
-<p>A sua privacidade é importante para nós. É política do Leone Promos respeitar a sua privacidade em relação a qualquer informação sua que possamos coletar no site <a href=https://ofertas.leone.tec.br>Leone Promos</a>, e outros sites que possuímos e operamos.</p>
+<p>A sua privacidade é importante para nós. É política do {{ env('APP_NAME') }} respeitar a sua privacidade em relação a qualquer informação sua que possamos coletar no site <a href="{{ env('APP_URL') }}">{{ env('APP_NAME') }}</a>, e outros sites que possuímos e operamos.</p>
 <p>Solicitamos informações pessoais apenas quando realmente precisamos delas para lhe fornecer um serviço. Fazemos por meios justos e legais, com o seu conhecimento e consentimento. Também informamos por que estamos coletando e como será usado.</p>
 <p>Apenas retemos as informações coletadas pelo tempo necessário para fornecer o serviço solicitado. Quando armazenamos dados, protegemos dentro de meios comercialmente aceitáveis para evitar perdas e roubos, bem como acesso, divulgação, cópia, uso ou modificação não autorizados.</p>
 <p>Não compartilhamos informações de identificação pessoal publicamente ou com terceiros, exceto quando exigido por lei.</p>
@@ -12,7 +12,7 @@
 <p>Você é livre para recusar a nossa solicitação de informações pessoais, entendendo que talvez não possamos fornecer alguns dos serviços desejados.</p>
 <p>O uso continuado de nosso site será considerado como aceitação de nossas práticas em torno de privacidade e informações pessoais. Se você tiver alguma dúvida sobre como lidamos com dados do usuário e informações pessoais, entre em contacto conosco.</p>  
 <h3 class="h2">Dados coletados</h3>
-<p>Enquanto você acessa nosso site coleta através do Google Analytics dados como formato de tela, navegador, sistema operacional, marca do aparelho, modelo do aparelho, estado, cidade, e atividades suas na página como cliques e rolagens. Estes dados são coletados de forma anônima por nós e não são associados a sua conta do Leone Promos, temos como única finalidade analisar o desempenho do nosso site.</p>
+<p>Enquanto você acessa nosso site coleta através do Google Analytics dados como formato de tela, navegador, sistema operacional, marca do aparelho, modelo do aparelho, estado, cidade, e atividades suas na página como cliques e rolagens. Estes dados são coletados de forma anônima por nós e não são associados a sua conta do {{ env('APP_NAME') }}, temos como única finalidade analisar o desempenho do nosso site.</p>
 <p>O Google Analytics também coleta dados sobre as visitas e os associa às informações do Google coletadas em outras contas de usuários que fizeram login e permitiram esse vínculo para fins de personalização de anúncios. Essas informações incluem o local do usuário final, o histórico de pesquisa e do YouTube, bem como os dados de sites parceiros do Google. Além disso, elas são usadas para oferecer insights agregados e anônimos sobre o comportamento dos nossos usuários em dispositivos diferentes.</p>
 <p>Dados também podem ser coletados pelo Google AdSense e pelo Google reCAPTCHA, usados para propaganda e para verificação robótica respectivamente, portanto, as <a target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas de Privacidade</a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de Serviço</a> do Google são aplicáveis.</p>
 <h3 class="h2">Segurança com seus dados</h3>

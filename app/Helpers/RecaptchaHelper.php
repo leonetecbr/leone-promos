@@ -63,7 +63,7 @@ class RecaptchaHelper{
   private function isOrNotV3(float $min): bool{
     $response = $this->getApi();
     if (!empty($response['success'])){
-      if ($response['success']==1 /*&& $response['hostname']===$_SERVER['HTTP_HOST']*/ && $response['score']>=$min){
+      if ($response['success']==1 && $response['score']>=$min){
         return false;
       }else{
         return true;
@@ -80,7 +80,7 @@ class RecaptchaHelper{
   private function isOrNotV2(): bool{
     $response = $this->getApi();
     if (!empty($response['success'])){
-      if ($response['success']==1 /*&& $response['hostname']===$_SERVER['HTTP_HOST']*/){
+      if ($response['success']==1){
         return false;
       }else{
         return true;

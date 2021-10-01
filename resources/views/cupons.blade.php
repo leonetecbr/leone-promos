@@ -12,7 +12,7 @@ $imax = intval($page)*18;
 <article class="container center">
 @for ($i = $imin; $i < $imax; $i++)
   <div class="cupom bg-white radius" id="cupom_{{ $i }}">
-    <div class="share">
+    <!--div class="share">
       <p><a href="#story" class="igs"><i class="fab fa-instagram"></i></a>
            <a href="#whatsapp" class="wpp" target="_blank"><i class="fab fa-whatsapp"></i></a>
            <a href="#telegram" class="tlg" target="_blank"><i class="fab fa-telegram-plane"></i></a>
@@ -20,7 +20,7 @@ $imax = intval($page)*18;
             <a href="#twitter" class="twt" target="_blank"><i class="fab fa-twitter"></i></a>
             <a href="#copy" class="pls plus-share"><i class="fas fa-copy"></i></a>
             <a href="#share" class="pls hidden plus-share"><i class="fas fa-share-alt"></i></a></p>
-    </div>
+    </div-->
     <div class="inner">
         <div class="site"><img src="{{ $cupons[$i]['store']['image'] }}" alt="{{ $cupons[$i]['store']['name'] }}"></div>
         <h4><? echo mb_strimwidth($cupons[$i]['description'], 0, 100, '...' ); ?></h4>
