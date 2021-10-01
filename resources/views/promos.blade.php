@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', $title)
-<? $target = (!$share)?'_self':'_blank';?>
+<? $target = ($share??true)?'_blank':'_self';?>
 @section('content')
 <h2 class="container" id="title">{{ $subtitle??$title }}</h2>
 {!! $pages??'' !!}
