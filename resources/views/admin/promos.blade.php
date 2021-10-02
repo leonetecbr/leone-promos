@@ -10,7 +10,7 @@
       @endforeach
     </div>
   @endif
-  <form action="/admin/promos/save" class="container flex-column" method="post">
+  <form action="/admin/promos/save" class="container flex-column" method="post" autocomplete="off">
     <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}"/>
     <div><label for="name">Título: </label><input type="text" value="{{ $promo['name']??'' }}" id="name" name="name" class="bg-white radius" required/></div>
     <div class="mt-2"><label for="link">Link: </label><input type="text" value="{{ $promo['link']??'' }}" id="link" name="link" class="bg-white radius" required/></div>

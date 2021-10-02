@@ -34,6 +34,7 @@ img{max-width: 100%;max-height:90%;}
 .center{text-align: center;}
 .al-left{text-align: left !important;}
 #deeplink input, form input{background-color: #130400;border: 1px solid #fff;padding: 10px;color: #fff;width:75%;}
+form input[type=checkbox]{width: 30px !important;}
 #deeplink button, form button, .promo button, .cupom button{width: 100%;padding: 10px;cursor: pointer;}
 .promo, .cupom{display: flex;flex-direction: column;}
 .final{margin-top: auto;}
@@ -50,7 +51,7 @@ article > p{text-indent: 10px;}
 .fs-20{font-size: 2.0em !important;}
 .mt-1{margin-top: 10px !important;}
 .mt-2{margin-top: 20px !important;}
-.mb -2{margin-bottom: 20px !important;}
+.mb-2{margin-bottom: 20px !important;}
 .mt-3{margin-top: 30px !important;}
 .mb-3{margin-bottom: 30px !important;}
 .border-1{border: 1px solid grey;}
@@ -64,7 +65,8 @@ article > p{text-indent: 10px;}
 .container{width:100%;float:left;padding:3% 4%;}
 .bg-gradiente{background: linear-gradient(to right, #ce2e3c, #da6709);color:#fff;}
 .bg-orange{background-color:#da6709;color:#fff;}
-.text-orange{color:#da6709;}
+.text-orange{color:#da6709 !important;}
+.text-green{color:#00a000 !important;}
 .bg-red{background-color: #ce2e3c;color:#fff;}
 .bg-black{background-color: #130400; color: #fff;}
 .bg-white{background-color: #fff;color: #130400;}

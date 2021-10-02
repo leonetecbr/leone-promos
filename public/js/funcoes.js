@@ -216,3 +216,13 @@ $(document).ready(function(){
       });
   });
 });
+
+$('#para').change(function (){
+    if ($(this).is(':checked')){
+      $('#para2').attr('disabled', true);
+      $('#para2').removeAttr('required');
+    }else{
+      $('#para2').attr('disabled', false);
+      $('#para2').addAttr('required');
+    }
+  });

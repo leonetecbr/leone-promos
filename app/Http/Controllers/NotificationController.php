@@ -89,4 +89,50 @@ class NotificationController extends Controller{
       return $result;
     }
   }
+  
+  public function getAdmin(){
+    return view('admin.notification');
+  }
+  
+  public function send(Request $request){
+    $todos = $request->input('para', false);
+    
+    $this->validate($request, ['title' => 'required', 'link' => 'required', 'content' => 'required'], ['title.required' => 'O "Título" é obrigatório!','content.required' => 'O "Conteúdo" é obrigatório!','link.required' => 'O "Link" é obrigatório!']);
+    
+    $payload = [
+        'msg' => $request->input('content'), 
+        'title' => $request->input('title'),
+        'link' => $request->input('link')
+        ];
+    
+    if (($request->filled('image'))) {
+      $payload['img'] = $request->input('image');
+    }
+    
+    $notification = new Helpers\NotificationHelper;
+    
+    if (!$todos) {
+      $this->validate($request, ['para2' => 'required', 'integer'], ['para2.required' => 'Digite o id que receberá a notificação!', 'para2.integer' => 'O id precisa ser um número!', ]);
+      $id = $request->input('para2');
+      $subscription = Notification::where('id', $id);
+      if (!$subscription->exists()) {
+        return redirect()->back()->withErrors(['para2' => ['Destinátario não encontrado!']]);
+      }
+      $to = $subscription->first()->toArray();
+      $success = $notification->sendOneNotification($to, $payload);
+    }else{
+      $to = [];
+      $subscriptions = Notification::all();
+      foreach ($subscriptions as $subscription){
+        $to[] = $subscription->toArray();
+      }
+      $success = $notification->sendManyNotifications($to, $payload);
+    }
+    
+    if (!$success) {
+      return redirect()->back()->withErrors(['para2' => ['Não foi possível enviar a mensagem para 1 ou mais destinatários!']]);
+    }else{
+      return redirect()->back()->with(['sender' => 'Notificação enviada com sucesso a todos os destinatários!']);
+    }
+  }
 }
