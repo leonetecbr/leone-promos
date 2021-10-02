@@ -2,51 +2,9 @@
 namespace App\Helpers;
 
 /**
- * 
+ * Gera itens relacionados as promoções
  */
 class PromosHelper{
-  /* 
-   * Passa URLs de compartilhamento a depender do tipo do dispositivo do usuário
-   * @return array $share
-   */
-  private static function getShareParams(): array{
-    $mobile = MobileHelper::isOrNot();
-    if ($mobile) {
-      $share['w'] = 'whatsapp://send?text=';
-      $share['m'] = 'fb-messenger://share?app_id=2988320711410858&link=';
-      $share['t'] = 'tg://msg_url?text=';
-    }else {
-      $share['w'] = 'https://api.whatsapp.com/send?text=';
-      $share['m'] = 'https://www.facebook.com/dialog/send?redirect_uri=https%3A%2F%2Fofertas.leone.tec.br&app_id=2988320711410858&link=';
-      $share['t'] = 'https://t.me/share/url?text=';
-    }
-    $share['u'] = "https://para.promo/";
-    return $share;
-  }
-  
-  /**
-   * Gera o link curto para compartilhamento nas redes sociais
-   * @param string $url
-   * @return string
-   */
-  private static function getShortLink(string $url): string{
-    if (preg_match('/amazon\.com\.br\/.+\/dp\/(\w+)/', $url, $product_id) || preg_match('/amazon\.com\.br\/gp\/product\/(\w+)/', $url, $product_id)) {
-      $short = 'amazon/'.$product_id[1];
-    }elseif (preg_match('/magazinevoce\.com\.br\/magazineofertasleone\/p\/(\w+)/', $url, $product_id) || preg_match('/magazinevoce\.com\.br\/magazineofertasleone\/.+\/p\/(\w+)/', $url, $product_id)){
-      $short = 'magalu/'.$product_id[1];
-    }elseif (preg_match('/americanas\.com\.br\/produto\/(\w+)/', $url, $product_id)){
-      $short = 'americanas/'.$product_id[1];
-    }elseif (preg_match('/submarino\.com\.br\/produto\/(\w+)/', $url, $product_id)){
-      $short = 'submarino/'.$product_id[1];
-    }elseif (preg_match('/shoptime\.com\.br\/produto\/(\w+)/', $url, $product_id)){
-      $short = 'shoptime/'.$product_id[1];
-    }elseif (preg_match('/pt\.aliexpress\.com\/item\/(\w+)\.html/', $url, $product_id)){
-      $short = 'aliexpress/'.$product_id[1];
-    }else{
-      $short = '';
-    }
-    return 'https://para.promo/'.$short;
-  }
   
   /*
    * Gera os botões para paginação

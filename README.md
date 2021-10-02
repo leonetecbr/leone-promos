@@ -18,7 +18,7 @@ Diante ao receio de muitas pessoas de comprar pela internet eu resolvi criar um 
 
 ## Leone Promos 2.0
 
-Estamos reconstruindo todo o site para que ele use o framework Laravel, boa parte ja está adptada, mas ainda falta algumas coisas.
+Todo o código foi reconstruído para utilizar o Laravel, nessa reconstrução aproveitamos para melhorar o código e adicionar um painel de administração.
 
 ## Site [para.promo](https://para.promo/)
 

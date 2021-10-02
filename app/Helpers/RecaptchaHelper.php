@@ -11,8 +11,8 @@ class RecaptchaHelper{
   
   /**
    * Preenche as variáveis nescessárias para a verificação
-   * @param string $response
-   * @param string $type
+   * @param Illuminate\Http\Request $request
+   * @params string $response $type
    */
   public function __construct(Request $request, string $response, string $type = 'v3'){
     $this->ip = $request->ip();
@@ -45,7 +45,9 @@ class RecaptchaHelper{
   }
   
   /*
-   *
+   * Direciona a verificação robótica para o método correto
+   * @param float $min
+   * @return bool
    */
   public function isOrNot(float $min = 0.6): bool{
     if ($this->type == 'v3') {
@@ -58,7 +60,7 @@ class RecaptchaHelper{
   /**
    * Faz a validação usando a API V3
    * @param float $min 0 a 1
-   * @return boolean (false caso não seja um robô)
+   * @return bool (false caso não seja um robô)
    */
   private function isOrNotV3(float $min): bool{
     $response = $this->getApi();
@@ -75,7 +77,7 @@ class RecaptchaHelper{
   
   /**
    * Faz a validação usando a API V2
-   * @return boolean (false caso não seja um robô)
+   * @return bool (false caso não seja um robô)
    */
   private function isOrNotV2(): bool{
     $response = $this->getApi();

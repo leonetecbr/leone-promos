@@ -10,6 +10,9 @@ use App\Models\Notification;
 class NotificationHelper{
   private $auth;
   
+  /*
+   * Preenche a variável com os parâmetros de autenticação
+   */
   public function __construct(){
     $this->auth = ['VAPID' => [
       'subject' => env('APP_URL'),

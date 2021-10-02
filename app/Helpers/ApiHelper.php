@@ -41,7 +41,7 @@ class ApiHelper{
    * @params integer $id $page $loja
    * @return array
    */
-  public static function getPromo(int $id, int $page=1, int $loja=0): ?array{
+  public static function getPromo(int $id, int $page=1, int $loja=0): array{
     $path = __DIR__.'/../../resources/cache/promos/';
     $path .= ($id!==999)?$id.'_'.$page.'.json':$loja.'_'.$page.'.json';
    
