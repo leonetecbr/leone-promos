@@ -23,3 +23,5 @@
     RewriteCond %{HTTPS} off
     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 </IfModule>
+
+ErrorDocument 403 https://ofertas.leone.tec.br/403

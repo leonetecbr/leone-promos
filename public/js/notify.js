@@ -118,7 +118,8 @@ function update(action) {
       const data = {
         subscription: sub,
         action: action,
-        token: token
+        token: token,
+        _token: csrf
       }
       document.cookie = "humans_21909=1";
       $.ajax({

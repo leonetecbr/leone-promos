@@ -68,8 +68,8 @@ self.addEventListener('push', function(event) {
   const data = event.data.json();
   const options = {
     body: data.msg,
-    icon: 'resources/img/icon.png',
-    badge: 'resources/img/icon.png',
+    icon: 'img/icon.png',
+    badge: 'img/icon.png',
     data: {url: data.link}
   };
   if (typeof data.img !== 'undefined') {

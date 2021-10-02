@@ -100,13 +100,13 @@
     </ul>
   </nav>
 </header>
-<?/*if (empty($_COOKIE['no_notify'])): ?>
+<?if (empty($_COOKIE['no_notify'])): ?>
 <div id="notify" class="container hidden">
 <p>Receba nossas seleção de melhores promoções em primeira mão por notificação no seu navegador!</p><br />
 <div class="center"><button id="btn-notify" class="btn-static bg-orange radius" disabled="true">Ativar notificações</button></div>
 <div class="right bolder" id="inotify"><i class="far fa-eye-slash"></i></div>
 </div>
-<? endif; */?>
+<? endif; ?>
 <form action="/search" id="form" class="hidden" method="post">
 <input type="search" name="q" id="qs" placeholder="Digite sua pesquisa ..." class="radius bg-black" required autocomplete="off" value="{{ $query??'' }}"/>
 <button type="submit" class="bg-gradiente" onclick="event.preventDefault();validate_search();"><i class="fas fa-search"></i></button>

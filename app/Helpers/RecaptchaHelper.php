@@ -14,7 +14,7 @@ class RecaptchaHelper{
    * @param string $response
    * @param string $type
    */
-  public function __construct(Request $request, string $response, string $type){
+  public function __construct(Request $request, string $response, string $type = 'v3'){
     $this->ip = $request->ip();
     if ($type == 'v3') {
       $this->secret = $_ENV['SECRET_RECAPTCHA_V3'];
