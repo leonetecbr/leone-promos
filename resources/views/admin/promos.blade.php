@@ -15,9 +15,9 @@
     <div><label for="name">Título: </label><input type="text" value="{{ $promo['name']??'' }}" id="name" name="name" class="bg-white radius" required/></div>
     <div class="mt-2"><label for="link">Link: </label><input type="text" value="{{ $promo['link']??'' }}" id="link" name="link" class="bg-white radius" required/></div>
     <div class="mt-2"><label for="thumbnail">Imagem: </label><input type="text" value="{{ $promo['thumbnail']??'' }}" id="thumbnail" name="thumbnail" class="bg-white radius" required/></div>
-    <div class="mt-2"><label for="priceFrom">De: </label><input type="number" value="{{ $promo['priceFrom']??'' }}" id="priceFrom" name="priceFrom" class="bg-white radius"/></div>
-    <div class="mt-2"><label for="price">Por: </label><input type="number" value="{{ $promo['price']??'' }}" id="price" name="price" class="bg-white radius" required/></div>
-    <div class="mt-2"><label for="discount">Desconto: </label><input type="number" value="{{ $promo['discount']??'' }}" id="discount" name="discount" class="bg-white radius"/></div>
+    <div class="mt-2"><label for="priceFrom">De: </label><input type="number" value="{{ $promo['priceFrom']??'' }}" id="priceFrom" name="priceFrom" class="bg-white radius" step="0.01" min="0.01"/></div>
+    <div class="mt-2"><label for="price">Por: </label><input type="number" value="{{ $promo['price']??'' }}" id="price" name="price" class="bg-white radius" required step="0.01" min="0"/></div>
+    <div class="mt-2"><label for="discount">Desconto: </label><input type="number" value="{{ $promo['discount']??'' }}" id="discount" name="discount" class="bg-white radius" step="0.01" min="0"/></div>
     <div class="mt-2"><label for="code">Cupom: </label><input type="text" value="{{ $promo['code']??'' }}" id="code" name="code" class="bg-white radius"/></div>
     <div class="mt-2">
       <label for="description">Descrição: </label><textarea name="description" id="description" class="radius"></textarea>
