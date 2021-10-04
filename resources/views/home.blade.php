@@ -13,14 +13,13 @@
   </div>
 </div>
 <h2 class="container" id="title">Melhores promoções</h2>
-<div id="promos" class="container center">
+<article id="promos" class="container center">
 <div id="noeye"></div>
-<article class="container center">
 <? if (empty($top_promos)):?>
 <p class="m-auto">Nenhuma oferta encontrada!</p></article>
 <? else:?>
 @foreach ($top_promos as $promo)
-  <div class="promo bg-white" id="{{ $cat_id }}_{{ $page }}_{{ $loop->index }}" data-short-link="'.$short_link.'">
+  <div class="promo bg-white" id="{{ $cat_id }}_{{ $page }}_{{ $loop->index }}">
       <!--div class="share">
         <p><a href="#story" class="igs"><i class="fab fa-instagram"></i></a>
            <a href="#whatsapp" class="wpp" target="_blank"><i class="fab fa-whatsapp"></i></a>
@@ -67,7 +66,6 @@
 </div>
 <?endif;?>
 </article>
-</div>
 <h2 class="container h2">Verificar promoção</h2>
 <p class="container">Está com dúvidas se está na pagina real? Não sabe se a promoção é verdadeira? Cole o link da promoção abaixo e você será redirecionado para essa promoção com total segurança.</p>
 <form id="deeplink" class="container center" novalidate autocomplete="off">

@@ -21,7 +21,8 @@ img{max-width: 100%;max-height:90%;}
 .btn, .btn-static{width: 100%;font-size:1.5em;cursor: pointer;padding: 5%;}
 .btn, .btn-static, input[type=submit], button[type=submit], div.inner a button{box-shadow: 4px 4px 8px #1C1C1C;}
 .promo, .cupom{width: 100%;border-radius:7px;margin-bottom: 5%;padding: 5%;}
-.promo img{border-radius: 7px 7px 0 0;max-height:250px;margin:auto auto 25px auto;}
+.promo > .inner > img{border-radius: 7px 7px 0 0;max-height:250px;margin:auto auto 25px auto;}
+.promo > button{margin-top: 0;}
 .inner{padding: 10px;}
 .inner a {font-size: 1.3em;font-weight: 700;color: #130400;}
 .inner p a {color: #525252;font-size:1em;font-weight:400;}
@@ -150,6 +151,7 @@ img[alt=Extra], img[alt=Ponto]{background-color: #606060;padding:5px;}
 
 @media only screen and (min-width: 768px) {
   #promos, #cupons{display: flex;flex-wrap: wrap;}
+  .inner{position: relative;top: 45%;transform: translateY(-50%);}
   .promo, .cupom{width: 48%;margin-right: 2%;padding: 5%;margin-bottom:2%;}
   #newsletter h2 {font-size: 2em;}
   #newsletter h3{font-size: 1.5em;}

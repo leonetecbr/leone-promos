@@ -9,7 +9,8 @@
 {!! $add??'' !!}
 </div>
 @endif
-<div id="promos" class="container center">
+<article id="promos" class="container center">
+<div id="noeye"></div>
   @if ($errors->any())
     <div class="alert erro center mt-1">
       @foreach ($errors->all() as $error)
@@ -17,8 +18,6 @@
       @endforeach
     </div>
   @endif
-<div id="noeye"></div>
-<article class="container center">
 <? if (empty($promos)):?>
 <p class="m-auto">Nenhuma oferta encontrada!</p></article>
 <? elseif (is_array($promos)):?>
