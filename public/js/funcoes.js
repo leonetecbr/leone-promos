@@ -1,4 +1,11 @@
 const KeyV3Recaptcha = '6LdiepQaAAAAAAzLXLD1le5GHf0JRShTQvNX2LHt';
+String.prototype.strstr = function(search) {
+    var position = this.indexOf(search);
+    if (position == -1) {
+        return false;
+    }
+    return this.substr(0, position-1);
+};
 
 function ig_share(element){
   var title = $(element).find('.product-title').html();
@@ -122,7 +129,9 @@ $(document).ready(function(){
       $('#url').css({'border':'1px solid #F00'});
       $('.iurl').fadeIn('slow');
     }else{
-      window.open('/redirect?url='+$('#url').val());
+      var url = $('#url').val();
+      url = url.strstr('?');
+      window.open('/redirect?url='+url);
       $('#url').val('');
     }
   });
