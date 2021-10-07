@@ -2,7 +2,7 @@ const KeyV3Recaptcha = '6LdiepQaAAAAAAzLXLD1le5GHf0JRShTQvNX2LHt';
 String.prototype.strstr = function(search) {
     var position = this.indexOf(search);
     if (position == -1) {
-        return false;
+        return this;
     }
     return this.substr(0, position-1);
 };
