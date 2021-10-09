@@ -58,16 +58,40 @@ class TopPromosController extends Controller{
     $this->validate($request, ['name' => 'required', 'link' => 'required', 'thumbnail' => 'required', 'price' => 'required', 'store_name' => 'required', 'store_link' => 'required', 'store_thumbnail' => 'required'], ['name.required' => 'O "Título" é obrigatório!', 'link.required' => 'O "Link" é obrigatório!', 'thumbnail.required' => 'A "Imagem" é obrigatória!', 'price.required' => 'O "Por" é obrigatório!', 'store_name.required' => 'O "Nome da Loja" é obrigatório!', 'store_link.required' => 'O "Link da Loja" é obrigatório!', 'store_thumbnail.required' => 'A "Imagem da Loja" é obrigatória!']);
     
     
-    $dados = $request->only('name', 'link', 'thumbnail', 'priceFrom', 'price', 'discount', 'code', 'description');
+    $dados = $request->only('name', 'link', 'thumbnail', 'price');
     
     $dados['store'] = [
       'name' => $request->input('store_name'),
       'thumbnail' => $request->input('store_thumbnail'),
       'link' => $request->input('store_link')
       ];
+      
+    if ($request->filled('priceFrom')) {
+      if (!$request->filled('discount')){
+        $dados['discount'] = $request->input('priceFrom')-$request->input('price');
+      }else{
+        $dados['discount'] = $request->input('discount');
+      }
+      $dados['priceFrom'] = $request->input('priceFrom');
+    }
+    
+    if ($request->filled('code')) {
+      $dados['code'] = $request->input('code');
+    }
+    
+    if ($request->filled('description')) {
+      $dados['description'] = $request->input('description');
+    }
+    
+    if ($request->filled('installment_quantity') && $request->filled('installment_value')) {
+      $dados['installment'] = [
+        'value' => $request->input('installment_value'),
+        'quantity' => $request->input('installment_quantity')
+        ];
+    }
     
     $promos = json_decode(file_get_contents(self::$arquivo), true);
-    if ($request->has('id')) {
+    if ($request->filled('id')) {
       $promos[$request->input('id')] = $dados;
     }else{
       $promos[] = $dados;
