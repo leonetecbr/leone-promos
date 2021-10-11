@@ -55,8 +55,8 @@ $router->get('/magalu', [
   }]);
 
 $router->get('/soub', [
-  function ($product_id){
-    return redirect(URL.'https://www.soubarato.com.br/produto/'.$product_id);
+  function (){
+    return redirect(URL.'https://www.soubarato.com.br');
   }]);
 
 $router->get('/americanas', [
