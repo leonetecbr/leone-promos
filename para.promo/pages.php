@@ -17,12 +17,16 @@ $router->get('/magalu/{product_id}', [
   function ($product_id){
     return redirect('https://www.magazinevoce.com.br/magazineofertasleone/p/'.$product_id);
   }]);
+  
+$router->get('/soub/{int:product_id}', [
+  function ($product_id){
+    return redirect(URL.'https://www.soubarato.com.br/produto/'.$product_id);
+  }]);
 
 $router->get('/americanas/{int:product_id}', [
   function ($product_id){
     return redirect(URL.'https://www.americanas.com.br/produto/'.$product_id);
   }]);
-
 
 $router->get('/shoptime/{int:product_id}', [
   function ($product_id){
@@ -48,6 +52,11 @@ $router->get('/amazon', [
 $router->get('/magalu', [
   function (){
     return redirect('https://www.magazinevoce.com.br/magazineofertasleone/');
+  }]);
+
+$router->get('/soub', [
+  function ($product_id){
+    return redirect(URL.'https://www.soubarato.com.br/produto/'.$product_id);
   }]);
 
 $router->get('/americanas', [

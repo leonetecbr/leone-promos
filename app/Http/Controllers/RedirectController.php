@@ -33,8 +33,12 @@ class RedirectController{
    * @param integer $advertiserId
    * @return string
    */
-  private static function processAwin(string $url, int $advertiserId): string{
-    return 'https://www.awin1.com/cread.php?awinmid='.$advertiserId.'&awinaffid='.$_ENV['ID_AFILIADO_AWIN'].'&clickref=deeplink&ued='.urlencode($url);
+  private static function processAwin(string $url, int $advertiserId, $uid = null): string{
+    if (empty($uid)) {
+      $uid = $_ENV['ID_AFILIADO_AWIN'];
+    }
+    
+    return 'https://www.awin1.com/cread.php?awinmid='.$advertiserId.'&awinaffid='.$uid.'&clickref=deeplink&ued='.urlencode($url);
   }
   
   /**
@@ -76,6 +80,8 @@ class RedirectController{
         $to = self::processAwin($url, 17874);
       }elseif (strpos($url, 'https://m.casasbahia.com.br')===0 || strpos($url, 'https://www.casasbahia.com.br')===0 || strpos($url, 'https://casasbahia.com.br')===0) {
         $to = self::processAwin($url, 17629);
+      }elseif (strpos($url, 'https://www.soubarato.com.br')===0 || strpos($url, 'https://soubarato.com.br')===0) {
+        $to = self::processAwin($url, 23281, $_ENV['ID_AFILIADO_SOUB']);
       }else{
         $to = self::processLomadee($url);
       }
