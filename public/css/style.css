@@ -36,7 +36,7 @@ img{max-width: 100%;max-height:90%;}
 .al-left{text-align: left !important;}
 #deeplink input, form input{background-color: #130400;border: 1px solid #fff;padding: 10px;color: #fff;width:75%;}
 form input[type=checkbox]{width: 30px !important;}
-#deeplink button, form button, .promo button, .cupom button{width: 100%;padding: 10px;cursor: pointer;}
+#deeplink button, form button, .promo button, .cupom button{width: 100%;max-width: 700px;padding: 10px;cursor: pointer;}
 .promo, .cupom{display: flex;flex-direction: column;}
 .final{margin-top: auto;}
 .promo button, .cupom button{padding: 2% !important;}
@@ -57,7 +57,7 @@ article > p{text-indent: 10px;}
 .mb-3{margin-bottom: 30px !important;}
 .border-1{border: 1px solid grey;}
 #rodape{margin-bottom:0;}
-#social a {font-size: 1.8em;color: rgba(255,255,255,.7);margin-right: 3%;}
+#social a {font-size: 1.5em;color: rgba(255,255,255,.7);margin-right: 20px;}
 #social a:last-child{margin-right:0;}
 #social a:hover {color: rgb(255,255,255);}
 #copyright{margin-top:2%;color: rgba(255,255,255,.7);}
@@ -85,16 +85,16 @@ article > p{text-indent: 10px;}
 .padding{padding:3% 4%;}
 .text-white{color:#fff !important;}
 
-.categoria{padding: 6%;font-size:1.5em;margin-bottom: 4%;}
-.categoria i {}
+.categoria{padding: 6%;font-size:1.5em;margin-bottom: 4%;max-width: 700px;margin: auto;}
 #categorias a{color:#130400;}
 .promo h4, .cupom h4{font-size: 1.3em;margin: 5% 0;font-weight:700;color: #130400;}
 .site img{width: 40%;}
 .code input{width: 150px;text-transform: uppercase;margin:2% 0;} 
 
 #btn-search, #btn-logout{float:right;height:56px;margin-right: 20px;}
-#form input{width:86%;margin:0 1%;}
-#form button{width: 9%;border-radius:56px;color: #fff;}
+#form input{width:86%;margin:0 0.25%;}
+#form button{width: 10%;max-width: 56px;max-height: 56px;border-radius:56px;color: #fff;margin-right: 2%;}
+#form{text-align: center;}
 .hidden{display: none;}
 .erro{color: #ce2e3c;margin:0 2.5px}
 input{transition-duration:1s;}
@@ -150,6 +150,7 @@ img[alt=Extra], img[alt=Ponto]{background-color: #606060;padding:5px;}
 }
 
 @media only screen and (min-width: 768px) {
+  #form button{padding: 13px;font-size: 30px;}
   #promos, #cupons{display: flex;flex-wrap: wrap;}
   .inner{position: relative;top: 45%;transform: translateY(-50%);}
   .promo, .cupom{width: 48%;margin-right: 2%;padding: 5%;margin-bottom:2%;}
@@ -160,10 +161,10 @@ img[alt=Extra], img[alt=Ponto]{background-color: #606060;padding:5px;}
   .h3{font-weight: 700;font-size: 1.5em;}
   .padding{padding: 1.5% 2%;}
   h3.container{font-size: 1.5em;}
-  .categoria{padding: 3%;font-size:2em;margin-bottom: 2%;}
+  .categoria{padding: 3%;margin-bottom: 2%;}
   #pagination, .container{padding:1.5% 2%;}
-  #social a {font-size: 2.5em;}
-  form button{font-size: 2em;}
+  #social a {font-size: 2em;}
+  form button{font-size: 1.5em;}
   #btn-search{height:79px;margin-top;}
   #form {font-size:1em;}
   form label{font-size: 1.2em;}
@@ -193,4 +194,6 @@ img[alt=Extra], img[alt=Ponto]{background-color: #606060;padding:5px;}
   #menu li a {color:#606060;}
   #menu li a:hover{border:none;color:#da6709;}
   #logo{width: 305px;background: url(../img/logo.png) center center/305px no-repeat;height:79px;}
+  #categorias{display: flex;flex-wrap: wrap;flex-direction: row;justify-content: space-around;}
+  .categoria{width: 450px;font-size: 1.75em;margin-bottom: 30px;}
 }
