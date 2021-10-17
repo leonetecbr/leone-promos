@@ -29,7 +29,7 @@
       <div class="center mt-1"><input type="checkbox" name="para" id="para"><label for="para">Todos</label></div>
     </div>
     <button type="submit" class="mt-2 btn-static padding bg-gradiente flex-center radius">Enviar</button>
-    <a href="/admin"><button type="button" class="mt-2 btn-static padding bg-red flex-center radius">Cancelar</button></a>
+    <a href="/admin" class="center"><button type="button" class="mt-2 btn-static padding bg-red flex-center radius">Cancelar</button></a>
   </form>
   </article>
 @endsection

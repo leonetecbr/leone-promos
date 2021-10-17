@@ -11,7 +11,7 @@
           @endforeach
       </div>
     @endif
-    <form action="/admin" method="post" class="mt-2 flex-column">
+    <form action="/admin" method="post" class="mt-2 flex-column center">
     <div><label for="email">Email: </label><input type="text" name="email" id="email" class="bg-white radius" placeholder="Digite seu email ..." required
     @if (session('email'))
     value="{{ session('email') }}"

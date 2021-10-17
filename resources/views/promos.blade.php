@@ -5,7 +5,7 @@
 <h2 class="container" id="title">{{ $subtitle??$title }}</h2>
 {!! $pages??'' !!}
 @if ($add??false)
-<div class="container">
+<div class="container center">
 {!! $add??'' !!}
 </div>
 @endif
