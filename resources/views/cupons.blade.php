@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Cupons')
-<?
+<?php
 $imin = (intval($page)-1)*18;
 $imax = intval($page)*18;
 ?>
@@ -23,8 +23,8 @@ $imax = intval($page)*18;
     </div-->
     <div class="inner">
         <div class="site"><img src="{{ $cupons[$i]['store']['image'] }}" alt="{{ $cupons[$i]['store']['name'] }}"></div>
-        <h4><? echo mb_strimwidth($cupons[$i]['description'], 0, 100, '...' ); ?></h4>
-        <p>Válido até <? echo str_replace(":59:00", ":59:59", $cupons[$i]['vigency']); ?></p>
+        <h4>{{ mb_strimwidth($cupons[$i]['description'], 0, 100, '...' ) }}</h4>
+        <p>Válido até {{ str_replace(":59:00", ":59:59", $cupons[$i]['vigency']) }}</p>
         <p class="code">Cupom: <input value="{{ $cupons[$i]['code'] }}" disabled="true" class="center" id="input_{{ $i }}"/></p>
         </div>
         <div class="final">

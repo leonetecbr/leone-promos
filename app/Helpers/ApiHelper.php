@@ -46,7 +46,10 @@ class ApiHelper{
     $path .= ($id!==999)?$id.'_'.$page.'.json':$loja.'_'.$page.'.json';
    
     if ($id===0 || file_exists($path)) {
-      if ($id===0 || time()-filemtime($path)<1800) {
+      if ($id === 0 && !file_exists($path)) {
+        file_put_contents($path, '[]');
+        return [];
+      }elseif ($id===0 || time()-filemtime($path)<1800) {
         return json_decode(file_get_contents($path), true);
       }
     }

@@ -4,7 +4,7 @@ String.prototype.strstr = function(search) {
     if (position == -1) {
         return this;
     }
-    return this.substr(0, position-1);
+    return this.substr(0, position);
 };
 
 function ig_share(element){

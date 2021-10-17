@@ -1,0 +1,1 @@
+Pasta que guarda as promoções em cache

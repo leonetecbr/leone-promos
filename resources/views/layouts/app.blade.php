@@ -66,7 +66,7 @@
     <div id="product-code" class="mt-2 code"><input type="text" disabled="true" value="Acesse o link para obter o cupom" class="w100 center"></div>
     <p id="share-link" class="mt-3"></p>
   </div>
-<? if (empty($_COOKIE['accept'])): ?>
+@if (empty($_COOKIE['accept']))
   <section class="aviso_eu_cookie">
     <p>Esse site utiliza cookies e coleta alguns dados. Ao continuar a usar este site, você concorda com isso.</p>
     <p>Para saber mais, inclusive sobre quais dados são coletados, consulte aqui:
@@ -77,7 +77,7 @@
       <button class="right" id="accept" onclick="accept()">Fechar e aceitar</button>
     </div>
   </section>
-<? endif; ?>
+@endif
 <header id="cabecalho" class="container center bg-white">
   <a href="/">
     <h1 id="logo">
@@ -86,7 +86,7 @@
   </a>
   <button id="btn-menu" class="bg-gradiente"><i class="fas fa-bars"></i></button>
   @if (Auth::check())
-  <a href="/logout"><button id="btn-logout" class="bg-white"><i class="fas fa-sign-out-alt"></i></button></a>
+    <a href="/logout"><button id="btn-logout" class="bg-white"><i class="fas fa-sign-out-alt"></i></button></a>
   @endif
   <label for="qs"><button id="btn-search" class="bg-white"><i class="fas fa-search"></i></button></label>
   <nav id="menu" class="center right">
@@ -100,13 +100,13 @@
     </ul>
   </nav>
 </header>
-<?if (empty($_COOKIE['no_notify'])): ?>
-<div id="notify" class="container hidden">
-<p>Receba nossas seleção de melhores promoções em primeira mão por notificação no seu navegador!</p><br />
-<div class="center"><button id="btn-notify" class="btn-static bg-orange radius" disabled="true">Ativar notificações</button></div>
-<div class="right bolder" id="inotify"><i class="far fa-eye-slash"></i></div>
-</div>
-<? endif; ?>
+@if (empty($_COOKIE['no_notify']))
+  <div id="notify" class="container hidden">
+  <p>Receba nossas seleção de melhores promoções em primeira mão por notificação no seu navegador!</p><br />
+  <div class="center"><button id="btn-notify" class="btn-static bg-orange radius" disabled="true">Ativar notificações</button></div>
+  <div class="right bolder" id="inotify"><i class="far fa-eye-slash"></i></div>
+  </div>
+@endif
 <form action="/search" id="form" class="hidden" method="post">
 <input type="search" name="q" id="qs" placeholder="Digite sua pesquisa ..." class="radius bg-black" required autocomplete="off" value="{{ $query??'' }}"/>
 <button type="submit" class="bg-gradiente" onclick="event.preventDefault();validate_search();"><i class="fas fa-search"></i></button>
@@ -136,7 +136,7 @@
     <a href="https://github.com/leonetecbr/leone-promos/"><i class="fab fa-github-square"></i></a>
   </div>
   <p id="copyright" class="fs-1">Ao abrir ou comprar um produto mostrado aqui no site, algumas lojas poderam nos pagar uma comissão, mas isso não influencia em quais promoções são postadas por aqui. Em caso de divergência no preço, o preço válido é o da loja. Somos apenas um canal que te ajuda a encontrar o menor preço, não somos loja!<br/><br/>
-    <span class="bolder">&copy; <? echo date('Y'); ?> - {{ env('APP_NAME') }}</span> - Todos os direitos reservados.</p>
+    <span class="bolder">&copy; {{ date('Y') }} - {{ env('APP_NAME') }}</span> - Todos os direitos reservados.</p>
     <p class="fs-1"><span class="bolder">Políticas: </span> <a href="/privacidade" target="_blank">de Privacidade</a> | <a href="/cookies" target="_blank">de Cookies</a></p>
 </footer>
 </body>
