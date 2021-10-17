@@ -7,9 +7,8 @@ $imax = intval($page)*18;
 @section('content')
 <h2 class="container" id="title">Cupons</h2>
 {!! $pages??'' !!}
-<div id="cupons" class="container center">
+<article id="cupons" class="container center">
 <div id="noeye"></div>
-<article class="container center">
 @for ($i = $imin; $i < $imax; $i++)
   <div class="cupom bg-white radius" id="cupom_{{ $i }}">
     <!--div class="share">
@@ -34,7 +33,5 @@ $imax = intval($page)*18;
     </div>
 @endfor
 </article>
-<div class="flex-column flex-center fs-12 bolder top"><button class="padding bg-orange" onclick="$('html, body').animate({scrollTop : 0},800);"><i class="fas fa-angle-double-up text-white"></i></button><p>Topo</p>
-</div>
-</div>
+<div class="flex-column flex-center fs-12 bolder top"><button class="padding bg-orange" onclick="$('html, body').animate({scrollTop : 0},800);"><i class="fas fa-angle-double-up text-white"></i></button><p>Topo</p></div>
 @endsection
