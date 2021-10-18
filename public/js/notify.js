@@ -102,6 +102,8 @@ function subscribeUser(){
   }).then(function(subscription) {
     sub = subscription;
     update('add');
+    getPrefer(subscription.endpoint);
+    $('#endpoint').val(subscription.endpoint);
   })
   .catch(function(){
     updateBtn();
@@ -112,6 +114,7 @@ function unsubscribeUser(){
   if (sub) {
     sub.unsubscribe();
     update('remove');
+    $('#preferencias').addClass('hidden');
   }else{
   updateBtn();}
 }
