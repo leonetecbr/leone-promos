@@ -5,9 +5,9 @@
 <h2 id="title" class="container">Gerenciar notificações</h2>
 <div id="notifys" class="container">
 <p>Receba nossas seleção de melhores promoções em primeira mão por notificação no seu navegador!</p><br />
-<div class="center"><button id="btn-notify" class="btn-static bg-orange radius" disabled="true">Ativar notificações</button></div>
+<div class="center mb-2"><button id="btn-notify" class="btn-static bg-orange radius" disabled="true">Ativar notificações</button></div>
 </div>
-<div id="preferencias" class="hidden">
+<div id="preferencias" class="hidden mt-3">
     <h3 class="h3 container">Peferências</h3>
     <p class="container">Você deseja ser notificado sempre que houver promoção de: </p>
     <div class="container center mb-2 hidden" id="error_pref-form"></div>
