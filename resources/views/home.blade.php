@@ -63,7 +63,7 @@
         </div>
   @endforeach
   </article>
-  <div class="flex-column flex-center fs-12 bolder top"><button class="bg-orange radius" onclick="$('html, body').animate({scrollTop : 0},800);" id="btn-top"><i class="fas fa-angle-double-up text-white"></i></button><p>Topo</p>
+  <div class="flex-column m-auto fs-12 bolder top"><button class="bg-orange radius" onclick="$('html, body').animate({scrollTop : 0},800);" id="btn-top"><i class="fas fa-angle-double-up text-white"></i></button><p>Topo</p>
   </div>
 @endif
 <h2 class="container h2">Verificar promoção</h2>

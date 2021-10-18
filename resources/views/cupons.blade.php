@@ -35,5 +35,5 @@ Cupons: Página {{ $page }} de {{ $imax }}
     </div>
 @endfor
 </article>
-<div class="flex-column flex-center fs-12 bolder top"><button class="padding bg-orange" onclick="$('html, body').animate({scrollTop : 0},800);"><i class="fas fa-angle-double-up text-white"></i></button><p>Topo</p></div>
+<div class="flex-column m-auto fs-12 bolder top"><button class="padding bg-orange" onclick="$('html, body').animate({scrollTop : 0},800);"><i class="fas fa-angle-double-up text-white"></i></button><p>Topo</p></div>
 @endsection

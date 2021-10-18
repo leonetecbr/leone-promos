@@ -98,6 +98,38 @@ function createCookie(name, value, days) {
   document.cookie = name+'='+value+expires+'; path=/';
 }
 
+function getPrefer(endpoint) {
+  $.ajax({
+    url: '/prefer/get',
+    data: JSON.stringify({'endpoint': endpoint, '_token': csrf}),
+    dataType: 'json',
+    contentType: 'application/json',
+    type: 'POST'
+  }).done(function (data) {
+    if (data.success) {
+      var checked = 0;
+      for (let i = 0; i < data.pref.length; i++) {
+        if (data.pref[i]) {
+          $('#p'+(i+1)).attr('checked', true);
+          checked++;
+        }
+      }
+      if (checked == data.pref.length) {
+        $('#all').attr('checked', true);
+      }
+      $('#preferencias').removeClass('hidden');
+    }else{
+      if (typeof data.message != undefined) {
+        alert(data.message);
+      }else{
+        alert('Falha');
+      }
+    }
+  }).fail(function() {
+    alert('Falha');
+  });
+}
+
 $(document).ready(function(){
   if (navigator.share) {
     $('.plus-share').fadeIn('slow');
@@ -113,9 +145,9 @@ $(document).ready(function(){
   
   var nav = $('#cabecalho');   
   $(window).scroll(function () { 
-    if ($(this).scrollTop() > 136) { 
+    if ($(this).scrollTop() > 90) { 
       nav.addClass('menu-fixo');
-      $('body').css('padding-top', 70);
+      $('body').css('padding-top', 90);
     } else { 
       nav.removeClass('menu-fixo'); 
       $('body').css('padding-top', 0);
@@ -138,34 +170,45 @@ $(document).ready(function(){
   
   $('.ajax_form').submit(function(e){
     e.preventDefault();
-    var valores = new Object();
-    for(var valor of $(this).serializeArray()){
-      valores[valor.name] = valor.value;
-    }
-    let id = this.id;
-    let value = $('#'+id+'_submit').html();
-    let btn = $('#'+id+'_submit');
-    btn.attr('disabled', true);
-    btn.html('Aguarde ...');
-    $.ajax({
-      url: this.action,
-      data: JSON.stringify(valores),
-      dataType: 'json',
-      contentType: 'application/json',
-      type: 'POST'
-    }).done(function (data) {
-      if (typeof data.success == 'undefined' || typeof data.message == 'undefined'){
-        $('#'+id).html('<p class="erro mt-1">Erro desconhecido :(</p>');
-      }else if (!data.success){
-        $('#error_'+id).html('<p class="erro mt-1">'+data.message+'</p>');
-      }else{
-        $('#error_'+id).html('<p class="bolder">'+data.message+'</p>');
-      }
-    }).fail(function() {
-      $('#error_'+id).html('<p class="erro mt-1">Não foi possível enviar os dados, tente novamente!</p>');
-    }).always(function(){
-      btn.html(value);
-      btn.attr('disabled', false);
+    form = this;
+    grecaptcha.ready(function() {
+      grecaptcha.execute(KeyV3Recaptcha, {action: 'send_form'}).then(function(token) {
+        var valores = new Object();
+        for(var valor of $(form).serializeArray()){
+          valores[valor.name] = valor.value;
+        }
+        valores['_token'] = csrf;
+        valores['g-recaptcha-response'] = token;
+        let id = form.id;
+        let value = $('#'+id+'_submit').html();
+        let btn = $('#'+id+'_submit');
+        btn.attr('disabled', true);
+        btn.html('Aguarde ...');
+        $.ajax({
+          url: form.action,
+          data: JSON.stringify(valores),
+          dataType: 'json',
+          contentType: 'application/json',
+          type: 'POST'
+        }).done(function (data) {
+          if (typeof data.success == 'undefined' || typeof data.message == 'undefined'){
+            $('#error_'+id).html('<p class="erro mt-1">Erro desconhecido :(</p>');
+            $('#error_'+id).show('slow');
+          }else if (!data.success){
+            $('#error_'+id).html('<p class="erro mt-1">'+data.message+'</p>');
+            $('#error_'+id).show('slow');
+          }else{
+            $('#error_'+id).html('<p class="bolder">'+data.message+'</p>');
+            $('#error_'+id).show('slow');
+          }
+        }).fail(function() {
+          $('#error_'+id).html('<p class="erro mt-1">Não foi possível enviar os dados, tente novamente!</p>');
+          $('#error_'+id).show('slow');
+        }).always(function(){
+          btn.html(value);
+          btn.attr('disabled', false);
+        });
+      });
     });
   });
   
@@ -215,7 +258,7 @@ $(document).ready(function(){
   });
   
   $('.pages').click(function() {
-    event.preventDefault();
+    e.preventDefault();
     var href = $(this).attr('href');
     grecaptcha.ready(function() {
         grecaptcha.execute(KeyV3Recaptcha, {action: 'pagination'}).then(function(token) {
@@ -226,12 +269,20 @@ $(document).ready(function(){
   });
 });
 
-$('#para').change(function (){
+$('.prefer').change(function (){
     if ($(this).is(':checked')){
-      $('#para2').attr('disabled', true);
-      $('#para2').removeAttr('required');
+      $('#para').attr('disabled', true);
+      $('#para').removeAttr('required');
     }else{
-      $('#para2').attr('disabled', false);
-      $('#para2').addAttr('required');
+      $('#para').attr('disabled', false);
+      $('#para').attr('required');
     }
   });
+
+$('#all').change(function(){
+  if ($(this).is(':checked')) {
+    $('.prefer').attr('checked', true);
+  }else{
+    $('.prefer').removeAttr('checked');
+  }
+});

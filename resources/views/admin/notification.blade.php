@@ -24,11 +24,22 @@
       <label for="content">Conteúdo: </label><textarea name="content" id="content" class="radius" placeholder="Digite o conteúdo da notificação ..." required></textarea>
     </div>
     <div class="mt-3">
-      <label for="para2" class="bolder">Para:
-        </label><input type="number" name="para2" id="para2" class="bg-white radius" placeholder="Digite o id do destinatário ..." required>
-      <div class="center mt-1"><input type="checkbox" name="para" id="para"><label for="para">Todos</label></div>
+      <label for="para" class="bolder">Para:
+        </label><input type="number" name="para2" id="para" class="bg-white radius" placeholder="Digite o id do destinatário ..." required>
+        <div class="container flex-row flex-center row-wrap mt-3" id="prefers">
+          <div><input type="checkbox" name="para" id="all" class="prefer"><label for="para">Todos</label></div>
+          <div><input type="checkbox" name="p1" id="p1"class="prefer"> <label for="p1">Computadores/Notebooks</label></div>
+          <div><input type="checkbox" name="p2" id="p2" class="prefer"> <label for="p2">Celulares/Smartphones</label></div>
+          <div><input type="checkbox" name="p3" id="p3" class="prefer"> <label for="p3">Itens de Mercado</label></div>
+          <div><input type="checkbox" name="p4" id="p4" class="prefer"> <label for="p4">Roupas Masculinas</label></div>
+          <div><input type="checkbox" name="p5" id="p5" class="prefer"> <label for="p5">Roupas Femininas</label></div>
+          <div><input type="checkbox" name="p6" id="p6" class="prefer"> <label for="p6">Livros</label></div>
+          <div><input type="checkbox" name="p7" id="p7" class="prefer"> <label for="p7">Móveis</label></div>
+          <div><input type="checkbox" name="p8" id="p8" class="prefer"> <label for="p8">Eletrodomésticos</label></div>
+          <div><input type="checkbox" name="p9" id="p9" class="prefer"> <label for="p9">Eletroportáteis</label></div>
+        </div>
     </div>
-    <button type="submit" class="mt-2 btn-static padding bg-gradiente flex-center radius">Enviar</button>
+    <button type="submit" class="mt-2 btn-static padding bg-gradiente m-auto radius">Enviar</button>
     <a href="/admin" class="center"><button type="button" class="mt-2 btn-static padding bg-red flex-center radius">Cancelar</button></a>
   </form>
   </article>

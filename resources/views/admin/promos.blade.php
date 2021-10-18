@@ -27,7 +27,7 @@
     <div class="mt-2"><label for="store_name">Loja: </label><input type="text" value="{{ $promo['store']['name']??'' }}" id="store_name" name="store_name" class="bg-white radius" required/></div>
     <div class="mt-2"><label for="store_link">Link: </label><input type="text" value="{{ $promo['store']['link']??'' }}" id="store_link" name="store_link" class="bg-white radius" required/></div>
     <div class="mt-2"><label for="store_thumbnail">Imagem: </label><input type="text" value="{{ $promo['store']['thumbnail']??'' }}" id="store_thumbnail" name="store_thumbnail" class="bg-white radius" required/></div>
-    <button type="submit" class="mt-2 btn-static padding bg-gradiente flex-center radius">Salvar</button>
+    <button type="submit" class="mt-2 btn-static padding bg-gradiente m-auto radius">Salvar</button>
     <a href="/admin/promos" class="center"><button type="button" class="mt-2 btn-static padding bg-red flex-center radius">Cancelar</button></a>
     @if (isset($id))
     <input type="hidden" name="id" value="{{ $id }}"/>

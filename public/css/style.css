@@ -11,6 +11,7 @@ img{max-width: 100%;max-height:90%;}
 #menu li {padding: 1.5em;}
 #menu li a {font-size: 2em;color:#fff;padding: 1.5% 3%;}
 #menu li a:hover{border: 1px solid #da6709}
+.g-recaptcha{max-width: 305px;margin: auto;}
 
 #banner{background-color: #ce2e3c;padding: 20px 10px;}
 .title {color: #fff;}
@@ -120,7 +121,7 @@ code{font-family: monospace;}
 .share {margin-right: auto;margin-left: auto;}
 .menu-fixo {position: fixed;top: 0;z-index: 19;border-bottom: 2px solid #da6709;box-shadow: 0px 3px 3px #606060;}
 #copy_sucess{background-color:#198754 ;position: fixed;top: 90px;z-index: 20;color:#fff;}
-#btn-notify{margin: auto;width:270px;}
+#btn-notify{margin: auto;width:300px;}
 .m-auto{margin: auto;}
 button a, .txt-black{color: #000;}
 #btn-categorias a{color: #fff;}
@@ -133,16 +134,17 @@ img[alt=Extra], img[alt=Ponto]{background-color: #606060;padding:5px;}
 #ig-share{width: 100%;height:120vh;position: fixed;background: #fff;top:0;left:0;float:left;z-index:99;text-align: center;padding: 10px;display:none;}
 #ig-share #product-image{max-height: 26%;}
 #logomarca{width: 100%;height: 80px;border-bottom: 1px solid gray;}
-.flex-center{margin: 0 auto;}
+.flex-center{justify-content: space-around;}
 .flex-column{display:flex;flex-direction: column;}
 .flex-row{display: flex;}
+.row-wrap{flex-wrap: wrap;}
 .top{width: 50px;}
 #btn-top{height:50px;}
 #top{position: relative;bottom: 5px;}
 #top2{position: relative;bottom: 19px;}
 #share-link{font-weight: 1000;font-size:1.1em;}
 .w500{width: 450px;}
-
+#prefers > div{margin: 0 20px 40px 0;}
 @media only screen and (min-width: 390px) {
   #logo{width: 214px;background: url(../img/logo.png) center center/214px no-repeat;}
 }
@@ -174,12 +176,13 @@ img[alt=Extra], img[alt=Ponto]{background-color: #606060;padding:5px;}
   #buttons a button{margin: 0 0 15px 0;}
   #banner{display: flex;}
   #buttons{width: 35%;margin-top:40px;margin-left:3%;margin-right:2%;}
+  #btn-notify{width:400px;}
+  .btn-static{padding: 1.5% 2%;}
 }
 
 @media only screen and (min-width: 900px) {
   .title{width: 65%;}
   .btn{width: 35% ;float:right;padding: 1.5% 2%;margin-top:4%;}
-  .btn-static{padding: 1.5% 2%;}
   .cupom{width: 31.33%;padding: 2%;}
   .promo{width: 31.33%;padding: 2%;}
   form button{padding: 1.5%;}

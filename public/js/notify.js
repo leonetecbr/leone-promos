@@ -67,6 +67,10 @@ function initializeUI(){
   swRegistration.pushManager.getSubscription().then(function(subscription) {
     sub = subscription;
     isSubscribed = !(subscription === null);
+    if (isSubscribed) {
+      getPrefer(subscription.endpoint);
+      $('#endpoint').val(subscription.endpoint);
+    }
     updateBtn();
   });
 }

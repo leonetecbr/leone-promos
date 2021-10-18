@@ -31,7 +31,7 @@ class SearchController extends Controller{
       $pages = $dado['pagination']['totalPage'];
       $pagination = Helpers\PromosHelper::getPages($page, $pages);
       $subtitle = 'Pesquisa por "'.$q.'"';
-      $title = '"'.$q.'"';
+      $title = 'Pesquisa: "'.$q.'" - Página '.$page.' de '.$pages;
     }  catch (Exception $e){
       $title = 'Erro encontrado';
       if ($e->getCode()===499) {
@@ -43,7 +43,7 @@ class SearchController extends Controller{
       }
       $subtitle = 'Erro encontrado!';
     } finally{
-      return view('promos', ['title' => 'Pesquisa: '.$title, 'subtitle' => $subtitle, 'promos' => $ofertas, 'pages' => $pagination??'', 'topo' => $topo??true, 'headers' => $headers??'', 'cat_id' => 0, 'page' => $page, 'query' => $q]);
+      return view('promos', ['title' => $title, 'subtitle' => $subtitle, 'promos' => $ofertas, 'pages' => $pagination??'', 'topo' => $topo??true, 'headers' => $headers??'', 'cat_id' => 0, 'page' => $page, 'query' => $q]);
    }
     
   }

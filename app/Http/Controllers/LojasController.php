@@ -19,11 +19,6 @@ class LojasController extends Controller{
   public static function process(string $loja, int $page = 1){
     try{
       switch ($loja) {
-        case 'magalu':
-          $redirect = new Response(303);
-          $redirect->addHeader('Location', 'https://www.magazinevoce.com.br/magazineofertasleone/');
-          $redirect->sendResponse();
-        
         case 'americanas':
           $store = 5632;
           $title = 'Americanas';

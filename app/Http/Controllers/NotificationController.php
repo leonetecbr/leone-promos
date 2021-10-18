@@ -5,6 +5,7 @@ use App\Helpers;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use Exception;
+use Symfony\Component\Console\Input\Input;
 
 class NotificationController extends Controller{
   
@@ -133,6 +134,77 @@ class NotificationController extends Controller{
       return redirect()->back()->withErrors(['para2' => ['Não foi possível enviar a mensagem para 1 ou mais destinatários!']]);
     }else{
       return redirect()->back()->with(['sender' => 'Notificação enviada com sucesso a todos os destinatários!']);
+    }
+  }
+
+  public static function getPrefer(Request $request): array{
+    if ($request->filled('endpoint')) {
+      $endpoint = $request->input('endpoint');
+      $prefer = Notification::where('endpoint', $endpoint)->first()->toArray();
+
+      if (empty($prefer)) {
+        return ['success' => false, 'message' => 'Usuário não encontrado! Desative as notificações, ative e tente novamente.'];
+      }
+
+      $pref = [
+        $prefer['p1'],
+        $prefer['p2'],
+        $prefer['p3'],
+        $prefer['p4'],
+        $prefer['p5'],
+        $prefer['p6'],
+        $prefer['p7'],
+        $prefer['p8'],
+        $prefer['p9']
+      ];
+      
+      return [
+        'success' => true,
+        'pref' => $pref
+      ];
+    }else{
+      return ['success' => false, 'message' => 'Endpoint dousuário não informado!'];
+    }
+  }
+
+  public static function setPrefer(Request $request): array{
+    if ($request->filled('endpoint')) {
+      $endpoint = $request->input('endpoint');
+      $token = $request->input('g-recaptcha-response');
+
+      if (empty($token)) {
+        return ['success' => false, 'message' => 'Talvez você seja um robô!'];
+      }
+
+      $recaptcha = new Helpers\RecaptchaHelper($request, $token);
+
+      if ($recaptcha->isOrNot()) {
+        return ['success' => false, 'message' => 'Talvez você seja um robô! :)'];
+      }
+
+      $prefer = Notification::where('endpoint', $endpoint)->first();
+
+      if (empty($prefer)) {
+        return ['success' => false, 'message' => 'Usuário não encontrado! Desative as notificações, ative e tente novamente.'];
+      }
+
+      $prefer->p1 = $request->filled('p1');
+      $prefer->p2 = $request->filled('p2');
+      $prefer->p3 = $request->filled('p3');
+      $prefer->p4 = $request->filled('p4');
+      $prefer->p5 = $request->filled('p5');
+      $prefer->p6 = $request->filled('p6');
+      $prefer->p7 = $request->filled('p7');
+      $prefer->p8 = $request->filled('p8');
+      $prefer->p9 = $request->filled('p9');
+
+      $prefer->save();
+
+      return [
+        'success' => true, 'message' => 'Preferências salvas com sucesso !'
+      ];
+    }else{
+      return ['success' => false, 'message' => 'Endpoint dousuário não informado!'];
     }
   }
 }

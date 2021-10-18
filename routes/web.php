@@ -41,6 +41,10 @@ Route::get('/notificacoes', [Controllers\NotificationController::class, 'get']);
 
 Route::post('/register', [Controllers\NotificationController::class, 'register']);
 
+Route::post('/prefer/get', [Controllers\NotificationController::class, 'getPrefer']);
+
+Route::post('/prefer/set', [Controllers\NotificationController::class, 'setPrefer']);
+
 Route::get('/login', [Controllers\UserController::class, 'login'])->name('login');
 
 Route::get('/logout', [Controllers\UserController::class, 'logout'])->middleware('auth');
@@ -55,9 +59,9 @@ Route::get('/admin/promos/new', [Controllers\TopPromosController::class, 'new'])
 
 Route::get('/admin/promos/edit/{id}', [Controllers\TopPromosController::class, 'edit'])->middleware('auth')->where('id', '[0-9]+');
 
-Route::get('admin/promos/delete/{id}', [Controllers\TopPromosController::class, 'delete'])->middleware('auth')->where('id', '[0-9]+');
+Route::get('/admin/promos/delete/{id}', [Controllers\TopPromosController::class, 'delete'])->middleware('auth')->where('id', '[0-9]+');
 
-Route::post('admin/promos/save', [Controllers\TopPromosController::class, 'save'])->middleware('auth');
+Route::post('/admin/promos/save', [Controllers\TopPromosController::class, 'save'])->middleware('auth');
 
 Route::get('/admin/notify', [Controllers\NotificationController::class, 'getAdmin'])->middleware('auth');
 

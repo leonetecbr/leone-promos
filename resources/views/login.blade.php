@@ -19,7 +19,7 @@
     <div class="mt-2"><label for="password">Senha: </label><input type="password" name="password" id="password" class="bg-white radius" placeholder="Digite sua senha ..."></div>
     <div class="g-recaptcha mt-2 flex-center" data-sitekey="{{ $_ENV['PUBLIC_RECAPTCHA_V2'] }}" data-callback="submit"></div>
     <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}"/>
-    <button type="submit" class="btn-static padding bg-gradiente radius mt-2 flex-center">Logar</button>
+    <button type="submit" class="btn-static padding bg-gradiente radius mt-2 m-auto">Logar</button>
   </form>
   </div>
 </article>
