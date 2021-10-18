@@ -117,12 +117,14 @@ class CategoriasController extends Controller{
       $ofertas = $dado['offers'];
       $pages = $dado['pagination']['totalPage'];
       $pagination = Helpers\PromosHelper::getPages($page, $pages);
+      $subtitle = $title;
+      $title = 'Categoria: '.$title." - Página {$page} de {$pages}";
     }catch (Exception $e){
       $title = 'Não encontrada';
       $ofertas = '<p class="fs-12 erro">'.$e->getMessage().'</p>';
       $topo = false;
     }
     
-    return view('promos', ['title' => 'Categoria: '.$title, 'subtitle' => $title, 'promos' => $ofertas, 'cat_id' => $id??0, 'page' => $page, 'pages' => $pagination??'', 'topo' => $topo??true]);
+    return view('promos', ['title' => $title, 'subtitle' => $subtitle, 'promos' => $ofertas, 'cat_id' => $id??0, 'page' => $page, 'pages' => $pagination??'', 'topo' => $topo??true]);
   }
 }

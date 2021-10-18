@@ -14,7 +14,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <title>@yield('title') | {{ env('APP_NAME') }}</title>
 <meta name="description" content="Aproveite as melhores promoções da internet com total segurança!">
-<meta name="og:description" content="Aproveite as melhores promoções da internet com total segurança!">
 <meta name="keywords" content="Smartphone, promoção, melhor preço, site seguro, promoção real">
 <meta name="robots" content="{{ $robots??'index, follow' }}">
 <meta name="author" content="Leone Oliveira">
@@ -24,6 +23,8 @@
 <meta property="og:locale" content="pt_BR" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="{{ env('APP_NAME') }}" />
+<meta property="og:url" content="{{ Request::url() }}" />
+<meta name="og:description" content="Aproveite as melhores promoções da internet com total segurança!">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Ofertas"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -46,7 +47,6 @@
 <link rel="icon" sizes="32x32" href="/img/32.png">
 <link rel="icon" sizes="16x16" href="/img/16.png">
 <meta name="theme-color" content="#ce2e3c">
-<meta property="og:url" content="{{ Request::url() }}" />
 <link rel="canonical" href="{{ Request::url() }}" />
 <script src="https://www.google.com/recaptcha/api.js?render={{ env('PUBLIC_RECAPTCHA_V3') }}" async></script>@yield('headers')
 </head>

@@ -1,9 +1,11 @@
 @extends('layouts.app')
-@section('title', 'Cupons')
 <?php
 $imin = (intval($page)-1)*18;
 $imax = intval($page)*18;
 ?>
+@section('title')
+Cupons: Página {{ $page }} de {{ $imax }}
+@endsection
 @section('content')
 <h2 class="container" id="title">Cupons</h2>
 {!! $pages??'' !!}
