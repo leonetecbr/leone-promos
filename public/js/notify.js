@@ -102,8 +102,6 @@ function subscribeUser(){
   }).then(function(subscription) {
     sub = subscription;
     update('add');
-    getPrefer(subscription.endpoint);
-    $('#endpoint').val(subscription.endpoint);
   })
   .catch(function(){
     updateBtn();

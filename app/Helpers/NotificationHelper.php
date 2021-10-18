@@ -26,7 +26,7 @@ class NotificationHelper{
    * @params array $subscription $payload
    * @return boolean
    */
-  public function sendOneNotification(array $subscription = [], array $payload = ['msg' => 'Agora você será notificado a cada promoção imperdível!', 'title' => 'Notificações Ativadas ;)', 'link' => '/notificacoes']): bool{
+  public function sendOneNotification(array $subscription = [], array $payload = ['msg' => 'Agora você será notificado a cada promoção imperdível! Toque para editar suas preferências ;)', 'title' => 'Notificações Ativadas ;)', 'link' => '/notificacoes']): bool{
     if (empty($subscription)) {
       $subscription = Notification::where('id', 0)->first();
     }
