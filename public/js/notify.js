@@ -68,8 +68,10 @@ function initializeUI(){
     sub = subscription;
     isSubscribed = !(subscription === null);
     if (isSubscribed) {
-      getPrefer(subscription.endpoint);
-      $('#endpoint').val(subscription.endpoint);
+      if (window.location.pathname == '/notificacoes') {
+        getPrefer(subscription.endpoint);
+        $('#endpoint').val(subscription.endpoint);
+      }
     }
     updateBtn();
   });

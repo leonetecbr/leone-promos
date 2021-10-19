@@ -113,14 +113,85 @@ class NotificationController extends Controller{
     $notification = new Helpers\NotificationHelper;
     
     if (!$todos) {
-      $this->validate($request, ['para2' => 'required', 'integer'], ['para2.required' => 'Digite o id que receberá a notificação!', 'para2.integer' => 'O id precisa ser um número!', ]);
-      $id = $request->input('para2');
-      $subscription = Notification::where('id', $id);
-      if (!$subscription->exists()) {
-        return redirect()->back()->withErrors(['para2' => ['Destinátario não encontrado!']]);
+      if ($request->filled('para2')) {
+        $this->validate($request, ['para2' => 'required', 'integer'], ['para2.required' => 'Digite o id que receberá a notificação!', 'para2.integer' => 'O id precisa ser um número!', ]);
+        $id = $request->input('para2');
+        $subscription = Notification::where('id', $id);
+        if (!$subscription->exists()) {
+          return redirect()->back()->withErrors(['para2' => ['Destinátario não encontrado!']]);
+        }
+        $to = $subscription->first()->toArray();
+        $success = $notification->sendOneNotification($to, $payload);
+      }else{
+        if ($request->filled('p1')) {
+          $where = 'p1 = 1';
+        }
+        if ($request->filled('p2')) {
+          if (empty($where)) {
+            $where = 'p2 = 1';
+          }else{
+            $where .= ' or p2 = 1';
+          }
+        }
+        if ($request->filled('p3')) {
+          if (empty($where)) {
+            $where = 'p3 = 1';
+          }else{
+            $where .= ' or p3 = 1';
+          }
+        }
+        if ($request->filled('p4')) {
+          if (empty($where)) {
+            $where = 'p4 = 1';
+          }else{
+            $where .= ' or p4 = 1';
+          }
+        }
+        if ($request->filled('p5')) {
+          if (empty($where)) {
+            $where = 'p5 = 1';
+          }else{
+            $where .= ' or p5 = 1';
+          }
+        }
+        if ($request->filled('p6')) {
+          if (empty($where)) {
+            $where = 'p6 = 1';
+          }else{
+            $where .= ' or p6 = 1';
+          }
+        }
+        if ($request->filled('p7')) {
+          if (empty($where)) {
+            $where = 'p7 = 1';
+          }else{
+            $where .= ' or p7 = 1';
+          }
+        }
+        if ($request->filled('p8')) {
+          if (empty($where)) {
+            $where = 'p8 = 1';
+          }else{
+            $where .= ' or p8 = 1';
+          }
+        }
+        if ($request->filled('p9')) {
+          if (empty($where)) {
+            $where = 'p9 = 1';
+          }else{
+            $where .= ' or p9 = 1';
+          }
+        }
+        if (empty($where)) {
+          return redirect()->back()->withErrors(['prefer' => ['Preferência não informada!']]);
+        }else{
+          $subscriptions = Notification::whereRaw($where)->get();
+          foreach ($subscriptions as $subscription){
+            $to[] = $subscription->toArray();
+          }
+          $success = $notification->sendManyNotifications($to, $payload);
+        }
       }
-      $to = $subscription->first()->toArray();
-      $success = $notification->sendOneNotification($to, $payload);
     }else{
       $to = [];
       $subscriptions = Notification::all();
