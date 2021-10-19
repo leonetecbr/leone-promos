@@ -24,6 +24,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="{{ env('APP_NAME') }}" />
 <meta property="og:url" content="{{ Request::url() }}" />
+<meta property="og:title" content="@yield('title') | {{ env('APP_NAME') }}"/>
 <meta name="og:description" content="Aproveite as melhores promoções da internet com total segurança!">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Ofertas"/>
