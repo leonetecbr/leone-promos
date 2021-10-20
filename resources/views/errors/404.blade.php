@@ -4,7 +4,7 @@
 <article class="container">
   <div class="center">
   <p><i class="far fa-question-circle fs-20 erro"></i></p>
-    <h2 class="h2">Página não encontrada!</h2>
+    <h1 class="h2">Página não encontrada!</h1>
   </div>
   <div class="mt-5 m-auto w500">
     <p>Desculpe! Essa página nunca existiu ou foi excluída!</p>

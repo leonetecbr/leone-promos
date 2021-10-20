@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Categorias')
 @section('content')
-<h2 class="container" id="title">Categorias</h2>
+<h1 class="container" id="title">Categorias</h1>
 <article id="categorias" class="container center">
 <a href="/categorias/smartphones"><div class="categoria bg-white radius">
     <h4><i class="fas fa-mobile"></i> Smartphones</h4>

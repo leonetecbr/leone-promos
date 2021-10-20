@@ -2,13 +2,13 @@
 @section('title', 'Notificações')
 @section('content')
 <article class="container">
-<h2 id="title" class="container">Gerenciar notificações</h2>
+<h1 id="title" class="container">Gerenciar notificações</h1>
 <div id="notifys" class="container">
 <p>Receba nossas seleção de melhores promoções em primeira mão por notificação no seu navegador!</p><br />
 <div class="center mb-2"><button id="btn-notify" class="btn-static bg-orange radius" disabled="true">Ativar notificações</button></div>
 </div>
 <div id="preferencias" class="hidden mt-3">
-    <h3 class="h3 container">Peferências</h3>
+    <h2 class="h2 container">Peferências</h2>
     <p class="container">Você deseja ser notificado sempre que houver promoção de: </p>
     <div class="container center mb-2 hidden" id="error_pref-form"></div>
     <form action="/prefer/set" method="post" class="ajax_form container" id="pref-form">

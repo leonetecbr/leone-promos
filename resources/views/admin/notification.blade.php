@@ -2,7 +2,7 @@
 @section('title', 'Nova notificação')
 @section('content')
   <article class="container">
-  <h2 class="h2 mb-3">Nova notificação</h2>
+  <h1 class="h2 mb-3">Nova notificação</h1>
   @if ($errors->any())
     <div class="alert erro center">
       @foreach ($errors->all() as $error)

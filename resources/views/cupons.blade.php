@@ -7,7 +7,7 @@ $imax = intval($page)*18;
 Cupons: Página {{ $page }} de {{ $imax }}
 @endsection
 @section('content')
-<h2 class="container" id="title">Cupons</h2>
+<h1 class="container" id="title">Cupons</h1>
 {!! $pages??'' !!}
 <article id="cupons" class="container center">
 <div id="noeye"></div>

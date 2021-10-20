@@ -81,9 +81,7 @@
 @endif
 <header id="cabecalho" class="container center bg-white">
   <a href="/">
-    <h1 id="logo">
-    {{ env('APP_NAME') }} - As melhores promoções para você aproveita com segurança
-    </h1>
+    <<?php echo (Request::path()=='/')?'h1':'span'; ?> id="logo">{{ env('APP_NAME') }}</<?php echo (Request::path()=='/')?'h1':'span'; ?>>
   </a>
   <button id="btn-menu" class="bg-gradiente"><i class="fas fa-bars"></i></button>
   @if (Auth::check())

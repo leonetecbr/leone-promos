@@ -2,7 +2,7 @@
 @section('title', $title)
 <?php $target = ($share??true)?'_blank':'_self';?>
 @section('content')
-<h2 class="container" id="title">{{ $subtitle??$title }}</h2>
+<h1 class="container" id="title">{{ $subtitle??$title }}</h1>
 {!! $pages??'' !!}
 @if ($add??false)
 <div class="container center">

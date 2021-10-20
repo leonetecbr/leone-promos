@@ -2,7 +2,7 @@
 @section('title', 'Login administrativo')
 @section('content')
 <article class="container">
-  <h2 class="h2">Login administrativo</h2>
+  <h1 class="h2">Login administrativo</h1>
   <div id="login" class="container">
     @if ($errors->any())
       <div class="alert erro center">

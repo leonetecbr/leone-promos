@@ -4,7 +4,7 @@
 <article class="container">
   <div class="center">
     <p><i class="fas fa-lock fs-20 text-orange"></i></p>
-    <h2 class="h2">Não autorizado</h2>
+    <h1 class="h2">Não autorizado</h1>
   </div>
   <div class="mt-5 m-auto w500">
     <p>Desculpe! Essa página exige algum tipo de autenticação que não foi feita.</p>

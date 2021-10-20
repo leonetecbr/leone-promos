@@ -4,7 +4,7 @@
 <article class="container">
   <div class="center">
     <p><i class="fas fa-ban fs-20 erro"></i></p>
-    <h2 class="h2">Proibido</h2>
+    <h1 class="h2">Proibido</h1>
   </div>
   <div class="mt-5 m-auto w500">
     <p>Desculpe! Essa página não está disponível para você!</p>

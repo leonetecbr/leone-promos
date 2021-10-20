@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Lojas')
 @section('content')
-<h2 class="container" id="title">Principais lojas parceiras</h2>
+<h1 class="container" id="title">Principais lojas parceiras</h1>
 <article id="categorias" class="container center">
 <!--a href="/lojas/amazon"><div class="categoria bg-white radius">
     <img src="https://www.lomadee.com/programas/BR/5992/logo_115x76.png" alt="Amazon" class="icon"/>

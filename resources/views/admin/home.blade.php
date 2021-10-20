@@ -2,7 +2,7 @@
 @section('title', 'Administração')
 @section('content')
   <article class="container">
-  <h2 class="h2">Administração</h2>
+  <h1 class="h2">Administração</h1>
   <div class="container list flex-column mt-2">
     <div class="border-1 padding">
       <a href="/admin/promos" class="txt-black"><div class="right"><i class="fas fa-angle-right"></i></div>
