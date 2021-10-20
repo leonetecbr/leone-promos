@@ -42,7 +42,7 @@ class ApiHelper{
    * @return array
    */
   public static function getPromo(int $id, int $page=1, int $loja=0): array{
-    $path = __DIR__.'/../../resources/cache/promos/';
+    $path = __DIR__.'/../../resources/cache/';
     $path .= ($id!==999)?$id.'_'.$page.'.json':$loja.'_'.$page.'.json';
    
     if ($id===0 || file_exists($path)) {
@@ -123,7 +123,7 @@ class ApiHelper{
    * @return array
    */
   public static function getCupons(): array{
-    $path = __DIR__.'/../../resources/cache/promos/cupons.json';
+    $path = __DIR__.'/../../resources/cache/cupons.json';
     $cached = false;
     if (file_exists($path)) {
       if(time()-filemtime($path)<86400){

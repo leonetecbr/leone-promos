@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use App\Helpers;
 
 class TopPromosController extends Controller{
-  private static $arquivo = __DIR__.'/../../../resources/cache/promos/0_1.json';
+  private static $arquivo = __DIR__.'/../../../resources/cache/0_1.json';
   
   public function edit(int $id){
     $promos = json_decode(file_get_contents(self::$arquivo), true);
