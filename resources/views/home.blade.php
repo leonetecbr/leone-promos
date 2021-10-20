@@ -44,7 +44,7 @@
           </h4>
           <p class="installment">
           @if (!empty($promo['installment']))
-            {{ $promo['installment']['quantity'] }}x<? echo (($promo['installment']['quantity']*$promo['installment']['value']) <= $promo['price']+0.05)?' sem juros':''; ?> de R$ <? echo number_format($promo['installment']['value'], 2, ',', '.'); ?>
+            {{ $promo['installment']['quantity'] }}x{{ (($promo['installment']['quantity']*$promo['installment']['value']) <= $promo['price']+0.05)?' sem juros':''; }} de R$ {{ number_format($promo['installment']['value'], 2, ',', '.') }}
           @elseif ($promo['price'] != 0)
             Apenas à vista!
           @endif

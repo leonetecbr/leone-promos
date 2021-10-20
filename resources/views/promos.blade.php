@@ -38,16 +38,22 @@
             <img src="{{ $promo['thumbnail'] }}" alt="{{ $promo['name'] }}" class="product-image"/><br/>
             <a target="{{ $target }}" href="{{ $promo['link'] }}" class="product-title">{{ mb_strimwidth($promo['name'], 0, 50, '...' ) }}</a>
             @if (!empty($promo['discount']) && $promo['discount']>=0.01)
-              <p>De: <del>R$ {{ number_format($promo['priceFrom'], 2, ',', '.') }}</del></p>
-            @endif
-            <h4>R$ {{ number_format($promo['price'], 2, ',', '.') }}</h4>
-            <p class="installment">
-            @if (!empty($promo['installment']))
-              {{ $promo['installment']['quantity'] }}x {{ (($promo['installment']['quantity']*$promo['installment']['value']) <= $promo['price']+0.05)?' sem juros':''; }} de R$ {{ number_format($promo['installment']['value'], 2, ',', '.') }}
+            <p>De: <del>R$ {{ number_format($promo['priceFrom'], 2, ',', '.') }}</del></p>
+          @endif
+          <h4>
+            @if ($promo['price'] != 0)
+              R$ {{ number_format($promo['price'], 2, ',', '.') }}
             @else
-              Apenas à vista!
+              Grátis
             @endif
-            </p>
+          </h4>
+          <p class="installment">
+          @if (!empty($promo['installment']))
+            {{ $promo['installment']['quantity'] }}x{{ (($promo['installment']['quantity']*$promo['installment']['value']) <= $promo['price']+0.05)?' sem juros':''; }} de R$ {{ number_format($promo['installment']['value'], 2, ',', '.') }}
+          @elseif ($promo['price'] != 0)
+            Apenas à vista!
+          @endif
+          </p>
             @if (!empty($promo['description']))
               <p class="description">{!! $promo['description'] !!}</p>
             @endif
