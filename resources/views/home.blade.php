@@ -35,11 +35,17 @@
           @if (!empty($promo['discount']) && $promo['discount']>=0.01)
             <p>De: <del>R$ {{ number_format($promo['priceFrom'], 2, ',', '.') }}</del></p>
           @endif
-          <h4>R$ {{ number_format($promo['price'], 2, ',', '.') }}</h4>
+          <h4>
+            @if ($promo['price'] != 0)
+              R$ {{ number_format($promo['price'], 2, ',', '.') }}
+            @else
+              Grátis
+            @endif
+          </h4>
           <p class="installment">
           @if (!empty($promo['installment']))
             {{ $promo['installment']['quantity'] }}x<? echo (($promo['installment']['quantity']*$promo['installment']['value']) <= $promo['price']+0.05)?' sem juros':''; ?> de R$ <? echo number_format($promo['installment']['value'], 2, ',', '.'); ?>
-          @else
+          @elseif ($promo['price'] != 0)
             Apenas à vista!
           @endif
           </p>
