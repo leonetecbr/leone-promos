@@ -47,10 +47,6 @@ class RedirectController{
    * @return string
    */
   private static function processLomadee(string $url): string{
-    if ((strpos($url, 'https://www.amazon.com.br')===0 || strpos($url, 'https://amazon.com.br')===0) && strpos($url, '/ref=')!== false) {
-      $url = strstr($url, '/ref', true);
-    }
-    
     return 'https://redir.lomadee.com/v2/deeplink?sourceId='.$_ENV['SOURCE_ID_LOMADEE'].'&url='.urlencode($url);
   }
   
@@ -69,6 +65,7 @@ class RedirectController{
       }
       
       if (strpos($url, 'https://www.amazon.com.br')===0 || strpos($url, 'https://amazon.com.br')===0) {
+        $url = strstr($url, '/ref', true);
         $to = $url.'?tag=leonepromos-20';
       }elseif (strpos($url, 'https://m.magazineluiza.com.br')===0 || strpos($url, 'https://www.magazineluiza.com.br')===0 || strpos($url, 'https://magazineluiza.com.br')===0 || strpos($url, 'https://www.magazinevoce.com.br')===0) {
         $to = self::processMagalu($url);
@@ -81,7 +78,13 @@ class RedirectController{
       }elseif (strpos($url, 'https://m.casasbahia.com.br')===0 || strpos($url, 'https://www.casasbahia.com.br')===0 || strpos($url, 'https://casasbahia.com.br')===0) {
         $to = self::processAwin($url, 17629);
       }elseif (strpos($url, 'https://www.soubarato.com.br')===0 || strpos($url, 'https://soubarato.com.br')===0) {
-        $to = self::processAwin($url, 23281, $_ENV['ID_AFILIADO_SOUB']);
+        $to = self::processAwin($url, 23281, $_ENV['ID_AFILIADO_B2W']);
+      }elseif (strpos($url, 'https://www.submarino.com.br')===0 || strpos($url, 'https://submarino.com.br')===0) {
+        $to = self::processAwin($url, 22195, $_ENV['ID_AFILIADO_B2W']);
+      }elseif (strpos($url, 'https://www.shoptime.com.br')===0 || strpos($url, 'https://shoptime.com.br')===0) {
+        $to = self::processAwin($url, 22194, $_ENV['ID_AFILIADO_B2W']);
+      }elseif (strpos($url, 'https://www.americanas.com.br')===0 || strpos($url, 'https://americanas.com.br')===0) {
+        $to = self::processAwin($url, 22193, $_ENV['ID_AFILIADO_B2W']);
       }else{
         $to = self::processLomadee($url);
       }
