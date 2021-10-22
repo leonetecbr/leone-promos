@@ -104,7 +104,7 @@
   <div id="notify" class="container hidden">
   <p>Receba nossas seleção de melhores promoções em primeira mão por notificação no seu navegador!</p><br />
   <div class="center"><button id="btn-notify" class="btn-static bg-orange radius" disabled="true">Ativar notificações</button></div>
-  <div class="right bolder" id="inotify"><i class="far fa-eye-slash"></i></div>
+  <div class="right mt-2" id="inotify"><i class="bolder far fa-eye-slash"></i></div>
   </div>
 @endif
 <form action="/search" id="form" class="hidden" method="post">

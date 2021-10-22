@@ -104,8 +104,8 @@ input{transition-duration:1s;}
 #pagination a:last-child{margin-right:0;}
 #pagination > a > i{color: #000;}
 .atual-page{background: linear-gradient(to right, #a62430, #AE5207);}
-.bolder{font-weight: 700;margin-right: 0.5%;margin-left: 0.5%;}
-.light{font-weight: 200;margin-right: 0.5%;margin-left: 0.5%;}
+.bolder{font-weight: 700 !important;margin-right: 0.5%;margin-left: 0.5%;}
+.light{font-weight: 200 !important;margin-right: 0.5%;margin-left: 0.5%;}
 code{font-family: monospace;}
 #btn-whatsapp{width: 60px;height:60px;position:fixed;right:30px;bottom:15px;border-radius:60px;background-color: #34af23;color:#fff; text-align:center;line-height:60px;font-size:2em;z-index:1;}
 #accept {padding: 10px;background-color:#da6709;color:#fff;border:1px solid #fff;}
