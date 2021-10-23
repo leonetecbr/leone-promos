@@ -14,6 +14,6 @@
       <li>Sua rede passou por instabilidades e os dados não foram passados</li>
       <li>Você errou a URL</li>
     </ul>
-</div>
+  </div>
 </article>
 @endsection

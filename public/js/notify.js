@@ -42,20 +42,20 @@ function urlB64ToUint8Array(base64String) {
 }
 
 if ('serviceWorker' in navigator && 'PushManager' in window) {
-  navigator.serviceWorker.register('/sw.js').then(function(swReg) {
+  navigator.serviceWorker.register('/sw.js').then(function (swReg) {
     swRegistration = swReg;
     initializeUI();
   });
-}else {
+} else {
   btn.html('Notificações não suportadas');
 }
 
-function initializeUI(){
-  if (document.cookie.indexOf("no_notify") < 0){
+function initializeUI() {
+  if (document.cookie.indexOf("no_notify") < 0) {
     $('#notify').show('slow');
   }
   btn.attr('disabled', false);
-  btn.click(function(){
+  btn.click(function () {
     btn.attr('disabled', true);
     btn.html('Aguarde ...');
     if (isSubscribed) {
@@ -64,7 +64,7 @@ function initializeUI(){
       subscribeUser();
     }
   });
-  swRegistration.pushManager.getSubscription().then(function(subscription) {
+  swRegistration.pushManager.getSubscription().then(function (subscription) {
     sub = subscription;
     isSubscribed = !(subscription === null);
     if (isSubscribed) {
@@ -77,7 +77,7 @@ function initializeUI(){
   });
 }
 
-function updateBtn(){
+function updateBtn() {
   if (Notification.permission === 'denied') {
     $('.js-push-btn').html('Notificações bloqueadas');
     $('.js-push-btn').attr("disabled", true);
@@ -86,42 +86,43 @@ function updateBtn(){
     }
     return;
   }
-  
+
   btn.attr('disabled', false);
   if (isSubscribed) {
-    setTimeout(function() {createCookie('no_notify', 1, 60);$('#notify').hide('slow');}, 1000);
+    setTimeout(function () { createCookie('no_notify', 1, 60); $('#notify').hide('slow'); }, 1000);
     btn.html('Desativar notificações');
   } else {
     btn.html('Ativar notificações');
   }
 }
 
-function subscribeUser(){
+function subscribeUser() {
   const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
   swRegistration.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: applicationServerKey
-  }).then(function(subscription) {
+  }).then(function (subscription) {
     sub = subscription;
     update('add');
   })
-  .catch(function(){
-    updateBtn();
-  });
+    .catch(function () {
+      updateBtn();
+    });
 }
 
-function unsubscribeUser(){
+function unsubscribeUser() {
   if (sub) {
     sub.unsubscribe();
     update('remove');
     $('#preferencias').addClass('hidden');
-  }else{
-  updateBtn();}
+  } else {
+    updateBtn();
+  }
 }
 
 function update(action) {
-  grecaptcha.ready(function() {
-    grecaptcha.execute('6LdiepQaAAAAAAzLXLD1le5GHf0JRShTQvNX2LHt', {action: 'notify'}).then(function(token) {
+  grecaptcha.ready(function () {
+    grecaptcha.execute('6LdiepQaAAAAAAzLXLD1le5GHf0JRShTQvNX2LHt', { action: 'notify' }).then(function (token) {
       const data = {
         subscription: sub,
         action: action,
@@ -138,7 +139,7 @@ function update(action) {
         success: function (data) {
           processResponse(data, action);
         }
-      }).fail(function() {
+      }).fail(function () {
         $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>');
         if (sub) {
           sub.unsubscribe();
@@ -149,22 +150,22 @@ function update(action) {
   });
 }
 
-function processResponse(data, action){
-  if (typeof data.success == 'undefined'){
+function processResponse(data, action) {
+  if (typeof data.success == 'undefined') {
     $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>');
     if (sub) {
       sub.unsubscribe();
     }
-  }else if (data.success && action == 'add') {
+  } else if (data.success && action == 'add') {
     isSubscribed = true;
-  }else if(data.success && action == 'remove'){
-    isSubscribed = false; 
-  }else if (typeof data.erro !== 'undefined'){
-    $('#notify').append('<p class="erro mt-2 center">'+data.erro+'</p>');
+  } else if (data.success && action == 'remove') {
+    isSubscribed = false;
+  } else if (typeof data.erro !== 'undefined') {
+    $('#notify').append('<p class="erro mt-2 center">' + data.erro + '</p>');
     if (sub) {
       sub.unsubscribe();
     }
-  }else{
+  } else {
     $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>');
     if (sub) {
       sub.unsubscribe();

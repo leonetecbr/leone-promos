@@ -1,8 +1,13 @@
 {
-    "name":"leone/promos",
+    "name": "leone/promos",
     "type": "project",
-    "description":"Feito para levar ofertas relevantes e sem sites seguros para todos",
-    "keywords": ["framework", "laravel", "ofertas", "lomadee"],
+    "description": "Feito para levar ofertas relevantes e sem sites seguros para todos",
+    "keywords": [
+        "framework",
+        "laravel",
+        "ofertas",
+        "lomadee"
+    ],
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
@@ -15,14 +20,16 @@
         "minishlink/web-push": "^6.0"
     },
     "support": {
-    "email": "falecom@leone.tec.br"
-  },
-  "authors": [{
-    "name": "Leone Oliveira",
-    "email": "falecom@leone.tec.br",
-    "homepage": "https://leone.tec.br",
-    "role": "Developer"
-  }],
+        "email": "falecom@leone.tec.br"
+    },
+    "authors": [
+        {
+            "name": "Leone Oliveira",
+            "email": "falecom@leone.tec.br",
+            "homepage": "https://leone.tec.br",
+            "role": "Developer"
+        }
+    ],
     "require-dev": {
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",

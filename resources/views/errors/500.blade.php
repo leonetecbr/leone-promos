@@ -14,7 +14,7 @@
       <li>Houve um erro na codificação do sistema</li>
       <li>Nosso servidor está enfrentando problemas técnicos</li>
     </ul>
-    <p>Seja qual for a causa saiba que já fomos notificados estamos trabalhando  para resolver o mais rápido possível.</p>
+    <p>Seja qual for a causa saiba que já fomos notificados estamos trabalhando para resolver o mais rápido possível.</p>
   </div>
 </article>
 @endsection

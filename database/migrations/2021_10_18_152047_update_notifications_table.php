@@ -11,8 +11,9 @@ class UpdateNotificationsTable extends Migration
      *
      * @return void
      */
-    public function up(){
-        Schema::table('notifications', function($table){
+    public function up()
+    {
+        Schema::table('notifications', function ($table) {
             $table->boolean('p1')->default(true);
             $table->boolean('p2')->default(true);
             $table->boolean('p3')->default(true);
