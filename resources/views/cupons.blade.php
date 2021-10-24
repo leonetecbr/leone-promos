@@ -14,7 +14,6 @@ Cupons: Página {{ $page }} de {{ $imax }}
   @for ($i = $imin; $i < $imax; $i++) <div class="cupom bg-white radius" id="cupom_{{ $i }}">
     <div class="share">
       <p>
-        <a href="#story" class="igs"><i class="fab fa-instagram"></i></a>
         <a href="#whatsapp" class="wpp"><i class="fab fa-whatsapp"></i></a>
         <a href="#telegram" class="tlg"><i class="fab fa-telegram-plane"></i></a>
         <a href="#twitter" class="twt"><i class="fab fa-twitter"></i></a>
@@ -23,10 +22,10 @@ Cupons: Página {{ $page }} de {{ $imax }}
       </p>
     </div>
     <div class="inner">
-      <div class="site"><img src="{{ $cupons[$i]['store']['image'] }}" alt="{{ $cupons[$i]['store']['name'] }}"></div>
+      <div class="site"><img src="{{ $cupons[$i]['store']['image'] }}" alt="{{ $cupons[$i]['store']['name'] }}" class="product-image"></div>
       <h4>{{ mb_strimwidth($cupons[$i]['description'], 0, 100, '...' ) }}</h4>
-      <p>Válido até {{ str_replace(":59:00", ":59:59", $cupons[$i]['vigency']) }}</p>
-      <p class="code">Cupom: <input value="{{ $cupons[$i]['code'] }}" disabled="true" class="center" id="input_{{ $i }}" /></p>
+      <p class="cupom-vigency">Válido até {{ str_replace(":59:00", ":59:59", $cupons[$i]['vigency']) }}</p>
+      <p class="code">Cupom: <input value="{{ $cupons[$i]['code'] }}" disabled="true" class="center cupom-code" id="input_{{ $i }}" /></p>
     </div>
     <div class="final">
       <button onclick="copy('{{ $cupons[$i]['link'] }}', '#input_{{ $i }}')" class="bg-black radius">
