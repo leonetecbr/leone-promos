@@ -31,8 +31,8 @@
       <a href="#telegram" class="tlg" target="_blank"><i class="fab fa-telegram-plane"></i></a>
       <a href="#messenger" class="fbm" target="_blank"><i class="fab fa-facebook-messenger"></i></a>
       <a href="#twitter" class="twt" target="_blank"><i class="fab fa-twitter"></i></a>
-      <a href="#copy" class="pls plus-share"><i class="fas fa-copy"></i></a>
-      <a href="#share" class="pls hidden plus-share"><i class="fas fa-share-alt"></i></a>
+      <a href="#copy" class="cpy pls plus-share"><i class="fas fa-copy"></i></a>
+      <a href="#share" class="mre pls hidden plus-share"><i class="fas fa-share-alt"></i></a>
     </p>
   </div>
   @endif

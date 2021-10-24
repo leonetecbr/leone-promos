@@ -90,8 +90,8 @@ article > p{text-indent: 10px;}
 .categoria{padding: 6%;font-size:1.5em;margin-bottom: 4%;max-width: 700px;margin-left: auto;margin-right: auto;}
 #categorias a{color:#130400;}
 .promo h4, .cupom h4{font-size: 1.3em;margin: 5% 0;font-weight:700;color: #130400;}
-.site img{width: 40%;}
-.code input{width: 150px;text-transform: uppercase;margin:2% 0;} 
+.site > img{width: 40%;}
+.code > input{width: 150px;text-transform: uppercase;margin:2% 0;} 
 
 #btn-search, #btn-logout{float:right;height:56px;margin-right: 20px;cursor: pointer;}
 #form input{width:86%;margin:0 0.25%;}

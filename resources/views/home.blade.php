@@ -21,28 +21,23 @@
 @else
 @foreach ($top_promos as $promo)
 <div class="promo bg-white" id="{{ $cat_id }}_{{ $page }}_{{ $loop->index }}">
-  <!--div class="share">
-          <p><a href="#story" class="igs"><i class="fab fa-instagram"></i></a>
-            <a href="#whatsapp" class="wpp" target="_blank"><i class="fab fa-whatsapp"></i></a>
-            <a href="#telegram" class="tlg" target="_blank"><i class="fab fa-telegram-plane"></i></a>
-              <a href="#messenger" class="fbm" target="_blank"><i class="fab fa-facebook-messenger"></i></a>
-              <a href="#twitter" class="twt" target="_blank"><i class="fab fa-twitter"></i></a>
-              <a href="#copy" class="pls plus-share"><i class="fas fa-copy"></i></a>
-              <a href="#share" class="pls hidden plus-share"><i class="fas fa-share-alt"></i></a></p>
-        </div-->
+  <div class="share">
+    <p><a href="#story" class="igs"><i class="fab fa-instagram"></i></a>
+      <a href="#whatsapp" class="wpp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+      <a href="#telegram" class="tlg" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+      <a href="#messenger" class="fbm" target="_blank"><i class="fab fa-facebook-messenger"></i></a>
+      <a href="#twitter" class="twt" target="_blank"><i class="fab fa-twitter"></i></a>
+      <a href="#copy" class="cpy pls plus-share"><i class="fas fa-copy"></i></a>
+      <a href="#share" class="mre pls hidden plus-share"><i class="fas fa-share-alt"></i></a>
+    </p>
+  </div>
   <div class="inner">
     <img src="{{ $promo['thumbnail'] }}" alt="{{ $promo['name'] }}" class="product-image" /><br />
     <a target="_blank" href="{{ $promo['link'] }}" class="product-title">{{ mb_strimwidth($promo['name'], 0, 50, '...' ) }}</a>
     @if (!empty($promo['discount']) && $promo['discount']>=0.01)
     <p>De: <del>R$ {{ number_format($promo['priceFrom'], 2, ',', '.') }}</del></p>
     @endif
-    <h4>
-      @if ($promo['price'] != 0)
-      R$ {{ number_format($promo['price'], 2, ',', '.') }}
-      @else
-      Grátis
-      @endif
-    </h4>
+    <h4>{{($promo['price'] != 0)? 'R$ ' . number_format($promo['price'], 2, ',', '.'):'Grátis'; }}</h4>
     <p class="installment">
       @if (!empty($promo['installment']))
       {{ $promo['installment']['quantity'] }}x{{ (($promo['installment']['quantity']*$promo['installment']['value']) <= $promo['price']+0.05)?' sem juros':''; }} de R$ {{ number_format($promo['installment']['value'], 2, ',', '.') }}
