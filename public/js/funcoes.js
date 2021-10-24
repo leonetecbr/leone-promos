@@ -1,4 +1,5 @@
 const KeyV3Recaptcha = '6LdiepQaAAAAAAzLXLD1le5GHf0JRShTQvNX2LHt'
+
 String.prototype.strstr = function (search) {
   var position = this.indexOf(search)
   if (position == -1) {
@@ -38,26 +39,23 @@ function ig_share(element) {
   $('#ig-share').fadeIn('slow')
 }
 
-function share(element) {
+function getText(element) {
   const desc = $(element).find('.description').html()
-  var text = 'Por apenas: ' + $(element).find('h4').html()
+  var text = $(element).find('h4').html()
   const price_from = $(element).find('del').html()
+  const title = $(element).find('.product-title').html()
 
-  if (price_from !== undefined) {
-    text = 'De: ' + price_from + "\n" + text
+  if (text !== 'Grátis') {
+    text = 'Por apenas: ' + text;
   }
+
+  text = title + '.\n\n' + text + '!'
 
   if (desc !== undefined) {
-    text += "\n" + desc
+    text += '\n\n' + desc
   }
 
-  alert(text)
-
-  navigator.share({
-    title: $(element).find('.product-title').html(),
-    text: text,
-    url: $(element).attr('data-short-link'),
-  })
+  return text
 }
 
 function accept() {
@@ -66,19 +64,29 @@ function accept() {
 }
 
 function copy_s(t) {
-  $('#noeye').html('<input value="' + t + '" id="text_copy"/>')
-  $('#text_copy').select()
-  document.execCommand('copy')
-  $('#noeye').html('')
+  if (!navigator.clipboard) {
+    $('#noeye').html('<textarea id="text_copy">' + t + '</textarea>')
+    $('#text_copy').select()
+    document.execCommand('copy')
+    $('#noeye').html('')
+  } else {
+    navigator.clipboard.writeText(t)
+  }
   $('#copy_sucess').fadeIn('slow')
   setTimeout(function () { $('#copy_sucess').fadeOut('slow') }, 3000)
 }
 
 function copy(e, o) {
-  $(o).attr('disabled', false)
-  $(o).select()
-  document.execCommand('copy')
-  $(o).attr('disabled', true)
+  if (!navigator.clipboard) {
+    $(o).attr('disabled', false)
+    $(o).select()
+    document.execCommand('copy')
+    $(o).attr('disabled', true)
+  } else {
+    const text = $(o).val()
+    navigator.clipboard.writeText(text)
+  }
+
   window.open(e)
 }
 
@@ -152,6 +160,10 @@ function getPrefer(endpoint) {
   })
 }
 
+function getUrl(element) {
+  return window.location.href //$(element).attr('data-short-link')
+}
+
 $(document).ready(function () {
   if (navigator.share) {
     $('.plus-share').fadeIn('slow')
@@ -163,7 +175,50 @@ $(document).ready(function () {
   })
 
   $('.mre').click(function () {
-    share('#' + $(this).closest('.promo').attr('id'))
+    const element = '#' + $(this).closest('.promo').attr('id')
+    const url = getUrl(element)
+    const text = getText(element)
+
+    navigator.share({
+      text: text,
+      url: url,
+    })
+  })
+
+  $('.cpy').click(function () {
+    const element = '#' + $(this).closest('.promo').attr('id')
+    var text = getText(element)
+    const url = getUrl(element)
+
+    text += "\n\n" + url
+
+    copy_s(text)
+  })
+
+  $('.wpp').click(function () {
+    const element = '#' + $(this).closest('.promo').attr('id')
+    var text = getText(element)
+    const url = getUrl(element)
+
+    text += "\n\n" + url
+
+    window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text))
+  })
+
+  $('.tlg').click(function () {
+    const element = '#' + $(this).closest('.promo').attr('id')
+    var text = '\n' + getText(element)
+    const url = getUrl(element)
+
+    window.open('https://telegram.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text))
+  })
+
+  $('.twt').click(function () {
+    const element = '#' + $(this).closest('.promo').attr('id')
+    var text = getText(element) + '\n\n'
+    const url = getUrl(element)
+
+    window.open('https://twitter.com/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text))
   })
 
   $('#ig-share').dblclick(function () {
