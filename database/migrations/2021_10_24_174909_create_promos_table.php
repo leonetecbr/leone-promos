@@ -31,7 +31,7 @@ class CreatePromosTable extends Migration
             $table->integer('page')->default(1);
             $table->foreign('group_id')->references('id')->on('pages')->onDelete('cascade');
             $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
-            $table->timestamps();
+            $table->dateTime('created_at')->useCurrent();
         });
     }
 

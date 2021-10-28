@@ -19,17 +19,10 @@ Cupons: Página {{ $page }} de {{ $total }}
       </p>
     </div>
     <div class="inner">
-<<<<<<< HEAD
       <div class="site"><img src="{{ $cupons[$i]['store']['imagem'] }}" alt="{{ $cupons[$i]['store']['nome'] }}" class="product-image"></div>
       <h4>{{ mb_strimwidth($cupons[$i]['desc'], 0, 100, '...' ) }}</h4>
       <p class="cupom-vigency">Válido até {{ $cupons[$i]['ate'] }}</p>
       <p class="code">Cupom: <input value="{{ $cupons[$i]['code'] }}" disabled="true" class="center cupom-code" id="input_{{ $i }}" /></p>
-=======
-      <div class="site"><img src="{{ $cupons[$i]['store']['image'] }}" alt="{{ $cupons[$i]['store']['name'] }}"></div>
-      <h4>{{ mb_strimwidth($cupons[$i]['description'], 0, 100, '...' ) }}</h4>
-      <p>Válido até {{ str_replace(":59:00", ":59:59", $cupons[$i]['vigency']) }}</p>
-      <p class="code">Cupom: <input value="{{ $cupons[$i]['code'] }}" disabled="true" class="center" id="input_{{ $i }}" /></p>
->>>>>>> parent of cdbb9d2 (Correção de bugs no para.promo e nos botões de compartilhamento)
     </div>
     <div class="final">
       <button onclick="copy('{{ $cupons[$i]['link'] }}', '#input_{{ $i }}')" class="bg-black radius">

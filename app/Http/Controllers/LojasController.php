@@ -35,6 +35,9 @@ class LojasController extends Controller
           $title = 'Girafa';
           break;
 
+        case 'magalu':
+          return redirect('https://www.magazinevoce.com.br/magazineofertasleone/');
+
         case 'submarino':
           $store = 5766;
           $title = 'Submarino';

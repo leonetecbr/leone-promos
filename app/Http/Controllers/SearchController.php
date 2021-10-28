@@ -31,7 +31,7 @@ class SearchController extends Controller
 
       $dado = Helpers\ApiHelper::search($q, $page);
       $ofertas = $dado['offers'];
-      $pages = $dado['pagination']['totalPage'];
+      $pages = $dado['totalPage'];
       $pagination = Helpers\PromosHelper::getPages($page, $pages);
       $subtitle = 'Pesquisa por "' . $q . '"';
       $title = 'Pesquisa: "' . $q . '" - Página ' . $page . ' de ' . $pages;

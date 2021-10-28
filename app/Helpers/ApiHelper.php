@@ -17,19 +17,65 @@ class ApiHelper
   private static $id, $page, $loja, $group_id;
 
 
-  private static function cachedPromos(): array
+  private static function toCachedCoupons(bool $exists = false): array
+  {
+    self::$id = 0;
+    $lomadee = self::getAPI();
+    $awin = self::getAwin();
+    $cupons = array_merge_recursive($awin, $lomadee['coupons']);
+
+    if ($exists) {
+      Cupom::truncate();
+    }
+
+    $lojas = [];
+    for ($i = 0; $i < count($cupons); $i++) {
+      $store_id = $cupons[$i]['store']['id'];
+      if (!array_key_exists($store_id, $lojas)) {
+        $store = Store::where('id', $store_id)->take(1);
+        if (!$store->exists()) {
+          $s = new Store();
+          $s->id = $store_id;
+          $s->nome = $cupons[$i]['store']['name'];
+          $s->link = $cupons[$i]['store']['link'];
+          $s->imagem =  $cupons[$i]['store']['image'];
+          $s->save();
+        } else {
+          $s = $store->first();
+        }
+        $lojas[$store_id] = $s->toArray();
+      }
+
+      $c = new Cupom();
+      $c->code = $cupons[$i]['code'];
+      $c->link = $cupons[$i]['link'];
+      $c->desc = mb_strimwidth($cupons[$i]['description'], 0, 50, '...');
+      $c->ate = str_replace(":59:00", ":59:59", $cupons[$i]['vigency']);
+      $c->store_id = $cupons[$i]['store']['id'];
+      $c->save();
+      $cupom['coupons'][$i] = $c->toArray();
+      $cupom['coupons'][$i]['store'] = $lojas[$store_id];
+    }
+
+    $cupom['totalPage'] = ceil(Cupom::all()->count() / 18);
+
+    return $cupom;
+  }
+
+  private static function toCachedPromos(bool $exists = false): array
   {
     $dados = self::getAPI();
     $promos = $dados['offers'];
 
-    if (!Page::where('id', self::$group_id)->take(1)->exists()) {
+    if (empty(Page::where('id', self::$group_id)->first())) {
       $p = new Page();
       $p->id = self::$group_id;
       $p->total = $dados['pagination']['totalSize'];
       $p->save();
     }
-
-    Promo::where('group_id', self::$group_id)->where('page', self::$page)->take(12)->delete();
+    if ($exists) {
+      Promo::where('group_id', self::$group_id)->where('page', self::$page)->take(12)->delete();
+    }
     $lojas = [];
     $promotions = [];
     for ($i = 0; $i < count($promos); $i++) {
@@ -50,7 +96,11 @@ class ApiHelper
       }
 
       $p = new Promo();
-      $p->id = $promos[$i]['id'];
+      if (is_numeric($promos[$i]['id'])) {
+        $p->id = $promos[$i]['id'];
+      } else {
+        $p->id = 9 . date('His') . $i;
+      }
       $p->group_id = self::$group_id;
       $p->store_id = $store_id;
       $p->nome = mb_strimwidth($promos[$i]['name'], 0, 50, '...');
@@ -60,10 +110,8 @@ class ApiHelper
         $p->de = $promos[$i]['priceFrom'];
       }
       $p->por = $promos[$i]['price'];
-      if (!empty($promos[$i]['installment'])) {
-        $p->vezes = $promos[$i]['installment']['quantity'];
-        $p->parcelas = $promos[$i]['installment']['quantity'];
-      }
+      $p->vezes = $promos[$i]['installment']['quantity'] ?? NULL;
+      $p->parcelas = $promos[$i]['installment']['value'] ?? NULL;
       $p->page = self::$page;
       $p->save();
       $promotions['offers'][$i] = $p->toArray();
@@ -114,6 +162,16 @@ class ApiHelper
     $promos = Promo::where('group_id', $group_id)->where('page', $page)->take(12);
     if ($promos->exists()) {
       $promos = $promos->get();
+
+      if (time() - strtotime($promos[0]->created_at) > 86400) {
+        self::$id = $id;
+        self::$page = $page;
+        self::$loja = $loja;
+        self::$group_id = $group_id;
+        return self::toCachedPromos(true);
+      }
+
+      $store = [];
       for ($i = 0; $i < count($promos); $i++) {
         $promotions['offers'][$i] = $promos[$i]->toArray();
         if ($loja !== 0) {
@@ -140,17 +198,16 @@ class ApiHelper
       }
       $promotions['totalPage'] = Page::where('id', $promotions['offers'][0]['group_id'])->first()->total;
       return $promotions;
-    } else {
-      if ($id == 9999) {
-        return ['offers' => []];
-      } else {
-        self::$id = $id;
-        self::$page = $page;
-        self::$loja = $loja;
-        self::$group_id = $group_id;
-        return self::cachedPromos();
-      }
     }
+    if ($id == 9999) {
+      return ['offers' => []];
+    }
+
+    self::$id = $id;
+    self::$page = $page;
+    self::$loja = $loja;
+    self::$group_id = $group_id;
+    return self::toCachedPromos();
   }
 
   /*
@@ -173,44 +230,60 @@ class ApiHelper
       if ($dado[$i][1] === 'Aliexpress BR & LATAM') {
         $text = str_replace('Para todos os compradores', '', $dado[$i][5]);
         $text = str_replace('•', '', $dado[$i][5]);
-        $cupom[$a]['code'] = $dado[$i][4];
-        $cupom[$a]['vigency'] = $dado[$i][7];
-        $cupom[$a]['description'] = $text;
-        $cupom[$a]['link'] = $dado[$i][11];
-        $cupom[$a]['store']['image'] = 'https://ae01.alicdn.com/kf/H2111329c7f0e475aac3930a727edf058z.png';
-        $cupom[$a]['store']['name'] = 'Aliexpress';
-        $cupom[$a]['store']['id'] = 1;
-        $cupom[$a]['store']['link'] = 'https://www.awin1.com/cread.php?awinmid=18879&awinaffid=' . $_ENV['ID_AFILIADO_AWIN'] . '&clickref=deeplink&ued=https%3A%2F%2Fpt.aliexpress.com%2F';
+        $cupom[$a] = [
+          'code' => $dado[$i][4],
+          'vigency' => $dado[$i][7],
+          'description' => $text,
+          'link' => $dado[$i][11],
+          'store' => [
+            'image' => 'https://ae01.alicdn.com/kf/H2111329c7f0e475aac3930a727edf058z.png',
+            'name' => 'Aliexpress',
+            'id' => 1,
+            'link' => 'https://www.awin1.com/cread.php?awinmid=18879&awinaffid=' . $_ENV['ID_AFILIADO_AWIN'] . '&clickref=deeplink&ued=https%3A%2F%2Fpt.aliexpress.com%2F'
+          ]
+        ];
         $a++;
       } elseif ($dado[$i][1] === 'Casas Bahia BR') {
-        $cupom[$a]['code'] = $dado[$i][4];
-        $cupom[$a]['vigency'] = $dado[$i][7];
-        $cupom[$a]['description'] = $dado[$i][5];
-        $cupom[$a]['link'] = $dado[$i][11];
-        $cupom[$a]['store']['image'] = 'https://m.casasbahia.com.br/assets/images/casasbahia-logo-new.svg';
-        $cupom[$a]['store']['name'] = 'Casas Bahia';
-        $cupom[$a]['store']['id'] = 2;
-        $cupom[$a]['store']['link'] = 'https://www.awin1.com/cread.php?awinmid=17629&awinaffid=' . $_ENV['ID_AFILIADO_AWIN'] . '&clickref=deeplink&ued=https%3A%2F%2Fwww.casasbahia.com.br%2F';
+        $cupom[$a] = [
+          'code' => $dado[$i][4],
+          'vigency' => $dado[$i][7],
+          'description' => $dado[$i][5],
+          'link' => $dado[$i][11],
+          'store' => [
+            'image' => 'https://m.casasbahia.com.br/assets/images/casasbahia-logo-new.svg',
+            'name' => 'Casas Bahia',
+            'id' => 2,
+            'link' => 'https://www.awin1.com/cread.php?awinmid=17629&awinaffid=' . $_ENV['ID_AFILIADO_AWIN'] . '&clickref=deeplink&ued=https%3A%2F%2Fwww.casasbahia.com.br%2F'
+          ]
+        ];
         $a++;
       } elseif ($dado[$i][1] === 'Extra BR') {
-        $cupom[$a]['code'] = $dado[$i][4];
-        $cupom[$a]['vigency'] = $dado[$i][7];
-        $cupom[$a]['description'] = $dado[$i][5];
-        $cupom[$a]['link'] = $dado[$i][11];
-        $cupom[$a]['store']['image'] = 'https://m.extra.com.br/assets/images/ic-extra-navbar.svg';
-        $cupom[$a]['store']['name'] = 'Extra';
-        $cupom[$a]['store']['id'] = 3;
-        $cupom[$a]['store']['link'] = 'https://www.awin1.com/cread.php?awinmid=17874&awinaffid=' . $_ENV['ID_AFILIADO_AWIN'] . '&clickref=deeplink&ued=https%3A%2F%2Fwww.casasbahia.com.br%2F';
+        $cupom[$a] = [
+          'code' => $dado[$i][4],
+          'vigency' => $dado[$i][7],
+          'description' => $dado[$i][5],
+          'link' => $dado[$i][11],
+          'store' => [
+            'image' => 'https://m.extra.com.br/assets/images/ic-extra-navbar.svg',
+            'name' => 'Extra',
+            'id' => 3,
+            'link' => 'https://www.awin1.com/cread.php?awinmid=17874&awinaffid=' . $_ENV['ID_AFILIADO_AWIN'] . '&clickref=deeplink&ued=https%3A%2F%2Fwww.casasbahia.com.br%2F'
+          ]
+        ];
         $a++;
       } elseif ($dado[$i][1] === 'Ponto BR') {
-        $cupom[$a]['code'] = $dado[$i][4];
-        $cupom[$a]['vigency'] = $dado[$i][7];
-        $cupom[$a]['description'] = $dado[$i][5];
-        $cupom[$a]['link'] = $dado[$i][11];
-        $cupom[$a]['store']['image'] = 'https://m.pontofrio.com.br/assets/images/ic-navbar-logo.svg';
-        $cupom[$a]['store']['name'] = 'Ponto';
-        $cupom[$a]['store']['id'] = 4;
-        $cupom[$a]['store']['link'] = 'https://www.awin1.com/cread.php?awinmid=17621&awinaffid=' . $_ENV['ID_AFILIADO_AWIN'] . '&clickref=deeplink&ued=https%3A%2F%2Fwww.pontofrio.com.br%2F';
+        $cupom[$a] = [
+          'code' => $dado[$i][4],
+          'vigency' => $dado[$i][7],
+          'description' => $dado[$i][5],
+          'link' => $dado[$i][11],
+          'store' => [
+            'image' => 'https://m.pontofrio.com.br/assets/images/ic-navbar-logo.svg',
+            'name' => 'Ponto',
+            'id' => 4,
+            'link' => 'https://www.awin1.com/cread.php?awinmid=17621&awinaffid=' . $_ENV['ID_AFILIADO_AWIN'] . '&clickref=deeplink&ued=https%3A%2F%2Fwww.pontofrio.com.br%2F'
+          ]
+        ];
         $a++;
       }
     }
@@ -225,46 +298,16 @@ class ApiHelper
   public static function getCupons(int $page): array
   {
     if (empty(Cupom::where('id', 1)->first())) {
-      self::$id = 0;
-      $lomadee = self::getAPI();
-      $awin = self::getAwin();
-      $cupons = array_merge_recursive($awin, $lomadee['coupons']);
-
-      Cupom::truncate();
-
-      $lojas = [];
-      for ($i = 0; $i < count($cupons); $i++) {
-        $store_id = $cupons[$i]['store']['id'];
-        if (!array_key_exists($store_id, $lojas)) {
-          $store = Store::where('id', $store_id)->take(1);
-          if (!$store->exists()) {
-            $s = new Store();
-            $s->id = $store_id;
-            $s->nome = $cupons[$i]['store']['name'];
-            $s->link = $cupons[$i]['store']['link'];
-            $s->imagem =  $cupons[$i]['store']['image'];
-            $s->save();
-          } else {
-            $s = $store->first();
-          }
-          $lojas[$store_id] = $s->toArray();
-        }
-
-        $c = new Cupom();
-        $c->code = $cupons[$i]['code'];
-        $c->link = $cupons[$i]['link'];
-        $c->desc = mb_strimwidth($cupons[$i]['description'], 0, 50, '...');
-        $c->ate = str_replace(":59:00", ":59:59", $cupons[$i]['vigency']);
-        $c->store_id = $cupons[$i]['store']['id'];
-        $c->save();
-        $cupom['coupons'][$i] = $c->toArray();
-        $cupom['coupons'][$i]['store'] = $lojas[$store_id];
-      }
+      return self::toCachedCoupons();
     } else {
-      $cupons = Cupom::paginate(12, '*', 'cupons', $page);
-      $total =  $cupons->lastPage();
+      $cupons = Cupom::paginate(18, '*', 'cupons', $page);
+      if (time() - strtotime($cupons[0]->created_at) > 86400) {
+        return self::toCachedCoupons(true);
+      }
+      $cupom['totalPage'] =  $cupons->lastPage();
       $cupons = $cupons->items();
       $a = 0;
+      $store = [];
       for ($i = 0; $i < count($cupons); $i++) {
         $cupom['coupons'][$a] = $cupons[$i]->toArray();
         if (empty($store)) {
@@ -285,7 +328,6 @@ class ApiHelper
         $a++;
       }
     }
-    $cupom['totalPage'] = ceil((empty($total)) ? Cupom::all()->count() / 12 : $total);
     return $cupom;
   }
 
@@ -310,6 +352,29 @@ class ApiHelper
     if (empty($json) || $status !== 200) {
       throw new Exception('Parece que tivemos um probleminha, que tal tentar de novo, escrevendo de outra forma ?');
     }
-    return json_decode($json, true);
+
+    $dados = json_decode($json, true);
+
+    $promos = $dados['offers'];
+
+    for ($i = 0; $i < count($promos); $i++) {
+      $promo['offers'][$i] = [
+        'nome' => $promos[$i]['name'],
+        'store' => [
+          'nome' => $promos[$i]['store']['name'],
+          'imagem' => $promos[$i]['store']['thumbnail'],
+          'link' => $promos[$i]['store']['link']
+        ],
+        'link' => $promos[$i]['link'],
+        'imagem' => $promos[$i]['thumbnail'],
+        'de' => $promos[$i]['priceFrom'] ?? NULL,
+        'por' => $promos[$i]['price'],
+        'vezes' => $promos[$i]['installment']['quantity'] ?? NULL,
+        'parcelas' => $promos[$i]['installment']['value'] ?? NULL
+      ];
+    }
+
+    $promo['totalPage'] = $dados['pagination']['totalSize'];
+    return $promo;
   }
 }
