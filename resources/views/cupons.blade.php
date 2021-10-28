@@ -1,17 +1,13 @@
 @extends('layouts.app')
-<?php
-$imin = (intval($page) - 1) * 18;
-$imax = intval($page) * 18;
-?>
 @section('title')
-Cupons: Página {{ $page }} de {{ $imax }}
+Cupons: Página {{ $page }} de {{ $total }}
 @endsection
 @section('content')
 <h1 class="container" id="title">Cupons</h1>
 {!! $pages??'' !!}
 <article id="cupons" class="container center">
   <div id="noeye"></div>
-  @for ($i = $imin; $i < $imax; $i++) <div class="cupom bg-white radius" id="cupom_{{ $i }}">
+  @for ($i = 0; $i < count($cupons); $i++) <div class="cupom bg-white radius" id="cupom_{{ $i }}">
     <div class="share">
       <p>
         <a href="#whatsapp" class="wpp"><i class="fab fa-whatsapp"></i></a>
@@ -22,9 +18,9 @@ Cupons: Página {{ $page }} de {{ $imax }}
       </p>
     </div>
     <div class="inner">
-      <div class="site"><img src="{{ $cupons[$i]['store']['image'] }}" alt="{{ $cupons[$i]['store']['name'] }}" class="product-image"></div>
-      <h4>{{ mb_strimwidth($cupons[$i]['description'], 0, 100, '...' ) }}</h4>
-      <p class="cupom-vigency">Válido até {{ str_replace(":59:00", ":59:59", $cupons[$i]['vigency']) }}</p>
+      <div class="site"><img src="{{ $cupons[$i]['store']['imagem'] }}" alt="{{ $cupons[$i]['store']['nome'] }}" class="product-image"></div>
+      <h4>{{ mb_strimwidth($cupons[$i]['desc'], 0, 100, '...' ) }}</h4>
+      <p class="cupom-vigency">Válido até {{ $cupons[$i]['ate'] }}</p>
       <p class="code">Cupom: <input value="{{ $cupons[$i]['code'] }}" disabled="true" class="center cupom-code" id="input_{{ $i }}" /></p>
     </div>
     <div class="final">

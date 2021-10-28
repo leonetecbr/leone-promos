@@ -9,7 +9,7 @@ class LojasController extends Controller
 {
 
   /*
-   *
+   * Retorna a lista com as principais lojas
    */
   public static function get()
   {
@@ -17,7 +17,9 @@ class LojasController extends Controller
   }
 
   /*
-   *
+   * Encontra o código corresponde a loja através do nome para poder buscar os dados corretos no banco de dados
+   * @param string $loja
+   * @param int $page
    */
   public static function process(string $loja, int $page = 1)
   {
@@ -89,7 +91,7 @@ class LojasController extends Controller
       }
       $dado = Helpers\ApiHelper::getPromo(999, $page, $store);
       $ofertas = $dado['offers'];
-      $pages = $dado['pagination']['totalPage'];
+      $pages = $dado['totalPage'];
       $pagination = Helpers\PromosHelper::getPages($page, $pages);
       $subtitle = $title;
       $title = 'Loja: ' . $title . " - Página {$page} de {$pages}";

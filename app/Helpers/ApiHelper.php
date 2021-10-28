@@ -3,19 +3,81 @@
 namespace App\Helpers;
 
 use Exception;
+use App\Models\Promo;
+use App\Models\Page;
+use App\Models\Store;
+use App\Models\Cupom;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Obtém dados das API ou do Cache
  */
 class ApiHelper
 {
-  private static $id, $page, $loja;
+  private static $id, $page, $loja, $group_id;
+
+
+  private static function cachedPromos(): array
+  {
+    $dados = self::getAPI();
+    $promos = $dados['offers'];
+
+    if (!Page::where('id', self::$group_id)->take(1)->exists()) {
+      $p = new Page();
+      $p->id = self::$group_id;
+      $p->total = $dados['pagination']['totalSize'];
+      $p->save();
+    }
+
+    Promo::where('group_id', self::$group_id)->where('page', self::$page)->take(12)->delete();
+    $lojas = [];
+    $promotions = [];
+    for ($i = 0; $i < count($promos); $i++) {
+      $store_id = $promos[$i]['store']['id'];
+      if (!array_key_exists($store_id, $lojas)) {
+        $store = Store::where('id', $store_id)->take(1);
+        if (!$store->exists()) {
+          $s = new Store();
+          $s->id = $store_id;
+          $s->nome = $promos[$i]['store']['name'];
+          $s->link = $promos[$i]['store']['link'];
+          $s->imagem =  $promos[$i]['store']['thumbnail'];
+          $s->save();
+        } else {
+          $s = $store->first();
+        }
+        $lojas[$store_id] = $s->toArray();
+      }
+
+      $p = new Promo();
+      $p->id = $promos[$i]['id'];
+      $p->group_id = self::$group_id;
+      $p->store_id = $store_id;
+      $p->nome = mb_strimwidth($promos[$i]['name'], 0, 50, '...');
+      $p->link = $promos[$i]['link'];
+      $p->imagem = $promos[$i]['thumbnail'];
+      if ($promos[$i]['discount'] > 0) {
+        $p->de = $promos[$i]['priceFrom'];
+      }
+      $p->por = $promos[$i]['price'];
+      if (!empty($promos[$i]['installment'])) {
+        $p->vezes = $promos[$i]['installment']['quantity'];
+        $p->parcelas = $promos[$i]['installment']['quantity'];
+      }
+      $p->page = self::$page;
+      $p->save();
+      $promotions['offers'][$i] = $p->toArray();
+      $promotions['offers'][$i]['store'] = $lojas[$store_id];
+    }
+    $promotions['totalPage'] = $dados['pagination']['totalSize'];
+    return $promotions;
+  }
 
   /**
    * Pega os dados nescessários da API da Lomadee
-   * @return string JSON 
+   * @return array 
    */
-  private static function getAPI(): string
+  private static function getAPI(): array
   {
     $dados = ['sourceId' => $_ENV['SOURCE_ID_LOMADEE']];
     if (self::$loja !== 0) {
@@ -38,7 +100,7 @@ class ApiHelper
     if (empty($json) || $status !== 200) {
       throw new Exception('Parece que tivemos um probleminha, que tal tentar de novo ?');
     }
-    return $json;
+    return json_decode($json, true);
   }
 
   /**
@@ -48,24 +110,47 @@ class ApiHelper
    */
   public static function getPromo(int $id, int $page = 1, int $loja = 0): array
   {
-    $path = __DIR__ . '/../../resources/cache/';
-    $path .= ($id !== 999) ? $id . '_' . $page . '.json' : $loja . '_' . $page . '.json';
-
-    if ($id === 0 || file_exists($path)) {
-      if ($id === 0 && !file_exists($path)) {
-        file_put_contents($path, '[]');
-        return [];
-      } elseif ($id === 0 || time() - filemtime($path) < 1800) {
-        return json_decode(file_get_contents($path), true);
+    $group_id = ($loja == 0) ? $id : $loja;
+    $promos = Promo::where('group_id', $group_id)->where('page', $page)->take(12);
+    if ($promos->exists()) {
+      $promos = $promos->get();
+      for ($i = 0; $i < count($promos); $i++) {
+        $promotions['offers'][$i] = $promos[$i]->toArray();
+        if ($loja !== 0) {
+          if (empty($store)) {
+            $store = Store::where('id', $promos[$i]->store_id)->first()->toArray();
+          }
+          $promotions['offers'][$i]['store'] = $store;
+        } else {
+          if (empty($store)) {
+            $store[$promos[$i]->store_id] =
+              Store::where('id', $promos[$i]->store_id)->first()->toArray();
+            $promotions['offers'][$i]['store'] = $store[$promos[$i]->store_id];
+          } else {
+            if (array_key_exists($promos[$i]->store_id, $store)) {
+              $promotions['offers'][$i]['store'] = $store[$promos[$i]->store_id];
+              continue;
+            } else {
+              $store[$promos[$i]->store_id] =
+                Store::where('id', $promos[$i]->store_id)->first()->toArray();
+              $promotions['offers'][$i]['store'] = $store[$promos[$i]->store_id];
+            }
+          }
+        }
+      }
+      $promotions['totalPage'] = Page::where('id', $promotions['offers'][0]['group_id'])->first()->total;
+      return $promotions;
+    } else {
+      if ($id == 9999) {
+        return ['offers' => []];
+      } else {
+        self::$id = $id;
+        self::$page = $page;
+        self::$loja = $loja;
+        self::$group_id = $group_id;
+        return self::cachedPromos();
       }
     }
-
-    self::$id = $id;
-    self::$page = $page;
-    self::$loja = $loja;
-    $json = self::getAPI();
-    file_put_contents($path, $json);
-    return json_decode($json, true);
   }
 
   /*
@@ -83,41 +168,49 @@ class ApiHelper
       throw new Exception('Parece que tivemos um probleminha, que tal tentar de novo ?');
     }
     $dado = array_map('str_getcsv', explode("\n", $csv));
-    $a = 1;
+    $a = 0;
     for ($i = 0; !empty($dado[$i][1]); $i++) {
       if ($dado[$i][1] === 'Aliexpress BR & LATAM') {
         $text = str_replace('Para todos os compradores', '', $dado[$i][5]);
         $text = str_replace('•', '', $dado[$i][5]);
-        $cupom[$a - 1]['code'] = $dado[$i][4];
-        $cupom[$a - 1]['vigency'] = $dado[$i][7];
-        $cupom[$a - 1]['description'] = $text;
-        $cupom[$a - 1]['link'] = $dado[$i][11];
-        $cupom[$a - 1]['store']['image'] = 'https://ae01.alicdn.com/kf/H2111329c7f0e475aac3930a727edf058z.png';
-        $cupom[$a - 1]['store']['name'] = 'Aliexpress';
+        $cupom[$a]['code'] = $dado[$i][4];
+        $cupom[$a]['vigency'] = $dado[$i][7];
+        $cupom[$a]['description'] = $text;
+        $cupom[$a]['link'] = $dado[$i][11];
+        $cupom[$a]['store']['image'] = 'https://ae01.alicdn.com/kf/H2111329c7f0e475aac3930a727edf058z.png';
+        $cupom[$a]['store']['name'] = 'Aliexpress';
+        $cupom[$a]['store']['id'] = 1;
+        $cupom[$a]['store']['link'] = 'https://www.awin1.com/cread.php?awinmid=18879&awinaffid=' . $_ENV['ID_AFILIADO_AWIN'] . '&clickref=deeplink&ued=https%3A%2F%2Fpt.aliexpress.com%2F';
         $a++;
       } elseif ($dado[$i][1] === 'Casas Bahia BR') {
-        $cupom[$a - 1]['code'] = $dado[$i][4];
-        $cupom[$a - 1]['vigency'] = $dado[$i][7];
-        $cupom[$a - 1]['description'] = $dado[$i][5];
-        $cupom[$a - 1]['link'] = $dado[$i][11];
-        $cupom[$a - 1]['store']['image'] = 'https://m.casasbahia.com.br/assets/images/casasbahia-logo-new.svg';
-        $cupom[$a - 1]['store']['name'] = 'Casas Bahia';
+        $cupom[$a]['code'] = $dado[$i][4];
+        $cupom[$a]['vigency'] = $dado[$i][7];
+        $cupom[$a]['description'] = $dado[$i][5];
+        $cupom[$a]['link'] = $dado[$i][11];
+        $cupom[$a]['store']['image'] = 'https://m.casasbahia.com.br/assets/images/casasbahia-logo-new.svg';
+        $cupom[$a]['store']['name'] = 'Casas Bahia';
+        $cupom[$a]['store']['id'] = 2;
+        $cupom[$a]['store']['link'] = 'https://www.awin1.com/cread.php?awinmid=17629&awinaffid=' . $_ENV['ID_AFILIADO_AWIN'] . '&clickref=deeplink&ued=https%3A%2F%2Fwww.casasbahia.com.br%2F';
         $a++;
       } elseif ($dado[$i][1] === 'Extra BR') {
-        $cupom[$a - 1]['code'] = $dado[$i][4];
-        $cupom[$a - 1]['vigency'] = $dado[$i][7];
-        $cupom[$a - 1]['description'] = $dado[$i][5];
-        $cupom[$a - 1]['link'] = $dado[$i][11];
-        $cupom[$a - 1]['store']['image'] = 'https://m.extra.com.br/assets/images/ic-extra-navbar.svg';
-        $cupom[$a - 1]['store']['name'] = 'Extra';
+        $cupom[$a]['code'] = $dado[$i][4];
+        $cupom[$a]['vigency'] = $dado[$i][7];
+        $cupom[$a]['description'] = $dado[$i][5];
+        $cupom[$a]['link'] = $dado[$i][11];
+        $cupom[$a]['store']['image'] = 'https://m.extra.com.br/assets/images/ic-extra-navbar.svg';
+        $cupom[$a]['store']['name'] = 'Extra';
+        $cupom[$a]['store']['id'] = 3;
+        $cupom[$a]['store']['link'] = 'https://www.awin1.com/cread.php?awinmid=17874&awinaffid=' . $_ENV['ID_AFILIADO_AWIN'] . '&clickref=deeplink&ued=https%3A%2F%2Fwww.casasbahia.com.br%2F';
         $a++;
       } elseif ($dado[$i][1] === 'Ponto BR') {
-        $cupom[$a - 1]['code'] = $dado[$i][4];
-        $cupom[$a - 1]['vigency'] = $dado[$i][7];
-        $cupom[$a - 1]['description'] = $dado[$i][5];
-        $cupom[$a - 1]['link'] = $dado[$i][11];
-        $cupom[$a - 1]['store']['image'] = 'https://m.pontofrio.com.br/assets/images/ic-navbar-logo.svg';
-        $cupom[$a - 1]['store']['name'] = 'Ponto';
+        $cupom[$a]['code'] = $dado[$i][4];
+        $cupom[$a]['vigency'] = $dado[$i][7];
+        $cupom[$a]['description'] = $dado[$i][5];
+        $cupom[$a]['link'] = $dado[$i][11];
+        $cupom[$a]['store']['image'] = 'https://m.pontofrio.com.br/assets/images/ic-navbar-logo.svg';
+        $cupom[$a]['store']['name'] = 'Ponto';
+        $cupom[$a]['store']['id'] = 4;
+        $cupom[$a]['store']['link'] = 'https://www.awin1.com/cread.php?awinmid=17621&awinaffid=' . $_ENV['ID_AFILIADO_AWIN'] . '&clickref=deeplink&ued=https%3A%2F%2Fwww.pontofrio.com.br%2F';
         $a++;
       }
     }
@@ -129,27 +222,71 @@ class ApiHelper
    * Verifica se os cupons salvos no servidor ainda estão adequados para uso, se sim, os usa, se não pega da API
    * @return array
    */
-  public static function getCupons(): array
+  public static function getCupons(int $page): array
   {
-    $path = __DIR__ . '/../../resources/cache/cupons.json';
-    $cached = false;
-    if (file_exists($path)) {
-      if (time() - filemtime($path) < 86400) {
-        $cached = true;
-      }
-    }
-
-    if ($cached) {
-      $cupons = json_decode(file_get_contents($path), true);
-    } else {
+    if (empty(Cupom::where('id', 1)->first())) {
       self::$id = 0;
-      $lomadee = json_decode(self::getAPI(), true);
+      $lomadee = self::getAPI();
       $awin = self::getAwin();
       $cupons = array_merge_recursive($awin, $lomadee['coupons']);
-      file_put_contents($path, json_encode($cupons));
-    }
 
-    return $cupons;
+      Cupom::truncate();
+
+      $lojas = [];
+      for ($i = 0; $i < count($cupons); $i++) {
+        $store_id = $cupons[$i]['store']['id'];
+        if (!array_key_exists($store_id, $lojas)) {
+          $store = Store::where('id', $store_id)->take(1);
+          if (!$store->exists()) {
+            $s = new Store();
+            $s->id = $store_id;
+            $s->nome = $cupons[$i]['store']['name'];
+            $s->link = $cupons[$i]['store']['link'];
+            $s->imagem =  $cupons[$i]['store']['image'];
+            $s->save();
+          } else {
+            $s = $store->first();
+          }
+          $lojas[$store_id] = $s->toArray();
+        }
+
+        $c = new Cupom();
+        $c->code = $cupons[$i]['code'];
+        $c->link = $cupons[$i]['link'];
+        $c->desc = mb_strimwidth($cupons[$i]['description'], 0, 50, '...');
+        $c->ate = str_replace(":59:00", ":59:59", $cupons[$i]['vigency']);
+        $c->store_id = $cupons[$i]['store']['id'];
+        $c->save();
+        $cupom['coupons'][$i] = $c->toArray();
+        $cupom['coupons'][$i]['store'] = $lojas[$store_id];
+      }
+    } else {
+      $cupons = Cupom::paginate(12, '*', 'cupons', $page);
+      $total =  $cupons->lastPage();
+      $cupons = $cupons->items();
+      $a = 0;
+      for ($i = 0; $i < count($cupons); $i++) {
+        $cupom['coupons'][$a] = $cupons[$i]->toArray();
+        if (empty($store)) {
+          $store[$cupons[$i]->store_id] =
+            Store::where('id', $cupons[$i]->store_id)->first()->toArray();
+          $cupom['coupons'][$a]['store'] = $store[$cupons[$i]->store_id];
+        } else {
+          if (array_key_exists($cupons[$i]->store_id, $store)) {
+            $cupom['coupons'][$a]['store'] = $store[$cupons[$i]->store_id];
+            $a++;
+            continue;
+          } else {
+            $store[$cupons[$i]->store_id] =
+              Store::where('id', $cupons[$i]->store_id)->first()->toArray();
+            $cupom['coupons'][$a]['store'] = $store[$cupons[$i]->store_id];
+          }
+        }
+        $a++;
+      }
+    }
+    $cupom['totalPage'] = ceil((empty($total)) ? Cupom::all()->count() / 12 : $total);
+    return $cupom;
   }
 
   /**

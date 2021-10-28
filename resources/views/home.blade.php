@@ -21,6 +21,7 @@
 @else
 @foreach ($top_promos as $promo)
 <div class="promo bg-white" id="{{ $cat_id }}_{{ $page }}_{{ $loop->index }}">
+  @if ($share??false)
   <div class="share">
     <p>
       <a href="#story" class="igs"><i class="fab fa-instagram"></i></a>
@@ -31,29 +32,36 @@
       <a href="#share" class="mre pls hidden plus-share"><i class="fas fa-share-alt"></i></a>
     </p>
   </div>
+  @endif
   <div class="inner">
-    <img src="{{ $promo['thumbnail'] }}" alt="{{ $promo['name'] }}" class="product-image" /><br />
-    <a target="_blank" href="{{ $promo['link'] }}" class="product-title">{{ mb_strimwidth($promo['name'], 0, 50, '...' ) }}</a>
+    <img src="{{ $promo['imagem'] }}" alt="{{ $promo['nome'] }}" class="product-image" /><br />
+    <a target="_blank" href="{{ $promo['link'] }}" class="product-title">{{ mb_strimwidth($promo['nome'], 0, 50, '...' ) }}</a>
     @if (!empty($promo['discount']) && $promo['discount']>=0.01)
-    <p>De: <del>R$ {{ number_format($promo['priceFrom'], 2, ',', '.') }}</del></p>
+    <p>De: <del>R$ {{ number_format($promo['de'], 2, ',', '.') }}</del></p>
     @endif
-    <h4>{{($promo['price'] != 0)? 'R$ ' . number_format($promo['price'], 2, ',', '.'):'Grátis'; }}</h4>
+    <h4>
+      @if ($promo['por'] != 0)
+      R$ {{ number_format($promo['por'], 2, ',', '.') }}
+      @else
+      Grátis
+      @endif
+    </h4>
     <p class="installment">
-      @if (!empty($promo['installment']))
-      {{ $promo['installment']['quantity'] }}x{{ (($promo['installment']['quantity']*$promo['installment']['value']) <= $promo['price']+0.05)?' sem juros':''; }} de R$ {{ number_format($promo['installment']['value'], 2, ',', '.') }}
-      @elseif ($promo['price'] != 0)
+      @if ($promo['parcelas']!==1)
+      {{ $promo['vezes'] }}x{{ (($promo['parcelas']*$promo['vezes']) <= $promo['por']+0.05)?' sem juros':''; }} de R$ {{ number_format($promo['parcelas'], 2, ',', '.') }}
+      @elseif ($promo['por'] != 0)
       Apenas à vista!
       @endif
     </p>
-    @if (!empty($promo['description']))
-    <p class="description">{!! $promo['description'] !!}</p>
+    @if (!empty($promo['desc']))
+    <p class="description">{!! $promo['desc'] !!}</p>
     @endif
     @if (!empty($promo['code']))
     <p class="code">Cupom: <input value="{{ $promo['code'] }}" disabled="true" class="center discount" id="input{{ $loop->index }}" /></p>
     @endif
   </div>
   <div class="final">
-    <div class="loja"><a target="_blank" href="{{ $promo['store']['link'] }}"><img src="{{ $promo['store']['thumbnail'] }}" alt="{{ $promo['store']['name'] }}"></a></div>
+    <div class="loja"><a target="_blank" href="{{ $promo['store']['link'] }}"><img src="{{ $promo['store']['imagem'] }}" alt="{{ $promo['store']['nome'] }}"></a></div>
   </div>
   @if (empty($promo['code']))
   <a target="_blank" href="{{ $promo['link'] }}"><button class="bg-black radius">

@@ -9,7 +9,7 @@ class CategoriasController extends Controller
 {
 
   /*
-   *
+   * Retorna a lista com as principais categorias
    */
   public static function get()
   {
@@ -17,7 +17,9 @@ class CategoriasController extends Controller
   }
 
   /*
-   *
+   * Encontra o código corresponde a categoria através do nome para poder buscar os dados corretos no banco de dados
+   * @param string $categoria
+   * @param int $page
    */
   public static function process(string $categoria, int $page = 1)
   {
@@ -119,7 +121,7 @@ class CategoriasController extends Controller
       }
       $dado = Helpers\ApiHelper::getPromo($id, $page);
       $ofertas = $dado['offers'];
-      $pages = $dado['pagination']['totalPage'];
+      $pages = $dado['totalPage'];
       $pagination = Helpers\PromosHelper::getPages($page, $pages);
       $subtitle = $title;
       $title = 'Categoria: ' . $title . " - Página {$page} de {$pages}";
