@@ -76,9 +76,11 @@ class TopPromosController extends Controller
       $p = Promo::where('id', $request->input('id'))->first();
       if (empty($p)) {
         $p = new Promo();
+        $p->id = 9 . date('dHis');
       }
     } else {
       $p = new Promo();
+      $p->id = 9 . date('dHis');
     }
 
     $p->nome = mb_strimwidth($request->input('name'), 0, 50, '...');
