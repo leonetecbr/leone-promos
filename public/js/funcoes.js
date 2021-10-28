@@ -35,7 +35,7 @@ function ig_share(element) {
     $('#product-code').hide()
   }
   $('#product-price-to').html($(element).find('h4').html())
-  $('#share-link').html(getUrl(element))
+  $('#share-link').html($(element).attr('data-short-link'))
   $('#ig-share').fadeIn('slow')
 }
 
@@ -46,11 +46,7 @@ function getText(element) {
   const title = $(element).find('.product-title').html()
 
   if (text !== 'Grátis') {
-    text = 'Por apenas: ' + text
-  }
-
-  if (price_from !== undefined) {
-    text = 'De: ' + price_from + '\n\n' + text
+    text = 'Por apenas: ' + text;
   }
 
   text = title + '.\n\n' + text + '!'
@@ -58,19 +54,6 @@ function getText(element) {
   if (desc !== undefined) {
     text += '\n\n' + desc
   }
-
-  return text
-}
-
-function getTextCupom(element) {
-  var text = $(element).find('h4').html() + ' no(a) ' + $(element).find('img').attr('alt')
-  const vigency = $(element).find('.cupom-vigency').html()
-  var cupom = $(element).find('.cupom-code').val()
-  var code = cupom.substr(0, cupom.length - 2)
-
-  cupom = 'Cupom: ' + code.replace(/\w/g, '*') + cupom.substr(-2)
-
-  text += '\n\n' + vigency + '\n\n' + cupom
 
   return text
 }
@@ -138,7 +121,7 @@ function createCookie(name, value, days) {
   if (days) {
     var date = new Date()
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
-    expires = '; expires=' + date.toGMTString()
+    expires = ' expires=' + date.toGMTString()
   } else {
     expires = ''
   }
@@ -178,11 +161,7 @@ function getPrefer(endpoint) {
 }
 
 function getUrl(element) {
-  return 'https://para.promo/o/' + element.replace('#', '')
-}
-
-function getUrlCupom(element) {
-  return 'https://para.promo/c/' + element.replace('#cupom_', '')
+  return window.location.href //$(element).attr('data-short-link')
 }
 
 $(document).ready(function () {
@@ -196,16 +175,9 @@ $(document).ready(function () {
   })
 
   $('.mre').click(function () {
-    var text, element, url
-    if (($(this).closest('.promo').attr('id') !== undefined)) {
-      element = '#' + $(this).closest('.promo').attr('id')
-      text = getText(element) + '\n'
-      url = getUrl(element)
-    } else {
-      element = '#' + $(this).closest('.cupom').attr('id')
-      text = getTextCupom(element) + '\n'
-      url = getUrlCupom(element)
-    }
+    const element = '#' + $(this).closest('.promo').attr('id')
+    const url = getUrl(element)
+    const text = getText(element)
 
     navigator.share({
       text: text,
@@ -214,16 +186,9 @@ $(document).ready(function () {
   })
 
   $('.cpy').click(function () {
-    var text, element, url
-    if (($(this).closest('.promo').attr('id') !== undefined)) {
-      element = '#' + $(this).closest('.promo').attr('id')
-      text = getText(element)
-      url = getUrl(element)
-    } else {
-      element = '#' + $(this).closest('.cupom').attr('id')
-      text = getTextCupom(element)
-      url = getUrlCupom(element)
-    }
+    const element = '#' + $(this).closest('.promo').attr('id')
+    var text = getText(element)
+    const url = getUrl(element)
 
     text += "\n\n" + url
 
@@ -231,16 +196,9 @@ $(document).ready(function () {
   })
 
   $('.wpp').click(function () {
-    var text, element, url
-    if (($(this).closest('.promo').attr('id') !== undefined)) {
-      element = '#' + $(this).closest('.promo').attr('id')
-      text = getText(element)
-      url = getUrl(element)
-    } else {
-      element = '#' + $(this).closest('.cupom').attr('id')
-      text = getTextCupom(element)
-      url = getUrlCupom(element)
-    }
+    const element = '#' + $(this).closest('.promo').attr('id')
+    var text = getText(element)
+    const url = getUrl(element)
 
     text += "\n\n" + url
 
@@ -248,31 +206,18 @@ $(document).ready(function () {
   })
 
   $('.tlg').click(function () {
-    var text, element, url
-    if (($(this).closest('.promo').attr('id') !== undefined)) {
-      element = '#' + $(this).closest('.promo').attr('id')
-      text = '\n' + getText(element)
-      url = getUrl(element)
-    } else {
-      element = '#' + $(this).closest('.cupom').attr('id')
-      text = '\n' + getTextCupom(element)
-      url = getUrlCupom(element)
-    }
+    const element = '#' + $(this).closest('.promo').attr('id')
+    var text = '\n' + getText(element)
+    const url = getUrl(element)
 
     window.open('https://telegram.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text))
   })
 
   $('.twt').click(function () {
-    var text, element, url
-    if (($(this).closest('.promo').attr('id') !== undefined)) {
-      element = '#' + $(this).closest('.promo').attr('id')
-      text = getText(element) + '\n\n'
-      url = getUrl(element)
-    } else {
-      element = '#' + $(this).closest('.cupom').attr('id')
-      text = getTextCupom(element) + '\n\n'
-      url = getUrlCupom(element)
-    }
+    const element = '#' + $(this).closest('.promo').attr('id')
+    var text = getText(element) + '\n\n'
+    const url = getUrl(element)
+
     window.open('https://twitter.com/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text))
   })
 

@@ -3,18 +3,18 @@
 
 <head>
   <meta charset="UTF-8" />
-  <!--script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ env('SITE_ID_ADSENSE') }}" crossorigin="anonymous"></!--script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ env('SITE_ID_ADSENSE') }}" crossorigin="anonymous"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHZEX7GYK2"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
 
     function gtag() {
-    dataLayer.push(arguments);
+      dataLayer.push(arguments);
     }
     gtag('js', new Date());
 
     gtag('config', 'G-VHZEX7GYK2');
-  </script-->
+  </script>
   <link rel="stylesheet" type="text/css" href="/css/style.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <title>@yield('title') | {{ env('APP_NAME') }}</title>
@@ -71,7 +71,7 @@
     </div>
     <div id="product-desc" class="mt-2"></div>
     <div id="product-code" class="mt-2 code"><input type="text" disabled="true" value="Acesse o link para obter o cupom" class="w100 center"></div>
-    <p id="share-link" class="mt-2"></p>
+    <p id="share-link" class="mt-3"></p>
   </div>
   @if (empty($_COOKIE['accept']))
   <section class="aviso_eu_cookie">
