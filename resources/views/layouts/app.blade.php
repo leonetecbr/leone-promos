@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="UTF-8" />
-  <!--script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ env('SITE_ID_ADSENSE') }}" crossorigin="anonymous"></!--script>
+  @if (!env('APP_DEBUG')){
+  <!--script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ env('SITE_ID_ADSENSE') }}" crossorigin="anonymous"></-script-->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHZEX7GYK2"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -14,7 +15,8 @@
     gtag('js', new Date());
 
     gtag('config', 'G-VHZEX7GYK2');
-  </script-->
+  </script>
+  @endif
   <link rel="stylesheet" type="text/css" href="/css/style.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <title>@yield('title') | {{ env('APP_NAME') }}</title>
