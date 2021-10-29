@@ -21,7 +21,7 @@
 @else
 @foreach ($top_promos as $promo)
 <div class="promo bg-white" id="{{ $cat_id }}_{{ $page }}_{{ $loop->index }}">
-  @if ($share??false)
+  @if ($share??true)
   <div class="share">
     <p>
       <a href="#story" class="igs"><i class="fab fa-instagram"></i></a>
@@ -39,13 +39,7 @@
     @if (!empty($promo['discount']) && $promo['discount']>=0.01)
     <p>De: <del>R$ {{ number_format($promo['de'], 2, ',', '.') }}</del></p>
     @endif
-    <h4>
-      @if ($promo['por'] != 0)
-      R$ {{ number_format($promo['por'], 2, ',', '.') }}
-      @else
-      Grátis
-      @endif
-    </h4>
+    <h4>{{ ($promo['por'] != 0)? 'R$' . number_format($promo['por'], 2, ',', '.') : 'Grátis'; }}</h4>
     <p class="installment">
       @if ($promo['vezes']!==1 && $promo['vezes']!==NULL)
       {{ $promo['vezes'] }}x{{ (($promo['parcelas']*$promo['vezes']) <= $promo['por']+0.05)?' sem juros':''; }} de R$ {{ number_format($promo['parcelas'], 2, ',', '.') }}

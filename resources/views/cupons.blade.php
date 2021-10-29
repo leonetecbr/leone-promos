@@ -10,7 +10,6 @@ Cupons: Página {{ $page }} de {{ $total }}
   @for ($i = 0; $i < count($cupons); $i++) <div class="cupom bg-white radius" id="cupom_{{ $i }}">
     <div class="share">
       <p>
-        <a href="#story" class="igs"><i class="fab fa-instagram"></i></a>
         <a href="#whatsapp" class="wpp"><i class="fab fa-whatsapp"></i></a>
         <a href="#telegram" class="tlg"><i class="fab fa-telegram-plane"></i></a>
         <a href="#twitter" class="twt"><i class="fab fa-twitter"></i></a>
