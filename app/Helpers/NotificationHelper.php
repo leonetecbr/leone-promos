@@ -12,7 +12,7 @@ class NotificationHelper
 {
   private $auth;
 
-  /*
+  /**
    * Preenche a variável com os parâmetros de autenticação
    */
   public function __construct()
@@ -29,7 +29,7 @@ class NotificationHelper
   /**
    * Método para enviar uma notificação para um usuário
    * @params array $subscription $payload
-   * @return boolean
+   * @return bool
    */
   public function sendOneNotification(array $subscription = [], array $payload = ['msg' => 'Agora você será notificado a cada promoção imperdível! Toque para editar suas preferências ;)', 'title' => 'Notificações Ativadas ;)', 'link' => '/notificacoes']): bool
   {
@@ -51,7 +51,7 @@ class NotificationHelper
   /**
    * Método para enviar notificações para vários usuários
    * @params array $subscription $payload
-   * @return boolean
+   * @return bool
    */
   public function sendManyNotifications(array $subscriptions, array $payload): bool
   {

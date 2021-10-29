@@ -13,10 +13,11 @@ use App\Http\Controllers;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/', Controllers\HomeController::class);
 
 Route::get('/categorias', [Controllers\CategoriasController::class, 'get']);
-  
+
 Route::get('/categorias/{categoria}/{page?}', [Controllers\CategoriasController::class, 'process'])->where('categoria', '[a-z]+')->where('page', '^[1-9]+[0-9]*$');
 
 Route::get('/lojas', [Controllers\LojasController::class, 'get']);
@@ -26,14 +27,6 @@ Route::get('/lojas/{loja}/{page?}', [Controllers\LojasController::class, 'proces
 Route::get('/cupons/{page?}', [Controllers\CuponsController::class, 'get'])->where('page', '^[1-9]+[0-9]*$');
 
 Route::match(['get', 'post'], '/search/{query}/{page?}', [Controllers\SearchController::class, 'search'])->where('query', '[\w ]+')->where('page', '^[1-9]+[0-9]*$');
-
-Route::get('/privacidade', function (){
-    return view('privacidade');
-  });
-
-Route::get('/cookies', function (){
-    return view('cookies');
-  });
 
 Route::get('/redirect', [Controllers\RedirectController::class, 'process']);
 
@@ -48,7 +41,7 @@ Route::post('/prefer/set', [Controllers\NotificationController::class, 'setPrefe
 Route::get('/login', [Controllers\UserController::class, 'login'])->name('login');
 
 Route::get('/logout', [Controllers\UserController::class, 'logout'])->middleware('auth');
-  
+
 Route::post('/admin', [Controllers\UserController::class, 'auth']);
 
 Route::get('/admin', [Controllers\AdminController::class, 'get'])->middleware('auth')->name('dashboard');
@@ -67,7 +60,14 @@ Route::get('/admin/notify', [Controllers\NotificationController::class, 'getAdmi
 
 Route::post('/admin/notify/send', [Controllers\NotificationController::class, 'send'])->middleware('auth');
 
-Route::get('/403', [
-  function (){
-    return abort(403);
-  }]);
+Route::get('/403', function () {
+  return abort(403);
+});
+
+Route::get('/privacidade', function () {
+  return view('privacidade');
+});
+
+Route::get('/cookies', function () {
+  return view('cookies');
+});

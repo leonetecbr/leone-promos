@@ -8,9 +8,9 @@ namespace App\Helpers;
 class PromosHelper
 {
 
-  /*
+  /**
    * Gera os botões para paginação
-   * @params integer $atual $final
+   * @params int $atual $final
    * @return string
    */
   public static function getPages(int $atual, int $final): string

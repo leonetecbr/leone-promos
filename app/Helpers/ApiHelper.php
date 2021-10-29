@@ -16,7 +16,11 @@ class ApiHelper
 {
   private static $id, $page, $loja, $group_id;
 
-
+  /**
+   * Obtém os cupons atualizados, exclui os antigos e passa os novos para o banco de dados e os retorna em um array
+   * @param bool $exists
+   * @return array
+   */
   private static function toCachedCoupons(bool $exists = false): array
   {
     self::$id = 0;
@@ -61,7 +65,11 @@ class ApiHelper
 
     return $cupom;
   }
-
+  /**
+   * Obtém as promoções atualizadas, exclui as antigas e passa as novas para o banco de dados e as retorna em um array
+   * @param bool $exists
+   * @return array
+   */
   private static function toCachedPromos(bool $exists = false): array
   {
     $dados = self::getAPI();
@@ -153,7 +161,7 @@ class ApiHelper
 
   /**
    * Verifica se as promoções salvas no cache ainda estão adequadas para uso, se sim, as usa, se não pega da API
-   * @params integer $id $page $loja
+   * @params int $id $page $loja
    * @return array
    */
   public static function getPromo(int $id, int $page = 1, int $loja = 0): array
@@ -210,9 +218,9 @@ class ApiHelper
     return self::toCachedPromos();
   }
 
-  /*
+  /**
    * Pega os cupons da api do Awin em CVS e converte para array
-   * return array
+   * @return array
    */
   private static function getAwin(): array
   {
@@ -334,7 +342,7 @@ class ApiHelper
   /**
    * Faz a pesquisa nas ofertas usando a API do Lomadee
    * @param string $q
-   * @param integer $page
+   * @param int $page
    * @return array
    */
   public static function search(string $q, int $page): array

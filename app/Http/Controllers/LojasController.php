@@ -8,7 +8,7 @@ use Exception;
 class LojasController extends Controller
 {
 
-  /*
+  /**
    * Retorna a lista com as principais lojas
    */
   public static function get()
@@ -16,7 +16,7 @@ class LojasController extends Controller
     return view('lojas');
   }
 
-  /*
+  /**
    * Encontra o código corresponde a loja através do nome para poder buscar os dados corretos no banco de dados
    * @param string $loja
    * @param int $page

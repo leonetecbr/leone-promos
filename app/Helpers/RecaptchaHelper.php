@@ -48,7 +48,7 @@ class RecaptchaHelper
     return $result;
   }
 
-  /*
+  /**
    * Direciona a verificação robótica para o método correto
    * @param float $min
    * @return bool
