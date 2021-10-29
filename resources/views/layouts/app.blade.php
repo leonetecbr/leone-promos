@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  @if (!env('APP_DEBUG')){
+  @if (!env('APP_DEBUG'))
   <!--script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ env('SITE_ID_ADSENSE') }}" crossorigin="anonymous"></-script-->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHZEX7GYK2"></script>
   <script>
