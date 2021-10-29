@@ -171,7 +171,7 @@ class ApiHelper
     if ($promos->exists()) {
       $promos = $promos->get();
 
-      if (time() - strtotime($promos[0]->created_at) > 86400) {
+      if (time() - strtotime($promos[0]->created_at) > 86400 && $id !== 9999) {
         self::$id = $id;
         self::$page = $page;
         self::$loja = $loja;
