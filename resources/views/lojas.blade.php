@@ -1,11 +1,10 @@
 @extends('layouts.app')
 @section('title', 'Lojas')
+@section('keywords', 'Americanas, Magalu, Girafa, Positivo, Brastemp, Itatiaia, Shoptime, Brandili, menor preço, promoção, oferta, promoções')
+@section('description', 'Aproveite as melhores ofertas das melhores lojas da internet para você comprar com segurança!')
 @section('content')
 <h1 class="container" id="title">Principais lojas parceiras</h1>
 <article id="categorias" class="container center">
-    <!--a href="/lojas/amazon"><div class="categoria bg-white radius">
-    <img src="https://www.lomadee.com/programas/BR/5992/logo_115x76.png" alt="Amazon" class="icon"/>
-</div></a-->
     <a href="/lojas/americanas">
         <div class="categoria bg-white radius">
             <img src="https://www.lomadee.com/programas/BR/5632/logo_185x140.png" alt="Americanas" class="icon" />

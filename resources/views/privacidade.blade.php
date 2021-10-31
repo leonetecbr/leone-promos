@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Políticas de Privacidade')
+@section('keywords', 'Privacidade, Políticas de privacidade, uso dos dados')
+@section('description', 'Descubra quais são os dados que temos acesso, como usamos e por que precisamos deles.')
 @section('content')
 <article class="container">
   <h1 id="title" class="container">Políticas de Privacidade</h1>

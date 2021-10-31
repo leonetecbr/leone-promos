@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Políticas de Cookies')
+@section('keywords', 'políticas de cookies, cookies, uso dos dados')
+@section('description', 'Descubra como, por que e quais são os cookies usamos para rastrear sua navegação no nosso site.')
 @section('content')
 <article class="container">
   <h1 id="title" class="container">Política de Cookies</h1>

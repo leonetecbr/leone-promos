@@ -17,3 +17,4 @@
   </div>
 </article>
 @endsection
+<?php $robots = 'noindex'; ?>

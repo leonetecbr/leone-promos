@@ -1,6 +1,14 @@
 @extends('layouts.app')
 @section('title', $title)
 <?php $target = ($share ?? true) ? '_blank' : '_self'; ?>
+@if($subtitle??false)
+  @section('keywords', $subtitle.', promoção, menor preço, oferta, promoções')
+  @if($isLoja??false)
+    @section('description', 'Aproveite as melhores ofertas da '.$subtitle.' na internet para você comprar com segurança!')
+  @else
+    @section('description', 'Aproveite as melhores ofertas de '.$subtitle.' em várias lojas da internet para você comprar com segurança!')
+  @endif
+@endif
 @section('content')
 <h1 class="container" id="title">{{ $subtitle??$title }}</h1>
 {!! $pages??'' !!}

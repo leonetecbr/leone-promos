@@ -104,6 +104,6 @@ class LojasController extends Controller
       $topo = false;
     }
 
-    return view('promos', ['title' => $title, 'subtitle' => $subtitle ?? $title, 'promos' => $ofertas, 'cat_id' => $store ?? 0, 'page' => $page, 'pages' => $pagination ?? '', 'topo' => $topo ?? true]);
+    return view('promos', ['title' => $title, 'subtitle' => $subtitle ?? $title, 'promos' => $ofertas, 'cat_id' => $store ?? 0, 'page' => $page, 'pages' => $pagination ?? '', 'topo' => $topo ?? true, 'isLoja' => true]);
   }
 }

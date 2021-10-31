@@ -20,8 +20,16 @@
   <link rel="stylesheet" type="text/css" href="/css/style.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <title>@yield('title') | {{ env('APP_NAME') }}</title>
+  @hasSection('description')
+  <meta name="description" content="@yield('description')">
+    <meta name="og:description" content="@yield('description')">
+  @else
   <meta name="description" content="Aproveite as melhores promoções da internet com total segurança!">
-  <meta name="keywords" content="Smartphone, promoção, melhor preço, site seguro, promoção real">
+  <meta name="og:description" content="Aproveite as melhores promoções da internet com total segurança!">
+  @endif
+  @hasSection('keywords')
+  <meta name="keywords" content="@yield('keywords')">
+  @endif
   <meta name="robots" content="{{ $robots??'index, follow' }}">
   <meta name="author" content="Leone Oliveira">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,7 +40,6 @@
   <meta property="og:site_name" content="{{ env('APP_NAME') }}" />
   <meta property="og:url" content="{{ Request::url() }}" />
   <meta property="og:title" content="@yield('title') | {{ env('APP_NAME') }}" />
-  <meta name="og:description" content="Aproveite as melhores promoções da internet com total segurança!">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Ofertas" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">

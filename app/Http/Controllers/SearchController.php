@@ -46,7 +46,7 @@ class SearchController extends Controller
       }
       $subtitle = 'Erro encontrado!';
     } finally {
-      return view('promos', ['title' => $title, 'subtitle' => $subtitle, 'promos' => $ofertas, 'pages' => $pagination ?? '', 'topo' => $topo ?? true, 'headers' => $headers ?? '', 'cat_id' => 0, 'page' => $page, 'query' => $q]);
+      return view('promos', ['title' => $title, 'subtitle' => $subtitle, 'promos' => $ofertas, 'pages' => $pagination ?? '', 'topo' => $topo ?? true, 'headers' => $headers ?? '', 'cat_id' => 0, 'page' => $page, 'query' => $q, 'robots' => 'noindex']);
     }
   }
 }
