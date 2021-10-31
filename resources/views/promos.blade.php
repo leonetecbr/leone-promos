@@ -2,7 +2,7 @@
 @section('title', $title)
 <?php $target = ($share ?? true) ? '_blank' : '_self'; ?>
 @if($subtitle??false)
-  @section('keywords', $subtitle.', promoção, menor preço, oferta, promoções')
+  @section('keywords', $subtitle.', promoção, menor preço, ofertas, promoções, ofertas')
   @if($isLoja??false)
     @section('description', 'Aproveite as melhores ofertas da '.$subtitle.' na internet para você comprar com segurança!')
   @else

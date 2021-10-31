@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Home')
-@section('keywords', 'Leone Promos, melhores promoções, promoções, preço baixo, comprar online')
+@section('keywords', 'Leone Promos, promoção, menor preço, ofertas, promoções, oferta')
 @section('content')
 <div id="banner" class="container center">
   <div class="title">

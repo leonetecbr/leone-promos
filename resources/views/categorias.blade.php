@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Categorias')
-@section('keywords', 'Smartphone, Informática, Tv, Geladeira, PC, Fogão, máquina de lavar, menor preço, promoção, oferta, promoções')
+@section('keywords', 'Smartphone, Informática, Tv, Geladeira, PC, Fogão, máquina de lavar, promoção, menor preço, ofertas, promoções, oferta')
 @section('description', 'Aproveite as melhores ofertas de várias categorias de produtos em várias lojas da internet para você comprar com segurança!')
 @section('content')
 <h1 class="container" id="title">Categorias</h1>

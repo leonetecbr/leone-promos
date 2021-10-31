@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Notificações')
-@section('keywords', 'menor preço, promoção, notificações, aviso, alerta, promoções, ofertas')
+@section('keywords', ', promoção, menor preço, ofertas, promoções, oferta, notificações, aviso, alerta')
 @section('description', 'Ative nossas notificações, edite suas preferências e não perca nenhuma promoção imperdível.')
 @section('content')
 <article class="container">

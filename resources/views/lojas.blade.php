@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Lojas')
-@section('keywords', 'Americanas, Magalu, Girafa, Positivo, Brastemp, Itatiaia, Shoptime, Brandili, menor preço, promoção, oferta, promoções')
+@section('keywords', 'Americanas, Magalu, Girafa, Positivo, Brastemp, Itatiaia, Shoptime, Brandili, promoção, menor preço, ofertas, promoções, oferta')
 @section('description', 'Aproveite as melhores ofertas das melhores lojas da internet para você comprar com segurança!')
 @section('content')
 <h1 class="container" id="title">Principais lojas parceiras</h1>
