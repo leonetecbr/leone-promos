@@ -14,23 +14,23 @@ use App\Http\Controllers;
 |
 */
 
-Route::get('/', Controllers\HomeController::class);
+Route::get('/', Controllers\HomeController::class)->name('home');
 
-Route::get('/categorias', [Controllers\CategoriasController::class, 'get']);
+Route::get('/categorias', [Controllers\CategoriasController::class, 'get'])->name('categorias');
 
-Route::get('/categorias/{categoria}/{page?}', [Controllers\CategoriasController::class, 'process'])->where('categoria', '[a-z]+')->where('page', '^[1-9]+[0-9]*$');
+Route::get('/categorias/{categoria}/{page?}', [Controllers\CategoriasController::class, 'process'])->where('categoria', '[a-z]+')->where('page', '^[1-9]+[0-9]*$')->name('categoria');
 
-Route::get('/lojas', [Controllers\LojasController::class, 'get']);
+Route::get('/lojas', [Controllers\LojasController::class, 'get'])->name('lojas');
 
-Route::get('/lojas/{loja}/{page?}', [Controllers\LojasController::class, 'process'])->where('loja', '[a-z]+')->where('page', '^[1-9]+[0-9]*$');
+Route::get('/lojas/{loja}/{page?}', [Controllers\LojasController::class, 'process'])->where('loja', '[a-z]+')->where('page', '^[1-9]+[0-9]*$')->name('loja');
 
-Route::get('/cupons/{page?}', [Controllers\CuponsController::class, 'get'])->where('page', '^[1-9]+[0-9]*$');
+Route::get('/cupons/{page?}', [Controllers\CuponsController::class, 'get'])->where('page', '^[1-9]+[0-9]*$')->name('cupons');
 
 Route::match(['get', 'post'], '/search/{query}/{page?}', [Controllers\SearchController::class, 'search'])->where('query', '[\w ]+')->where('page', '^[1-9]+[0-9]*$');
 
 Route::get('/redirect', [Controllers\RedirectController::class, 'process']);
 
-Route::get('/notificacoes', [Controllers\NotificationController::class, 'get']);
+Route::get('/notificacoes', [Controllers\NotificationController::class, 'get'])->name('notificacoes');
 
 Route::post('/register', [Controllers\NotificationController::class, 'register']);
 
@@ -66,8 +66,8 @@ Route::get('/403', function () {
 
 Route::get('/privacidade', function () {
   return view('privacidade');
-});
+})->name('privacidade');
 
 Route::get('/cookies', function () {
   return view('cookies');
-});
+})->name('cookies');

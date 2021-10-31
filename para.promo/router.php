@@ -81,10 +81,6 @@ function processPage(int $cat_id, int $page, int $oferta_id): string
       $path = 'categorias/luz';
       break;
 
-    case 5992:
-      $path = 'lojas/amazon';
-      break;
-
     case 5632:
       $path = 'lojas/americanas';
       break;
