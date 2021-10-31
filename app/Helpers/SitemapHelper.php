@@ -162,6 +162,10 @@ class SitemapHelper
         }
 
         $dados = self::processId($page->id);
+        if ($page->total > 1500) {
+          $page->total = 1000;
+        }
+
         for ($i = 1; $i != $page->total; $i++) {
           $a[] = route(($dados['categorias']) ? 'categoria' : 'loja', $dados['name']) . '/' . $i;
         }
