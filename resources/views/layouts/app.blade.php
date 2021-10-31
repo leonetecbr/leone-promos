@@ -8,12 +8,10 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHZEX7GYK2"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-
     function gtag() {
       dataLayer.push(arguments);
     }
     gtag('js', new Date());
-
     gtag('config', 'G-VHZEX7GYK2');
   </script>
   @endif
@@ -24,8 +22,8 @@
   <meta name="description" content="@yield('description')">
     <meta name="og:description" content="@yield('description')">
   @else
-  <meta name="description" content="Aproveite as melhores promoções da internet com total segurança!">
-  <meta name="og:description" content="Aproveite as melhores promoções da internet com total segurança!">
+  <meta name="description" content="Aproveite as melhores promoções e os melhores cupons das melhores lojas da internet com total segurança!">
+  <meta name="og:description" content="Aproveite as melhores promoções e os melhores cupons das melhores lojas da internet com total segurança!">
   @endif
   @hasSection('keywords')
   <meta name="keywords" content="@yield('keywords')">
@@ -71,7 +69,7 @@
     <div id="logomarca">
       <img src="/img/logo.png" alt="Logo">
     </div>
-    <img id="product-image" class="mt-2">
+    <img id="product-image" class="mt-2" alt="Imagem do produto">
     <h4 class="h4" id="product-title"></h4>
     <div class="mt-2 fs-12">
       <div id="price-from"><small id="top">De:</small> <del id="product-price-from"></del></div>
