@@ -106,3 +106,19 @@ $router->get('/o/{int:cat_id}_{int:page}_{int:oferta_id}', [
     return redirect(SITE . '/' . processPage(intval($cat_id), intval($page), intval($oferta_id)));
   }
 ]);
+
+/**
+ * Sem ligação com o Leone Promos
+ */
+
+$router->get('/bioafro/{int:product_id}', [
+  function ($product_id) {
+    return redirect('https://shopee.com.br/product/402035932/' . $product_id);
+  }
+]);
+
+$router->get('/bioafro', [
+  function () {
+    return redirect('https://shopee.com.br/bioafro');
+  }
+]);
