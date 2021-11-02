@@ -167,7 +167,8 @@ class ApiHelper
   public static function getPromo(int $id, int $page = 1, int $loja = 0): array
   {
     $group_id = ($loja == 0) ? $id : $loja;
-    $promos = Promo::where('group_id', $group_id)->where('page', $page)->take(12);
+    $promos = ($id == 9999) ? Promo::where('group_id', $group_id)->where('page', $page)->take(12)->orderBy('created_at', 'DESC') : $promos = Promo::where('group_id', $group_id)->where('page', $page)->take(12);
+
     if ($promos->exists()) {
       $promos = $promos->get();
 
@@ -177,10 +178,6 @@ class ApiHelper
         self::$loja = $loja;
         self::$group_id = $group_id;
         return self::toCachedPromos(true);
-      }
-
-      if ($id == 9999) {
-        $promos = $promos->sortByDesc('updated_at');
       }
 
       $store = [];
