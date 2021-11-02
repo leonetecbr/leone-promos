@@ -16,7 +16,7 @@ Cupons: Página {{ $page }} de {{ $total }}
         <a href="#telegram" class="tlg"><i class="fab fa-telegram-plane"></i></a>
         <a href="#twitter" class="twt"><i class="fab fa-twitter"></i></a>
         <a href="#copy" class="cpy pls plus-share"><i class="fas fa-copy"></i></a>
-        <a href="#share" class="mre pls hidden plus-share"><i class="fas fa-share-alt"></i></a>
+        <a href="#share" class="mre pls d-none plus-share"><i class="fas fa-share-alt"></i></a>
       </p>
     </div>
     <div class="inner">

@@ -15,6 +15,7 @@
     gtag('config', 'G-VHZEX7GYK2');
   </script>
   @endif
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="/css/style.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <title>@yield('title') | {{ env('APP_NAME') }}</title>
@@ -65,7 +66,7 @@
 </head>
 
 <body>
-  <div id="ig-share">
+  <div id="ig-share" class="d-none">
     <div id="logomarca">
       <img src="/img/logo.png" alt="Logo">
     </div>
@@ -93,45 +94,55 @@
     </div>
   </section>
   @endif
-  <header id="cabecalho" class="container center bg-white">
-    <a href="/">
-      <<?php echo (Request::path() == '/') ? 'h1' : 'span'; ?> id="logo">{{ env('APP_NAME') }}</<?php echo (Request::path() == '/') ? 'h1' : 'span'; ?>>
-    </a>
-    <button id="btn-menu" class="bg-gradiente"><i class="fas fa-bars"></i></button>
-    @if (Auth::check())
-    <a href="/logout"><button id="btn-logout" class="bg-white"><i class="fas fa-sign-out-alt"></i></button></a>
-    @endif
-    <label for="qs"><button id="btn-search" class="bg-white"><i class="fas fa-search"></i></button></label>
-    <nav id="menu" class="center right">
-      <a id="close"><i class="fas fa-times"></i></a>
-      <ul>
-        <li><a href="/">Início</a></li>
-        <li><a href="/cupons">Cupons</a></li>
-        <li><a href="/lojas">Lojas</a></li>
-        <li><a href="/categorias">Categorias</a></li>
-        <li><a href="/notificacoes">Notificações</a></li>
-      </ul>
-    </nav>
+  <header id="cabecalho" class="d-flex justify-content-between p-3 border border-bottom">
+    <div>
+      <a href="/" class="navbar-brand">
+        <div id="logo" class="h-100"></div>
+        <!--img src="/img/logo.png" alt="Leone Promos" id="logo"--> 
+        <{{ (Request::route()->getName()=='home')?'h1':'span'; }} class="d-none">{{ env('APP_NAME') }}</{{ (Request::route()->getName()=='home')?'h1':'span'; }}>
+      </a>
+    </div>
+    <div class="d-flex justify-content-around">
+      <button id="btn-menu" class="bg-white d-md-none border-0 w-100 me-3"><i class="fas fa-bars"></i></button>
+      @if (Auth::check())
+      <a href="/logout"><button id="btn-logout" class="bg-white"><i class="fas fa-sign-out-alt"></i></button></a>
+      @endif
+      <nav class="navbar navbar-expand navbar-light d-md-block d-none me-4">
+        <a id="close"><i class="fas fa-times d-md-none"></i></a>
+        <ul class="navbar-nav">
+          <li class="nav-item"><a href="{{ (Request::route()->getName()=='home')?'#':route('home') }}" class="nav-link{{ (Request::route()->getName()=='home')?' active':''; }}">Início</a></li>
+          <li class="nav-item"><a href="{{ (Request::route()->getName()=='cupons')?'#':route('cupons') }}" class="nav-link{{ (Request::route()->getName()=='cupons')?' active':''; }}">Cupons</a></li>
+          <li class="nav-item"><a href="{{ (Request::route()->getName()=='lojas')?'#':route('lojas') }}" class="nav-link{{ (Request::route()->getName()=='lojas')?' active':''; }}">Lojas</a></li>
+          <li class="nav-item"><a href="{{ (Request::route()->getName()=='categorias')?'#':route('categorias') }}" class="nav-link{{ (Request::route()->getName()=='categorias')?' active':''; }}">Categorias</a></li>
+          <li class="nav-item"><a href="{{ (Request::route()->getName()=='notificacoes')?'#':route('notificacoes') }}" class="nav-link{{ (Request::route()->getName()=='notificacoes')?' active':''; }}">Notificações</a></li>
+        </ul>
+      </nav>
+      <form class="d-none d-lg-flex justify-content-between">
+        <div class="me-2"><input class="form-control mt-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar"></div>
+        <div><button class="btn btn-outline-success mt-2" type="submit"><i class="fas fa-search"></i></button></div>
+      </form>
+      <label for="qs"><button id="btn-search" class="bg-white border-0 h-100 d-lg-none"><i class="fas fa-search"></i></button></label>
+    </div>
   </header>
   @if (empty($_COOKIE['no_notify']) && (Request::route()->getName()!='notificacoes'))
-  <div id="notify" class="container hidden">
+  <div id="notify" class="container d-none">
     <p>Receba nossas seleção de melhores promoções em primeira mão por notificação no seu navegador!</p><br />
     <div class="center"><button id="btn-notify" class="btn-static bg-orange radius" disabled="true">Ativar notificações</button></div>
     <div class="right mt-2" id="inotify"><i class="bolder far fa-eye-slash"></i></div>
   </div>
   @endif
-  <form action="/search" id="form" class="hidden" method="post">
+  <form action="/search" id="form" class="d-none" method="post">
     <input type="search" name="q" id="qs" placeholder="Digite sua pesquisa ..." class="radius bg-black" required autocomplete="off" value="{{ $query??'' }}" />
     <button type="submit" class="bg-gradiente" onclick="event.preventDefault();validate_search();"><i class="fas fa-search"></i></button>
-    <div class="small erro iqs center padding hidden">Pesquisa inválida (Mínimo de 3 caracteres e máximo 64)</div>
+    <div class="small erro iqs center padding d-none">Pesquisa inválida (Mínimo de 3 caracteres e máximo 64)</div>
     <p class="small padding bg-white">Esta pesquisa é protegida pelo Google reCAPTCHA para garantir que você não é um robô. <a target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas de Privacidade</a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de Serviço</a> do Google são aplicáveis.
     <p>
   </form>
-  <div class="container hidden" id="copy_sucess">
+  <div class="container d-none" id="copy_sucess">
     <h6 class="bolder">Texto copiado! <i class="fas fa-check"></i></h6>
     <p>Agora é só compartilhar com seus amigos.</p>
   </div>
-  <main>
+  <main class="container-lg">
     @yield('content')
   </main>
   <a href="https://wa.me/message/D3HHIY2QZGOMH1" target="_blank" rel="nofollow" id="btn-whatsapp">
@@ -142,6 +153,8 @@
     var csrf = '{{ csrf_token() }}';
   </script>
   <script src="/js/jquery.min.js"></script>
+  <script src="/js/popper.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
   <script src="/js/funcoes.js"></script>
   <script src="/js/notify.js"></script>
   <footer id="rodape" class="container center bg-gradiente">

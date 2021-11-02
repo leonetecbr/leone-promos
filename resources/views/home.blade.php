@@ -2,18 +2,18 @@
 @section('title', 'Home')
 @section('keywords', 'Leone Promos, promoção, menor preço, ofertas, promoções, oferta')
 @section('content')
-<div id="banner" class="container center">
-  <div class="title">
-    <h2>PROMOÇÕES</h2>
-    <h3>As melhores promoções da internet para você aproveitar com total segurança! Confira nossa seleção de ofertas, de cupons, navegue pelas categorias ou então sinta-se livre para fazer pesquisas em nossa seleção de ofertas.</h3>
+<div id="banner" class="d-md-flex justify-content-between my-3">
+  <div class="title col-md-8">
+    <h2 class="display-5 mb-3">PROMOÇÕES</h2>
+    <h3 class="mb-2">As melhores promoções da internet para você aproveitar com total segurança! Confira nossa seleção de ofertas, de cupons, navegue pelas categorias ou então sinta-se livre para fazer pesquisas em nossa seleção de ofertas.</h3>
   </div>
-  <div id="buttons">
-    <a href="/cupons"><button class="btn bg-white radius center"><i class="fas fa-tags"></i> Cupons</button></a>
-    <a href="/categorias"><button class="btn bg-black radius center"><i class="fas fa-list"></i> Categorias</button></a>
-    <a href="/lojas"><button class="btn radius bg-orange"><i class="fas fa-store"></i> Lojas</button></a>
+  <div class="col-md-3">
+    <a href="{{ route('cupons') }}"><button class="btn btn-secondary btn-lg w-100 mt-3"><i class="fas fa-tags"></i> Cupons</button></a>
+    <a href="{{ route('categorias') }}"><button class="btn btn btn-dark btn-lg w-100 mt-3"><i class="fas fa-list"></i> Categorias</button></a>
+    <a href="{{ route('lojas') }}"><button class="btn btn btn-orange btn-lg w-100 mt-3"><i class="fas fa-store"></i> Lojas</button></a>
   </div>
 </div>
-<h2 class="container" id="title">Melhores promoções</h2>
+<h2 class="display-6 mb-4 mt-2">Melhores promoções</h2>
 <article id="promos" class="container center">
   <div id="noeye"></div>
   @if (empty($top_promos))
@@ -30,7 +30,7 @@
       <a href="#telegram" class="tlg"><i class="fab fa-telegram-plane"></i></a>
       <a href="#twitter" class="twt"><i class="fab fa-twitter"></i></a>
       <a href="#copy" class="cpy pls plus-share"><i class="fas fa-copy"></i></a>
-      <a href="#share" class="mre pls hidden plus-share"><i class="fas fa-share-alt"></i></a>
+      <a href="#share" class="mre pls d-none plus-share"><i class="fas fa-share-alt"></i></a>
     </p>
   </div>
   @endif
@@ -68,7 +68,7 @@
 </div>
 @endforeach
 </article>
-<div class="flex-column m-auto fs-12 bolder top"><button class="bg-orange radius" onclick="$('html, body').animate({scrollTop : 0},800);" id="btn-top"><i class="fas fa-angle-double-up text-white"></i></button>
+<div class="flex-column m-auto fs-12 bolder top"><button class="bg-orange radius border-0" onclick="$('html, body').animate({scrollTop : 0},800);" id="btn-top"><i class="fas fa-angle-double-up text-white"></i></button>
   <p>Topo</p>
 </div>
 @endif
@@ -76,7 +76,7 @@
 <p class="container">Está com dúvidas se está na pagina real? Não sabe se a promoção é verdadeira? Cole o link da promoção abaixo e você será redirecionado para essa promoção com total segurança.</p>
 <form id="deeplink" class="container center" novalidate autocomplete="off">
   <label for="name">Link:</label> <input type="url" id="url" placeholder="Digite o link da promoção ..." name="url" class="radius"><br />
-  <div class="small erro iurl center hidden"><br>Link inválido! Lembre-se de usar "https://".</div><br />
+  <div class="small erro iurl center d-none"><br>Link inválido! Lembre-se de usar "https://".</div><br />
   <button type="submit" class="bg-black radius">Ir para a promoção</button>
 </form>
 @endsection

@@ -8,10 +8,10 @@
   <div id="notifys" class="container">
    <p>Receba nossas seleção de melhores promoções em primeira mão por notificação no seu navegador!</p><br />
     <div class="center mb-2"><button id="btn-notify" class="btn-static bg-orange radius" disabled="true">Ativar notificações</button></div></div>
-    <div id="preferencias" class="hidden mt-3">
+    <div id="preferencias" class="d-none mt-3">
       <h2 class="h2 container">Peferências</h2>
       <p class="container">Você deseja ser notificado sempre que houver promoção de: </p>
-      <div class="container center mb-2 hidden" id="error_pref-form"></div>
+      <div class="container center mb-2 d-none" id="error_pref-form"></div>
       <form action="/prefer/set" method="post" class="ajax_form container" id="pref-form">
         <div class="container flex-row flex-center row-wrap " id="prefers">
           <div><input type="checkbox" name="p0" id="all" class="prefer"> <label for="all">Tudo</label></div>
@@ -25,7 +25,7 @@
           <div><input type="checkbox" name="p8" id="p8" class="prefer"> <label for="p8">Eletrodomésticos</label></div>
           <div><input type="checkbox" name="p9" id="p9" class="prefer"> <label for="p9">Eletroportáteis</label></div>
         </div>
-        <input type="hidden" name="endpoint" id="endpoint">
+        <input type="d-none" name="endpoint" id="endpoint">
         <div class="center"><button class="btn-static bg-orange radius mb-3" type="submit" id="pref-form_submit">Salvar</button></div>
       </form>
     </div>
