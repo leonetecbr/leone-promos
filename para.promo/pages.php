@@ -11,7 +11,7 @@ $router->get('/', [
 
 $router->get('/amazon/{product_id}', [
   function ($product_id) {
-    return redirect('https://www.amazon.com.br/gp/product/' . $product_id . '?tag=leonepromos-20');
+    return redirect('https://www.amazon.com.br/gp/product/' . $product_id . '?tag=leonepromos08-20');
   }
 ]);
 

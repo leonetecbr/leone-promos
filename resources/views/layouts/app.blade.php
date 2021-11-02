@@ -113,7 +113,7 @@
       </ul>
     </nav>
   </header>
-  @if (empty($_COOKIE['no_notify']))
+  @if (empty($_COOKIE['no_notify']) && (Request::route()->getName()!='notificacoes'))
   <div id="notify" class="container hidden">
     <p>Receba nossas seleção de melhores promoções em primeira mão por notificação no seu navegador!</p><br />
     <div class="center"><button id="btn-notify" class="btn-static bg-orange radius" disabled="true">Ativar notificações</button></div>

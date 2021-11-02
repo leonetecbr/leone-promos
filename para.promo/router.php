@@ -129,6 +129,10 @@ function processPage(int $cat_id, int $page, int $oferta_id): string
       $path = 'lojas/repassa';
       break;
 
+    case 0:
+      $path = '';
+      break;
+
     default:
       return '';
   }
