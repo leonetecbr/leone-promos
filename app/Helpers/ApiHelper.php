@@ -236,13 +236,11 @@ class ApiHelper
     $dado = array_map('str_getcsv', explode("\n", $csv));
     $a = 0;
     for ($i = 0; !empty($dado[$i][1]); $i++) {
-      if ($dado[$i][1] === 'Aliexpress BR & LATAM') {
-        $text = str_replace('Para todos os compradores', '', $dado[$i][5]);
-        $text = str_replace('•', '', $dado[$i][5]);
+      /**if ($dado[$i][1] === 'Aliexpress BR & LATAM') {
         $cupom[$a] = [
           'code' => $dado[$i][4],
           'vigency' => $dado[$i][7],
-          'description' => $text,
+          'description' => $dado[$i][5],
           'link' => $dado[$i][11],
           'store' => [
             'image' => 'https://ae01.alicdn.com/kf/H2111329c7f0e475aac3930a727edf058z.png',
@@ -252,7 +250,7 @@ class ApiHelper
           ]
         ];
         $a++;
-      } elseif ($dado[$i][1] === 'Casas Bahia BR') {
+      } else**/ if ($dado[$i][1] === 'Casas Bahia BR') {
         $cupom[$a] = [
           'code' => $dado[$i][4],
           'vigency' => $dado[$i][7],
