@@ -48,7 +48,7 @@
   <div class="inner">
     <img src="{{ $promo['imagem'] }}" alt="{{ $promo['nome'] }}" class="product-image" /><br />
     <a target="{{ $target }}" href="{{ $promo['link'] }}" class="product-title">{{ mb_strimwidth($promo['nome'], 0, 50, '...' ) }}</a>
-    @if (!empty($promo['discount']) && $promo['discount']>=0.01)
+    @if (!empty($promo['de']) && ($promo['de']-$promo['por'])>=0.01)
     <p>De: <del>R$ {{ number_format($promo['de'], 2, ',', '.') }}</del></p>
     @endif
     <h4>{{ ($promo['por'] != 0)? 'R$' . number_format($promo['por'], 2, ',', '.') : 'Grátis'; }}</h4>

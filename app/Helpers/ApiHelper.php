@@ -179,6 +179,10 @@ class ApiHelper
         return self::toCachedPromos(true);
       }
 
+      if ($id == 9999) {
+        $promos = $promos->sortByDesc('updated_at');
+      }
+
       $store = [];
       for ($i = 0; $i < count($promos); $i++) {
         $promotions['offers'][$i] = $promos[$i]->toArray();
