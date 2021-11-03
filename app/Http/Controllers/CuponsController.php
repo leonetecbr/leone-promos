@@ -13,8 +13,8 @@ class CuponsController extends Controller
     $cupons = $cupons['coupons'];
     return view('cupons', [
       'cupons' => $cupons,
-      'pages' => Helpers\PromosHelper::getPages($page, $final),
-      'total' => $final,
+      'group_name' => 1,
+      'final' => $final,
       'page' => $page
     ]);
   }

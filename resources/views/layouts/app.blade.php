@@ -103,10 +103,7 @@
       </a>
     </div>
     <div class="d-flex justify-content-around">
-      <button id="btn-menu" class="bg-white d-md-none border-0 w-100 me-3"><i class="fas fa-bars"></i></button>
-      @if (Auth::check())
-      <a href="/logout"><button id="btn-logout" class="bg-white"><i class="fas fa-sign-out-alt"></i></button></a>
-      @endif
+      <button id="btn-menu" class="bg-white d-md-none border-0 h-100 me-3"><i class="fas fa-bars"></i></button>
       <nav class="navbar navbar-expand navbar-light d-md-block d-none me-4">
         <a id="close"><i class="fas fa-times d-md-none"></i></a>
         <ul class="navbar-nav">
@@ -122,6 +119,9 @@
         <div><button class="btn btn-outline-success mt-2" type="submit"><i class="fas fa-search"></i></button></div>
       </form>
       <label for="qs"><button id="btn-search" class="bg-white border-0 h-100 d-lg-none"><i class="fas fa-search"></i></button></label>
+      @if (Auth::check())
+      <a href="/logout" class="h-100 mt-md-3 ms-1"><button id="btn-logout" class="bg-white border-0"><i class="fas fa-sign-out-alt"></i></button></a>
+      @endif
     </div>
   </header>
   @if (empty($_COOKIE['no_notify']) && (Request::route()->getName()!='notificacoes'))
@@ -142,7 +142,7 @@
     <h6 class="bolder">Texto copiado! <i class="fas fa-check"></i></h6>
     <p>Agora é só compartilhar com seus amigos.</p>
   </div>
-  <main class="container-lg">
+  <main class="px-5 py-3">
     @yield('content')
   </main>
   <a href="https://wa.me/message/D3HHIY2QZGOMH1" target="_blank" rel="nofollow" id="btn-whatsapp">

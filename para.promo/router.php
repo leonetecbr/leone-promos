@@ -69,24 +69,13 @@ function processPage(int $cat_id, int $page, int $oferta_id): string
       $path = 'categorias/casaedeco';
       break;
 
-    case 2801:
-      $path = 'categorias/armario';
-      break;
-
     case 2916:
       $path = 'categorias/mesas';
       break;
 
-    case 2930:
-      $path = 'categorias/luz';
-      break;
 
     case 5632:
       $path = 'lojas/americanas';
-      break;
-
-    case 5727:
-      $path = 'lojas/girafa';
       break;
 
     case 5766:

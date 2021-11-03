@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('title')
-Cupons: Página {{ $page }} de {{ $total }}
+Cupons: Página {{ $page }} de {{ $final }}
 @endsection
 @section('keywords', 'cupom, desconto, cupom de desconto, Americanas, Casas Bahia, Ponto Frio, Amazon, promoção, menor preço, ofertas, promoções, oferta')
 @section('description', 'Está de olho naquele produto tão desejado, mas precisa de um desconto antes de fechar a compra ? Aqui você encontra os cupons de desconto que ainda funcionam para usar nas maiores lojas do Brasil.')
 @section('content')
-<h1 class="container" id="title">Cupons</h1>
-{!! $pages??'' !!}
+<h1 class="display-5 text-center">Cupons</h1>
+@include('utils.pagination')
 <article id="cupons" class="container center">
   <div id="noeye"></div>
   @for ($i = 0; $i < count($cupons); $i++) <div class="cupom bg-white radius" id="cupom_{{ $i }}">

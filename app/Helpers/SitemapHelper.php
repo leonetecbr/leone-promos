@@ -149,8 +149,8 @@ class SitemapHelper
 
     $a = [
       route('home'), route('privacidade'), route('cookies'), route('notificacoes'), route('lojas'), route('categorias'), route('cupons'),
-      route('loja', 'americanas'), route('loja', 'girafa'), route('loja', 'magalu'), route('loja', 'submarino'), route('loja', 'shoptime'), route('loja', 'brandili'), route('loja', 'usaflex'), route('loja', 'electrolux'), route('loja', 'submarino'), route('loja', 'itatiaia'), route('loja', 'brastemp'), route('loja', 'positivo'), route('loja', 'etna'), route('loja', 'repassa'),
-      route('categoria', 'smartphones'), route('categoria', 'informatica'), route('categoria', 'eletronicos'), route('categoria', 'eletrodomesticos'), route('categoria', 'pc'), route('categoria', 'bonecas'), route('categoria', 'tv'), route('categoria', 'fogao'), route('categoria', 'geladeira'), route('categoria', 'lavaroupas'), route('categoria', 'roupasm'), route('categoria', 'roupasf'), route('categoria', 'talheres'), route('categoria', 'camas'), route('categoria', 'casaedeco'), route('categoria', 'armario'), route('categoria', 'mesas'), route('categoria', 'luz')
+      route('loja', 'americanas'), route('loja', 'magalu'), route('loja', 'submarino'), route('loja', 'shoptime'), route('loja', 'brandili'), route('loja', 'usaflex'), route('loja', 'electrolux'), route('loja', 'submarino'), route('loja', 'itatiaia'), route('loja', 'brastemp'), route('loja', 'positivo'), route('loja', 'etna'), route('loja', 'repassa'),
+      route('categoria', 'smartphones'), route('categoria', 'informatica'), route('categoria', 'eletronicos'), route('categoria', 'eletrodomesticos'), route('categoria', 'pc'), route('categoria', 'bonecas'), route('categoria', 'tv'), route('categoria', 'fogao'), route('categoria', 'geladeira'), route('categoria', 'lavaroupas'), route('categoria', 'roupasm'), route('categoria', 'roupasf'), route('categoria', 'talheres'), route('categoria', 'camas'), route('categoria', 'casaedeco'), route('categoria', 'mesas')
     ];
 
     $pages = Page::all();

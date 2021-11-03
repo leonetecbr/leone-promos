@@ -30,11 +30,6 @@ class LojasController extends Controller
           $title = 'Americanas';
           break;
 
-        case 'girafa':
-          $store = 5727;
-          $title = 'Girafa';
-          break;
-
         case 'magalu':
           return redirect('https://www.magazinevoce.com.br/magazineofertasleone/');
 
@@ -95,7 +90,6 @@ class LojasController extends Controller
       $dado = Helpers\ApiHelper::getPromo(999, $page, $store);
       $ofertas = $dado['offers'];
       $pages = $dado['totalPage'];
-      $pagination = Helpers\PromosHelper::getPages($page, $pages);
       $subtitle = $title;
       $title = 'Loja: ' . $title . " - Página {$page} de {$pages}";
     } catch (Exception $e) {
@@ -104,6 +98,6 @@ class LojasController extends Controller
       $topo = false;
     }
 
-    return view('promos', ['title' => $title, 'subtitle' => $subtitle ?? $title, 'promos' => $ofertas, 'cat_id' => $store ?? 0, 'page' => $page, 'pages' => $pagination ?? '', 'topo' => $topo ?? true, 'isLoja' => true]);
+    return view('promos', ['title' => $title, 'subtitle' => $subtitle ?? $title, 'promos' => $ofertas, 'cat_id' => $store ?? 0, 'page' => $page ?? 1, 'final' => $pages ?? 1, 'topo' => $topo ?? true, 'isLoja' => true, 'group_name' => $loja ?? '']);
   }
 }

@@ -100,19 +100,9 @@ class CategoriasController extends Controller
           $title = 'Casa e decoração';
           break;
 
-        case 'armario':
-          $id = 2801;
-          $title = 'Guarda-roupa';
-          break;
-
         case 'mesas':
           $id = 2916;
           $title = 'Mesas';
-          break;
-
-        case 'luz':
-          $id = 2930;
-          $title = 'Lâmpada';
           break;
 
         default:

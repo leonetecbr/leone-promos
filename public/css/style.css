@@ -5,8 +5,25 @@ div#logo{width: 160px;}
 .btn-orange{color:#fff;background-color:#da6709;border-color:#da6709}
 .btn-orange:hover{background-color: #d05e00;border-color: #d05e00;color:#fff;}
 .text-orange{color: #da6709;}
+.card-header > .wpp{background-color: #34af23;}
+.card-header > .tlg{background-color: #0088cc;}
+.card-header > .igs{background: linear-gradient(to top, #fbad50, #8a3ab9);}
+.card-header > .twt{background-color: #00acee;}
+.card-header > .pls{background-color: #000;color:#fff;}
+.card-header a{padding: 3px 6px;border-radius:40px;height:40px;line-height:34px;text-align:center;}
+.card-header i, .share a{color:#fff;}
+.card-header {width: 100%; text-align: center;}
+img.loja{max-width: 50px;margin-bottom: 10px;text-align: center;}
+.categoria > a > img{height: 100px;max-width: 200px;}
+#categorias > .categoria a {margin-top: 10px;}
+.categoria {height: 140px;width: 240px;border: 1px solid grey;padding: 20px;text-align: center;margin: 15px;}
+.categoria > a{color: #000;text-decoration: none;}
 
 @media screen and (min-width: 800px){
   div#logo{width: 235px;}
   #logo{background: url('/img/logo.png') left center/250px no-repeat;}
+}
+
+@media (min-width: 992px){
+  .col-lg-3-5 {width: 30%;flex: 0 0 auto;}
 }
