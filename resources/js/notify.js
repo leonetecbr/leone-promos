@@ -18,9 +18,6 @@
 * Modifications were made to make the code fit my project 
 */
 
-
-const applicationServerPublicKey = 'BNksb3cs9MUsHYK0Z1MOnQYrfueQ7Ph_V6J_EAkF3kynvcrm9ipJuE0ExqCUDMlJrLJyarP7xv4GKE--wnwtkXU';
-
 let isSubscribed = false;
 let swRegistration = null;
 let btn = $('#btn-notify');

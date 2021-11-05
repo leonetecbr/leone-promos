@@ -17,7 +17,8 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravelium/sitemap": "^8.0",
-        "minishlink/web-push": "^6.0"
+        "minishlink/web-push": "^6.0",
+        "twbs/bootstrap": "5.0.2"
     },
     "support": {
         "email": "falecom@leone.tec.br"

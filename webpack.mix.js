@@ -11,7 +11,17 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+mix.sass('resources/views/layouts/app.scss', 'public/css/bootstrap.css')
+    .styles([
+        'resources/css/style.css'
+    ], 'public/css/app.css')
+    .scripts([
+        'node_modules/jquery/dist/jquery.js'], 'public/js/jquery.js')
+    .scripts([
+        'node_modules/bootstrap/dist/js/bootstrap.bundle.js'], 'public/js/bootstrap.js')
+    .scripts([
+        'resources/Js/app.js',
+        'resources/js/notify.js'
+    ], 'public/js/app.js')
+    .version()
+    .disableNotifications();

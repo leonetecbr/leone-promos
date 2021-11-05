@@ -2,9 +2,6 @@ img{max-width: 100%;}
 div#logo{width: 160px;}
 #logo{background: url('/img/logo.png') left center/165px no-repeat;}
 .grecaptcha-badge {visibility: hidden;}
-.btn-orange{color:#fff;background-color:#da6709;border-color:#da6709}
-.btn-orange:hover{background-color: #d05e00;border-color: #d05e00;color:#fff;}
-.text-orange{color: #da6709;}
 .card-header > .wpp{background-color: #34af23;}
 .card-header > .tlg{background-color: #0088cc;}
 .card-header > .igs{background: linear-gradient(to top, #fbad50, #8a3ab9);}
@@ -18,6 +15,7 @@ img.loja{max-width: 50px;margin-bottom: 10px;text-align: center;}
 #categorias > .categoria a {margin-top: 10px;}
 .categoria {height: 140px;width: 240px;border: 1px solid grey;padding: 20px;text-align: center;margin: 15px;}
 .categoria > a{color: #000;text-decoration: none;}
+#social > a{margin-right: 15px;}
 
 @media screen and (min-width: 800px){
   div#logo{width: 235px;}

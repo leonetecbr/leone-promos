@@ -15,8 +15,8 @@
     gtag('config', 'G-VHZEX7GYK2');
   </script>
   @endif
-  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
-  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <link rel="stylesheet" type="text/css" href="{{ url(mix('css/bootstrap.css')) }}" />
+  <link rel="stylesheet" type="text/css" href="{{ url(mix('css/app.css')) }}" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <title>@yield('title') | {{ env('APP_NAME') }}</title>
   @hasSection('description')
@@ -94,7 +94,7 @@
     </div>
   </section>
   @endif
-  <header id="cabecalho" class="d-flex justify-content-between p-3 border border-bottom">
+  <header id="cabecalho" class="d-flex justify-content-between p-3 border border-bottom bg-white">
     <div>
       <a href="/" class="navbar-brand">
         <div id="logo" class="h-100"></div>
@@ -151,23 +151,24 @@
   </a>
   <script>
     var csrf = '{{ csrf_token() }}';
+    const KeyV3Recaptcha = '{{ env("PUBLIC_RECAPTCHA_V3") }}';
+    const applicationServerPublicKey = '{{ env("VAPID_PUBLIC_KEY") }}';
   </script>
-  <script src="/js/jquery.min.js"></script>
-  <script src="/js/popper.min.js"></script>
-  <script src="/js/bootstrap.min.js"></script>
-  <script src="/js/funcoes.js"></script>
-  <script src="/js/notify.js"></script>
-  <footer id="rodape" class="container center bg-gradiente">
-    <div id="social">
+  <script src="{{ url(mix('js/jquery.js')) }}"></script>
+  <script src="{{ url(mix('js/bootstrap.js')) }}"></script>
+  <script src="{{ url(mix('js/app.js')) }}"></script>
+  <footer id="rodape" class="text-center border-top p-4">
+    <div id="social" class="mx-auto fs-1 mb-3">
       <a href="https://wa.me/message/D3HHIY2QZGOMH1"><i class="fab fa-whatsapp-square"></i></a>
       <a href="https://instagram.com/ofertas.leone"><i class="fab fa-instagram-square"></i></a>
       <a href="https://facebook.com/ofertas.leone"><i class="fab fa-facebook-square"></i></a>
       <a href="https://github.com/leonetecbr/leone-promos/"><i class="fab fa-github-square"></i></a>
     </div>
-    <p id="copyright" class="fs-1">Ao abrir ou comprar um produto mostrado aqui no site, algumas lojas poderam nos pagar uma comissão, mas isso não influencia em quais promoções são postadas por aqui. Em caso de divergência no preço, o preço válido é o da loja. Somos apenas um canal que te ajuda a encontrar o menor preço, não somos loja!<br /><br />
-      <span class="bolder">&copy; {{ date('Y') }} - {{ env('APP_NAME') }}</span> - Todos os direitos reservados.
-    </p>
-    <p class="fs-1"><span class="bolder">Políticas: </span> <a href="/privacidade" target="_blank">de Privacidade</a> | <a href="/cookies" target="_blank">de Cookies</a></p>
+    <div id="copyright" class="fs-5 fw-light">
+      <p>Ao abrir ou comprar um produto mostrado aqui no site, algumas lojas poderam nos pagar uma comissão, mas isso não influencia em quais promoções são postadas por aqui. Em caso de divergência no preço, o preço válido é o da loja. Somos apenas um canal que te ajuda a encontrar o menor preço, não somos loja!</p>
+      <p><span class="fw-bolder">&copy; {{ date('Y') }} - {{ env('APP_NAME') }}</span> - Todos os direitos reservados.</p>
+    </div>
+    <p class="fs-5"><span class="bolder">Políticas: </span> <a href="/privacidade" target="_blank" class="text-decoration-none">de Privacidade</a> | <a href="/cookies" target="_blank" class="text-decoration-none">de Cookies</a></p>
   </footer>
 </body>
 

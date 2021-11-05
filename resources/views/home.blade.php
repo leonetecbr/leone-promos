@@ -9,8 +9,8 @@
   </div>
   <div class="col-md-3">
     <a href="{{ route('cupons') }}"><button class="btn btn-secondary btn-lg w-100 mt-3"><i class="fas fa-tags"></i> Cupons</button></a>
-    <a href="{{ route('categorias') }}"><button class="btn btn btn-dark btn-lg w-100 mt-3"><i class="fas fa-list"></i> Categorias</button></a>
-    <a href="{{ route('lojas') }}"><button class="btn btn btn-orange btn-lg w-100 mt-3"><i class="fas fa-store"></i> Lojas</button></a>
+    <a href="{{ route('categorias') }}"><button class="btn btn-dark btn-lg w-100 mt-3"><i class="fas fa-list"></i> Categorias</button></a>
+    <a href="{{ route('lojas') }}"><button class="btn text-light btn-primary btn-lg w-100 mt-3"><i class="fas fa-store"></i> Lojas</button></a>
   </div>
 </div>
 <h2 class="display-6 mb-4 mt-2">Melhores promoções</h2>
@@ -66,8 +66,8 @@
 </div>
 @endforeach
 </article>
-<div class="flex-column m-auto fs-12 bolder top"><button class="bg-orange radius border-0" onclick="$('html, body').animate({scrollTop : 0},800);" id="btn-top"><i class="fas fa-angle-double-up text-white"></i></button>
-  <p>Topo</p>
+<div class="container text-center flex-column fs-12 bolder top"><button class="rounded bg-primary px-3 py-2 border-0" onclick="$('html, body').animate({scrollTop : 0},800);" id="btn-top"><i class="fas fa-angle-double-up text-white"></i></button>
+  <p class="fs-5 my-2 fw-light">Topo</p>
 </div>
 @endif
 <h2 class="container h2">Verificar promoção</h2>
