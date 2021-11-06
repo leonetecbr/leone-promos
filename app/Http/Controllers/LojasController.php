@@ -94,7 +94,7 @@ class LojasController extends Controller
       $title = 'Loja: ' . $title . " - Página {$page} de {$pages}";
     } catch (Exception $e) {
       $title = 'Não encontrada';
-      $ofertas = '<p class="fs-12 erro m-auto">' . $e->getMessage() . '</p>';
+      $ofertas = '<p class="fs-4 text-danger error mt-3 mx-auto">' . $e->getMessage() . '</p>';
       $topo = false;
     }
 

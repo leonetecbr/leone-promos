@@ -24,4 +24,6 @@ mix.sass('resources/views/layouts/app.scss', 'public/css/bootstrap.css')
         'resources/js/notify.js'
     ], 'public/js/app.js')
     .version()
+    .scripts([
+        'resources/js/sw.js'], 'public/sw.js')
     .disableNotifications();

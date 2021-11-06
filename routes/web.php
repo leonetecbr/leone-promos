@@ -26,7 +26,7 @@ Route::get('/lojas/{loja}/{page?}', [Controllers\LojasController::class, 'proces
 
 Route::get('/cupons/{page?}', [Controllers\CuponsController::class, 'get'])->where('page', '^[1-9]+[0-9]*$')->name('cupons');
 
-Route::match(['get', 'post'], '/search/{query}/{page?}', [Controllers\SearchController::class, 'search'])->where('query', '[\w ]+')->where('page', '^[1-9]+[0-9]*$');
+Route::match(['get', 'post'], '/search/{query}/{page?}', [Controllers\SearchController::class, 'search'])->where('query', '[\w ]+')->where('page', '^[1-9]+[0-9]*$')->name('pesquisa');
 
 Route::get('/redirect', [Controllers\RedirectController::class, 'process']);
 

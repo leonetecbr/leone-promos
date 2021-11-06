@@ -49,7 +49,7 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
 
 function initializeUI() {
   if (document.cookie.indexOf("no_notify") < 0) {
-    $('#notify').show('slow');
+    $('#notify').removeClass('d-none');
   }
   btn.attr('disabled', false);
   btn.click(function () {
@@ -111,7 +111,7 @@ function unsubscribeUser() {
   if (sub) {
     sub.unsubscribe();
     update('remove');
-    $('#preferencias').addClass('hidden');
+    $('#preferencias').addClass('d-none');
   } else {
     updateBtn();
   }

@@ -105,7 +105,7 @@ class ApiHelper
 
       $p = new Promo();
       if (is_numeric($promos[$i]['id'])) {
-        $p->id = $promos[$i]['id'];
+        $p->id = self::$group_id . $promos[$i]['id'];
       } else {
         $p->id = 9 . date('His') . $i;
       }

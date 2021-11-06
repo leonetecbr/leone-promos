@@ -112,15 +112,14 @@ class CategoriasController extends Controller
       $dado = Helpers\ApiHelper::getPromo($id, $page);
       $ofertas = $dado['offers'];
       $pages = $dado['totalPage'];
-      $pagination = Helpers\PromosHelper::getPages($page, $pages);
       $subtitle = $title;
       $title = 'Categoria: ' . $title . " - Página {$page} de {$pages}";
     } catch (Exception $e) {
       $title = 'Não encontrada';
-      $ofertas = '<p class="fs-12 erro m-auto">' . $e->getMessage() . '</p>';
+      $ofertas = '<p class="fs-4 text-danger error mt-3 mx-auto">' . $e->getMessage() . '</p>';
       $topo = false;
     }
 
-    return view('promos', ['title' => $title, 'subtitle' => $subtitle ?? $title, 'promos' => $ofertas, 'cat_id' => $id ?? 0, 'page' => $page, 'pages' => $pagination ?? '', 'topo' => $topo ?? true]);
+    return view('promos', ['title' => $title, 'subtitle' => $subtitle ?? $title, 'promos' => $ofertas, 'cat_id' => $id ?? 0, 'page' => $page, 'final' => $pages ?? '', 'topo' => $topo ?? true, 'isLoja' => false, 'group_name' => $categoria ?? '']);
   }
 }

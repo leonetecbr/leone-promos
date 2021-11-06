@@ -18,7 +18,7 @@
 </div>
 @endif
 
-<article id="promos" class="d-flex justify-content-between flex-wrap">
+<article id="promos" class="d-flex justify-content-around flex-wrap">
   <div id="noeye"></div>
   @if ($errors->any())
   <div class="w100 alert erro mb-2">
@@ -78,8 +78,9 @@
 @endforeach
 </article>
 @if ($topo??true)
-<div class="flex-column m-auto fs-12 bolder top"><button class="padding bg-orange" onclick="$('html, body').animate({scrollTop : 0},800);"><i class="fas fa-angle-double-up text-white"></i></button>
-  <p>Topo</p>
+<div class="container text-center flex-column fs-12 bolder top"><button class="rounded bg-primary px-3 py-2 border-0" onclick="$('html, body').animate({scrollTop : 0},800);" id="btn-top"><i class="fas fa-angle-double-up text-white"></i></button>
+  <p class="fs-5 my-2 fw-light">Topo</p>
+</div>
   @endif
   @else
   {!! $promos !!}</article>

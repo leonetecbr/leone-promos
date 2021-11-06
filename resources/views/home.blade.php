@@ -14,7 +14,7 @@
   </div>
 </div>
 <h2 class="display-6 mb-4 mt-2">Melhores promoções</h2>
-<article id="promos" class="d-flex justify-content-between flex-wrap">
+<article id="promos" class="d-flex justify-content-around flex-wrap">
   <div id="noeye"></div>
   @if (empty($top_promos))
   <p class="m-auto">Nenhuma oferta encontrada!</p>
@@ -70,11 +70,16 @@
   <p class="fs-5 my-2 fw-light">Topo</p>
 </div>
 @endif
-<h2 class="container h2">Verificar promoção</h2>
-<p class="container">Está com dúvidas se está na pagina real? Não sabe se a promoção é verdadeira? Cole o link da promoção abaixo e você será redirecionado para essa promoção com total segurança.</p>
-<form id="deeplink" class="container center" novalidate autocomplete="off">
-  <label for="name">Link:</label> <input type="url" id="url" placeholder="Digite o link da promoção ..." name="url" class="radius"><br />
-  <div class="small erro iurl center d-none"><br>Link inválido! Lembre-se de usar "https://".</div><br />
-  <button type="submit" class="bg-black radius">Ir para a promoção</button>
+<h2 class="display-6">Verificar promoção</h2>
+<p class="f-5 my-3">Está com dúvidas se está na pagina real? Não sabe se a promoção é verdadeira? Cole o link da promoção abaixo e você será redirecionado para essa promoção com total segurança.</p>
+<form id="deeplink" novalidate autocomplete="off" class="needs-validation justify-content-center row">
+  <div class="col-7">
+    <label for="url" class="visually-hidden">Link</label>
+    <input type="url" id="url" placeholder="Digite o link da promoção ..." name="url" class="form-control" required>
+    <div class="invalid-feedback">Link inválido! Lembre-se de usar "https://".</div>
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn text-light btn-primary">Checar</button>
+  </div>
 </form>
 @endsection

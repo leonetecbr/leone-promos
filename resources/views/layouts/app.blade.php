@@ -82,15 +82,15 @@
     <p id="share-link" class="mt-3"></p>
   </div>
   @if (empty($_COOKIE['accept']))
-  <section class="aviso_eu_cookie">
-    <p>Esse site utiliza cookies e coleta alguns dados. Ao continuar a usar este site, você concorda com isso.</p>
+  <section class="fixed-bottom bg-primary col-12 col-md-9 mx-auto mb-md-3 text-light p-3" id="aviso_cookie">
+    <p class="mb-2">Esse site utiliza cookies e coleta alguns dados. Ao continuar a usar este site, você concorda com isso.</p>
     <p>Para saber mais, inclusive sobre quais dados são coletados, consulte aqui:
-      <a href="/cookies" target="_blank">
-        Políticas de cookies</a> e <a href="/privacidade" target="_blank">
+      <a href="/cookies" target="_blank" class="text-light">
+        Políticas de cookies</a> e <a href="/privacidade" target="_blank" class="text-light">
         Políticas de privacidade</a>.
     </p>
-    <div id="div_accept">
-      <button class="right" id="accept" onclick="accept()">Fechar e aceitar</button>
+    <div class="text-end">
+      <button class="btn btn-outline-light" id="accept" onclick="accept()">Fechar e aceitar</button>
     </div>
   </section>
   @endif
@@ -114,8 +114,8 @@
           <li class="nav-item"><a href="{{ (Request::route()->getName()=='notificacoes')?'#':route('notificacoes') }}" class="nav-link{{ (Request::route()->getName()=='notificacoes')?' active':''; }}">Notificações</a></li>
         </ul>
       </nav>
-      <form class="d-none d-lg-flex justify-content-between">
-        <div class="me-2"><input class="form-control mt-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar"></div>
+      <form id="search-lg" class="d-none d-lg-flex justify-content-between needs-validation" action="#" novalidate>
+        <div class="me-2"><input class="form-control mt-2" type="search" placeholder="Pesquisar" minlength="3" maxlength="20" required aria-label="Pesquisar" value="{{ $query??'' }}" name="q" id="ql"></div>
         <div><button class="btn btn-outline-success mt-2" type="submit"><i class="fas fa-search"></i></button></div>
       </form>
       <label for="qs"><button id="btn-search" class="bg-white border-0 h-100 d-lg-none"><i class="fas fa-search"></i></button></label>
@@ -125,17 +125,21 @@
     </div>
   </header>
   @if (empty($_COOKIE['no_notify']) && (Request::route()->getName()!='notificacoes'))
-  <div id="notify" class="container d-none">
+  <div id="notify" class="container d-none border-bottom p-3">
     <p>Receba nossas seleção de melhores promoções em primeira mão por notificação no seu navegador!</p><br />
-    <div class="center"><button id="btn-notify" class="btn-static bg-orange radius" disabled="true">Ativar notificações</button></div>
-    <div class="right mt-2" id="inotify"><i class="bolder far fa-eye-slash"></i></div>
+    <div class="float-end me-2" id="inotify"><i class="fw-bolder far fa-eye-slash pointer"></i></div>
+    <div class="text-center"><button id="btn-notify" class="btn btn-primary text-light" disabled="true">Ativar notificações</button></div>
   </div>
   @endif
-  <form action="/search" id="form" class="d-none" method="post">
-    <input type="search" name="q" id="qs" placeholder="Digite sua pesquisa ..." class="radius bg-black" required autocomplete="off" value="{{ $query??'' }}" />
-    <button type="submit" class="bg-gradiente" onclick="event.preventDefault();validate_search();"><i class="fas fa-search"></i></button>
-    <div class="small erro iqs center padding d-none">Pesquisa inválida (Mínimo de 3 caracteres e máximo 64)</div>
-    <p class="small padding bg-white">Esta pesquisa é protegida pelo Google reCAPTCHA para garantir que você não é um robô. <a target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas de Privacidade</a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de Serviço</a> do Google são aplicáveis.
+  <form action="#" id="search" class="d-none d-lg-none needs-validation p-3" method="post" novalidate>
+    <div class="row mb-3">
+      <div class="col-10 col-sm-11">
+        <input type="search" name="q" id="qs" placeholder="Digite sua pesquisa ..." class="form-control" required autocomplete="off" value="{{ $query??'' }}" />
+      </div>
+      <div class="col-1"><button type="submit" class="btn btn-outline-success"><i class="fas fa-search"></i></button></div>
+    </div>
+    <div class="invalid-feedback">Pesquisa inválida (Mínimo de 3 caracteres e máximo 20)</div>
+    <p class="small">Esta pesquisa é protegida pelo Google reCAPTCHA para garantir que você não é um robô. <a target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas de Privacidade</a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de Serviço</a> do Google são aplicáveis.
     <p>
   </form>
   <div class="container d-none" id="copy_sucess">
@@ -145,10 +149,11 @@
   <main class="px-5 py-3">
     @yield('content')
   </main>
-  <a href="https://wa.me/message/D3HHIY2QZGOMH1" target="_blank" rel="nofollow" id="btn-whatsapp">
-    <div><i class="fab fa-whatsapp"></i>
-    </div>
-  </a>
+  <div class="wp-button rounded-circle text-light float-end text-center">
+    <a href="https://wa.me/message/D3HHIY2QZGOMH1" target="_blank" rel="nofollow" id="btn-whatsapp">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+</div>
   <script>
     var csrf = '{{ csrf_token() }}';
     const KeyV3Recaptcha = '{{ env("PUBLIC_RECAPTCHA_V3") }}';
@@ -157,18 +162,18 @@
   <script src="{{ url(mix('js/jquery.js')) }}"></script>
   <script src="{{ url(mix('js/bootstrap.js')) }}"></script>
   <script src="{{ url(mix('js/app.js')) }}"></script>
-  <footer id="rodape" class="text-center border-top p-4">
-    <div id="social" class="mx-auto fs-1 mb-3">
+  <footer id="rodape" class="text-center border-top p-3 mt-3">
+    <div id="social" class="mx-auto fs-2 mb-3">
       <a href="https://wa.me/message/D3HHIY2QZGOMH1"><i class="fab fa-whatsapp-square"></i></a>
       <a href="https://instagram.com/ofertas.leone"><i class="fab fa-instagram-square"></i></a>
       <a href="https://facebook.com/ofertas.leone"><i class="fab fa-facebook-square"></i></a>
       <a href="https://github.com/leonetecbr/leone-promos/"><i class="fab fa-github-square"></i></a>
     </div>
-    <div id="copyright" class="fs-5 fw-light">
+    <div id="copyright" class="fs-6 fw-light">
       <p>Ao abrir ou comprar um produto mostrado aqui no site, algumas lojas poderam nos pagar uma comissão, mas isso não influencia em quais promoções são postadas por aqui. Em caso de divergência no preço, o preço válido é o da loja. Somos apenas um canal que te ajuda a encontrar o menor preço, não somos loja!</p>
       <p><span class="fw-bolder">&copy; {{ date('Y') }} - {{ env('APP_NAME') }}</span> - Todos os direitos reservados.</p>
     </div>
-    <p class="fs-5"><span class="bolder">Políticas: </span> <a href="/privacidade" target="_blank" class="text-decoration-none">de Privacidade</a> | <a href="/cookies" target="_blank" class="text-decoration-none">de Cookies</a></p>
+    <p class="fs-6"><span class="bolder">Políticas: </span> <a href="/privacidade" target="_blank" class="text-decoration-none">de Privacidade</a> | <a href="/cookies" target="_blank" class="text-decoration-none">de Cookies</a></p>
   </footer>
 </body>
 

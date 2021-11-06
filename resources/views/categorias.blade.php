@@ -7,7 +7,7 @@
 <article id="categorias" class="d-flex container flex-wrap container justify-content-center mt-4">
   <div class="categoria">
     <a href="{{ route('categoria', 'smartphones') }}">
-      <span class="fs-3 fw-light"><i class="fas fa-mobile"></i><br>Smartphones</span>
+      <span class="fs-3 fw-light"><i class="fa-solid fa-mobile-button"></i><br>Smartphones</span>
     </a>
   </div>
   <div class="categoria">
