@@ -99,7 +99,7 @@
       <a href="/" class="navbar-brand">
         <div id="logo" class="h-100"></div>
         <!--img src="/img/logo.png" alt="Leone Promos" id="logo"--> 
-        <{{ (Request::route()->getName()=='home')?'h1':'span'; }} class="d-none">{{ env('APP_NAME') }}</{{ (Request::route()->getName()=='home')?'h1':'span'; }}>
+        <{{ (Route::currentRouteName()=='home')?'h1':'span'; }} class="d-none">{{ env('APP_NAME') }}</{{ (Route::currentRouteName()=='home')?'h1':'span'; }}>
       </a>
     </div>
     <div class="d-flex justify-content-around">
@@ -107,11 +107,11 @@
       <nav class="navbar navbar-expand navbar-light d-md-block d-none me-4">
         <a id="close"><i class="fas fa-times d-md-none"></i></a>
         <ul class="navbar-nav">
-          <li class="nav-item"><a href="{{ (Request::route()->getName()=='home')?'#':route('home') }}" class="nav-link{{ (Request::route()->getName()=='home')?' active':''; }}">Início</a></li>
-          <li class="nav-item"><a href="{{ (Request::route()->getName()=='cupons')?'#':route('cupons') }}" class="nav-link{{ (Request::route()->getName()=='cupons')?' active':''; }}">Cupons</a></li>
-          <li class="nav-item"><a href="{{ (Request::route()->getName()=='lojas')?'#':route('lojas') }}" class="nav-link{{ (Request::route()->getName()=='lojas')?' active':''; }}">Lojas</a></li>
-          <li class="nav-item"><a href="{{ (Request::route()->getName()=='categorias')?'#':route('categorias') }}" class="nav-link{{ (Request::route()->getName()=='categorias')?' active':''; }}">Categorias</a></li>
-          <li class="nav-item"><a href="{{ (Request::route()->getName()=='notificacoes')?'#':route('notificacoes') }}" class="nav-link{{ (Request::route()->getName()=='notificacoes')?' active':''; }}">Notificações</a></li>
+          <li class="nav-item"><a href="{{ (Route::currentRouteName()=='home')?'#':route('home') }}" class="nav-link{{ (Route::currentRouteName()=='home')?' active':''; }}">Início</a></li>
+          <li class="nav-item"><a href="{{ (Route::currentRouteName()=='cupons')?'#':route('cupons') }}" class="nav-link{{ (Route::currentRouteName()=='cupons')?' active':''; }}">Cupons</a></li>
+          <li class="nav-item"><a href="{{ (Route::currentRouteName()=='lojas')?'#':route('lojas') }}" class="nav-link{{ (Route::currentRouteName()=='lojas')?' active':''; }}">Lojas</a></li>
+          <li class="nav-item"><a href="{{ (Route::currentRouteName()=='categorias')?'#':route('categorias') }}" class="nav-link{{ (Route::currentRouteName()=='categorias')?' active':''; }}">Categorias</a></li>
+          <li class="nav-item"><a href="{{ (Route::currentRouteName()=='notificacoes')?'#':route('notificacoes') }}" class="nav-link{{ (Route::currentRouteName()=='notificacoes')?' active':''; }}">Notificações</a></li>
         </ul>
       </nav>
       <form id="search-lg" class="d-none d-lg-flex justify-content-between needs-validation" action="#" novalidate>
@@ -120,7 +120,7 @@
       </form>
       <label for="qs"><button id="btn-search" class="bg-white border-0 h-100 d-lg-none"><i class="fas fa-search"></i></button></label>
       @if (Auth::check())
-      <a href="/logout" class="h-100 mt-md-3 ms-1"><button id="btn-logout" class="bg-white border-0"><i class="fas fa-sign-out-alt"></i></button></a>
+      <a href="/logout" class="mt-md-2 ms-3"><button id="btn-logout" class="btn btn-outline-danger"><i class="fas fa-sign-out-alt"></i></button></a>
       @endif
     </div>
   </header>
@@ -146,7 +146,7 @@
     <h6 class="bolder">Texto copiado! <i class="fas fa-check"></i></h6>
     <p>Agora é só compartilhar com seus amigos.</p>
   </div>
-  <main class="px-5 py-3">
+  <main class="p-3 px-md-5">
     @yield('content')
   </main>
   <div class="wp-button rounded-circle text-light float-end text-center">

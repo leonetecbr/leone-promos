@@ -10,7 +10,11 @@ class UserController extends Controller
 {
   public function login()
   {
-    return view('login');
+    if (!Auth::check()) {
+      return redirect()->route('dashboard');
+    } else {
+      return view('login');
+    }
   }
 
   public function auth(Request $request)

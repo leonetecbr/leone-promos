@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title', 'Proibido')
 @section('content')
-<article class="container">
-  <div class="center">
-    <p><i class="fas fa-ban fs-20 erro"></i></p>
-    <h1 class="h2">Proibido</h1>
+<article class="container fs-5">
+  <div class="text-center">
+    <div><i class="fas fa-ban text-danger fs-1"></i></div>
+    <h1>Proibido</h1>
   </div>
-  <div class="mt-5 m-auto w500">
+  <div class="mt-5">
     <p>Desculpe! Essa página não está disponível para você!</p>
     <p>Possíveis causas: </p>
-    <ul class="fs-12">
+    <ul>
       <li>Você acessou um diretório privado</li>
       <li>Você forneceu credenciais inválidas para acessar essa página</li>
       <li>Você errou a URL</li>
