@@ -1,3 +1,14 @@
 $primary: #da6709;
 
+$utilities: (
+  "max-height": (
+    property: max-height,
+    class: mh,
+    values: (
+      100: 100%,
+      33: 33.33%,
+      10: 10%
+    )
+));
+
 @import '~bootstrap/scss/bootstrap';

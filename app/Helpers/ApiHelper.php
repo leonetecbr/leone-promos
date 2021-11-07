@@ -33,6 +33,7 @@ class ApiHelper
     }
 
     $lojas = [];
+    $a = 0;
     for ($i = 0; $i < count($cupons); $i++) {
       $store_id = $cupons[$i]['store']['id'];
       if (!array_key_exists($store_id, $lojas)) {
@@ -57,11 +58,14 @@ class ApiHelper
       $c->ate = str_replace(":59:00", ":59:59", $cupons[$i]['vigency']);
       $c->store_id = $cupons[$i]['store']['id'];
       $c->save();
-      $cupom['coupons'][$i] = $c->toArray();
-      $cupom['coupons'][$i]['store'] = $lojas[$store_id];
+      if (($i >= (self::$page - 1) * 18) && ($i < self::$page * 18)) {
+        $cupom['coupons'][$a] = $c->toArray();
+        $cupom['coupons'][$a]['store'] = $lojas[$store_id];
+        $a++;
+      }
     }
 
-    $cupom['totalPage'] = ceil(Cupom::all()->count() / 18);
+    $cupom['totalPage'] = ceil($i / 18);
 
     return $cupom;
   }
@@ -305,10 +309,12 @@ class ApiHelper
   public static function getCupons(int $page): array
   {
     if (empty(Cupom::where('id', 1)->first())) {
+      self::$page = $page;
       return self::toCachedCoupons();
     } else {
       $cupons = Cupom::paginate(18, '*', 'cupons', $page);
       if (time() - strtotime($cupons[0]->created_at) > 86400) {
+        self::$page = $page;
         return self::toCachedCoupons(true);
       }
       $cupom['totalPage'] =  $cupons->lastPage();

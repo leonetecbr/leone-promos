@@ -54,7 +54,7 @@ class TopPromosController extends Controller
       $promos['offers'][$i]['store']['link'] = '/admin/promos/edit/' . $promos['offers'][$i]['id'];
     }
 
-    $botao = '<a href="/admin/promos/new"><button type="submit" class="padding btn-static bg-orange flex-center radius">Nova promoção</button></a>';
+    $botao = '<a href="/admin/promos/new"><button type="submit" class="btn btn-primary text-light mb-4 mt-2 btn-lg w-75">Nova promoção</button></a>';
 
     return view('promos', ['title' => 'Top Promos', 'subtitle' => 'Top Promos', 'promos' => $promos['offers'], 'cat_id' => 0, 'page' => 1, 'topo' => $topo ?? true, 'share' => false, 'add' => $botao]);
   }

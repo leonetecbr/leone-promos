@@ -2,6 +2,21 @@
 @section('title', 'Home')
 @section('keywords', 'Leone Promos, promoção, menor preço, ofertas, promoções, oferta')
 @section('content')
+<div id="ig-share" class="d-none fixed-top bg-white p-3 w-100 h-100 text-center">
+  <div id="logomarca" class="border-bottom mh-10">
+    <img src="/img/logo.png" alt="Logo" class="mx-auto">
+  </div>
+  <img id="product-image" class="mt-2 mh-33" alt="Imagem do produto">
+  <h4 class="h4" id="product-title"></h4>
+  <div class="mt-3 fs-5">
+    <div id="price-from mb-3"><small class="text-muted">De:</small> <del id="product-price-from" class="h4 fw-light"></del></div>
+    <small class="text-muted">Por:</small> <span id="product-price-to" class="h3"></span>
+    <div id="installment" class="mt-2"></div>
+  </div>
+  <div id="product-desc" class="mt-3"></div>
+  <div id="product-code" class="mt-3 code"><input type="text" disabled="true" value="Acesse o link para obter o cupom" class="form-control text-center"></div>
+  <p id="share-link" class="mt-3 fw-bolder fs-5"></p>
+</div>
 <div id="banner" class="d-md-flex justify-content-between my-3">
   <div class="title col-md-8">
     <h2 class="display-5 mb-3">PROMOÇÕES</h2>
@@ -35,7 +50,7 @@
     @endif
     <div class="card-body p-2 text-center">
       <img src="{{ $promo['imagem'] }}" alt="{{ $promo['nome'] }}" class="product-image mb-3" /><br />
-      <h4 class="card-title"><a target="_blank" href="{{ $promo['link'] }}" class="text-decoration-none link-dark">{{ $promo['nome'] }}</a></h4>
+      <h4 class="card-title"><a target="_blank" href="{{ $promo['link'] }}" class="text-decoration-none link-dark product-title">{{ $promo['nome'] }}</a></h4>
       @if (!empty($promo['de']) && ($promo['de']-$promo['por'])>=0.01)
       <p class="mb-2">De: <del>R$ {{ number_format($promo['de'], 2, ',', '.') }}</del></p>
       @endif
@@ -51,7 +66,7 @@
       <p class="description">{!! $promo['desc'] !!}</p>
       @endif
       @if (!empty($promo['code']))
-      <div class="code row col-11 mx-auto"><input value="{{ $promo['code'] }}" disabled="true" class="center form-control text-center" id="input{{ $loop->index }}" /></div>
+      <div class="code row col-11 mx-auto"><input value="{{ $promo['code'] }}" disabled="true" class="form-control text-center discount" id="input{{ $loop->index }}" /></div>
       @endif
     </div>
     <div class="final text-center p-2">

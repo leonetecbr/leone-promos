@@ -6992,6 +6992,14 @@ textarea.form-control-lg {
   max-height: 100% !important;
 }
 
+.mh-33 {
+  max-height: 33.33% !important;
+}
+
+.mh-10 {
+  max-height: 10% !important;
+}
+
 .vh-100 {
   height: 100vh !important;
 }

@@ -17,16 +17,13 @@
   {!! $add??'' !!}
 </div>
 @endif
-
+@if ($errors->any())
+@foreach ($errors->all() as $error)
+<div class="alert alert-danger text-center w-75 mb-4 mx-auto">{{ $error }}</div>
+@endforeach
+@endif
 <article id="promos" class="d-flex justify-content-around flex-wrap">
   <div id="noeye"></div>
-  @if ($errors->any())
-  <div class="w100 alert erro mb-2">
-    @foreach ($errors->all() as $error)
-    <p class="center">{{ $error }}</p>
-    @endforeach
-  </div>
-  @endif
   @if (empty($promos))
   <p class="m-auto">Nenhuma oferta encontrada!</p>
 </article>
@@ -46,7 +43,7 @@
     @endif
     <div class="card-body p-2 text-center">
       <img src="{{ $promo['imagem'] }}" alt="{{ $promo['nome'] }}" class="product-image mb-3" /><br />
-      <h4 class="card-title"><a target="_blank" href="{{ $promo['link'] }}" class="text-decoration-none link-dark">{{ $promo['nome'] }}</a></h4>
+      <h4 class="card-title"><a target="_blank" href="{{ $promo['link'] }}" class="text-decoration-none link-dark product-title">{{ $promo['nome'] }}</a></h4>
       @if (!empty($promo['de']) && ($promo['de']-$promo['por'])>=0.01)
       <p class="mb-2">De: <del>R$ {{ number_format($promo['de'], 2, ',', '.') }}</del></p>
       @endif
@@ -62,7 +59,7 @@
       <p class="description">{!! $promo['desc'] !!}</p>
       @endif
       @if (!empty($promo['code']))
-      <div class="code row col-11 mx-auto"><input value="{{ $promo['code'] }}" disabled="true" class="center form-control text-center" id="input{{ $loop->index }}" /></div>
+      <div class="code row col-11 mx-auto"><input value="{{ $promo['code'] }}" disabled="true" class="form-control text-center discount" id="input{{ $loop->index }}" /></div>
       @endif
     </div>
     <div class="final text-center p-2">

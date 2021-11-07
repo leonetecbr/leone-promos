@@ -32,14 +32,14 @@ function ig_share(element) {
   } else {
     $('#product-code').hide()
   }
-  $('#product-price-to').html($(element).find('h4').html())
+  $('#product-price-to').html($(element).find('.pricing-card-title').html())
   $('#share-link').html(getUrl(element))
-  $('#ig-share').fadeIn('slow')
+  $('#ig-share').removeClass('d-none')
 }
 
 function getText(element) {
   const desc = $(element).find('.description').html()
-  var text = $(element).find('h4').html()
+  var text = $(element).find('.pricing-card-title').html()
   const price_from = $(element).find('del').html()
   const title = $(element).find('.product-title').html()
 
@@ -73,25 +73,6 @@ function getTextCupom(element) {
   return text
 }
 
-function getText(element) {
-  const desc = $(element).find('.description').html()
-  var text = $(element).find('h4').html()
-  const price_from = $(element).find('del').html()
-  const title = $(element).find('.product-title').html()
-
-  if (text !== 'Grátis') {
-    text = 'Por apenas: ' + text;
-  }
-
-  text = title + '.\n\n' + text + '!'
-
-  if (desc !== undefined) {
-    text += '\n\n' + desc
-  }
-
-  return text
-}
-
 function getUrl(element) {
   return 'https://para.promo/o/' + element.replace('#', '')
 }
@@ -114,8 +95,8 @@ function copy_s(t) {
   } else {
     navigator.clipboard.writeText(t)
   }
-  $('#copy_sucess').fadeIn('slow')
-  setTimeout(function () { $('#copy_sucess').fadeOut('slow') }, 3000)
+  $('#copy_sucess').removeClass('d-none')
+  setTimeout(function () { $('#copy_sucess').addClass('d-none') }, 3000)
 }
 
 function copy(e, o) {
@@ -189,8 +170,29 @@ function redirectUrl() {
 }
 
 function pesquisar(q, token) {
-  alert(q)
-  alert(token)
+  $('body').append('<form method="post" action="/search/' + q + '" id="pesquisar"><input type="hidden" name="_token" value="' + csrf + '"/><input type="hidden" name="g-recaptcha-response" value="' + token + '"/></form>')
+  $('#pesquisar').submit();
+}
+
+function paginateSearch(href, token) {
+  $('body').append('<form method="post" action="' + href + '" id="pesquisar"><input type="hidden" name="_token" value="' + csrf + '"/><input type="hidden" name="g-recaptcha-response" value="' + token + '"/></form>')
+  $('#pesquisar').submit();
+}
+
+function getToken(action, dados, type = 'ajax') {
+  grecaptcha.ready(function () {
+    grecaptcha.execute(KeyV3Recaptcha, { action: action }).then(function (token) {
+      if (type == 'ajax') {
+        sendForm(dados, token);
+      } else {
+        if (type == 'search') {
+          pesquisar(dados, token);
+        } else if (type == 'paginate') {
+          paginateSearch(dados, token)
+        }
+      }
+    });
+  });
 }
 
 $(document).ready(function () {
@@ -205,20 +207,6 @@ $(document).ready(function () {
     }
     this.classList.add('was-validated')
   });
-
-  function getToken(action, dados, type = 'ajax') {
-    grecaptcha.ready(function () {
-      grecaptcha.execute(KeyV3Recaptcha, { action: action }).then(function (token) {
-        if (type == 'ajax') {
-          sendForm(dados, token);
-        } else {
-          if (type == 'search') {
-            pesquisar(dados, token);
-          }
-        }
-      });
-    });
-  }
 
   $('.needs-validation').submit(function (event) {
     if (this.checkValidity() === false) {
@@ -239,7 +227,7 @@ $(document).ready(function () {
   });
 
   if (navigator.share) {
-    $('.plus-share').fadeIn('slow')
+    $('.plus-share').removeClass('d-none')
   }
 
   $('.igs').click(function () {
@@ -329,7 +317,7 @@ $(document).ready(function () {
   })
 
   $('#ig-share').dblclick(function () {
-    $(this).fadeOut('slow')
+    $(this).addClass('d-none')
   })
 
   var nav = $('#cabecalho')
@@ -434,32 +422,29 @@ $(document).ready(function () {
     createCookie('no_notify', 1, 60)
   })
 
-  $('.pages').click(function () {
-    e.preventDefault()
-    var href = $(this).attr('href')
-    grecaptcha.ready(function () {
-      grecaptcha.execute(KeyV3Recaptcha, { action: 'pagination' }).then(function (token) {
-        $('body').append('<form method="post" id="reload" action="' + href + '"><input type="hidden" name="g-recaptcha-response" value="' + token + '"/><input type="hidden" name="_token" id="token" value="' + csrf + '"></form>')
-        $('#reload').submit()
-      })
+  if (window.location.pathname.indexOf("/search") == 0) {
+    $('.page-link').click(function (e) {
+      e.preventDefault()
+      var href = $(this).attr('href')
+      getToken('paginate', href, 'paginate')
     })
+  }
+
+  $("#prefers input[type='checkbox']").change(function () {
+    if ($("#prefers input[type='checkbox']").is(':checked')) {
+      $('#para').attr('disabled', true)
+      $('#para').removeAttr('required')
+    } else {
+      $('#para').attr('disabled', false)
+      $('#para').attr('required')
+    }
   })
-})
 
-$('.prefer').change(function () {
-  if ($(this).is(':checked')) {
-    $('#para').attr('disabled', true)
-    $('#para').removeAttr('required')
-  } else {
-    $('#para').attr('disabled', false)
-    $('#para').attr('required')
-  }
-})
-
-$('#all').change(function () {
-  if ($(this).is(':checked')) {
-    $('.prefer').attr('checked', true)
-  } else {
-    $('.prefer').removeAttr('checked')
-  }
+  $('#all').change(function () {
+    if ($(this).is(':checked')) {
+      $('.prefer').attr('checked', true)
+    } else {
+      $('.prefer').removeAttr('checked')
+    }
+  })
 })

@@ -66,21 +66,6 @@
 </head>
 
 <body>
-  <div id="ig-share" class="d-none">
-    <div id="logomarca">
-      <img src="/img/logo.png" alt="Logo">
-    </div>
-    <img id="product-image" class="mt-2" alt="Imagem do produto">
-    <h4 class="h4" id="product-title"></h4>
-    <div class="mt-2 fs-12">
-      <div id="price-from"><small id="top">De:</small> <del id="product-price-from"></del></div>
-      <small id="top2">Por:</small><span class="fs-20 bolder" id="product-price-to"></span>
-      <p id="installment"></p>
-    </div>
-    <div id="product-desc" class="mt-2"></div>
-    <div id="product-code" class="mt-2 code"><input type="text" disabled="true" value="Acesse o link para obter o cupom" class="w100 center"></div>
-    <p id="share-link" class="mt-3"></p>
-  </div>
   @if (empty($_COOKIE['accept']))
   <section class="fixed-bottom bg-primary col-12 col-md-9 mx-auto mb-md-3 text-light p-3" id="aviso_cookie">
     <p class="mb-2">Esse site utiliza cookies e coleta alguns dados. Ao continuar a usar este site, você concorda com isso.</p>
@@ -142,7 +127,7 @@
     <p class="small">Esta pesquisa é protegida pelo Google reCAPTCHA para garantir que você não é um robô. <a target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas de Privacidade</a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de Serviço</a> do Google são aplicáveis.
     <p>
   </form>
-  <div class="container d-none" id="copy_sucess">
+  <div class="container mt-3 p-3 alert-success d-none" id="copy_sucess">
     <h6 class="bolder">Texto copiado! <i class="fas fa-check"></i></h6>
     <p>Agora é só compartilhar com seus amigos.</p>
   </div>
