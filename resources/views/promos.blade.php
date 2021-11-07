@@ -29,8 +29,7 @@
 </article>
 @elseif (is_array($promos))
 @foreach ($promos as $promo)
-<div class="promo col-lg-3-5 col-md-5 col-sm-10 col-12 mb-5" id="{{ $cat_id }}_{{ $page }}_{{ $loop->index }}">
-  <div class="card shadow-sm">
+<div class="promo card col-lg-3-5 col-md-5 col-sm-10 col-12 mb-5" id="{{ $cat_id }}_{{ $page }}_{{ $loop->index }}">
     @if ($share??true)
     <div class="card-header p-2">
         <a href="#story" class="igs"><i class="fab fa-instagram"></i></a>
@@ -41,13 +40,10 @@
         <a href="#share" class="mre pls d-none plus-share"><i class="fas fa-share-alt"></i></a>
     </div>
     @endif
-    <div class="card-body p-2 text-center">
+    <div class="card-body p-3 text-center">
       <img src="{{ $promo['imagem'] }}" alt="{{ $promo['nome'] }}" class="product-image mb-3" /><br />
       <h4 class="card-title"><a target="_blank" href="{{ $promo['link'] }}" class="text-decoration-none link-dark product-title">{{ $promo['nome'] }}</a></h4>
-      @if (!empty($promo['de']) && ($promo['de']-$promo['por'])>=0.01)
-      <p class="mb-2">De: <del>R$ {{ number_format($promo['de'], 2, ',', '.') }}</del></p>
-      @endif
-      <h5 class="pricing-card-title">{{ ($promo['por'] != 0)? 'R$' . number_format($promo['por'], 2, ',', '.') : 'Grátis'; }}</h5>
+      <h5 class="pricing-card-title mt-3">{{ ($promo['por'] != 0)? 'R$' . number_format($promo['por'], 2, ',', '.') : 'Grátis'; }}</h5>
       <p class="installment text-muted">
         @if ($promo['vezes']!==1 && $promo['vezes']!==NULL)
         {{ $promo['vezes'] }}x{{ (($promo['parcelas']*$promo['vezes']) <= $promo['por']+0.05)?' sem juros':''; }} de R$ {{ number_format($promo['parcelas'], 2, ',', '.') }}
@@ -62,7 +58,7 @@
       <div class="code row col-11 mx-auto"><input value="{{ $promo['code'] }}" disabled="true" class="form-control text-center discount" id="input{{ $loop->index }}" /></div>
       @endif
     </div>
-    <div class="final text-center p-2">
+    <div class="final text-center p-3">
       <div class="text-end"><a target="_blank" href="{{ $promo['store']['link'] }}"><img src="{{ $promo['store']['imagem'] }}" alt="{{ $promo['store']['nome'] }}" class="loja"></a></div>
       @if (empty($promo['code']))
         <a target="_blank" href="{{ $promo['link'] }}" class="mx-auto"><button class="btn btn-outline-danger w-75">Ir para a loja</button></a>

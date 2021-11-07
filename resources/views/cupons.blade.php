@@ -7,26 +7,25 @@ Cupons: Página {{ $page }} de {{ $final }}
 @section('content')
 <h1 class="display-5 text-center">Cupons</h1>
 @include('utils.pagination')
-<article id="cupons" class="container center">
+<article id="cupons" class="container d-flex justify-content-around flex-wrap">
   <div id="noeye"></div>
-  @for ($i = 0; $i < count($cupons); $i++) <div class="cupom bg-white radius" id="cupom_{{ $i }}">
-    <div class="share">
-      <p>
-        <a href="#whatsapp" class="wpp"><i class="fab fa-whatsapp"></i></a>
-        <a href="#telegram" class="tlg"><i class="fab fa-telegram-plane"></i></a>
-        <a href="#twitter" class="twt"><i class="fab fa-twitter"></i></a>
-        <a href="#copy" class="cpy pls plus-share"><i class="fas fa-copy"></i></a>
-        <a href="#share" class="mre pls d-none plus-share"><i class="fas fa-share-alt"></i></a>
-      </p>
+  @for ($i = 0; $i < count($cupons); $i++)
+  <div class="cupom card col-lg-3-5 col-md-5 col-sm-10 col-12 mb-5" id="cupom_{{ $i }}">
+    <div class="card-header p-3">
+      <a href="#whatsapp" class="wpp"><i class="fab fa-whatsapp"></i></a>
+      <a href="#telegram" class="tlg"><i class="fab fa-telegram-plane"></i></a>
+      <a href="#twitter" class="twt"><i class="fab fa-twitter"></i></a>
+      <a href="#copy" class="cpy pls plus-share"><i class="fas fa-copy"></i></a>
+      <a href="#share" class="mre pls d-none plus-share"><i class="fas fa-share-alt"></i></a>
     </div>
-    <div class="inner">
-      <div class="site"><img src="{{ $cupons[$i]['store']['imagem'] }}" alt="{{ $cupons[$i]['store']['nome'] }}" class="product-image"></div>
-      <h4>{{ mb_strimwidth($cupons[$i]['desc'], 0, 100, '...' ) }}</h4>
-      <p class="cupom-vigency">Válido até {{ $cupons[$i]['ate'] }}</p>
-      <p class="code">Cupom: <input value="{{ $cupons[$i]['code'] }}" disabled="true" class="center cupom-code" id="input_{{ $i }}" /></p>
+    <div class="card-body p-3 text-center mb-md-3">
+      <div class="site"><img src="{{ $cupons[$i]['store']['imagem'] }}" alt="{{ $cupons[$i]['store']['nome'] }}" class="loja-image"></div>
+      <h4 class="card-title">{{ mb_strimwidth($cupons[$i]['desc'], 0, 100, '...' ) }}</h4>
+      <div class="cupom-vigency my-3">Válido até {{ $cupons[$i]['ate'] }}</div>
+      <div class="code row col-11 mx-auto"><input value="{{ $cupons[$i]['code'] }}" disabled="true" class="form-control text-center discount" id="input_{{ $i }}" /></div>
     </div>
-    <div class="final">
-      <button onclick="copy('{{ $cupons[$i]['link'] }}', '#input_{{ $i }}')" class="bg-black radius">
+    <div class="final text-center p-3">
+      <button onclick="copy('{{ $cupons[$i]['link'] }}', '#input_{{ $i }}')" class="btn btn-outline-danger w-75 mx-auto">
         Copiar e ir para a loja</button>
     </div>
     </div>

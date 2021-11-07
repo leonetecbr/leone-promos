@@ -61,9 +61,9 @@ function getText(element) {
 }
 
 function getTextCupom(element) {
-  var text = $(element).find('h4').html() + ' no(a) ' + $(element).find('img').attr('alt')
+  var text = $(element).find('.card-title').html() + ' no(a) ' + $(element).find('.loja-image').attr('alt')
   const vigency = $(element).find('.cupom-vigency').html()
-  var cupom = $(element).find('.cupom-code').val()
+  var cupom = $(element).find('.discount').val()
   var code = cupom.substr(0, cupom.length - 2)
 
   cupom = 'Cupom: ' + code.replace(/\w/g, '*') + cupom.substr(-2)
