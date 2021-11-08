@@ -2,7 +2,7 @@
 @section('title', 'Login administrativo')
 @section('content')
 <article class="container">
-  <h1 class="display-5 mb-4">Login administrativo</h1>
+  <h1 class="display-5 mb-4 text-center">Login administrativo</h1>
   <div id="login">
     <form action="/admin" method="post" class="col-12 col-md-8 col-lg-6 col-xl-5 mx-auto mt-2 d-flex flex-column border py-5 px-3">
       @if ($errors->any())
