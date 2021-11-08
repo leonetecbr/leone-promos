@@ -23,13 +23,19 @@ img.loja{max-width: 50px;margin-bottom: 10px;text-align: center;}
 #logomarca > img {width: 250px;}
 img[alt=Extra], img[alt=Ponto]{background-color: #606060;padding:10px;}
 .loja-image[alt=Extra], .loja-image[alt=Ponto], .loja-image[alt="Casas Bahia"]{margin-bottom: 3rem;margin-top: 2rem;}
+#close{position: absolute;top: 20px;right: 20px;}
+
+@media (max-width: 768px){
+  .fixed-menu{position: fixed;top: 0;right: 0;left: 0;z-index: 1030;}
+  #menu{font-size: calc(1.375rem + 1.5vw) !important;}
+}
 
 @media (min-width: 768px){
   div.card-body{position: relative;top: 40%;transform: translateY(-50%);flex: none;}
   div.final{margin-top: auto;}
 }
 
-@media screen and (min-width: 800px){
+@media (min-width: 800px){
   div#logo{width: 235px;}
   #logo{background: url('/img/logo.png') left center/250px no-repeat;}
 }
