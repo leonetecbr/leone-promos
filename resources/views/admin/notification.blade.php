@@ -5,12 +5,12 @@
   <h1 class="text-center display-5 mb-4">Nova notificação</h1>
   @if ($errors->any())
   @foreach ($errors->all() as $error)
-  <div class="alert-danger text-center mb-3 p-3">{{ $error }}</div>
+  <div class="alert alert-danger text-center mb-3">{{ $error }}</div>
   @endforeach
   @endif
   @if (session('sender'))
-  <div class="center alert text-green">
-    <p>{{ session('sender') }}</p>
+  <div class="text-center alert alert-success mb-3">
+    {{ session('sender') }}
   </div>
   @endif
   <form action="/admin/notify/send" class="p3 px-lg-5 flex-column" method="post" autocomplete="off">

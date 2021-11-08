@@ -5,7 +5,7 @@
   <h1 class="display-5 text-center mb-3">{{ $title }}</h1>
   @if ($errors->any())
   @foreach ($errors->all() as $error)
-  <div class="alert-danger text-center mb-3 p-3">{{ $error }}</div>
+  <div class="alert alert-danger text-center mb-3">{{ $error }}</div>
   @endforeach
   @endif
   <form action="/admin/promos/save" class="p-3 flex-column" method="post" autocomplete="off">
