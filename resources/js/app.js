@@ -379,7 +379,9 @@ $(document).ready(function () {
 
   var search = false
   $('#btn-menu').click(function () {
-    $('#menu').fadeIn('slow')
+    $('#menu').removeClass('d-none')
+    $('#menu').addClass('fixed-menu')
+    $('#close').removeClass('d-none')
   })
 
   $('#btn-search').click(function () {
@@ -396,7 +398,9 @@ $(document).ready(function () {
   })
 
   $('#close').click(function () {
-    $('#menu').fadeOut('slow')
+    $('#menu').addClass('d-none')
+    $('#close').addClass('d-none')
+    $('#menu').removeClass('fixed-menu')
   })
 
   $('input').change(function () {

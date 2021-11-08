@@ -89,9 +89,9 @@
     </div>
     <div class="d-flex justify-content-around">
       <button id="btn-menu" class="bg-white d-md-none border-0 h-100 me-3"><i class="fas fa-bars"></i></button>
-      <nav class="navbar navbar-expand navbar-light d-md-block d-none me-4">
-        <a id="close"><i class="fas fa-times d-md-none"></i></a>
-        <ul class="navbar-nav">
+      <nav class="navbar navbar-expand-md navbar-light d-md-block d-none me-md-4 bg-white w-100 w-md-auto h-md-auto h-100" id="menu">
+        <button class="btn rounded btn-outline-danger d-md-none" id="close"><i class="fas fa-times fs-1"></i></button>
+        <ul class="navbar-nav mx-auto">
           <li class="nav-item"><a href="{{ (Route::currentRouteName()=='home')?'#':route('home') }}" class="nav-link{{ (Route::currentRouteName()=='home')?' active':''; }}">Início</a></li>
           <li class="nav-item"><a href="{{ (Route::currentRouteName()=='cupons')?'#':route('cupons') }}" class="nav-link{{ (Route::currentRouteName()=='cupons')?' active':''; }}">Cupons</a></li>
           <li class="nav-item"><a href="{{ (Route::currentRouteName()=='lojas')?'#':route('lojas') }}" class="nav-link{{ (Route::currentRouteName()=='lojas')?' active':''; }}">Lojas</a></li>
@@ -99,7 +99,7 @@
           <li class="nav-item"><a href="{{ (Route::currentRouteName()=='notificacoes')?'#':route('notificacoes') }}" class="nav-link{{ (Route::currentRouteName()=='notificacoes')?' active':''; }}">Notificações</a></li>
         </ul>
       </nav>
-      <form id="search-lg" class="d-none d-lg-flex justify-content-between needs-validation" action="#" novalidate>
+      <form id="search-lg" class="d-none d-lg-flex justify-content-between needs-validation col-4 me-3" action="#" novalidate>
         <div class="me-2"><input class="form-control mt-2" type="search" placeholder="Pesquisar" minlength="3" maxlength="20" required aria-label="Pesquisar" value="{{ $query??'' }}" name="q" id="ql"></div>
         <div><button class="btn btn-outline-success mt-2" type="submit"><i class="fas fa-search"></i></button></div>
       </form>
