@@ -11,12 +11,12 @@ Cupons: Página {{ $page }} de {{ $final }}
   <div id="noeye"></div>
   @for ($i = 0; $i < count($cupons); $i++)
   <div class="cupom card col-lg-3-5 col-md-5 col-sm-10 col-12 mb-5" id="cupom_{{ $i }}">
-    <div class="card-header p-3">
-      <a href="#whatsapp" class="wpp"><i class="fab fa-whatsapp"></i></a>
-      <a href="#telegram" class="tlg"><i class="fab fa-telegram-plane"></i></a>
-      <a href="#twitter" class="twt"><i class="fab fa-twitter"></i></a>
-      <a href="#copy" class="cpy pls plus-share"><i class="fas fa-copy"></i></a>
-      <a href="#share" class="mre pls d-none plus-share"><i class="fas fa-share-alt"></i></a>
+    <div class="card-header p-2">
+      <button class="border-0 wpp"><i class="fab fa-whatsapp"></i></button>
+      <button class="border-0 tlg"><i class="fab fa-telegram-plane"></i></button>
+      <button class="border-0 twt"><i class="fab fa-twitter"></i></button>
+      <button class="border-0 cyp pls plus-share"><i class="fas fa-copy"></i></button>
+      <button class="border-0 mre pls d-none plus-share"><i class="fas fa-share-alt"></i></button>
     </div>
     <div class="card-body p-3 text-center mb-md-3">
       <div class="site"><img src="{{ $cupons[$i]['store']['imagem'] }}" alt="{{ $cupons[$i]['store']['nome'] }}" class="loja-image"></div>

@@ -32,12 +32,12 @@
 <div class="promo card col-lg-3-5 col-md-5 col-sm-10 col-12 mb-5" id="{{ $cat_id }}_{{ $page }}_{{ $loop->index }}">
     @if ($share??true)
     <div class="card-header p-2">
-        <a href="#story" class="igs"><i class="fab fa-instagram"></i></a>
-        <a href="#whatsapp" class="wpp"><i class="fab fa-whatsapp"></i></a>
-        <a href="#telegram" class="tlg"><i class="fab fa-telegram-plane"></i></a>
-        <a href="#twitter" class="twt"><i class="fab fa-twitter"></i></a>
-        <a href="#copy" class="cpy pls plus-share"><i class="fas fa-copy"></i></a>
-        <a href="#share" class="mre pls d-none plus-share"><i class="fas fa-share-alt"></i></a>
+      <button class="border-0 igs"><i class="fab fa-instagram"></i></button>
+      <button class="border-0 wpp"><i class="fab fa-whatsapp"></i></button>
+      <button class="border-0 tlg"><i class="fab fa-telegram-plane"></i></button>
+      <button class="border-0 twt"><i class="fab fa-twitter"></i></button>
+      <button class="border-0 cyp pls plus-share"><i class="fas fa-copy"></i></button>
+      <button class="border-0 mre pls d-none plus-share"><i class="fas fa-share-alt"></i></button>
     </div>
     @endif
     <div class="card-body p-3 text-center">
@@ -78,7 +78,7 @@
   @else
   {!! $promos !!}</article>
   @endif
-  @endsection
-  @section('headers')
+@endsection
+@section('headers')
   {!! $headers??'' !!}
-  @endsection
+@endsection
