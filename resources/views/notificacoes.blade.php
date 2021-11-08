@@ -15,9 +15,9 @@
       <form action="/prefer/set" method="post" class="ajax_form container" id="pref-form">
         <div class="container flex-row flex-center row-wrap d-md-flex justify-conatent-center flex-wrap" id="prefers">
           <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p0" id="all" class="form-check-input"> <label for="all" class="form-check-label" >Tudo</label></div>
-          <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p1" id="p1" class="form-check-input"> <label class="form-check-label" for="p1">Computadores/Notebooks</label></div>
-          <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p2" id="p2" class="form-check-input"> <label for="p2" class="form-check-label" >Celulares/Smartphones</label></div>
-          <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p3" id="p3" class="form-check-input"> <label for="p3" class="form-check-label" >Itens de Mercado</label></div>
+          <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p1" id="p1" class="form-check-input prefer"> <label class="form-check-label" for="p1">Computadores/Notebooks</label></div>
+          <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p2" id="p2" class="form-check-input prefer"> <label for="p2" class="form-check-label" >Celulares/Smartphones</label></div>
+          <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p3" id="p3" class="form-check-input prefer"> <label for="p3" class="form-check-label" >Itens de Mercado</label></div>
           <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p4" id="p4" class="form-check-input prefer"> <label for="p4" class="form-check-label" >Roupas Masculinas</label></div>
           <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p5" id="p5" class="form-check-input prefer"> <label for="p5" class="form-check-label" >Roupas Femininas</label></div>
           <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p6" id="p6" class="form-check-input prefer"> <label for="p6" class="form-check-label" >Livros</label></div>
