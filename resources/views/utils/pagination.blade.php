@@ -17,7 +17,7 @@
     <li class="page-item{{ ($loop_page==$page)?' active':''; }}"><a class="page-link" href="{{ $route.'/'.$loop_page }}">{{ $loop_page }}</a></li>
     @endfor
     <li class="page-item {{ ($page==$final)?'disabled':''; }}">
-      <a class="page-link" href="{{ $route.'/'.$page+1 }}" aria-label="Próximo">
+      <a class="page-link" href="{{ $route.'/'.($page+1) }}" aria-label="Próximo">
         <span aria-hidden="true">&raquo;</span>
         <span class="sr-only">Próximo</span>
       </a>
