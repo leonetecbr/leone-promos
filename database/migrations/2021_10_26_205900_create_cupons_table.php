@@ -21,7 +21,7 @@ class CreateCuponsTable extends Migration
             $table->string('ate', 20);
             $table->unsignedBigInteger('store_id');
             $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
-            $table->timestamps();
+            $table->dateTime('created_at')->useCurrent();
         });
     }
 

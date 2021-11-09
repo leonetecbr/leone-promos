@@ -16,11 +16,11 @@ mix.sass('resources/views/layouts/app.scss', 'public/css/bootstrap.css')
         'resources/css/style.css'
     ], 'public/css/app.css')
     .scripts([
-        'node_modules/jquery/dist/jquery.js'], 'public/js/jquery.js')
+        'node_modules/jquery/dist/jquery.min.js'], 'public/js/jquery.js')
     .scripts([
-        'node_modules/bootstrap/dist/js/bootstrap.bundle.js'], 'public/js/bootstrap.js')
+        'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'], 'public/js/bootstrap.js')
     .scripts([
-        'resources/Js/app.js',
+        'resources/js/app.js',
         'resources/js/notify.js'
     ], 'public/js/app.js')
     .version()

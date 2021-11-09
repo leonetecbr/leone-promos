@@ -21,7 +21,7 @@ class ApiHelper
    * @param bool $exists
    * @return array
    */
-  private static function toCachedCoupons(bool $exists = false): array
+  private static function toCachedCoupons(int $loja = 0, bool $exists = false): array
   {
     self::$id = 0;
     $lomadee = self::getAPI();
@@ -58,15 +58,21 @@ class ApiHelper
       $c->ate = str_replace(":59:00", ":59:59", $cupons[$i]['vigency']);
       $c->store_id = $cupons[$i]['store']['id'];
       $c->save();
-      if (($i >= (self::$page - 1) * 18) && ($i < self::$page * 18)) {
+      if ($loja == 0) {
+        if (($i >= (self::$page - 1) * 18) && ($i < self::$page * 18)) {
+          $cupom['coupons'][$a] = $c->toArray();
+          $cupom['coupons'][$a]['store'] = $lojas[$store_id];
+          $a++;
+        }
+      } elseif ($loja == $cupons[$i]['store']['id']) {
         $cupom['coupons'][$a] = $c->toArray();
         $cupom['coupons'][$a]['store'] = $lojas[$store_id];
         $a++;
       }
     }
 
-    $cupom['totalPage'] = ceil($i / 18);
-
+    $cupom['totalPage'] = ($loja == 0) ? ceil($i / 18) : ceil($i / 18);
+    $cupom['store'] = $store;
     return $cupom;
   }
   /**
@@ -306,19 +312,22 @@ class ApiHelper
    * Verifica se os cupons salvos no servidor ainda estão adequados para uso, se sim, os usa, se não pega da API
    * @return array
    */
-  public static function getCupons(int $page): array
+  public static function getCupons(int $page, int $loja = 0): array
   {
     if (empty(Cupom::where('id', 1)->first())) {
       self::$page = $page;
-      return self::toCachedCoupons();
+      return self::toCachedCoupons($loja);
     } else {
-      $cupons = Cupom::paginate(18, '*', 'cupons', $page);
+      $cupons = ($loja == 0) ? Cupom::paginate(18, '*', 'cupons', $page) : Cupom::where('store_id', $loja)->get();
+      if (empty($cupons[0]->id)) {
+        return [];
+      }
       if (time() - strtotime($cupons[0]->created_at) > 86400) {
         self::$page = $page;
-        return self::toCachedCoupons(true);
+        return self::toCachedCoupons($loja, true);
       }
-      $cupom['totalPage'] =  $cupons->lastPage();
-      $cupons = $cupons->items();
+      $cupom['totalPage'] =  ($loja == 0) ? $cupons->lastPage() : 1;
+      $cupons = ($loja == 0) ? $cupons->items() : $cupons;
       $a = 0;
       $store = [];
       for ($i = 0; $i < count($cupons); $i++) {
@@ -341,6 +350,8 @@ class ApiHelper
         $a++;
       }
     }
+
+    $cupom['store'] = $store;
     return $cupom;
   }
 

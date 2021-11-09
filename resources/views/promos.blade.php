@@ -25,7 +25,7 @@
 <article id="promos" class="d-flex justify-content-around flex-wrap">
   <div id="noeye"></div>
   @if (empty($promos))
-  <p class="m-auto">Nenhuma oferta encontrada!</p>
+  <p class="mx-auto my-3">Nenhuma oferta encontrada!</p>
 </article>
 @elseif (is_array($promos))
 @foreach ($promos as $promo)
