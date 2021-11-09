@@ -14,11 +14,11 @@ Cupons{{ (empty($loja))?'':' - '.$loja }}: Página {{ $page }} de {{ $final }}
   <ul class="dropdown-menu w-100 text-center" aria-labelledby="dropdownMenuButton1">
     <li><a class="dropdown-item{{ ($loja=='')?' active':''; }}" href="{{ route('cupons') }}">Todas</a></li>
     <li><a class="dropdown-item{{ ($loja=='Americanas')?' active':''; }}" href="{{ route('cupons') }}?loja=Americanas">Americanas</a></li>
-    <li><a class="dropdown-item{{ ($loja=='CasasBahia')?' active':''; }}" href="{{ route('cupons') }}?loja=CasasBahia">Casas Bahia</a></li>
+    <li><a class="dropdown-item{{ ($loja=='Casas Bahia')?' active':''; }}" href="{{ route('cupons') }}?loja=Casas Bahia">Casas Bahia</a></li>
     <li><a class="dropdown-item{{ ($loja=='Consul')?' active':''; }}" href="{{ route('cupons') }}?loja=Consul">Consul</a></li>
     <li><a class="dropdown-item{{ ($loja=='Ponto')?' active':''; }}" href="{{ route('cupons') }}?loja=Ponto">Ponto</a></li>
     <li><a class="dropdown-item{{ ($loja=='Submarino')?' active':''; }}" href="{{ route('cupons') }}?loja=Submarino">Submarino</a></li>
-    <li><a class="dropdown-item{{ ($loja=='Efacil')?' active':''; }}" href="{{ route('cupons') }}?loja=Efacil">Efácil</a></li>
+    <li><a class="dropdown-item{{ ($loja=='Efácil')?' active':''; }}" href="{{ route('cupons') }}?loja=Efácil">Efácil</a></li>
     <li><a class="dropdown-item{{ ($loja=='Positivo')?' active':''; }}" href="{{ route('cupons') }}?loja=Positivo">Positivo</a></li>
     <li><a class="dropdown-item{{ ($loja=='Lenovo')?' active':''; }}" href="{{ route('cupons') }}?loja=Lenovo">Lenovo</a></li>
   </ul>
