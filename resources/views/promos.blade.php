@@ -36,7 +36,7 @@
       <button class="border-0 wpp"><i class="fab fa-whatsapp"></i></button>
       <button class="border-0 tlg"><i class="fab fa-telegram-plane"></i></button>
       <button class="border-0 twt"><i class="fab fa-twitter"></i></button>
-      <button class="border-0 cyp pls plus-share"><i class="fas fa-copy"></i></button>
+      <button class="border-0 cpy pls plus-share"><i class="fas fa-copy"></i></button>
       <button class="border-0 mre pls d-none plus-share"><i class="fas fa-share-alt"></i></button>
     </div>
     @endif
