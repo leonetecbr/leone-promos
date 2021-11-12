@@ -67,13 +67,8 @@
 
 <body>
   @if (empty($_COOKIE['accept']))
-  <section class="fixed-bottom bg-primary col-12 col-md-9 mx-auto mb-md-3 text-light p-3" id="aviso_cookie">
-    <p class="mb-2">Esse site utiliza cookies e coleta alguns dados. Ao continuar a usar este site, você concorda com isso.</p>
-    <p>Para saber mais, inclusive sobre quais dados são coletados, consulte aqui:
-      <a href="/cookies" target="_blank" class="text-light">
-        Políticas de cookies</a> e <a href="/privacidade" target="_blank" class="text-light">
-        Políticas de privacidade</a>.
-    </p>
+  <section class="fixed-bottom bg-primary col-12 col-md-9 col-lg-8 mx-auto mb-md-3 text-light p-3" id="aviso_cookie">
+    <div class="mb-2">Esse site utiliza cookies te dá uma melhor experiência de navegação. <a href="{{ route('cookies') }}" target="_blank" class="text-light">Saiba mais &raquo;</a></div>
     <div class="text-end">
       <button class="btn btn-outline-light" id="accept" onclick="accept()">Fechar e aceitar</button>
     </div>
@@ -135,7 +130,7 @@
     @yield('content')
   </main>
   <div class="wp-button rounded-circle text-light float-end text-center">
-    <a href="https://wa.me/message/D3HHIY2QZGOMH1" target="_blank" rel="nofollow" id="btn-whatsapp">
+    <a href="https://wa.me/{{ env('WHATSAPP_NUMBER') }}" target="_blank" rel="nofollow" id="btn-whatsapp">
       <i class="fab fa-whatsapp"></i>
     </a>
 </div>

@@ -20,11 +20,12 @@
   <h2 class="display-6">Segurança com seus dados</h2>
   <p>Seus dados são tratados com toda segurança a conexão com seu aparelho é feita apenas em conexões seguras (HTTPS TLS), do lado do servidor, usamos senhas fortes e criptografamos informações sensíveis como senhas e não compartilhamos as informações em nossa posse com terceiros.</p>
   <h2 class="display-6">Solicitação de dados</h2>
-  <p>Seu dados são seus e você pode solicita-los a qualquer momento, para isso encaminhe um email para <a href="mailto:falecom@leone.tec.br?subject=Solicita%C3%A7%C3%A3o%20de%20dados%20%7C%20Leone%20Promos" target="_blank">falecom@leone.tec.br</a> com o assunto "Solicitação de dados" que seu pedido será atendido em tempo hábil.</p>
+  <p>As únicas informações coletadas e identificavéis armazenadas no nosso sitema são as suas preferências de notificação, que podem ser acessadas e alteradas atravás da página de <a href="{{ route('notificacoes') }}" target="_blank">Gerenciamento de notificações</a></p>
   <h2 class="display-6">Exclusão de dados</h2>
-  <p>Caso seja da sua vontade você pode solitar a exclusão dos seus dados, para isso encaminhe um email para <a href="mailto:falecom@leone.tec.br?subject=Exclus%C3%A3o%20de%20dados%20%7C%20Leone%20Promos" target="_blank">falecom@leone.tec.br</a> com o assunto "Exclusão de dados" que seu pedido será atendido em tempo hábil.
+  <p>Como informado acima as únicas informações armazenadas que são ligadas a você (nesse caso ao seu navegador) são suas preferências de notificação, para exclui-lás basta acessar a página de <a href="{{ route('notificacoes') }}" target="_blank">Gerenciamento de notificações</a> e desativa-lás.</p>
+  <h2 class="display-6">Leia também</h2>
+  <p>Quer saber mais sobre como usamos os cookies ? Consulte as nossas <a href="{{ route('cookies') }}">Políticas de Cookies</a>.</p>
   <h2 class="display-6">Mais informações</h2>
-  <p>Estas políticas são efetivas a partir de <span class="fw-bolder">
-      Abril/2021</span>.</p>
+  <p>Estas políticas são efetivas a partir de <span class="fw-bolder">Dezembro/2021</span>.</p>
 </article>
 @endsection

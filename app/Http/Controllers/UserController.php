@@ -35,7 +35,7 @@ class UserController extends Controller
       ])->with('email', $email);
     }
 
-    if (Auth::attempt(['email' => $email, 'password' => $password], false)) {
+    if (Auth::attempt(['email' => $email, 'password' => $password], true)) {
       return redirect()->route('dashboard');
     } else {
       return redirect()->back()->withErrors([

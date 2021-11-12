@@ -17,6 +17,14 @@
       <p class="fw-bolder">Cookies de preferências do site</p>
       <p>Para proporcionar uma ótima experiência neste site, fornecemos a funcionalidade para definir suas preferências de como esse site é executado quando você o usa. Para lembrar suas preferências, precisamos definir cookies para que essas informações possam ser chamadas sempre que você interagir com uma página for afetada por suas preferências, entre essas preferências está o aceite de políticas de privacidade e de cookies.</p>
     </li>
+    <li>
+      <p class="fw-bolder">Cookies de segurança</p>
+      <p>São cookies que servem para proteger nossos usuários de ataques CSRF, sigla em inglês para <span class="fw-bolder">Falsificação de solicitação entre sites.</span></p>
+    </li>
+    <li>
+      <p class="fw-bolder">Cookies de sessão</p>
+      <p>São usados para guardar sua sessão, por exemplo, quando você faz login, não é nescessário você digitar sua senha a cada ação, porque o cookie de sessão já identifica você.</p>
+    </li>
   </ul>
   <h2 class="display-6">Cookies de Terceiros</h2>
   <p>Em alguns casos especiais, também usamos cookies fornecidos por terceiros confiáveis. A seção a seguir detalha quais cookies de terceiros você pode encontrar através deste site.</p>
@@ -27,9 +35,10 @@
   <ul>
     <li>O serviço Google AdSense que usamos para veicular publicidade usa um cookie DoubleClick para veicular anúncios mais relevantes em toda a Web e limitar o número de vezes que um determinado anúncio é exibido para você.<br>Para mais informações sobre o Google AdSense, consulte as FAQs oficiais sobre privacidade do Google AdSense.<br /><br>Utilizamos anúncios para compensar os custos de funcionamento deste site e fornecer financiamento para futuros desenvolvimentos. Os cookies de publicidade comportamental usados por este site foram projetados para garantir que você forneça os anúncios mais relevantes sempre que possível, rastreando anonimamente seus interesses e apresentando coisas semelhantes que possam ser do seu interesse.</li>
   </ul>
+  <h2 class="display-6">Leia também</h2>
+  <p>Quer saber mais sobre como usamos os dados que temos acesso ou como você pode excluir seus dados ? Consulte as nossas <a href="{{ route('privacidade') }}">Políticas de Privacidade</a>.</p>
   <h2 class="display-6">Mais informações</h2>
   <p>Esperemos que esteja esclarecido e, como mencionado anteriormente, se houver algo que você não tem certeza se precisa ou não, geralmente é mais seguro deixar os cookies ativados, caso interaja com um dos recursos que você usa em nosso site.</p>
-  <p>Estas políticas são efetivas a partir de <span class="fw-bolder">
-      Janeiro/2021</span>.</p>
+  <p>Estas políticas são efetivas a partir de <span class="fw-bolder">Dezembro/2021</span>.</p>
 </article>
 @endsection
