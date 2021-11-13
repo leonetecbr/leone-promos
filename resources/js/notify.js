@@ -45,6 +45,7 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
   });
 } else {
   btn.html('Notificações não suportadas');
+  $('#notify-unsupport').removeClass('d-none')
 }
 
 function initializeUI() {

@@ -9,6 +9,17 @@ $utilities: (
       33: 33.33%,
       10: 10%
     )
-));
+  ),
+  "max-width": (
+    property: max-width,
+    class: mw,
+    values: (
+      100: 100%,
+      700: 700px,
+      500: 500px,
+      300: 300px
+    )
+  )
+);
 
 @import '~bootstrap/scss/bootstrap';

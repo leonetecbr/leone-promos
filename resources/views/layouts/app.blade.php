@@ -68,7 +68,7 @@
 <body>
   @if (empty($_COOKIE['accept']))
   <section class="fixed-bottom bg-primary col-12 col-md-9 col-lg-8 mx-auto mb-md-3 text-light p-3" id="aviso_cookie">
-    <div class="mb-2">Esse site utiliza cookies te dá uma melhor experiência de navegação. <a href="{{ route('cookies') }}" target="_blank" class="text-light">Saiba mais &raquo;</a></div>
+    <div class="mb-2">Esse site utiliza cookies para te dá uma melhor experiência de navegação. <a href="{{ route('cookies') }}" target="_blank" class="text-light">Saiba mais &raquo;</a></div>
     <div class="text-end">
       <button class="btn btn-outline-light" id="accept" onclick="accept()">Fechar e aceitar</button>
     </div>
