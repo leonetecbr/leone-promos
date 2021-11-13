@@ -77,8 +77,9 @@ function initializeUI() {
 
 function updateBtn() {
   if (Notification.permission === 'denied') {
-    $('.js-push-btn').html('Notificações bloqueadas');
-    $('.js-push-btn').attr("disabled", true);
+    $('#btn-notify').html('Notificações bloqueadas');
+    $('#btn-notify').attr("disabled", true);
+    $('#notify-bloqued').removeClass('d-none')
     if (sub) {
       update('remove');
     }

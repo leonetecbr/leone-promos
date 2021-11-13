@@ -9,40 +9,52 @@
    <p class="my-3">Receba nossas seleção de melhores promoções em primeira mão por notificação no seu navegador! Aqui você pode ativar, desativar e gerenciar suas preferências de notificação.</p>
     <div class="text-center mb-3"><button id="btn-notify" class="btn btn-primary text-light" disabled="true">Ativar notificações</button></div>
   </div>
-  
-  <div class="accordion d-none mw-700 mx-auto fs-5 text-center" id="notify-unsupport">
-    <div class="accordion-item">
-    <h2 class="accordion-header" id="headingIg">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseIg" aria-expanded="false" aria-controls="collapseIg">Está no instagram ou outra rede social ?</button>
-      </h2>
-      <div id="collapseIg" class="accordion-collapse collapse" aria-labelledby="headingIg" data-bs-parent="#notify-unsupport">
-        <div class="accordion-body">
-          <h3 class="fw-light mb-3">Siga esses passo para conseguir ativar!</h3>
-          <img src="/img/ajuda/barra-navegador-instagram.jpg">
-          <p class="my-3 text-muted">Clique nos 3 pontinhos para acessar mais opções do navegador do Instagram.</p>
-          <img src="/img/ajuda/abrir-no-navegador-instagram.jpg">
-          <p class="my-3 text-muted">Agora clique em "Abrir no Chrome" ou no navegador de sua preferência.</p>
+
+  <div id="notify-bloqued" class="d-none">
+    <div class="display-6 my-3">Veja como resolver</div>
+    <p>Você bloqueou as nossas notificações, mas calma você pode desbloquear facilmente, basta seguir os passos informados abaixo.</p>
+    <div class="text-center">
+      <img src="/img/ajuda/desbloquear-notificacoes-browser.png" class="Menu de configurações de sites no Google Chrome"/>
+      <p class="my-3 text-muted">Clique no cadeado e procure por "Notificações" se estiver bloqueadas ou desativadas como na imagem, ative ou escolha "Sempre permitir", recarregue a página e tente ativar novamente.</p>
+    </div>
+  </div>
+
+  <div id="notify-unsupport" class="d-none">
+    <div class="display-6 my-3">Veja como resolver</div>
+    <div class="accordion mw-700 mx-auto fs-5 text-center">
+      <div class="accordion-item">
+      <h2 class="accordion-header" id="headingIg">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseIg" aria-expanded="false" aria-controls="collapseIg">Está no instagram ou outra rede social ?</button>
+        </h2>
+        <div id="collapseIg" class="accordion-collapse collapse" aria-labelledby="headingIg" data-bs-parent="#notify-unsupport">
+          <div class="accordion-body">
+            <h3 class="fw-light mb-3">Siga esses passo para conseguir ativar!</h3>
+            <img src="/img/ajuda/barra-navegador-instagram.jpg" alt="Barra do navegador integrado do Instagram">
+            <p class="my-3 text-muted">Clique nos 3 pontinhos para acessar mais opções do navegador do Instagram.</p>
+            <img src="/img/ajuda/abrir-no-navegador-instagram.jpg" alt="Menu da barra do navegador integrado do Instagram">
+            <p class="my-3 text-muted">Agora clique em "Abrir no Chrome" ou no navegador de sua preferência.</p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingIg">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBrowser" aria-expanded="false" aria-controls="collapseBrowser">Está num navegador comum ?</button>
-      </h2>
-      <div id="collapseBrowser" class="accordion-collapse collapse" aria-labelledby="headingBrowser" data-bs-parent="#notify-unsupport">
-        <div class="accordion-body">
-          <p>Nós recomendamos o uso de um dos seguintes navegadores:</p>
-          <ul class="mx-auto mw-300">
-            <li class="text-start">Chrome</li>
-            <li class="text-start">Firefox</li>
-            <li class="text-start">Edge</li>
-          </ul>
-          <p>Se você já está usando um desses navegadores, verifique se há atualizações disponiveis.</p>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingIg">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBrowser" aria-expanded="false" aria-controls="collapseBrowser">Está num navegador comum ?</button>
+        </h2>
+        <div id="collapseBrowser" class="accordion-collapse collapse" aria-labelledby="headingBrowser" data-bs-parent="#notify-unsupport">
+          <div class="accordion-body">
+            <p>Nós recomendamos o uso de um dos seguintes navegadores:</p>
+            <ul class="mx-auto mw-300">
+              <li class="text-start">Chrome</li>
+              <li class="text-start">Firefox</li>
+              <li class="text-start">Edge</li>
+            </ul>
+            <p>Se você já está usando um desses navegadores, verifique se há atualizações disponiveis.</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  
+
   <div id="preferencias" class="d-none mt-3">
     <h2 class="display-6">Peferências</h2>
     <p>Você deseja ser notificado sempre que houver promoção de: </p>
