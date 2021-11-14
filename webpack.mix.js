@@ -13,23 +13,17 @@ let productionSourceMaps = mix.inProduction();
  |
  */
 
-mix.sass('resources/views/layouts/app.scss', 'public/css/bootstrap.css')
-    .styles('resources/css/style.css', 'public/css/app.css')
-    .scripts([
-        'node_modules/jquery/dist/jquery.min.js'], 'public/js/jquery.js')
-    .scripts([
-        'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'], 'public/js/bootstrap.js')
+mix.sass('resources/views/layouts/app.scss', 'public/css/bootstrap.min.css')
+    .styles('resources/css/style.css', 'public/css/app.min.css')
+    .scripts('node_modules/jquery/dist/jquery.min.js', 'public/js/jquery.min.js')
+    .scripts('node_modules/bootstrap/dist/js/bootstrap.bundle.min.js', 'public/js/bootstrap.bundle.min.js')
     .scripts([
         'resources/js/app.js',
         'resources/js/notify.js'
-    ], 'public/js/app.js').sourceMaps(productionSourceMaps, 'source-map')
+    ], 'public/js/app.min.js')
     .version()
-    .scripts([
-        'resources/js/sw.js'], 'public/sw.js')
-
-if (productionSourceMaps) {
-    mix.scripts([
-        'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js.map'], 'public/js/bootstrap.bundle.min.js.map')
-        .styles('node_modules/bootstrap/dist/css/bootstrap.min.css.map', 'public/css/bootstrap.min.css.map')
-        .disableNotifications();
-}
+    .scripts('resources/js/sw.js', 'public/sw.js')
+    .scripts('node_modules/bootstrap/dist/js/bootstrap.bundle.min.js.map', 'public/js/bootstrap.bundle.min.js.map')
+    .scripts('node_modules/jquery/dist/jquery.min.map', 'public/js/jquery.min.map')
+    .styles('node_modules/bootstrap/dist/css/bootstrap.min.css.map', 'public/css/bootstrap.min.css.map')
+    .disableNotifications();

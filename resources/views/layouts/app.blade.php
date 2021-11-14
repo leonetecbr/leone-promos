@@ -15,8 +15,8 @@
     gtag('config', 'G-VHZEX7GYK2');
   </script>
   @endif
-  <link rel="stylesheet" type="text/css" href="{{ url(mix('css/bootstrap.css')) }}" />
-  <link rel="stylesheet" type="text/css" href="{{ url(mix('css/app.css')) }}" />
+  <link rel="stylesheet" type="text/css" href="{{ url(mix('css/bootstrap.min.css')) }}" />
+  <link rel="stylesheet" type="text/css" href="{{ url(mix('css/app.min.css')) }}" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <title>@yield('title') | {{ env('APP_NAME') }}</title>
   @hasSection('description')
@@ -76,21 +76,21 @@
   @endif
   <header id="cabecalho" class="border border-bottom container-fluid bg-light">
     <nav class="navbar navbar-expand-lg navbar-light">
-      <a href="{{ route('home') }}" class="navbar-brand {{ (Auth::check())?'col-lg-4':'' }} col-6" id="logo">
+      <a href="{{ route('home') }}" class="navbar-brand" id="logo">
         <{{ (Route::currentRouteName()=='home')?'h1':'span'; }} class="d-none">{{ env('APP_NAME') }}</{{ (Route::currentRouteName()=='home')?'h1':'span'; }}>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a href="{{ (Route::currentRouteName()=='home')?'#':route('home') }}" class="nav-link{{ (Route::currentRouteName()=='home')?' active':''; }}">Início</a></li>
           <li class="nav-item"><a href="{{ (Route::currentRouteName()=='cupons')?'#':route('cupons') }}" class="nav-link{{ (Route::currentRouteName()=='cupons')?' active':''; }}">Cupons</a></li>
           <li class="nav-item"><a href="{{ (Route::currentRouteName()=='lojas')?'#':route('lojas') }}" class="nav-link{{ (Route::currentRouteName()=='lojas')?' active':''; }}">Lojas</a></li>
           <li class="nav-item"><a href="{{ (Route::currentRouteName()=='categorias')?'#':route('categorias') }}" class="nav-link{{ (Route::currentRouteName()=='categorias')?' active':''; }}">Categorias</a></li>
           <li class="nav-item"><a href="{{ (Route::currentRouteName()=='notificacoes')?'#':route('notificacoes') }}" class="nav-link{{ (Route::currentRouteName()=='notificacoes')?' active':''; }}">Notificações</a></li>
         </ul>
-        <form id="search" class="d-flex justify-content-center needs-validation col-lg-3 col-xl-4 ms-4" action="#" novalidate>
+        <form id="search" class="d-flex justify-content-center needs-validation col-lg-3 col-xl-4 ms-3" action="#" novalidate>
           <div class="me-2"><input class="form-control" type="search" placeholder="Pesquisar" minlength="3" maxlength="20" required aria-label="Pesquisar" value="{{ $query??'' }}" name="q" id="ql"></div>
           <div><button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button></div>
         </form>
@@ -136,9 +136,9 @@
     const KeyV3Recaptcha = '{{ env("PUBLIC_RECAPTCHA_V3") }}';
     const applicationServerPublicKey = '{{ env("VAPID_PUBLIC_KEY") }}';
   </script>
-  <script src="{{ url(mix('js/jquery.js')) }}"></script>
-  <script src="{{ url(mix('js/bootstrap.js')) }}"></script>
-  <script src="{{ url(mix('js/app.js')) }}"></script>
+  <script src="{{ url(mix('js/jquery.min.js')) }}"></script>
+  <script src="{{ url(mix('js/bootstrap.bundle.min.js')) }}"></script>
+  <script src="{{ url(mix('js/app.min.js')) }}"></script>
   <footer id="rodape" class="text-center border-top p-3 mt-3 bg-light">
     <div id="social" class="mx-auto fs-2 mb-3">
       <a href="https://wa.me/message/D3HHIY2QZGOMH1"><i class="fab fa-whatsapp-square"></i></a>
