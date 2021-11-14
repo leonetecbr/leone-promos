@@ -141,13 +141,13 @@
   <script src="{{ url(mix('js/app.min.js')) }}"></script>
   <footer id="rodape" class="text-center border-top p-3 mt-3 bg-light">
     <div id="social" class="mx-auto fs-2 mb-3">
-      <a href="https://wa.me/message/D3HHIY2QZGOMH1"><i class="fab fa-whatsapp-square"></i></a>
+      <a href="https://wa.me/{{ env('WHATSAPP_NUMBER') }}"><i class="fab fa-whatsapp-square"></i></a>
       <a href="https://instagram.com/ofertas.leone"><i class="fab fa-instagram-square"></i></a>
       <a href="https://facebook.com/ofertas.leone"><i class="fab fa-facebook-square"></i></a>
       <a href="https://github.com/leonetecbr/leone-promos/"><i class="fab fa-github-square"></i></a>
     </div>
     <div id="copyright" class="fs-6 fw-light">
-      <p>Ao abrir ou comprar um produto mostrado aqui no site, algumas lojas poderam nos pagar uma comissão, mas isso não influencia em quais promoções são postadas por aqui. Em caso de divergência no preço, o preço válido é o da loja. Somos apenas um canal que te ajuda a encontrar o menor preço, não somos loja!</p>
+      <p>Ao abrir ou comprar um produto mostrado aqui no site, algumas lojas poderão nos pagar uma comissão, mas isso não influencia em quais promoções são postadas por aqui. Em caso de divergência no preço, o preço válido é o da loja. O preço informado não inclui frete e outras taxas. Consulte termos e condições das ofertas e cupons.</p>
       <p><span class="fw-bolder">&copy; {{ date('Y') }} - {{ env('APP_NAME') }}</span> - Todos os direitos reservados.</p>
     </div>
     <p class="fs-6"><span class="bolder">Políticas: </span> <a href="`{{ route('privacidade') }}" target="_blank" class="text-decoration-none">de Privacidade</a> | <a href="{{ route('cookies') }}" target="_blank" class="text-decoration-none">de Cookies</a></p>
