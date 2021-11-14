@@ -218,7 +218,7 @@ $(document).ready(function () {
       $(this).addClass('was-validated');
       if (this.id == 'deeplink') {
         redirectUrl()
-      } else if (this.id == 'search' || this.id == 'search-lg') {
+      } else if (this.id == 'search') {
         var q = (this.id == 'search') ? $('#qs').val() : $('#ql').val();
         getToken('search', q, 'search')
       }
@@ -375,50 +375,6 @@ $(document).ready(function () {
         })
       })
     })
-  })
-
-  var search = false
-  $('#btn-menu').click(function () {
-    $('#menu').removeClass('d-none')
-    $('#menu').addClass('fixed-menu')
-    $('#close').removeClass('d-none')
-  })
-
-  $('#btn-search').click(function () {
-    if (search === false) {
-      $('#search').removeClass('d-none')
-      $('#btn-search').html('<i class="fas fa-times"></i>')
-      $('html, body').animate({ scrollTop: '80px' }, 800)
-      search = true
-    } else {
-      $('#search').addClass('d-none')
-      $('#btn-search').html('<i class="fas fa-search"></i>')
-      search = false
-    }
-  })
-
-  $('#close').click(function () {
-    $('#menu').addClass('d-none')
-    $('#close').addClass('d-none')
-    $('#menu').removeClass('fixed-menu')
-  })
-
-  $('input').change(function () {
-    $(this).css({ 'border': '1px solid #fff' })
-    var id = $(this).attr('id')
-    $('.i' + id).fadeOut('slow')
-  })
-
-  $('select').change(function () {
-    $(this).css({ 'border': '1px solid #fff' })
-    var id = $(this).attr('id')
-    $('.i' + id).fadeOut('slow')
-  })
-
-  $('textarea').change(function () {
-    $(this).css({ 'border': '1px solid #fff' })
-    var id = $(this).attr('id')
-    $('.i' + id).fadeOut('slow')
   })
 
   $('#inotify').click(function () {

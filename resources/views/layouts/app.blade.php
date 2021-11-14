@@ -74,35 +74,32 @@
     </div>
   </section>
   @endif
-  <header id="cabecalho" class="d-flex justify-content-between p-3 border border-bottom bg-white">
-    <div>
-      <a href="/" class="navbar-brand">
-        <div id="logo" class="h-100"></div>
-        <!--img src="/img/logo.png" alt="Leone Promos" id="logo"--> 
+  <header id="cabecalho" class="border border-bottom container-fluid bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a href="{{ route('home') }}" class="navbar-brand {{ (Auth::check())?'col-lg-4':'' }} col-6" id="logo">
         <{{ (Route::currentRouteName()=='home')?'h1':'span'; }} class="d-none">{{ env('APP_NAME') }}</{{ (Route::currentRouteName()=='home')?'h1':'span'; }}>
       </a>
-    </div>
-    <div class="d-flex justify-content-around">
-      <button id="btn-menu" class="bg-white d-md-none border-0 h-100 me-3"><i class="fas fa-bars"></i></button>
-      <nav class="navbar navbar-expand-md navbar-light d-md-block d-none me-md-4 bg-white w-100 w-md-auto h-md-auto h-100" id="menu">
-        <button class="btn rounded btn-outline-danger d-md-none" id="close"><i class="fas fa-times fs-1"></i></button>
-        <ul class="navbar-nav mx-auto">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav">
           <li class="nav-item"><a href="{{ (Route::currentRouteName()=='home')?'#':route('home') }}" class="nav-link{{ (Route::currentRouteName()=='home')?' active':''; }}">Início</a></li>
           <li class="nav-item"><a href="{{ (Route::currentRouteName()=='cupons')?'#':route('cupons') }}" class="nav-link{{ (Route::currentRouteName()=='cupons')?' active':''; }}">Cupons</a></li>
           <li class="nav-item"><a href="{{ (Route::currentRouteName()=='lojas')?'#':route('lojas') }}" class="nav-link{{ (Route::currentRouteName()=='lojas')?' active':''; }}">Lojas</a></li>
           <li class="nav-item"><a href="{{ (Route::currentRouteName()=='categorias')?'#':route('categorias') }}" class="nav-link{{ (Route::currentRouteName()=='categorias')?' active':''; }}">Categorias</a></li>
           <li class="nav-item"><a href="{{ (Route::currentRouteName()=='notificacoes')?'#':route('notificacoes') }}" class="nav-link{{ (Route::currentRouteName()=='notificacoes')?' active':''; }}">Notificações</a></li>
         </ul>
-      </nav>
-      <form id="search-lg" class="d-none d-lg-flex justify-content-between needs-validation col-4 me-3" action="#" novalidate>
-        <div class="me-2"><input class="form-control mt-2" type="search" placeholder="Pesquisar" minlength="3" maxlength="20" required aria-label="Pesquisar" value="{{ $query??'' }}" name="q" id="ql"></div>
-        <div><button class="btn btn-outline-success mt-2" type="submit"><i class="fas fa-search"></i></button></div>
-      </form>
-      <label for="qs"><button id="btn-search" class="bg-white border-0 h-100 d-lg-none"><i class="fas fa-search"></i></button></label>
-      @if (Auth::check())
-      <a href="/logout" class="mt-md-2 ms-3"><button id="btn-logout" class="btn btn-outline-danger"><i class="fas fa-sign-out-alt"></i></button></a>
-      @endif
-    </div>
+        <form id="search" class="d-flex justify-content-center needs-validation col-lg-3 col-xl-4 ms-4" action="#" novalidate>
+          <div class="me-2"><input class="form-control" type="search" placeholder="Pesquisar" minlength="3" maxlength="20" required aria-label="Pesquisar" value="{{ $query??'' }}" name="q" id="ql"></div>
+          <div><button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button></div>
+        </form>
+        @if (Auth::check())
+        <a href="{{ route('dashboard') }}" class="ms-3"><button id="btn-admin" class="btn btn-outline-info mt-3 mt-md-0 float-start"><i class="fa-solid fa-lock"></i></button></a>
+        <a href="{{ route('logout') }}" class="ms-3"><button id="btn-logout" class="btn btn-outline-danger mt-3 mt-md-0 float-end"><i class="fas fa-sign-out-alt"></i></button></a>
+        @endif
+      </div>
+    </nav>
   </header>
   @if (empty($_COOKIE['no_notify']) && (Request::route()->getName()!='notificacoes'))
   <div id="notify" class="container d-none border-bottom p-3">
@@ -142,7 +139,7 @@
   <script src="{{ url(mix('js/jquery.js')) }}"></script>
   <script src="{{ url(mix('js/bootstrap.js')) }}"></script>
   <script src="{{ url(mix('js/app.js')) }}"></script>
-  <footer id="rodape" class="text-center border-top p-3 mt-3">
+  <footer id="rodape" class="text-center border-top p-3 mt-3 bg-light">
     <div id="social" class="mx-auto fs-2 mb-3">
       <a href="https://wa.me/message/D3HHIY2QZGOMH1"><i class="fab fa-whatsapp-square"></i></a>
       <a href="https://instagram.com/ofertas.leone"><i class="fab fa-instagram-square"></i></a>
@@ -153,7 +150,7 @@
       <p>Ao abrir ou comprar um produto mostrado aqui no site, algumas lojas poderam nos pagar uma comissão, mas isso não influencia em quais promoções são postadas por aqui. Em caso de divergência no preço, o preço válido é o da loja. Somos apenas um canal que te ajuda a encontrar o menor preço, não somos loja!</p>
       <p><span class="fw-bolder">&copy; {{ date('Y') }} - {{ env('APP_NAME') }}</span> - Todos os direitos reservados.</p>
     </div>
-    <p class="fs-6"><span class="bolder">Políticas: </span> <a href="/privacidade" target="_blank" class="text-decoration-none">de Privacidade</a> | <a href="/cookies" target="_blank" class="text-decoration-none">de Cookies</a></p>
+    <p class="fs-6"><span class="bolder">Políticas: </span> <a href="`{{ route('privacidade') }}" target="_blank" class="text-decoration-none">de Privacidade</a> | <a href="{{ route('cookies') }}" target="_blank" class="text-decoration-none">de Cookies</a></p>
   </footer>
 </body>
 

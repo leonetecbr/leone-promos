@@ -40,7 +40,7 @@ Route::post('/prefer/set', [Controllers\NotificationController::class, 'setPrefe
 
 Route::get('/login', [Controllers\UserController::class, 'login'])->name('login');
 
-Route::get('/logout', [Controllers\UserController::class, 'logout'])->middleware('auth');
+Route::get('/logout', [Controllers\UserController::class, 'logout'])->middleware('auth')->name('logout');
 
 Route::post('/admin', [Controllers\UserController::class, 'auth']);
 

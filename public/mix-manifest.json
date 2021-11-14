@@ -1,8 +1,10 @@
 {
-    "/css/bootstrap.css": "/css/bootstrap.css?id=fde9e50b61fd98db6e96",
-    "/css/app.css": "/css/app.css?id=c0f83aa834a1f201b57d",
+    "/css/bootstrap.css": "/css/bootstrap.css?id=7e2ad3fa9d3e98c45304",
+    "/css/app.css": "/css/app.css?id=70c4d5c2bb136db609db",
     "/js/jquery.js": "/js/jquery.js?id=8fb8fee4fcc3cc86ff6c",
     "/js/bootstrap.js": "/js/bootstrap.js?id=7ccd9d390d31af98110f",
     "/js/app.js": "/js/app.js?id=193f78fbfbbbe939d61a",
-    "/sw.js": "/sw.js?id=6ff62a9cc8a71e7c8c24"
+    "/sw.js": "/sw.js?id=6ff62a9cc8a71e7c8c24",
+    "/js/bootstrap.bundle.min.js.map": "/js/bootstrap.bundle.min.js.map?id=fd5e8b7e914afc9b28d2",
+    "/css/bootstrap.min.css.map": "/css/bootstrap.min.css.map?id=95fca4cc7b7d54a6bb0a"
 }

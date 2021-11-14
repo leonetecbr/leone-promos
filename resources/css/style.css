@@ -1,6 +1,5 @@
 img{max-width: 100%;max-height: 100%;}
-div#logo{width: 160px;}
-#logo{background: url('/img/logo.png') left center/165px no-repeat;}
+a#logo{height: 45px;background: url('/img/logo.png') left center/160px no-repeat;}
 .grecaptcha-badge {visibility: hidden;}
 .card-header > .wpp{background-color: #34af23;}
 .card-header > .tlg{background-color: #0088cc;}
@@ -36,8 +35,7 @@ img[alt=Extra], img[alt=Ponto]{background-color: #606060;padding:10px;}
 }
 
 @media (min-width: 800px){
-  div#logo{width: 235px;}
-  #logo{background: url('/img/logo.png') left center/250px no-repeat;}
+  a#logo{height: 61px;background: url('/img/logo.png') left center/250px no-repeat;}
 }
 
 @media (min-width: 992px){

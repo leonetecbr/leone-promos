@@ -1,5 +1,7 @@
 const mix = require('laravel-mix');
 
+let productionSourceMaps = mix.inProduction();
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -12,9 +14,7 @@ const mix = require('laravel-mix');
  */
 
 mix.sass('resources/views/layouts/app.scss', 'public/css/bootstrap.css')
-    .styles([
-        'resources/css/style.css'
-    ], 'public/css/app.css')
+    .styles('resources/css/style.css', 'public/css/app.css')
     .scripts([
         'node_modules/jquery/dist/jquery.min.js'], 'public/js/jquery.js')
     .scripts([
@@ -22,8 +22,14 @@ mix.sass('resources/views/layouts/app.scss', 'public/css/bootstrap.css')
     .scripts([
         'resources/js/app.js',
         'resources/js/notify.js'
-    ], 'public/js/app.js')
+    ], 'public/js/app.js').sourceMaps(productionSourceMaps, 'source-map')
     .version()
     .scripts([
         'resources/js/sw.js'], 'public/sw.js')
-    .disableNotifications();
+
+if (productionSourceMaps) {
+    mix.scripts([
+        'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js.map'], 'public/js/bootstrap.bundle.min.js.map')
+        .styles('node_modules/bootstrap/dist/css/bootstrap.min.css.map', 'public/css/bootstrap.min.css.map')
+        .disableNotifications();
+}
