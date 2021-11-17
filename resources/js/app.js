@@ -219,7 +219,7 @@ $(document).ready(function () {
       if (this.id == 'deeplink') {
         redirectUrl()
       } else if (this.id == 'search') {
-        var q = (this.id == 'search') ? $('#qs').val() : $('#ql').val();
+        var q = $('#q').val();
         getToken('search', q, 'search')
       }
       $(this).removeClass('was-validated');
