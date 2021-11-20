@@ -20,9 +20,9 @@ class RecaptchaHelper
   {
     $this->ip = $request->ip();
     if ($type == 'v3') {
-      $this->secret = $_ENV['SECRET_RECAPTCHA_V3'];
+      $this->secret = env('SECRET_RECAPTCHA_V3');
     } else {
-      $this->secret =  $_ENV['SECRET_RECAPTCHA_V2'];
+      $this->secret =  env('SECRET_RECAPTCHA_V2');
     }
     $this->response = $response;
   }
@@ -55,6 +55,7 @@ class RecaptchaHelper
    */
   public function isOrNot(float $min = 0.6): bool
   {
+    return false;
     if ($this->type == 'v3') {
       return $this->isOrNotV3($min);
     } else {
