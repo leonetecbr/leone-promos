@@ -101,7 +101,7 @@
       </div>
     </nav>
   </header>
-  @if (empty($_COOKIE['no_notify']) && (Request::route()->getName()!='notificacoes'))
+  @if (empty($_COOKIE['no_notify']) && (Route::currentRouteName()!='notificacoes'))
   <div id="notify" class="container d-none border-bottom p-3">
     <p>Receba nossas seleção de melhores promoções em primeira mão por notificação no seu navegador!</p><br />
     <div class="float-end me-2" id="inotify"><i class="fw-bolder far fa-eye-slash pointer"></i></div>
