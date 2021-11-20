@@ -1,14 +1,19 @@
-/*let staticCacheName = 'v2.0.0';
+let staticCacheName = 'v2.3.1';
 
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(staticCacheName).then(function(cache) {
       return cache.addAll(
         [
-          'css/style.css',
+          'css/app.min.css',
+          'css/bootstrap.min.css.map',
+          'js/app.min.js',
+          'js/bootstrap.bundle.min.js',
+          'js/bootstrap.bundle.min.js.map',
           'js/jquery.min.js',
-          'js/funcoes.js',
-          'js/notify.js',
+          'js/jquery.min.map',
+          'css/bootstrap.min.css',
+          'img/logo.png',
           'json/manifest.json'
         ]
       );
@@ -31,17 +36,18 @@ this.addEventListener('activate', event => {
 
 self.addEventListener('fetch', function(event) {
   event.respondWith(
-    caches.open(staticCacheName).then(function(cache) {
-      return cache.match(event.request).then(function (response) {
-        return response || fetch(event.request).then(function(response) {
-          cache.put(event.request, response.clone());
+    caches.match(event.request)
+      .then(function(response) {
+        if (response) {
           return response;
-        });
-      });
-    })
-  );
+        }
+
+        var fetchRequest = event.request.clone();
+
+        return fetch(fetchRequest)
+      })
+    );
 });
-*/
 
 /*
 *

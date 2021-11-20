@@ -21,7 +21,6 @@ mix.sass('resources/views/layouts/app.scss', 'public/css/bootstrap.min.css')
         'resources/js/app.js',
         'resources/js/notify.js'
     ], 'public/js/app.min.js')
-    .version()
     .scripts('resources/js/sw.js', 'public/sw.js')
     .scripts('node_modules/bootstrap/dist/js/bootstrap.bundle.min.js.map', 'public/js/bootstrap.bundle.min.js.map')
     .scripts('node_modules/jquery/dist/jquery.min.map', 'public/js/jquery.min.map')

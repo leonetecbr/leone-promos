@@ -1,11 +1,11 @@
 {
-    "/css/bootstrap.min.css": "/css/bootstrap.min.css?id=fde9e50b61fd98db6e96",
-    "/css/app.min.css": "/css/app.min.css?id=eda3ffa47691e195ba8a",
-    "/js/jquery.min.js": "/js/jquery.min.js?id=8fb8fee4fcc3cc86ff6c",
-    "/js/bootstrap.bundle.min.js": "/js/bootstrap.bundle.min.js?id=7ccd9d390d31af98110f",
-    "/js/app.min.js": "/js/app.min.js?id=2dd7dcf1b526ce6e6460",
-    "/sw.js": "/sw.js?id=6ff62a9cc8a71e7c8c24",
-    "/js/bootstrap.bundle.min.js.map": "/js/bootstrap.bundle.min.js.map?id=fd5e8b7e914afc9b28d2",
-    "/js/jquery.min.map": "/js/jquery.min.map?id=cd2202e685395dcb4135",
-    "/css/bootstrap.min.css.map": "/css/bootstrap.min.css.map?id=95fca4cc7b7d54a6bb0a"
+    "/css/bootstrap.min.css": "/css/bootstrap.min.css",
+    "/css/app.min.css": "/css/app.min.css",
+    "/js/jquery.min.js": "/js/jquery.min.js",
+    "/js/bootstrap.bundle.min.js": "/js/bootstrap.bundle.min.js",
+    "/js/app.min.js": "/js/app.min.js",
+    "/sw.js": "/sw.js",
+    "/js/bootstrap.bundle.min.js.map": "/js/bootstrap.bundle.min.js.map",
+    "/js/jquery.min.map": "/js/jquery.min.map",
+    "/css/bootstrap.min.css.map": "/css/bootstrap.min.css.map"
 }

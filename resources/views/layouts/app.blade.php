@@ -15,8 +15,8 @@
     gtag('config', 'G-VHZEX7GYK2');
   </script>
   @endif
-  <link rel="stylesheet" type="text/css" href="{{ url(mix('css/bootstrap.min.css')) }}" />
-  <link rel="stylesheet" type="text/css" href="{{ url(mix('css/app.min.css')) }}" />
+  <link rel="stylesheet" type="text/css" href="{{ url('css/bootstrap.min.css') }}" />
+  <link rel="stylesheet" type="text/css" href="{{ url('css/app.min.css') }}" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <title>@yield('title') | {{ env('APP_NAME') }}</title>
   @hasSection('description')
@@ -42,7 +42,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Ofertas" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="msapplication-TileColor" content="#ce2e3c" />
+  <meta name="msapplication-TileColor" content="#da6709" />
   <meta name="msapplication-TileImage" content="/img/icon.png" />
   <link rel="apple-touch-icon" href="/img/icon.png" />
   <link rel="manifest" href="/json/manifest.json">
@@ -60,7 +60,7 @@
   <link rel="icon" sizes="60x60" href="/img/60.png">
   <link rel="icon" sizes="32x32" href="/img/32.png">
   <link rel="icon" sizes="16x16" href="/img/16.png">
-  <meta name="theme-color" content="#ce2e3c">
+  <meta name="theme-color" content="#da6709">
   <link rel="canonical" href="{{ Request::url() }}" />
   <script src="https://www.google.com/recaptcha/api.js?render={{ env('PUBLIC_RECAPTCHA_V3') }}" async></script>@yield('headers')
 </head>
@@ -136,9 +136,9 @@
     const KeyV3Recaptcha = '{{ env("PUBLIC_RECAPTCHA_V3") }}';
     const applicationServerPublicKey = '{{ env("VAPID_PUBLIC_KEY") }}';
   </script>
-  <script src="{{ url(mix('js/jquery.min.js')) }}"></script>
-  <script src="{{ url(mix('js/bootstrap.bundle.min.js')) }}"></script>
-  <script src="{{ url(mix('js/app.min.js')) }}"></script>
+  <script src="{{ url('js/jquery.min.js') }}"></script>
+  <script src="{{ url('js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url('js/app.min.js') }}"></script>
   <footer id="rodape" class="text-center border-top p-3 mt-3 bg-light">
     <div id="social" class="mx-auto fs-2 mb-3">
       <a href="https://wa.me/{{ env('WHATSAPP_NUMBER') }}"><i class="fab fa-whatsapp-square"></i></a>
