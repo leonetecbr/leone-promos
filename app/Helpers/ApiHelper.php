@@ -7,7 +7,7 @@ use App\Models\Promo;
 use App\Models\Page;
 use App\Models\Store;
 use App\Models\Cupom;
-use Illuminate\Support\Facades\DB;
+use App\Helpers\CsvHelper;
 
 /**
  * Obtém dados das API ou do Cache
@@ -235,15 +235,7 @@ class ApiHelper
    */
   private static function getAwin(): array
   {
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $_ENV['API_URL_CSV_AWIN']);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $csv = curl_exec($ch);
-    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    if (empty($csv) || $status !== 200) {
-      throw new Exception('Parece que tivemos um probleminha, que tal tentar de novo ?');
-    }
-    $dado = array_map('str_getcsv', explode("\n", $csv));
+    $dado = CsvHelper::readCSV($_ENV['API_URL_CSV_AWIN']);
     $a = 0;
     for ($i = 0; !empty($dado[$i][1]); $i++) {
       /**if ($dado[$i][1] === 'Aliexpress BR & LATAM') {

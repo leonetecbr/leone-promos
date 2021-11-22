@@ -39,7 +39,7 @@ Cupons{{ (empty($loja))?'':' - '.$loja }}: Página {{ $page }} de {{ $final }}
       <button class="border-0 mre pls d-none plus-share"><i class="fas fa-share-alt"></i></button>
     </div>
     <div class="card-body p-3 text-center mb-md-3">
-      <div class="site"><img src="{{ $cupons[$i]['store']['imagem'] }}" alt="{{ $cupons[$i]['store']['nome'] }}" class="loja-image"></div>
+      <div class="site mb-3"><img src="{{ $cupons[$i]['store']['imagem'] }}" alt="{{ $cupons[$i]['store']['nome'] }}" class="loja-image"></div>
       <h4 class="card-title">{{ mb_strimwidth($cupons[$i]['desc'], 0, 100, '...' ) }}</h4>
       <div class="cupom-vigency my-3">Válido até {{ $cupons[$i]['ate'] }}</div>
       <div class="code row col-11 mx-auto"><input value="{{ $cupons[$i]['code'] }}" disabled="true" class="form-control text-center discount" id="input_{{ $i }}" /></div>
