@@ -62,7 +62,7 @@
       <p class="installment text-muted">
         @if ($promo['vezes']!==1 && $promo['vezes']!==NULL)
         {{ $promo['vezes'] }}x{{ (($promo['parcelas']*$promo['vezes']) <= $promo['por']+0.05)?' sem juros':''; }} de R$ {{ number_format($promo['parcelas'], 2, ',', '.') }}
-        @elseif ($promo['por'] != 0)
+        @elseif ($promo['por'] > 0)
         Apenas à vista!
         @endif
       </p>
@@ -74,9 +74,9 @@
       @endif
     </div>
     <div class="final text-center p-3">
-      <div class="text-end"><a target="{{ $target }}" href="{{ $promo['store']['link'] }}"><img src="{{ $promo['store']['imagem'] }}" alt="{{ $promo['store']['nome'] }}" class="loja"></a></div>
+      <div class="text-end"><a target="_blank" href="{{ $promo['store']['link'] }}"><img src="{{ $promo['store']['imagem'] }}" alt="{{ $promo['store']['nome'] }}" class="loja"></a></div>
       @if (empty($promo['code']))
-        <a target="_blank" href="{{ $promo['link'] }}" class="mx-auto"><button class="btn btn-outline-danger w-75">Ir para a loja</button></a>
+        <a target="{{ $target }}" href="{{ $promo['link'] }}" class="mx-auto"><button class="btn btn-outline-danger w-75">Ir para a loja</button></a>
       @else
         <button onclick="copy('{{ $promo['link'] }}', '#input{{ $loop->index }}')" class="btn btn-outline-danger w-75 mx-auto">Copiar e ir para a loja</button>
       @endif

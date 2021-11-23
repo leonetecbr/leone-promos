@@ -57,7 +57,7 @@
     <p class="installment text-muted">
       @if ($promo['vezes']!==1 && $promo['vezes']!==NULL)
       {{ $promo['vezes'] }}x{{ (($promo['parcelas']*$promo['vezes']) <= $promo['por']+0.05)?' sem juros':''; }} de R$ {{ number_format($promo['parcelas'], 2, ',', '.') }}
-      @elseif ($promo['por'] != 0)
+      @elseif ($promo['por'] > 0)
       Apenas à vista!
       @endif
     </p>
