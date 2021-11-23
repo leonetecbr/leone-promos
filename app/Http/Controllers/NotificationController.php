@@ -6,7 +6,6 @@ use App\Helpers;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use Exception;
-use Symfony\Component\Console\Input\Input;
 
 class NotificationController extends Controller
 {
