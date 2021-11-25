@@ -6,7 +6,7 @@
   <div id="logomarca" class="border-bottom mh-10">
     <img src="/img/logo.png" alt="Logo" class="mx-auto">
   </div>
-  <img id="product-image" class="mt-2 mh-33" alt="Imagem do produto">
+  <img id="product-image" class="my-3 mh-33" alt="Imagem do produto">
   <h4 class="h4" id="product-title"></h4>
   <div class="mt-3 fs-5">
     <div id="price-from" class="mb-3"><small class="text-muted">De:</small> <del id="product-price-from" class="h4 fw-light"></del></div>
