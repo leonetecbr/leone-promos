@@ -15,7 +15,7 @@ class CuponsController extends Controller
         $store_id = 5632;
         break;
 
-      case 'CasasBahia':
+      case 'Casas Bahia':
         $store_id = 2;
         break;
 
