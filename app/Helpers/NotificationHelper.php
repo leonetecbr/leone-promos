@@ -36,6 +36,7 @@ class NotificationHelper
     if (empty($subscription)) {
       $subscription = Notification::where('id', 0)->first();
     }
+    
     if(strpos($payload['link'], '#')!==false){
       $link = explode('#', $payload['link'], 2);
       $payload['link'] = $link[0]. '?utm_source=push_notify#'.$link[1];
@@ -59,6 +60,11 @@ class NotificationHelper
    */
   public function sendManyNotifications(array $subscriptions, array $payload): bool
   {
+
+    if (strpos($payload['link'], '#') !== false) {
+      $link = explode('#', $payload['link'], 2);
+      $payload['link'] = $link[0] . '?utm_source=push_notify#' . $link[1];
+    }
 
     for ($i = 0; !empty($subscriptions[$i]); $i++) {
       $notifications[$i]['subscription'] = WebPush\Subscription::create(["endpoint" => $subscriptions[$i]['endpoint'], "keys" => ['p256dh' => $subscriptions[$i]['p256dh'], 'auth' => $subscriptions[$i]['auth']]]);
