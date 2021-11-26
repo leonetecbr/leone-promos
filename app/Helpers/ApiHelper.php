@@ -256,7 +256,7 @@ class ApiHelper
         $cupom[$a] = [
           'code' => $dado[$i][4],
           'vigency' => $dado[$i][7],
-          'description' => $dado[$i][5],
+          'description' => ucfirst($dado[$i][5]),
           'link' => $dado[$i][11],
           'store' => [
             'image' => 'https://m.casasbahia.com.br/assets/images/casasbahia-logo-new.svg',
@@ -270,7 +270,7 @@ class ApiHelper
         $cupom[$a] = [
           'code' => $dado[$i][4],
           'vigency' => $dado[$i][7],
-          'description' => $dado[$i][5],
+          'description' => ucfirst($dado[$i][5]),
           'link' => $dado[$i][11],
           'store' => [
             'image' => 'https://m.extra.com.br/assets/images/ic-extra-navbar.svg',
@@ -284,7 +284,7 @@ class ApiHelper
         $cupom[$a] = [
           'code' => $dado[$i][4],
           'vigency' => $dado[$i][7],
-          'description' => $dado[$i][5],
+          'description' => ucfirst($dado[$i][5]),
           'link' => $dado[$i][11],
           'store' => [
             'image' => 'https://m.pontofrio.com.br/assets/images/ic-navbar-logo.svg',

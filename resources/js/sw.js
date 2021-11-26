@@ -95,6 +95,6 @@ self.addEventListener('notificationclick', function(event) {
         return client.focus();
     }
     if (clients.openWindow)
-      return clients.openWindow('https://ofertas.leone.tec.br'+event.notification.data.url+'?utm_source=push_notify');
+      return clients.openWindow('https://ofertas.leone.tec.br'+event.notification.data.url);
   }));
 });

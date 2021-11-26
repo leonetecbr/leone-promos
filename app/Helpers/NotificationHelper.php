@@ -36,6 +36,10 @@ class NotificationHelper
     if (empty($subscription)) {
       $subscription = Notification::where('id', 0)->first();
     }
+    if(strpos($payload['link'], '#')!==false){
+      $link = explode('#', $payload['link'], 2);
+      $payload['link'] = $link[0]. '?utm_source=push_notify#'.$link[1];
+    }
 
     $subscription = WebPush\Subscription::create(["endpoint" => $subscription['endpoint'], "keys" => ['p256dh' => $subscription['p256dh'], 'auth' => $subscription['auth']]]);
 
