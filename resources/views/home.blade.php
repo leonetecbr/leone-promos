@@ -51,12 +51,12 @@
     <img src="{{ $promo['imagem'] }}" alt="{{ $promo['nome'] }}" class="product-image mb-3" /><br />
     <h4 class="card-title"><a target="_blank" href="{{ $promo['link'] }}" class="text-decoration-none link-dark product-title">{{ $promo['nome'] }}</a></h4>
     @if (!empty($promo['de']) && ($promo['de']-$promo['por'])>=0.01)
-    <p class="mb-0">De: <del>R$ {{ number_format($promo['de'], 2, ',', '.') }}</del></p>
+    <p class="mb-0">De: <del>R${{ number_format($promo['de'], 2, ',', '.') }}</del></p>
     @endif
     <h5 class="pricing-card-title mt-3">{{ ($promo['por'] != 0)? 'R$' . number_format($promo['por'], 2, ',', '.') : 'Grátis'; }}</h5>
     <p class="installment text-muted">
       @if ($promo['vezes']!==1 && $promo['vezes']!==NULL)
-      {{ $promo['vezes'] }}x{{ (($promo['parcelas']*$promo['vezes']) <= $promo['por']+0.05)?' sem juros':''; }} de R$ {{ number_format($promo['parcelas'], 2, ',', '.') }}
+      {{ $promo['vezes'] }}x {{ (($promo['parcelas']*$promo['vezes']) <= $promo['por']+0.05)?'sem juros':''; }} de R${{ number_format($promo['parcelas'], 2, ',', '.') }}
       @elseif ($promo['por'] > 0)
       Apenas à vista!
       @endif
