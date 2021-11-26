@@ -17,10 +17,13 @@ use App\Http\Controllers;
 
 Route::get('/v1/{key}/postback', [Controllers\NotificationController::class, 'postback']);
 
+/*
+APIs reservadas para um possível app
+
 Route::get('/v1/categoria', [Controllers\ApiController::class, 'listPromosCategorias']);
 
 Route::get('/v1/loja', [Controllers\ApiController::class, 'listPromosLojas']);
 
 Route::get('/v1/home', [Controllers\ApiController::class, 'listPromosHome']);
 
-Route::get('/v1/cupons', [Controllers\ApiController::class, 'listCupons']);
+Route::get('/v1/cupons', [Controllers\ApiController::class, 'listCupons']);*/
