@@ -56,9 +56,9 @@
         Ordenar por
       </a>
       <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
-        <li><a class="dropdown-item {{ (empty($order))?'active':'' }}" href="{{ (empty($order_by))?'#':$without_order }}">Maior destaque</a></li>
-        <li><a class="dropdown-item {{ ($order=='discount')?'active':'' }}" href="{{ ($order=='discount')?'#':$without_order.'order_by=discount' }}">Maior desconto</a></li>
-        <li><a class="dropdown-item {{ ($order=='price')?'active':'' }}" href="{{ ($order=='price')?'#':$without_order.'order_by=price' }}">Menor Preço</a></li>
+        <li><a class="dropdown-item filtros {{ (empty($order))?'active':'' }}" href="{{ (empty($order_by))?'#':$without_order }}">Maior destaque</a></li>
+        <li><a class="dropdown-item filtros {{ ($order=='discount')?'active':'' }}" href="{{ ($order=='discount')?'#':$without_order.'order_by=discount' }}">Maior desconto</a></li>
+        <li><a class="dropdown-item filtros {{ ($order=='price')?'active':'' }}" href="{{ ($order=='price')?'#':$without_order.'order_by=price' }}">Menor Preço</a></li>
       </ul>
     </div>
     <div class="dropdown col-5">
@@ -66,14 +66,14 @@
         Preço até
       </a>
       <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
-        <li><a class="dropdown-item {{ (empty($price))?'active':'' }}" href="{{ (empty($price))?'#':$without_price }}">0 - </a></li>
-        <li><a class="dropdown-item {{ ($price=='0-1')?'active':'' }}" href="{{ ($price=='0-1')?'#':$without_price.'price=0-1' }}">0 - 1</a></li>
-        <li><a class="dropdown-item {{ ($price=='1-10')?'active':'' }}" href="{{ ($price=='1-10')?'#':$without_price.'price=1-10' }}">1 - 10</a></li>
-        <li><a class="dropdown-item {{ ($price=='10-50')?'active':'' }}" href="{{ ($price=='10-50')?'#':$without_price.'price=10-50' }}">10 - 50</a></li>
-        <li><a class="dropdown-item {{ ($price=='50-100')?'active':'' }}" href="{{ ($price=='50-100')?'#':$without_price.'price=50-100' }}">50 - 100</a></li>
-        <li><a class="dropdown-item {{ ($price=='100-500')?'active':'' }}" href="{{ ($price=='100-500')?'#':$without_price.'price=100-500' }}">100 - 500</a></li>
-        <li><a class="dropdown-item {{ ($price=='500-1000')?'active':'' }}" href="{{ ($price=='500-1000')?'#':$without_price.'price=500-1000' }}"" href="#">500 - 1000</a></li>
-        <li><a class="dropdown-item {{ ($price=='1000-')?'active':'' }}" href="{{ ($price=='1000-')?'#':$without_price.'price=1000-' }}">1000 - </a></li>
+        <li><a class="dropdown-item filtros {{ (empty($price))?'active':'' }}" href="{{ (empty($price))?'#':$without_price }}">0 - </a></li>
+        <li><a class="dropdown-item filtros {{ ($price=='0-1')?'active':'' }}" href="{{ ($price=='0-1')?'#':$without_price.'price=0-1' }}">0 - 1</a></li>
+        <li><a class="dropdown-item filtros {{ ($price=='1-10')?'active':'' }}" href="{{ ($price=='1-10')?'#':$without_price.'price=1-10' }}">1 - 10</a></li>
+        <li><a class="dropdown-item filtros {{ ($price=='10-50')?'active':'' }}" href="{{ ($price=='10-50')?'#':$without_price.'price=10-50' }}">10 - 50</a></li>
+        <li><a class="dropdown-item filtros {{ ($price=='50-100')?'active':'' }}" href="{{ ($price=='50-100')?'#':$without_price.'price=50-100' }}">50 - 100</a></li>
+        <li><a class="dropdown-item filtros {{ ($price=='100-500')?'active':'' }}" href="{{ ($price=='100-500')?'#':$without_price.'price=100-500' }}">100 - 500</a></li>
+        <li><a class="dropdown-item filtros {{ ($price=='500-1000')?'active':'' }}" href="{{ ($price=='500-1000')?'#':$without_price.'price=500-1000' }}"" href="#">500 - 1000</a></li>
+        <li><a class="dropdown-item filtros {{ ($price=='1000-')?'active':'' }}" href="{{ ($price=='1000-')?'#':$without_price.'price=1000-' }}">1000 - </a></li>
       </ul>
     </div>
   </div>

@@ -388,6 +388,12 @@ $(document).ready(function () {
       var href = $(this).attr('href')
       getToken('paginate', href, 'paginate')
     })
+
+    $('.filtros').click(function (e) {
+      e.preventDefault()
+      var href = $(this).attr('href')
+      getToken('paginate', href, 'paginate')
+    })
   }
 
   $("#prefers input[type='checkbox']").change(function () {
