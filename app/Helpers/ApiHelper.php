@@ -8,6 +8,7 @@ use App\Models\Page;
 use App\Models\Store;
 use App\Models\Cupom;
 use App\Helpers\CsvHelper;
+use Illuminate\Http\Request;
 
 /**
  * Obtém dados das API ou do Cache
@@ -353,13 +354,56 @@ class ApiHelper
    * @param int $page
    * @return array
    */
-  public static function search(string $q, int $page): array
+  public static function search(Request $request, string $q, int $page): array
   {
+    $order = $request->get('order_by');
+    $price = $request->get('price');
     $dados = [
       'keyword' => $q,
       'sourceId' => $_ENV['SOURCE_ID_LOMADEE'],
       'page' => $page
     ];
+    
+    if (!empty($order)){
+      $dados['sort'] = ($order=='discount')?'discount':'price';
+    }
+
+    if (!empty($price)){
+      switch($price){
+        case '0-1':
+          $dados['maxPrice'] = 1;
+          break;
+
+        case '1-10':
+          $dados['minPrice'] = 1;
+          $dados['maxPrice'] = 10;
+          break;
+
+        case '10-50':
+          $dados['minPrice'] = 10;
+          $dados['maxPrice'] = 50;
+          break;
+
+        case '50-100':
+          $dados['minPrice'] = 50;
+          $dados['maxPrice'] = 100;
+          break;
+
+        case '100-500':
+          $dados['minPrice'] = 100;
+          $dados['maxPrice'] = 500;
+          break;
+
+        case '500-1000':
+          $dados['minPrice'] = 500;
+          $dados['maxPrice'] = 1000;
+          break;
+
+        case '1000-':
+          $dados['minPrice'] = 1000;
+          break;
+      }
+    }
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $_ENV['API_URL_LOMADEE'] . '/v3/' . $_ENV['APP_TOKEN_LOMADEE'] . '/offer/_search?' . http_build_query($dados));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
