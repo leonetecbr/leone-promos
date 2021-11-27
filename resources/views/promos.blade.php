@@ -37,12 +37,12 @@
 <div class="alert alert-danger text-center w-75 mb-4 mx-auto">{{ $error }}</div>
 @endforeach
 @endif
-@if ($cat_id==0)
+@if ($cat_id==0 && is_array($promos))
   <?php
   $url = Request::url().'?';
   $price = Request::get('price');
   $order = Request::get('order_by');
-  if (empty($price) && empty($order) && is_array($promos)) {
+  if (empty($price) && empty($order)) {
     $without_order = $url;
     $without_price = $url;
   }else{
