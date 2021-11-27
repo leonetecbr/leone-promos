@@ -42,7 +42,7 @@
   $url = Request::url().'?';
   $price = Request::get('price');
   $order = Request::get('order_by');
-  if (empty($price) && empty($order)) {
+  if (empty($price) && empty($order) && is_array($promos)) {
     $without_order = $url;
     $without_price = $url;
   }else{

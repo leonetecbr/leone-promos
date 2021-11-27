@@ -29,7 +29,7 @@ class SearchController extends Controller
         throw new Exception('Não temos certeza que você não é um robô, marque a caixa de verificação abaixo para continuar com sua pesquisa:', 499);
       }
 
-      $dado = Helpers\ApiHelper::search($q, $page);
+      $dado = Helpers\ApiHelper::search($request, $q, $page);
       $ofertas = $dado['offers'];
       $pages = $dado['totalPage'];
       $subtitle = 'Pesquisa por "' . $q . '"';

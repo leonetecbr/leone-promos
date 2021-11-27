@@ -159,6 +159,8 @@ class ApiHelper
     } else {
       $url = $_ENV['API_URL_LOMADEE'] . '/v2/' . $_ENV['APP_TOKEN_LOMADEE'] . '/coupon/_all?' . http_build_query($dados);
     }
+    echo $url;
+    die;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -363,7 +365,7 @@ class ApiHelper
       'sourceId' => $_ENV['SOURCE_ID_LOMADEE'],
       'page' => $page
     ];
-    
+
     if (!empty($order)){
       $dados['sort'] = ($order=='discount')?'discount':'price';
     }
@@ -404,6 +406,7 @@ class ApiHelper
           break;
       }
     }
+
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $_ENV['API_URL_LOMADEE'] . '/v3/' . $_ENV['APP_TOKEN_LOMADEE'] . '/offer/_search?' . http_build_query($dados));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
