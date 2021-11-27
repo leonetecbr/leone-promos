@@ -55,7 +55,6 @@ class RecaptchaHelper
    */
   public function isOrNot(float $min = 0.6): bool
   {
-    return false;
     if ($this->type == 'v3') {
       return $this->isOrNotV3($min);
     } else {
