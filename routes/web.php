@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
+use App\Helpers\RedirectHelper;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,60 +15,143 @@ use App\Http\Controllers;
 |
 */
 
-Route::get('/', Controllers\HomeController::class)->name('home');
+Route::domain(env('APP_DOMAIN'))->group(function () {
 
-Route::get('/categorias', [Controllers\CategoriasController::class, 'get'])->name('categorias');
+  Route::get('/', Controllers\HomeController::class)->name('home');
 
-Route::get('/categorias/{categoria}/{page?}', [Controllers\CategoriasController::class, 'process'])->where('categoria', '[a-z]+')->where('page', '^[1-9]+[0-9]*$')->name('categoria');
+  Route::prefix('categorias')->group(function () {
+    Route::get('/', [Controllers\CategoriasController::class, 'get'])->name('categorias');
 
-Route::get('/lojas', [Controllers\LojasController::class, 'get'])->name('lojas');
+    Route::get('/{categoria}/{page?}', [Controllers\CategoriasController::class, 'process'])->where('categoria', '[a-z]+')->where('page', '^[1-9]+[0-9]*$')->name('categoria');
+  });
 
-Route::get('/lojas/{loja}/{page?}', [Controllers\LojasController::class, 'process'])->where('loja', '[a-z]+')->where('page', '^[1-9]+[0-9]*$')->name('loja');
+  Route::prefix('lojas')->group(function () {
+    Route::get('/', [Controllers\LojasController::class, 'get'])->name('lojas');
 
-Route::get('/cupons/{page?}', [Controllers\CuponsController::class, 'get'])->where('page', '^[1-9]+[0-9]*$')->name('cupons');
+    Route::get('/{loja}/{page?}', [Controllers\LojasController::class, 'process'])->where('loja', '[a-z]+')->where('page', '^[1-9]+[0-9]*$')->name('loja');
+  });
 
-Route::match(['get', 'post'], '/search/{query}/{page?}', [Controllers\SearchController::class, 'search'])->where('query', '[\w ]+')->where('page', '^[1-9]+[0-9]*$')->name('pesquisa');
+  Route::get('/cupons/{page?}', [Controllers\CuponsController::class, 'get'])->where('page', '^[1-9]+[0-9]*$')->name('cupons');
 
-Route::get('/redirect', [Controllers\RedirectController::class, 'process']);
+  Route::match(['get', 'post'], '/search/{query}/{page?}', [Controllers\SearchController::class, 'search'])->where('query', '[\w ]+')->where('page', '^[1-9]+[0-9]*$')->name('pesquisa');
 
-Route::get('/notificacoes', [Controllers\NotificationController::class, 'get'])->name('notificacoes');
+  Route::get('/redirect', [Controllers\RedirectController::class, 'process']);
 
-Route::post('/register', [Controllers\NotificationController::class, 'register']);
+  Route::get('/notificacoes', [Controllers\NotificationController::class, 'get'])->name('notificacoes');
 
-Route::post('/prefer/get', [Controllers\NotificationController::class, 'getPrefer']);
+  Route::post('/register', [Controllers\NotificationController::class, 'register']);
 
-Route::post('/prefer/set', [Controllers\NotificationController::class, 'setPrefer']);
+  Route::prefix('prefer')->group(function () {
+    Route::post('/get', [Controllers\NotificationController::class, 'getPrefer']);
 
-Route::get('/login', [Controllers\UserController::class, 'login'])->name('login');
+    Route::post('/set', [Controllers\NotificationController::class, 'setPrefer']);
+  });
 
-Route::get('/logout', [Controllers\UserController::class, 'logout'])->middleware('auth')->name('logout');
+  Route::get('/login', [Controllers\UserController::class, 'login'])->name('login');
 
-Route::post('/admin', [Controllers\UserController::class, 'auth']);
+  Route::get('/logout', [Controllers\UserController::class, 'logout'])->middleware('auth')->name('logout');
 
-Route::get('/admin', [Controllers\AdminController::class, 'get'])->middleware('auth')->name('dashboard');
+  Route::prefix('admin')->group(function () {
+    Route::post('/', [Controllers\UserController::class, 'auth']);
 
-Route::get('/admin/promos', [Controllers\TopPromosController::class, 'list'])->middleware('auth')->name('listpromos');
+    Route::get('/', [Controllers\AdminController::class, 'get'])->middleware('auth')->name('dashboard');
 
-Route::get('/admin/promos/new', [Controllers\TopPromosController::class, 'new'])->middleware('auth');
+    Route::get('/promos', [Controllers\TopPromosController::class, 'list'])->middleware('auth')->name('listpromos');
 
-Route::get('/admin/promos/edit/{id}', [Controllers\TopPromosController::class, 'edit'])->middleware('auth')->where('id', '[0-9]+');
+    Route::get('/promos/new', [Controllers\TopPromosController::class, 'new'])->middleware('auth');
 
-Route::get('/admin/promos/delete/{id}', [Controllers\TopPromosController::class, 'delete'])->middleware('auth')->where('id', '[0-9]+');
+    Route::get('/promos/edit/{id}', [Controllers\TopPromosController::class, 'edit'])->middleware('auth')->where('id', '[0-9]+');
 
-Route::post('/admin/promos/save', [Controllers\TopPromosController::class, 'save'])->middleware('auth');
+    Route::get('/promos/delete/{id}', [Controllers\TopPromosController::class, 'delete'])->middleware('auth')->where('id', '[0-9]+');
 
-Route::get('/admin/notify', [Controllers\NotificationController::class, 'getAdmin'])->middleware('auth');
+    Route::post('/promos/save', [Controllers\TopPromosController::class, 'save'])->middleware('auth');
 
-Route::post('/admin/notify/send', [Controllers\NotificationController::class, 'send'])->middleware('auth');
+    Route::get('/notify', [Controllers\NotificationController::class, 'getAdmin'])->middleware('auth');
 
-Route::get('/403', function () {
-  return abort(403);
+    Route::post('/notify/send', [Controllers\NotificationController::class, 'send'])->middleware('auth');
+  });
+
+  Route::get('/403', function () {
+    return abort(403);
+  });
+
+  Route::get('/privacidade', function () {
+    return view('privacidade');
+  })->name('privacidade');
+
+  Route::get('/cookies', function () {
+    return view('cookies');
+  })->name('cookies');
 });
 
-Route::get('/privacidade', function () {
-  return view('privacidade');
-})->name('privacidade');
+Route::domain(env('SHORT_DOMAIN'))->group(function () {
+  Route::get('/', function () {
+    return redirect(env('APP_URL'));
+  });
 
-Route::get('/cookies', function () {
-  return view('cookies');
-})->name('cookies');
+  Route::get('/amazon/{product_id}', function ($product_id) {
+    return redirect('https://www.amazon.com.br/gp/product/' . $product_id . '?tag=leonepromos08-20');
+  });
+
+  Route::get('/magalu/{product_id}', function ($product_id) {
+    return redirect('https://www.magazinevoce.com.br/magazineofertasleone/p/' . $product_id);
+  });
+
+  Route::get('/soub/{product_id}', function ($product_id) {
+    return redirect(RedirectHelper::processAwin('https://www.soubarato.com.br/produto/' . $product_id, 23281, $_ENV['ID_AFILIADO_B2W']));
+  })->where('product_id', '[0-9]+');
+
+  Route::get('/americanas/{product_id}', function ($product_id) {
+    return redirect(RedirectHelper::processAwin('https://www.americanas.com.br/produto/' . $product_id, 22193, $_ENV['ID_AFILIADO_B2W']));
+  })->where('product_id', '[0-9]+');
+
+  Route::get('/shoptime/{product_id}', function ($product_id) {
+    return redirect(RedirectHelper::processAwin('https://www.shoptime.com.br/produto/' . $product_id, 22194, $_ENV['ID_AFILIADO_B2W']));
+  })->where('product_id', '[0-9]+');
+
+
+  Route::get('/submarino/{product_id}', function ($product_id) {
+    return redirect(RedirectHelper::processAwin('https://www.submarino.com.br/produto/' . $product_id, 22195, $_ENV['ID_AFILIADO_B2W']));
+  })->where('product_id', '[0-9]+');
+
+  Route::get('/aliexpress/{product_id}', function ($product_id) {
+    return redirect(RedirectHelper::processAwin('https://pt.aliexpress.com/item/' . $product_id . '.html', 18879));
+  })->where('product_id', '[0-9]+');
+
+  Route::get('/amazon', function () {
+    return redirect('https://www.amazon.com.br/?tag=leonepromos-20');
+  });
+
+  Route::get('/magalu', function () {
+    return redirect('https://www.magazinevoce.com.br/magazineofertasleone/');
+  });
+
+  Route::get('/soub', function () {
+    return redirect(RedirectHelper::processAwin('https://www.soubarato.com.br/', 23281, $_ENV['ID_AFILIADO_B2W']));
+  });
+
+  Route::get('/americanas', function () {
+    return redirect(RedirectHelper::processAwin('https://www.americanas.com.br/', 22193, $_ENV['ID_AFILIADO_B2W']));
+  });
+
+  Route::get('/shoptime', function () {
+    return redirect(RedirectHelper::processAwin('https://www.shoptime.com.br/', 22194, $_ENV['ID_AFILIADO_B2W']));
+  });
+
+  Route::get('/submarino', function () {
+    return redirect(RedirectHelper::processAwin('https://www.submarino.com.br/', 22195, $_ENV['ID_AFILIADO_B2W']));
+  });
+
+  Route::get('/aliexpress', function () {
+    return redirect(RedirectHelper::processAwin('https://pt.aliexpress.com/', 18879));
+  });
+
+  Route::get('/c/{cupom_id}', function ($cupom_id) {
+    $page = ceil((abs(intval($cupom_id)) + 1) / 18);
+    return redirect(env('APP_URL') . '/cupons/' . $page . '#cupom_' . $cupom_id);
+  })->where('cupom_id', '[0-9]+');
+
+  Route::get('/o/{cat_id}_{page}_{oferta_id}', function ($cat_id, $page, $oferta_id) {
+    return redirect(env('APP_URL') . '/' . RedirectHelper::processPage(intval($cat_id), intval($page), intval($oferta_id)));
+  })->where('cat_id', '[0-9]+')->where('page', '[0-9]+')->where('oferta_id', '[0-9]+');
+});
