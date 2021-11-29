@@ -4,6 +4,8 @@ namespace App\Helpers;
 
 use Minishlink\WebPush;
 use App\Models\Notification;
+use App\Models\SendedNotification;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Realiza o envio da notificação
@@ -33,13 +35,25 @@ class NotificationHelper
    */
   public function sendOneNotification(array $subscription = [], array $payload = ['msg' => 'Agora você será notificado a cada promoção imperdível! Toque para editar suas preferências ;)', 'title' => 'Notificações Ativadas ;)', 'link' => '/notificacoes']): bool
   {
+    $sended = new SendedNotification;
+
     if (empty($subscription)) {
       $subscription = Notification::where('id', 0)->first();
+      $sended->por = 'API';
+    }else if (Auth::check() && $payload['link'] != '/notificacoes'){
+      $sended->por = Auth::user()->email;
+    }else{
+      $sended->por = 'SYS';
     }
+
+    $sended->link = $payload['link'];
+    $sended->titulo = $payload['title'];
+    $sended->conteúdo = $payload['msg'];
+    $sended->imagem = $payload['img']??NULL;
     
     if(strpos($payload['link'], '#')!==false){
       $link = explode('#', $payload['link'], 2);
-      $payload['link'] = $link[0]. '?utm_source=push_notify#'.$link[1];
+      $payload['link'] = $link[0]. '?utm_source=push_notify#'.$link[1].'&tag='. $sended->tag;
     }
 
     $subscription = WebPush\Subscription::create(["endpoint" => $subscription['endpoint'], "keys" => ['p256dh' => $subscription['p256dh'], 'auth' => $subscription['auth']]]);
@@ -48,8 +62,11 @@ class NotificationHelper
     $webPush->setAutomaticPadding(false);
     $webPush->setReuseVAPIDHeaders(true);
     $report = $webPush->sendOneNotification($subscription, json_encode($payload));
-
-    return $report->isSuccess();
+    if ($report->isSuccess()){
+      $sended->save();
+      return true;
+    }
+    return false;
   }
 
 
@@ -60,10 +77,16 @@ class NotificationHelper
    */
   public function sendManyNotifications(array $subscriptions, array $payload): bool
   {
-
+    $sended = new SendedNotification;
+    $sended->por = Auth::user()->email;
+    $sended->link = $payload['link'];
+    $sended->titulo = $payload['title'];
+    $sended->conteúdo = $payload['msg'];
+    $sended->imagem = $payload['img'] ?? NULL;
+    
     if (strpos($payload['link'], '#') !== false) {
       $link = explode('#', $payload['link'], 2);
-      $payload['link'] = $link[0] . '?utm_source=push_notify#' . $link[1];
+      $payload['link'] = $link[0] . '?utm_source=push_notify#' . $link[1] . '&tag=' . $sended->tag;
     }
 
     for ($i = 0; !empty($subscriptions[$i]); $i++) {
@@ -82,12 +105,19 @@ class NotificationHelper
     }
 
     $result = true;
+    $s = 0;
     foreach ($webPush->flush() as $report) {
       if (!$report->isSuccess()) {
         $endpoint = $report->getRequest()->getUri()->__toString();
         Notification::where('endpoint', $endpoint)->delete();
         $result = false;
+      }else{
+        $s++;
       }
+    }
+    if($s>0){
+      $sended->para = $s;
+      $sended->save();
     }
     return $result;
   }
