@@ -16,11 +16,11 @@ class CreateSendedNotificationsTable extends Migration
   public function up()
   {
     Schema::create('sended_notifications', function (Blueprint $table) {
-      $table->string('tag')->unique()->primary();
+      $table->string('id')->unique()->primary();
       $table->string('por');
       $table->string('titulo', 60);
       $table->text('imagem')->nullable();
-      $table->string('conteúdo', 200);
+      $table->string('conteudo', 200);
       $table->string('link', 60);
       $table->integer('para')->default(1);
       $table->integer('cliques')->default(0);

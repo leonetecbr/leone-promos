@@ -32,7 +32,7 @@
 <article id="promos" class="d-flex justify-content-around flex-wrap">
   <div id="noeye"></div>
   @if (empty($top_promos))
-  <p class="mx-auto my-3">Nenhuma oferta encontrada!</p>
+  <p class="mx-auto my-3 alert alert-warning w-75 text-center">Nenhuma oferta encontrada!</p>
 </article>
 @else
 @foreach ($top_promos as $promo)

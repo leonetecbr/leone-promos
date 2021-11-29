@@ -81,7 +81,7 @@
 <article id="promos" class="d-flex justify-content-around flex-wrap">
   <div id="noeye"></div>
   @if (empty($promos))
-  <p class="mx-auto my-3">Nenhuma oferta encontrada!</p>
+  <div class="mx-auto my-3 alert alert-warning w-75 text-center">Nenhuma oferta encontrada!</div>
 </article>
 @elseif (is_array($promos))
 @foreach ($promos as $promo)
@@ -126,14 +126,19 @@
 </div>
 @endforeach
 </article>
-@if ($topo??true)
-<div class="container text-center flex-column fs-12 bolder top"><button class="rounded bg-primary px-3 py-2 border-0" onclick="$('html, body').animate({scrollTop : 0},800);" id="btn-top"><i class="fas fa-angle-double-up text-white"></i></button>
-  <p class="fs-5 my-2 fw-light">Topo</p>
-</div>
+  @if ($topo??true)
+    <div class="container text-center flex-column fs-12 bolder top"><button class="rounded bg-primary px-3 py-2 border-0" onclick="$('html, body').animate({scrollTop : 0},800);" id="btn-top"><i class="fas fa-angle-double-up text-white"></i></button>
+      <p class="fs-5 my-2 fw-light">Topo</p>
+    </div>
   @endif
-  @else
+@else
   {!! $promos !!}</article>
-  @endif
+@endif
+@if ($add??false)
+  <div class="text-center mt-3">
+    <a href="/admin" class="col-5"><button type="button" class="btn btn-danger w-75 btn-lg">Cancelar</button></a>
+  </div>
+@endif
 @endsection
 @section('headers')
   {!! $headers??'' !!}

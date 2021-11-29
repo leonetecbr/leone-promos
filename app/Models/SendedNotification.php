@@ -11,8 +11,4 @@ class SendedNotification extends Model
 
     public $timestamps = false;
     protected $table = 'sended_notifications';
-
-    function __construct(){
-        $this->tag = uniqid();
-    }
 }

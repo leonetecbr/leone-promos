@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
+<?php
+if(Request::filled('tag') && Request::input('utm_source')=='push_notify'){
+  require_once(__DIR__.'/../../../app/Includes/ClickNotification.php');
+}
+?>
 <head>
   <meta charset="UTF-8" />
   @if (!env('APP_DEBUG'))

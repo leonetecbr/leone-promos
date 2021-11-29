@@ -26,7 +26,7 @@ Cupons{{ (empty($loja))?'':' - '.$loja }}: Página {{ $page }} de {{ $final }}
 <article id="cupons" class="container d-flex justify-content-around flex-wrap">
   <div id="noeye"></div>
   @if (empty($cupons))
-  <p class="mx-auto my-3">Nenhum cupom encontrado!</p>
+  <p class="mx-auto my-3 alert alert-warning w-75 text-center">Nenhum cupom encontrado!</p>
 </article>
 @else
   @for ($i = 0; $i < count($cupons); $i++)

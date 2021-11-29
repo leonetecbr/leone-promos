@@ -31,7 +31,7 @@ class CuponsController extends Controller
         $store_id = 5766;
         break;
 
-      case 'Efacil':
+      case 'Efácil':
         $store_id = 5779;
         break;
 

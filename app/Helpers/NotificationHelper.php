@@ -48,12 +48,16 @@ class NotificationHelper
 
     $sended->link = $payload['link'];
     $sended->titulo = $payload['title'];
-    $sended->conteúdo = $payload['msg'];
+    $sended->conteudo = $payload['msg'];
     $sended->imagem = $payload['img']??NULL;
+    $id = uniqid();
+    $sended->id = $id;
     
     if(strpos($payload['link'], '#')!==false){
       $link = explode('#', $payload['link'], 2);
-      $payload['link'] = $link[0]. '?utm_source=push_notify#'.$link[1].'&tag='. $sended->tag;
+      $payload['link'] = $link[0]. '?utm_source=push_notify&tag='. $id.'#'.$link[1];
+    }else{
+      $payload['link'] .= '?utm_source=push_notify&tag=' . $id;
     }
 
     $subscription = WebPush\Subscription::create(["endpoint" => $subscription['endpoint'], "keys" => ['p256dh' => $subscription['p256dh'], 'auth' => $subscription['auth']]]);
@@ -81,12 +85,16 @@ class NotificationHelper
     $sended->por = Auth::user()->email;
     $sended->link = $payload['link'];
     $sended->titulo = $payload['title'];
-    $sended->conteúdo = $payload['msg'];
+    $sended->conteudo = $payload['msg'];
     $sended->imagem = $payload['img'] ?? NULL;
-    
+    $id = uniqid();
+    $sended->id = $id;
+
     if (strpos($payload['link'], '#') !== false) {
       $link = explode('#', $payload['link'], 2);
-      $payload['link'] = $link[0] . '?utm_source=push_notify#' . $link[1] . '&tag=' . $sended->tag;
+      $payload['link'] = $link[0] . '?utm_source=push_notify&tag=' . $id . '#' . $link[1];
+    } else {
+      $payload['link'] .= '?utm_source=push_notify&tag=' . $id;
     }
 
     for ($i = 0; !empty($subscriptions[$i]); $i++) {
