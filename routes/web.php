@@ -49,26 +49,32 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
 
   Route::get('/login', [Controllers\UserController::class, 'login'])->name('login');
 
-  Route::get('/logout', [Controllers\UserController::class, 'logout'])->middleware('auth')->name('logout');
+  Route::middleware(['auth'])->group(function () {
+    Route::get('/logout', [Controllers\UserController::class, 'logout'])->name('logout');
 
-  Route::prefix('admin')->group(function () {
-    Route::post('/', [Controllers\UserController::class, 'auth']);
+    Route::prefix('admin')->group(function () {
+      Route::post('/', [Controllers\UserController::class, 'auth'])->withoutMiddleware('auth');
 
-    Route::get('/', [Controllers\AdminController::class, 'get'])->middleware('auth')->name('dashboard');
+      Route::get('/', [Controllers\AdminController::class, 'get'])->name('dashboard');
 
-    Route::get('/promos', [Controllers\TopPromosController::class, 'list'])->middleware('auth')->name('listpromos');
+      Route::prefix('promos')->group(function () {
+        Route::get('/', [Controllers\TopPromosController::class, 'list'])->name('listpromos');
 
-    Route::get('/promos/new', [Controllers\TopPromosController::class, 'new'])->middleware('auth');
+        Route::get('/new', [Controllers\TopPromosController::class, 'new']);
 
-    Route::get('/promos/edit/{id}', [Controllers\TopPromosController::class, 'edit'])->middleware('auth')->where('id', '[0-9]+');
+        Route::get('/edit/{id}', [Controllers\TopPromosController::class, 'edit'])->where('id', '[0-9]+');
 
-    Route::get('/promos/delete/{id}', [Controllers\TopPromosController::class, 'delete'])->middleware('auth')->where('id', '[0-9]+');
+        Route::get('/delete/{id}', [Controllers\TopPromosController::class, 'delete'])->where('id', '[0-9]+');
 
-    Route::post('/promos/save', [Controllers\TopPromosController::class, 'save'])->middleware('auth');
+        Route::post('/save', [Controllers\TopPromosController::class, 'save']);
+      });
 
-    Route::get('/notify', [Controllers\NotificationController::class, 'getAdmin'])->middleware('auth');
+      Route::prefix('notify')->group(function () {
+        Route::get('/', [Controllers\NotificationController::class, 'getAdmin']);
 
-    Route::post('/notify/send', [Controllers\NotificationController::class, 'send'])->middleware('auth');
+        Route::post('/send', [Controllers\NotificationController::class, 'send']);
+      });
+    });
   });
 
   Route::get('/403', function () {
@@ -89,61 +95,74 @@ Route::domain(env('SHORT_DOMAIN'))->group(function () {
     return redirect(env('APP_URL'));
   });
 
-  Route::get('/amazon/{product_id}', function ($product_id) {
-    return redirect('https://www.amazon.com.br/gp/product/' . $product_id . '?tag=leonepromos08-20');
+  Route::prefix('amazon')->group(function () {
+    Route::get('/', function () {
+      return redirect('https://www.amazon.com.br/?tag=leonepromos-20');
+    });
+
+    Route::get('/{product_id}', function ($product_id) {
+      return redirect('https://www.amazon.com.br/gp/product/' . $product_id . '?tag=leonepromos08-20');
+    });
   });
 
-  Route::get('/magalu/{product_id}', function ($product_id) {
-    return redirect('https://www.magazinevoce.com.br/magazineofertasleone/p/' . $product_id);
+  Route::prefix('magalu')->group(function () {
+    Route::get('/', function () {
+      return redirect('https://www.magazinevoce.com.br/magazineofertasleone/');
+    });
+
+    Route::get('/{product_id}', function ($product_id) {
+      return redirect('https://www.magazinevoce.com.br/magazineofertasleone/p/' . $product_id);
+    });
   });
 
-  Route::get('/soub/{product_id}', function ($product_id) {
-    return redirect(RedirectHelper::processAwin('https://www.soubarato.com.br/produto/' . $product_id, 23281, $_ENV['ID_AFILIADO_B2W']));
-  })->where('product_id', '[0-9]+');
+  Route::prefix('soub')->group(function () {
+    Route::get('/', function () {
+      return redirect(RedirectHelper::processAwin('https://www.soubarato.com.br/', 23281, $_ENV['ID_AFILIADO_B2W']));
+    });
 
-  Route::get('/americanas/{product_id}', function ($product_id) {
-    return redirect(RedirectHelper::processAwin('https://www.americanas.com.br/produto/' . $product_id, 22193, $_ENV['ID_AFILIADO_B2W']));
-  })->where('product_id', '[0-9]+');
-
-  Route::get('/shoptime/{product_id}', function ($product_id) {
-    return redirect(RedirectHelper::processAwin('https://www.shoptime.com.br/produto/' . $product_id, 22194, $_ENV['ID_AFILIADO_B2W']));
-  })->where('product_id', '[0-9]+');
-
-
-  Route::get('/submarino/{product_id}', function ($product_id) {
-    return redirect(RedirectHelper::processAwin('https://www.submarino.com.br/produto/' . $product_id, 22195, $_ENV['ID_AFILIADO_B2W']));
-  })->where('product_id', '[0-9]+');
-
-  Route::get('/aliexpress/{product_id}', function ($product_id) {
-    return redirect(RedirectHelper::processAwin('https://pt.aliexpress.com/item/' . $product_id . '.html', 18879));
-  })->where('product_id', '[0-9]+');
-
-  Route::get('/amazon', function () {
-    return redirect('https://www.amazon.com.br/?tag=leonepromos-20');
+    Route::get('/{product_id}', function ($product_id) {
+      return redirect(RedirectHelper::processAwin('https://www.soubarato.com.br/produto/' . $product_id, 23281, $_ENV['ID_AFILIADO_B2W']));
+    })->where('product_id', '[0-9]+');
   });
 
-  Route::get('/magalu', function () {
-    return redirect('https://www.magazinevoce.com.br/magazineofertasleone/');
+  Route::prefix('americanas')->group(function () {
+    Route::get('/', function () {
+      return redirect(RedirectHelper::processAwin('https://www.americanas.com.br/', 22193, $_ENV['ID_AFILIADO_B2W']));
+    });
+
+    Route::get('/{product_id}', function ($product_id) {
+      return redirect(RedirectHelper::processAwin('https://www.americanas.com.br/produto/' . $product_id, 22193, $_ENV['ID_AFILIADO_B2W']));
+    })->where('product_id', '[0-9]+');
   });
 
-  Route::get('/soub', function () {
-    return redirect(RedirectHelper::processAwin('https://www.soubarato.com.br/', 23281, $_ENV['ID_AFILIADO_B2W']));
+  Route::prefix('shoptime')->group(function () {
+    Route::get('/', function () {
+      return redirect(RedirectHelper::processAwin('https://www.shoptime.com.br/', 22194, $_ENV['ID_AFILIADO_B2W']));
+    });
+
+    Route::get('/{product_id}', function ($product_id) {
+      return redirect(RedirectHelper::processAwin('https://www.shoptime.com.br/produto/' . $product_id, 22194, $_ENV['ID_AFILIADO_B2W']));
+    })->where('product_id', '[0-9]+');
   });
 
-  Route::get('/americanas', function () {
-    return redirect(RedirectHelper::processAwin('https://www.americanas.com.br/', 22193, $_ENV['ID_AFILIADO_B2W']));
+  Route::prefix('submarino')->group(function () {
+    Route::get('/', function () {
+      return redirect(RedirectHelper::processAwin('https://www.submarino.com.br/', 22195, $_ENV['ID_AFILIADO_B2W']));
+    });
+
+    Route::get('/{product_id}', function ($product_id) {
+      return redirect(RedirectHelper::processAwin('https://www.submarino.com.br/produto/' . $product_id, 22195, $_ENV['ID_AFILIADO_B2W']));
+    })->where('product_id', '[0-9]+');
   });
 
-  Route::get('/shoptime', function () {
-    return redirect(RedirectHelper::processAwin('https://www.shoptime.com.br/', 22194, $_ENV['ID_AFILIADO_B2W']));
-  });
-
-  Route::get('/submarino', function () {
-    return redirect(RedirectHelper::processAwin('https://www.submarino.com.br/', 22195, $_ENV['ID_AFILIADO_B2W']));
-  });
-
-  Route::get('/aliexpress', function () {
-    return redirect(RedirectHelper::processAwin('https://pt.aliexpress.com/', 18879));
+  Route::prefix('aliexpress')->group(function () {
+    Route::get('/', function () {
+      return redirect(RedirectHelper::processAwin('https://pt.aliexpress.com/', 18879));
+    });
+    
+    Route::get('/{product_id}', function ($product_id) {
+      return redirect(RedirectHelper::processAwin('https://pt.aliexpress.com/item/' . $product_id . '.html', 18879));
+    })->where('product_id', '[0-9]+');
   });
 
   Route::get('/c/{cupom_id}', function ($cupom_id) {

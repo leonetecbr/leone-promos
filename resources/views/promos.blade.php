@@ -37,7 +37,7 @@
 <div class="alert alert-danger text-center w-75 mb-4 mx-auto">{{ $error }}</div>
 @endforeach
 @endif
-@if ($cat_id==0 && is_array($promos))
+@if ($cat_id==0 && is_array($promos) && !empty($query))
   <?php
   $url = Request::url().'?';
   $price = Request::get('price');
