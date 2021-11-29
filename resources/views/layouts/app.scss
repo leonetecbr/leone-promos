@@ -19,6 +19,18 @@ $utilities: (
       500: 500px,
       300: 300px
     )
+  ),
+  "height": (
+    property: height,
+    class: h,
+    values: (
+      25: 25%,
+      50: 50%,
+      75: 75%,
+      100: 100%,
+      auto: auto,
+      200: 200px
+    )
   )
 );
 

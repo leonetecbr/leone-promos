@@ -73,6 +73,8 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
         Route::get('/', [Controllers\NotificationController::class, 'getAdmin']);
 
         Route::post('/send', [Controllers\NotificationController::class, 'send']);
+
+        Route::get('/history/{page?}', [Controllers\SendedNotificationController::class, 'get'])->name('notify.history');
       });
     });
   });

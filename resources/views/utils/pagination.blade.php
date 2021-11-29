@@ -9,7 +9,8 @@
         <span class="sr-only">Anterior</span>
       </a>
     </li>
-    @for ($i = 0; $i < 3; $i++)
+    <?php $ate = ($final>=3)?3:$final; ?>
+    @for ($i = 0; $i < $ate; $i++)
     <?php 
     $loop_page = ($page == 1)?$page+$i:$page+$i-1;
     $loop_page = ($page==$final && $final>=3)?$page+$i-2:$loop_page;

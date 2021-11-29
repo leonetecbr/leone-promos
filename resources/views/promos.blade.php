@@ -136,7 +136,7 @@
 @endif
 @if ($add??false)
   <div class="text-center mt-3">
-    <a href="/admin" class="col-5"><button type="button" class="btn btn-danger w-75 btn-lg">Cancelar</button></a>
+    <a href="/admin" class="col-5"><button type="button" class="btn btn-danger w-75 btn-lg">Voltar</button></a>
   </div>
 @endif
 @endsection
