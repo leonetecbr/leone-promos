@@ -8,15 +8,15 @@
     <div class="mx-auto mt-4 alert alert-warning w-75 text-center">Nenhuma notificação encontrada!</div>
   </article>
   @else
-  <div class="ntotifications d-lg-flex justify-content-around">
+  <div class="ntotifications d-lg-flex justify-content-around flex-wrap">
     @foreach($notifications as $notification)
-    <div class="notification col-lg-5 border border-1 d-flex flex-column mt-4 mt-lg-0">
+    <div class="notification col-lg-5 border border-1 d-flex flex-column mt-4">
       <div class="toast-header">
         <strong class="me-auto">{{ $notification->titulo }}</strong>
         <small>{{ $notification->sended_at }}</small>
       </div>
       <div class="toast-body my-auto">
-        <div class="text-center">
+        <div class="text-center mb-2">
           <img src="{{ $notification->imagem??'/img/sem-imagem.jpeg' }}" class="h-200"/>
         </div>
         {{ $notification->conteudo}}
