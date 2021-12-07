@@ -113,7 +113,7 @@ Route::domain(env('SHORT_DOMAIN'))->group(function () {
     });
 
     Route::get('/{product_id}', function ($product_id) {
-      return redirect('https://www.magazinevoce.com.br/magazineofertasleone/p/' . $product_id);
+      return redirect("https://www.magazinevoce.com.br/magazineofertasleone/p/{$product_id}");
     });
   });
 
@@ -123,7 +123,7 @@ Route::domain(env('SHORT_DOMAIN'))->group(function () {
     });
 
     Route::get('/{product_id}', function ($product_id) {
-      return redirect(RedirectHelper::processAwin('https://www.soubarato.com.br/produto/' . $product_id, 23281, $_ENV['ID_AFILIADO_B2W']));
+      return redirect(RedirectHelper::processAwin("https://www.soubarato.com.br/produto/{$product_id}", 23281, $_ENV['ID_AFILIADO_B2W']));
     })->where('product_id', '[0-9]+');
   });
 
@@ -133,7 +133,7 @@ Route::domain(env('SHORT_DOMAIN'))->group(function () {
     });
 
     Route::get('/{product_id}', function ($product_id) {
-      return redirect(RedirectHelper::processAwin('https://www.americanas.com.br/produto/' . $product_id, 22193, $_ENV['ID_AFILIADO_B2W']));
+      return redirect(RedirectHelper::processAwin("https://www.americanas.com.br/produto/{$product_id}", 22193, $_ENV['ID_AFILIADO_B2W']));
     })->where('product_id', '[0-9]+');
   });
 
@@ -143,7 +143,7 @@ Route::domain(env('SHORT_DOMAIN'))->group(function () {
     });
 
     Route::get('/{product_id}', function ($product_id) {
-      return redirect(RedirectHelper::processAwin('https://www.shoptime.com.br/produto/' . $product_id, 22194, $_ENV['ID_AFILIADO_B2W']));
+      return redirect(RedirectHelper::processAwin("https://www.shoptime.com.br/produto/{$product_id}", 22194, $_ENV['ID_AFILIADO_B2W']));
     })->where('product_id', '[0-9]+');
   });
 
@@ -153,7 +153,7 @@ Route::domain(env('SHORT_DOMAIN'))->group(function () {
     });
 
     Route::get('/{product_id}', function ($product_id) {
-      return redirect(RedirectHelper::processAwin('https://www.submarino.com.br/produto/' . $product_id, 22195, $_ENV['ID_AFILIADO_B2W']));
+      return redirect(RedirectHelper::processAwin("https://www.submarino.com.br/produto/{$product_id}", 22195, $_ENV['ID_AFILIADO_B2W']));
     })->where('product_id', '[0-9]+');
   });
 
@@ -163,7 +163,17 @@ Route::domain(env('SHORT_DOMAIN'))->group(function () {
     });
     
     Route::get('/{product_id}', function ($product_id) {
-      return redirect(RedirectHelper::processAwin('https://pt.aliexpress.com/item/' . $product_id . '.html', 18879));
+      return redirect(RedirectHelper::processAwin("https://pt.aliexpress.com/item/{$product_id}.html", 18879));
+    })->where('product_id', '[0-9]+');
+  });
+
+  Route::prefix('shopee')->group(function () {
+    Route::get('/', function () {
+      return redirect('https://shopee.com.br/ofertas.leone.tec.br');
+    });
+
+    Route::get('/{product_id}', function ($product_id) {
+      return redirect("https://shopee.com.br/product/306527682/{$product_id}");
     })->where('product_id', '[0-9]+');
   });
 
