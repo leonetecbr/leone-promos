@@ -136,9 +136,9 @@ if(Request::filled('tag') && Request::input('utm_source')=='push_notify'){
     </a>
 </div>
   <script>
-    var csrf = '{{ csrf_token() }}';
-    const KeyV3Recaptcha = '{{ env("PUBLIC_RECAPTCHA_V3") }}';
-    const applicationServerPublicKey = '{{ env("VAPID_PUBLIC_KEY") }}';
+    const CSRF = '{{ csrf_token() }}';
+    const KEY_V3_RECAPTCHA = '{{ env("PUBLIC_RECAPTCHA_V3") }}';
+    const KEY_VAPID_PUBLIC = '{{ env("VAPID_PUBLIC_KEY") }}';
   </script>
   <script src="{{ url('js/jquery.min.js') }}"></script>
   <script src="{{ url('js/bootstrap.bundle.min.js') }}"></script>

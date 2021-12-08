@@ -3,7 +3,7 @@
 *  Push Notifications codelab
 *  Copyright 2015 Google Inc. All rights reserved.
 *
-*  Licensed under the Apache License, Version 2.0 (the "License");
+*  Licensed under the Apache License, Version 2.0 (the "License")
 *  you may not use this file except in compliance with the License.
 *  You may obtain a copy of the License at
 *
@@ -18,117 +18,120 @@
 * Modifications were made to make the code fit my project 
 */
 
-let isSubscribed = false;
-let swRegistration = null;
-let btn = $('#btn-notify');
-let sub;
+let isSubscribed = false
+let swRegistration = null
+let btn = $('#btn-notify')
+let sub
 
 function urlB64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const padding = '='.repeat((4 - base64String.length % 4) % 4)
   const base64 = (base64String + padding)
     .replace(/\-/g, '+')
-    .replace(/_/g, '/');
+    .replace(/_/g, '/')
 
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
+  const rawData = window.atob(base64)
+  const outputArray = new Uint8Array(rawData.length)
 
   for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
+    outputArray[i] = rawData.charCodeAt(i)
   }
-  return outputArray;
+  return outputArray
 }
 
 if ('serviceWorker' in navigator && 'PushManager' in window) {
   navigator.serviceWorker.register('/sw.js').then(function (swReg) {
-    swRegistration = swReg;
-    initializeUI();
-  });
+    swRegistration = swReg
+    initializeUI()
+  })
 } else {
-  btn.html('Notificações não suportadas');
+  btn.html('Notificações não suportadas')
   $('#notify-unsupport').removeClass('d-none')
 }
 
 function initializeUI() {
   if (document.cookie.indexOf("no_notify") < 0) {
-    $('#notify').removeClass('d-none');
+    $('#notify').removeClass('d-none')
   }
-  btn.attr('disabled', false);
+  btn.attr('disabled', false)
   btn.click(function () {
-    btn.attr('disabled', true);
-    btn.html('Aguarde ...');
+    btn.attr('disabled', true)
+    btn.html('Aguarde ...')
     if (isSubscribed) {
-      unsubscribeUser();
+      unsubscribeUser()
     } else {
-      subscribeUser();
+      subscribeUser()
     }
-  });
+  })
   swRegistration.pushManager.getSubscription().then(function (subscription) {
-    sub = subscription;
-    isSubscribed = !(subscription === null);
+    sub = subscription
+    isSubscribed = !(subscription === null)
     if (isSubscribed) {
       if (window.location.pathname == '/notificacoes') {
-        getPrefer(subscription.endpoint);
-        $('#endpoint').val(subscription.endpoint);
+        getPrefer(subscription.endpoint)
+        $('#endpoint').val(subscription.endpoint)
       }
     }
-    updateBtn();
-  });
+    updateBtn()
+  })
 }
 
 function updateBtn() {
   if (Notification.permission === 'denied') {
-    $('#btn-notify').html('Notificações bloqueadas');
-    $('#btn-notify').attr("disabled", true);
+    $('#btn-notify').html('Notificações bloqueadas')
+    $('#btn-notify').attr("disabled", true)
     $('#notify-bloqued').removeClass('d-none')
     if (sub) {
-      update('remove');
+      update('remove')
     }
-    return;
+    return
   }
 
-  btn.attr('disabled', false);
+  btn.attr('disabled', false)
   if (isSubscribed) {
-    setTimeout(function () { createCookie('no_notify', 1, 60); $('#notify').hide('slow'); }, 1000);
-    btn.html('Desativar notificações');
+    setTimeout(function () {
+      createCookie('no_notify', 1, 60)
+      $('#notify').hide('slow') }
+    , 1000)
+    btn.html('Desativar notificações')
   } else {
-    btn.html('Ativar notificações');
+    btn.html('Ativar notificações')
   }
 }
 
 function subscribeUser() {
-  const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
+  const applicationServerKey = urlB64ToUint8Array(KEY_VAPID_PUBLIC)
   swRegistration.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: applicationServerKey
   }).then(function (subscription) {
-    sub = subscription;
-    update('add');
+    sub = subscription
+    update('add')
   })
     .catch(function () {
-      updateBtn();
-    });
+      updateBtn()
+    })
 }
 
 function unsubscribeUser() {
   if (sub) {
-    sub.unsubscribe();
-    update('remove');
-    $('#preferencias').addClass('d-none');
+    sub.unsubscribe()
+    update('remove')
+    $('#preferencias').addClass('d-none')
   } else {
-    updateBtn();
+    updateBtn()
   }
 }
 
 function update(action) {
   grecaptcha.ready(function () {
-    grecaptcha.execute('6LdiepQaAAAAAAzLXLD1le5GHf0JRShTQvNX2LHt', { action: 'notify' }).then(function (token) {
+    grecaptcha.execute(KEY_V3_RECAPTCHA, { action: 'notify' }).then(function (token) {
       const data = {
         subscription: sub,
         action: action,
         token: token,
-        _token: csrf
+        _token: CSRF
       }
-      document.cookie = "humans_21909=1";
+      document.cookie = "humans_21909=1"
       $.ajax({
         url: "/register",
         type: "POST",
@@ -136,39 +139,39 @@ function update(action) {
         dataType: "json",
         contentType: 'application/json',
         success: function (data) {
-          processResponse(data, action);
+          processResponse(data, action)
         }
       }).fail(function () {
-        $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>');
+        $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
         if (sub) {
-          sub.unsubscribe();
+          sub.unsubscribe()
         }
-        return updateBtn();
-      });
-    });
-  });
+        return updateBtn()
+      })
+    })
+  })
 }
 
 function processResponse(data, action) {
   if (typeof data.success == 'undefined') {
-    $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>');
+    $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
     if (sub) {
-      sub.unsubscribe();
+      sub.unsubscribe()
     }
   } else if (data.success && action == 'add') {
-    isSubscribed = true;
+    isSubscribed = true
   } else if (data.success && action == 'remove') {
-    isSubscribed = false;
+    isSubscribed = false
   } else if (typeof data.erro !== 'undefined') {
-    $('#notify').append('<p class="erro mt-2 center">' + data.erro + '</p>');
+    $('#notify').append('<p class="erro mt-2 center">' + data.erro + '</p>')
     if (sub) {
-      sub.unsubscribe();
+      sub.unsubscribe()
     }
   } else {
-    $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>');
+    $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
     if (sub) {
-      sub.unsubscribe();
+      sub.unsubscribe()
     }
   }
-  return updateBtn();
+  return updateBtn()
 }

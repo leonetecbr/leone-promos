@@ -114,7 +114,7 @@ function copy(e, o) {
 }
 
 function submit(token) {
-  $('#checkbox').append('<input type="hidden" name="_token" id="token" value="' + csrf + '">')
+  $('#checkbox').append('<input type="hidden" name="_token" id="token" value="' + CSRF + '">')
   $('#checkbox').submit()
 }
 
@@ -133,7 +133,7 @@ function createCookie(name, value, days) {
 function getPrefer(endpoint) {
   $.ajax({
     url: '/prefer/get',
-    data: JSON.stringify({ 'endpoint': endpoint, '_token': csrf }),
+    data: JSON.stringify({ 'endpoint': endpoint, '_token': CSRF }),
     dataType: 'json',
     contentType: 'application/json',
     type: 'POST'
@@ -170,18 +170,18 @@ function redirectUrl() {
 }
 
 function pesquisar(q, token) {
-  $('body').append('<form method="post" action="/search/' + q + '" id="pesquisar"><input type="hidden" name="_token" value="' + csrf + '"/><input type="hidden" name="g-recaptcha-response" value="' + token + '"/></form>')
+  $('body').append('<form method="post" action="/search/' + q + '" id="pesquisar"><input type="hidden" name="_token" value="' + CSRF + '"/><input type="hidden" name="g-recaptcha-response" value="' + token + '"/></form>')
   $('#pesquisar').submit();
 }
 
 function paginateSearch(href, token) {
-  $('body').append('<form method="post" action="' + href + '" id="pesquisar"><input type="hidden" name="_token" value="' + csrf + '"/><input type="hidden" name="g-recaptcha-response" value="' + token + '"/></form>')
+  $('body').append('<form method="post" action="' + href + '" id="pesquisar"><input type="hidden" name="_token" value="' + CSRF + '"/><input type="hidden" name="g-recaptcha-response" value="' + token + '"/></form>')
   $('#pesquisar').submit();
 }
 
 function getToken(action, dados, type = 'ajax') {
   grecaptcha.ready(function () {
-    grecaptcha.execute(KeyV3Recaptcha, { action: action }).then(function (token) {
+    grecaptcha.execute(KEY_V3_RECAPTCHA, { action: action }).then(function (token) {
       if (type == 'ajax') {
         sendForm(dados, token);
       } else {
@@ -337,12 +337,12 @@ $(document).ready(function () {
     e.preventDefault()
     form = this
     grecaptcha.ready(function () {
-      grecaptcha.execute(KeyV3Recaptcha, { action: 'send_form' }).then(function (token) {
+      grecaptcha.execute(KEY_V3_RECAPTCHA, { action: 'send_form' }).then(function (token) {
         var valores = new Object()
         for (var valor of $(form).serializeArray()) {
           valores[valor.name] = valor.value
         }
-        valores['_token'] = csrf
+        valores['_token'] = CSRF
         valores['g-recaptcha-response'] = token
         let id = form.id
         let value = $('#' + id + '_submit').html()
