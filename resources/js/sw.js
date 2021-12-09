@@ -42,7 +42,7 @@ self.addEventListener('fetch', function(event) {
           return response
         }
 
-        var fetchRequest = event.request.clone()
+        let fetchRequest = event.request.clone()
 
         return fetch(fetchRequest)
       })
@@ -70,8 +70,8 @@ self.addEventListener('notificationclick', function(event) {
   event.waitUntil(clients.matchAll({
     type: "window"
   }).then(function(clientList) {
-    for (var i = 0; i < clientList.length; i++) {
-      var client = clientList[i]
+    for (let i = 0; i < clientList.length; i++) {
+      let client = clientList[i]
       if (client.url == event.notification.data.url && 'focus' in client)
         return client.focus()
     }

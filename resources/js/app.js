@@ -1,5 +1,5 @@
 String.prototype.strstr = function (search) {
-  var position = this.indexOf(search)
+  let position = this.indexOf(search)
   if (position == -1) {
     return this
   }
@@ -39,7 +39,7 @@ function ig_share(element) {
 
 function getText(element) {
   const desc = $(element).find('.description').html()
-  var text = $(element).find('.pricing-card-title').html()
+  let text = $(element).find('.pricing-card-title').html()
   const price_from = $(element).find('del').html()
   const title = $(element).find('.product-title').html()
 
@@ -61,10 +61,10 @@ function getText(element) {
 }
 
 function getTextCupom(element) {
-  var text = $(element).find('.card-title').html() + ' no(a) ' + $(element).find('.loja-image').attr('alt')
+  let text = $(element).find('.card-title').html() + ' no(a) ' + $(element).find('.loja-image').attr('alt')
   const vigency = $(element).find('.cupom-vigency').html()
-  var cupom = $(element).find('.discount').val()
-  var code = cupom.substr(0, cupom.length - 2)
+  let cupom = $(element).find('.discount').val()
+  let code = cupom.substr(0, cupom.length - 2)
 
   cupom = 'Cupom: ' + code.replace(/\w/g, '*') + cupom.substr(-2)
 
@@ -119,9 +119,9 @@ function submit(token) {
 }
 
 function createCookie(name, value, days) {
-  var expires
+  let expires
   if (days) {
-    var date = new Date()
+    let date = new Date()
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
     expires = '; expires=' + date.toGMTString()
   } else {
@@ -139,7 +139,7 @@ function getPrefer(endpoint) {
     type: 'POST'
   }).done(function (data) {
     if (data.success) {
-      var checked = 0
+      let checked = 0
       for (let i = 0; i < data.pref.length; i++) {
         if (data.pref[i]) {
           $('#p' + (i + 1)).attr('checked', true)
@@ -163,7 +163,7 @@ function getPrefer(endpoint) {
 }
 
 function redirectUrl() {
-  var url = $('#url').val()
+  let url = $('#url').val()
   url = url.strstr('?')
   window.open('/redirect?url=' + url)
   $('#url').val('')
@@ -219,7 +219,7 @@ $(document).ready(function () {
       if (this.id == 'deeplink') {
         redirectUrl()
       } else if (this.id == 'search') {
-        var q = $('#q').val();
+        let q = $('#q').val();
         getToken('search', q, 'search')
       }
       $(this).removeClass('was-validated');
@@ -236,7 +236,7 @@ $(document).ready(function () {
   })
 
   $('.mre').click(function () {
-    var text, element, url
+    let text, element, url
     if (($(this).closest('.promo').attr('id') !== undefined)) {
       element = '#' + $(this).closest('.promo').attr('id')
       text = getText(element) + '\n'
@@ -254,7 +254,7 @@ $(document).ready(function () {
   })
 
   $('.cpy').click(function () {
-    var text, element, url
+    let text, element, url
     if (($(this).closest('.promo').attr('id') !== undefined)) {
       element = '#' + $(this).closest('.promo').attr('id')
       text = getText(element)
@@ -271,7 +271,7 @@ $(document).ready(function () {
   })
 
   $('.wpp').click(function () {
-    var text, element, url
+    let text, element, url
     if (($(this).closest('.promo').attr('id') !== undefined)) {
       element = '#' + $(this).closest('.promo').attr('id')
       text = getText(element)
@@ -288,7 +288,7 @@ $(document).ready(function () {
   })
 
   $('.tlg').click(function () {
-    var text, element, url
+    let text, element, url
     if (($(this).closest('.promo').attr('id') !== undefined)) {
       element = '#' + $(this).closest('.promo').attr('id')
       text = '\n' + getText(element)
@@ -303,7 +303,7 @@ $(document).ready(function () {
   })
 
   $('.twt').click(function () {
-    var text, element, url
+    let text, element, url
     if (($(this).closest('.promo').attr('id') !== undefined)) {
       element = '#' + $(this).closest('.promo').attr('id')
       text = getText(element) + '\n\n'
@@ -320,8 +320,8 @@ $(document).ready(function () {
     $(this).addClass('d-none')
   })
 
-  var nav = $('#cabecalho')
   $(window).scroll(function () {
+    let nav = $('#cabecalho')
     if ($(this).scrollTop() > 90) {
       nav.addClass('fixed-top')
       nav.addClass('shadow')
@@ -338,8 +338,8 @@ $(document).ready(function () {
     form = this
     grecaptcha.ready(function () {
       grecaptcha.execute(KEY_V3_RECAPTCHA, { action: 'send_form' }).then(function (token) {
-        var valores = new Object()
-        for (var valor of $(form).serializeArray()) {
+        let valores = new Object()
+        for (let valor of $(form).serializeArray()) {
           valores[valor.name] = valor.value
         }
         valores['_token'] = CSRF
@@ -385,13 +385,13 @@ $(document).ready(function () {
   if (window.location.pathname.indexOf("/search") == 0) {
     $('.page-link').click(function (e) {
       e.preventDefault()
-      var href = $(this).attr('href')
+      let href = $(this).attr('href')
       getToken('paginate', href, 'paginate')
     })
 
     $('.filtros').click(function (e) {
       e.preventDefault()
-      var href = $(this).attr('href')
+      let href = $(this).attr('href')
       getToken('paginate', href, 'paginate')
     })
   }

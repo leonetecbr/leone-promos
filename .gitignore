@@ -16,3 +16,4 @@ yarn-error.log
 public/sitemap.txt
 composer.lock
 package-lock.json
+.editorconfig
