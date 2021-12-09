@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Proibido')
+@section('title', 'Expirado')
 @section('content')
 <article class="container fs-5">
   <div class="center text-center">
