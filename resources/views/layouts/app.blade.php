@@ -123,7 +123,7 @@ if(Request::filled('tag') && Request::input('utm_source')=='push_notify'){
     <p class="small">Esta pesquisa é protegida pelo Google reCAPTCHA para garantir que você não é um robô. <a target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas de Privacidade</a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de Serviço</a> do Google são aplicáveis.
     <p>
   </form>
-  <div class="container mt-5 p-3 alert-success d-none fixed-top" id="copy_sucess">
+  <div class="container mt-5 p-3 alert-success d-none fixed-top" id="copy-success">
     <h6 class="bolder">Texto copiado! <i class="fas fa-check"></i></h6>
     <p>Agora é só compartilhar com seus amigos.</p>
   </div>

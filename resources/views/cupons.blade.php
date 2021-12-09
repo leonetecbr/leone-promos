@@ -30,7 +30,7 @@ Cupons{{ (empty($loja))?'':' - '.$loja }}: Página {{ $page }} de {{ $final }}
 </article>
 @else
   @for ($i = 0; $i < count($cupons); $i++)
-  <div class="cupom card col-lg-3-5 col-md-5 col-sm-10 col-12 mb-5" id="cupom_{{ $i }}">
+  <div class="cupom card col-lg-3-5 col-md-5 col-sm-10 col-12 mb-5" id="cupom-{{ $i }}">
     <div class="card-header p-2">
       <button class="border-0 wpp"><i class="fab fa-whatsapp"></i></button>
       <button class="border-0 tlg"><i class="fab fa-telegram-plane"></i></button>

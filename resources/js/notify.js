@@ -29,7 +29,7 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
 }
 
 function initializeUI() {
-  if (document.cookie.indexOf("no_notify") < 0) {
+  if (document.cookie.indexOf('no_notify') < 0) {
     $('#notify').removeClass('d-none')
   }
   btn.attr('disabled', false)
@@ -111,10 +111,9 @@ function update(action) {
         token: token,
         _token: CSRF
       }
-      document.cookie = "humans_21909=1"
       $.ajax({
-        url: "/register",
-        type: "POST",
+        url: '/register',
+        type: 'POST',
         data: JSON.stringify(data),
         dataType: "json",
         contentType: 'application/json',

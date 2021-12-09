@@ -6,16 +6,16 @@ String.prototype.strstr = function (search) {
   return this.substr(0, position)
 }
 
-function ig_share(element) {
+function igShare(element) {
   const title = $(element).find('.product-title').html()
   const desc = $(element).find('.description').html()
-  const price_from = $(element).find('del').html()
+  const priceFrom = $(element).find('del').html()
   const code = $(element).find('.discount').val()
   $('#product-title').html(title)
   $('#product-image').attr('src', $(element).find('.product-image').attr('src'))
   $('#product-image').attr('alt', title)
-  if (price_from !== undefined) {
-    $('#product-price-from').html(price_from)
+  if (priceFrom !== undefined) {
+    $('#product-price-from').html(priceFrom)
     $('#price-from').show()
   } else {
     $('#price-from').hide()
@@ -40,21 +40,21 @@ function ig_share(element) {
 function getText(element) {
   const desc = $(element).find('.description').html()
   let text = $(element).find('.pricing-card-title').html()
-  const price_from = $(element).find('del').html()
+  const priceFrom = $(element).find('del').html()
   const title = $(element).find('.product-title').html()
 
   if (text !== 'Grátis') {
-    text = 'Por apenas: ' + text
+    text = `Por apenas: ${text}`
   }
 
-  if (price_from !== undefined) {
-    text = 'De: ' + price_from + '\n\n' + text
+  if (priceFrom !== undefined) {
+    text = `De: ${priceFrom} \n\n text`
   }
 
-  text = title + '.\n\n' + text + '!'
+  text = `${title}.\n\n${text}!`
 
   if (desc !== undefined) {
-    text += '\n\n' + desc
+    text += `\n\n${desc}`
   }
 
   return text
@@ -68,17 +68,17 @@ function getTextCupom(element) {
 
   cupom = 'Cupom: ' + code.replace(/\w/g, '*') + cupom.substr(-2)
 
-  text += '\n\n' + vigency + '\n\n' + cupom
+  text += `\n\n${vigency}\n\n${cupom}`
 
   return text
 }
 
 function getUrl(element) {
-  return 'https://para.promo/o/' + element.replace('#', '')
+  return 'https://para.promo/o/' + element.replace('#promo-', '')
 }
 
 function getUrlCupom(element) {
-  return 'https://para.promo/c/' + element.replace('#cupom_', '')
+  return 'https://para.promo/c/' + element.replace('#cupom-', '')
 }
 
 function accept() {
@@ -86,17 +86,21 @@ function accept() {
   $('#aviso_cookie').fadeOut('slow')
 }
 
-function copy_s(t) {
+function copyS(t) {
   if (!navigator.clipboard) {
-    $('#noeye').html('<textarea id="text_copy">' + t + '</textarea>')
-    $('#text_copy').select()
+    let textArea = document.createElement('textarea')
+    t = document.createTextNode(t)
+    textArea.id = 'text-copy'
+    textArea.appendChild(t)
+    $('#noeye').html(textArea)
+    $('#text-copy').select()
     document.execCommand('copy')
     $('#noeye').html('')
   } else {
     navigator.clipboard.writeText(t)
   }
-  $('#copy_sucess').removeClass('d-none')
-  setTimeout(function () { $('#copy_sucess').addClass('d-none') }, 3000)
+  $('#copy-success').removeClass('d-none')
+  setTimeout(function () { $('#copy-success').addClass('d-none') }, 3000)
 }
 
 function copy(e, o) {
@@ -114,8 +118,27 @@ function copy(e, o) {
 }
 
 function submit(token) {
-  $('#checkbox').append('<input type="hidden" name="_token" id="token" value="' + CSRF + '">')
+  let csrf = getCSRF()
+  $('#checkbox').append(csrf)
   $('#checkbox').submit()
+}
+
+function getCSRF(){
+  let input = document.createElement('input')
+  input.setAttribute('type', 'hidden')
+  input.id = 'token'
+  input.setAttribute('name', '_token')
+  input.value = CSRF
+  return input
+}
+
+function getReCaptcha(token) {
+  let input = document.createElement('input')
+  input.setAttribute(type, 'hidden')
+  input.id = 'g-recaptcha-response'
+  input.setAttribute('name', 'g-recaptcha-response')
+  input.value = token
+  return input
 }
 
 function createCookie(name, value, days) {
@@ -127,7 +150,7 @@ function createCookie(name, value, days) {
   } else {
     expires = ''
   }
-  document.cookie = name + '=' + value + expires + ' path=/'
+  document.cookie = `${name}=${value}${expires}; path=/`
 }
 
 function getPrefer(endpoint) {
@@ -165,18 +188,34 @@ function getPrefer(endpoint) {
 function redirectUrl() {
   let url = $('#url').val()
   url = url.strstr('?')
-  window.open('/redirect?url=' + url)
+  window.open(`/redirect?url=${url}`)
   $('#url').val('')
 }
 
 function pesquisar(q, token) {
-  $('body').append('<form method="post" action="/search/' + q + '" id="pesquisar"><input type="hidden" name="_token" value="' + CSRF + '"/><input type="hidden" name="g-recaptcha-response" value="' + token + '"/></form>')
-  $('#pesquisar').submit();
+  let csrf = getCSRF()
+  let recaptcha = getReCaptcha(token)
+  let form = document.createElement('form')
+  form.setAttribute('method', 'POST')
+  form.setAttribute('action', `/search/${q}`)
+  form.id = 'pesquisar'
+  form.appendChild(csrf)
+  form.appendChild(recaptcha)
+  $('body').append(form)
+  $('#pesquisar').submit()
 }
 
 function paginateSearch(href, token) {
-  $('body').append('<form method="post" action="' + href + '" id="pesquisar"><input type="hidden" name="_token" value="' + CSRF + '"/><input type="hidden" name="g-recaptcha-response" value="' + token + '"/></form>')
-  $('#pesquisar').submit();
+  let csrf = getCSRF()
+  let recaptcha = getReCaptcha(token)
+  let form = document.createElement('form')
+  form.setAttribute('method', 'POST')
+  form.setAttribute('action', `${href}`)
+  form.id = 'pesquisar'
+  form.appendChild(csrf)
+  form.appendChild(recaptcha)
+  $('body').append(form)
+  $('#pesquisar').submit()
 }
 
 function getToken(action, dados, type = 'ajax') {
@@ -232,7 +271,7 @@ $(document).ready(function () {
 
   $('.igs').click(function () {
     alert('Tire print e compartilhe nas suas storys, para fechar dê um duplo clique!')
-    ig_share('#' + $(this).closest('.promo').attr('id'))
+    igShare('#' + $(this).closest('.promo').attr('id'))
   })
 
   $('.mre').click(function () {
@@ -265,9 +304,9 @@ $(document).ready(function () {
       url = getUrlCupom(element)
     }
 
-    text += "\n\n" + url
+    text += `\n\n${url}`
 
-    copy_s(text)
+    copyS(text)
   })
 
   $('.wpp').click(function () {
@@ -282,7 +321,7 @@ $(document).ready(function () {
       url = getUrlCupom(element)
     }
 
-    text += "\n\n" + url
+    text += `\n\n${url}`
 
     window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text))
   })
@@ -333,7 +372,7 @@ $(document).ready(function () {
     }
   })
 
-  $('.ajax_form').submit(function (e) {
+  $('.ajax-form').submit(function (e) {
     e.preventDefault()
     form = this
     grecaptcha.ready(function () {
@@ -345,8 +384,9 @@ $(document).ready(function () {
         valores['_token'] = CSRF
         valores['g-recaptcha-response'] = token
         let id = form.id
-        let value = $('#' + id + '_submit').html()
-        let btn = $('#' + id + '_submit')
+        let value = $(`#${id}-submit`).html()
+        let btn = $(`#${id}-submit`)
+        let errorId = `#error-${id}`
         btn.attr('disabled', true)
         btn.html('Aguarde ...')
         $.ajax({
@@ -357,18 +397,18 @@ $(document).ready(function () {
           type: 'POST'
         }).done(function (data) {
           if (typeof data.success == 'undefined' || typeof data.message == 'undefined') {
-            $('#error_' + id).html('<p class="erro mt-1">Erro desconhecido :(</p>')
-            $('#error_' + id).show('slow')
+            $(errorId).html('<p class="erro mt-1">Erro desconhecido :(</p>')
+            $(errorId).show('slow')
           } else if (!data.success) {
-            $('#error_' + id).html('<p class="erro mt-1">' + data.message + '</p>')
-            $('#error_' + id).show('slow')
+            $(errorId).html('<p class="erro mt-1">' + data.message + '</p>')
+            $(errorId).show('slow')
           } else {
-            $('#error_' + id).html('<p class="bolder">' + data.message + '</p>')
-            $('#error_' + id).show('slow')
+            $(errorId).html('<p class="bolder">' + data.message + '</p>')
+            $(errorId).show('slow')
           }
         }).fail(function () {
-          $('#error_' + id).html('<p class="erro mt-1">Não foi possível enviar os dados, tente novamente!</p>')
-          $('#error_' + id).show('slow')
+          $(errorId).html('<p class="erro mt-1">Não foi possível enviar os dados, tente novamente!</p>')
+          $(errorId).show('slow')
         }).always(function () {
           btn.html(value)
           btn.attr('disabled', false)
@@ -382,7 +422,7 @@ $(document).ready(function () {
     createCookie('no_notify', 1, 60)
   })
 
-  if (window.location.pathname.indexOf("/search") == 0) {
+  if (window.location.pathname.indexOf('/search') == 0) {
     $('.page-link').click(function (e) {
       e.preventDefault()
       let href = $(this).attr('href')

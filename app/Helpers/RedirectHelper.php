@@ -175,7 +175,7 @@ class RedirectHelper
     }
 
     $path .= ($page === 1) ? '' : '/' . $page;
-    $path .= '#' . $cat_id . '_' . $page . '_' . $oferta_id;
+    $path .= '#promo-' . $cat_id . '-' . $page . '-' . $oferta_id;
 
     return $path;
   }
