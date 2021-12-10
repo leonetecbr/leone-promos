@@ -33,7 +33,7 @@ function initializeUI() {
     $('#notify').removeClass('d-none')
   }
   btn.attr('disabled', false)
-  btn.click(function () {
+  btn.on('click', function () {
     btn.attr('disabled', true)
     btn.html('Aguarde ...')
     if (isSubscribed) {
@@ -58,7 +58,7 @@ function initializeUI() {
 function updateBtn() {
   if (Notification.permission === 'denied') {
     $('#btn-notify').html('Notificações bloqueadas')
-    $('#btn-notify').attr("disabled", true)
+    $('#btn-notify').attr('disabled', true)
     $('#notify-bloqued').removeClass('d-none')
     if (sub) {
       update('remove')
@@ -115,7 +115,7 @@ function update(action) {
         url: '/register',
         type: 'POST',
         data: JSON.stringify(data),
-        dataType: "json",
+        dataType: 'json',
         contentType: 'application/json',
         success: function (data) {
           processResponse(data, action)

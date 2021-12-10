@@ -3,7 +3,7 @@ String.prototype.strstr = function (search) {
   if (position == -1) {
     return this
   }
-  return this.substr(0, position)
+  return this.substring(0, position)
 }
 
 function igShare(element) {
@@ -120,7 +120,7 @@ function copy(e, o) {
 function submit(token) {
   let csrf = getCSRF()
   $('#checkbox').append(csrf)
-  $('#checkbox').submit()
+  $('#checkbox').trigger('submit')
 }
 
 function getCSRF(){
@@ -202,7 +202,7 @@ function pesquisar(q, token) {
   form.appendChild(csrf)
   form.appendChild(recaptcha)
   $('body').append(form)
-  $('#pesquisar').submit()
+  $('#pesquisar').trigger('submit')
 }
 
 function paginateSearch(href, token) {
@@ -215,7 +215,7 @@ function paginateSearch(href, token) {
   form.appendChild(csrf)
   form.appendChild(recaptcha)
   $('body').append(form)
-  $('#pesquisar').submit()
+  $('#pesquisar').trigger('submit')
 }
 
 function getToken(action, dados, type = 'ajax') {
@@ -234,9 +234,9 @@ function getToken(action, dados, type = 'ajax') {
   });
 }
 
-$(document).ready(function () {
+$(document).on('ready', function () {
   'use-stric';
-  $('.ajax-form').submit(function (e) {
+  $('.ajax-form').on('submit', function (e) {
     if (!this.checkValidity()) {
       e.preventDefault()
       e.stopPropagation()
@@ -247,7 +247,7 @@ $(document).ready(function () {
     this.classList.add('was-validated')
   });
 
-  $('.needs-validation').submit(function (event) {
+  $('.needs-validation').on('submit', function (event) {
     if (this.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
@@ -269,12 +269,12 @@ $(document).ready(function () {
     $('.plus-share').removeClass('d-none')
   }
 
-  $('.igs').click(function () {
+  $('.igs').on('click', function () {
     alert('Tire print e compartilhe nas suas storys, para fechar dê um duplo clique!')
     igShare('#' + $(this).closest('.promo').attr('id'))
   })
 
-  $('.mre').click(function () {
+  $('.mre').on('click', function () {
     let text, element, url
     if (($(this).closest('.promo').attr('id') !== undefined)) {
       element = '#' + $(this).closest('.promo').attr('id')
@@ -292,7 +292,7 @@ $(document).ready(function () {
     })
   })
 
-  $('.cpy').click(function () {
+  $('.cpy').on('click', function () {
     let text, element, url
     if (($(this).closest('.promo').attr('id') !== undefined)) {
       element = '#' + $(this).closest('.promo').attr('id')
@@ -309,7 +309,7 @@ $(document).ready(function () {
     copyS(text)
   })
 
-  $('.wpp').click(function () {
+  $('.wpp').on('click', function () {
     let text, element, url
     if (($(this).closest('.promo').attr('id') !== undefined)) {
       element = '#' + $(this).closest('.promo').attr('id')
@@ -326,7 +326,7 @@ $(document).ready(function () {
     window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text))
   })
 
-  $('.tlg').click(function () {
+  $('.tlg').on('click', function () {
     let text, element, url
     if (($(this).closest('.promo').attr('id') !== undefined)) {
       element = '#' + $(this).closest('.promo').attr('id')
@@ -341,7 +341,7 @@ $(document).ready(function () {
     window.open('https://telegram.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text))
   })
 
-  $('.twt').click(function () {
+  $('.twt').on('click', function () {
     let text, element, url
     if (($(this).closest('.promo').attr('id') !== undefined)) {
       element = '#' + $(this).closest('.promo').attr('id')
@@ -355,11 +355,11 @@ $(document).ready(function () {
     window.open('https://twitter.com/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text))
   })
 
-  $('#ig-share').dblclick(function () {
+  $('#ig-share').on('dblclick', function () {
     $(this).addClass('d-none')
   })
 
-  $(window).scroll(function () {
+  $(window).on('scroll', function () {
     let nav = $('#cabecalho')
     if ($(this).scrollTop() > 90) {
       nav.addClass('fixed-top')
@@ -372,7 +372,7 @@ $(document).ready(function () {
     }
   })
 
-  $('.ajax-form').submit(function (e) {
+  $('.ajax-form').on('submit', function (e) {
     e.preventDefault()
     form = this
     grecaptcha.ready(function () {
@@ -417,26 +417,26 @@ $(document).ready(function () {
     })
   })
 
-  $('#inotify').click(function () {
+  $('#inotify').on('click', function () {
     $('#notify').addClass('d-none')
     createCookie('no_notify', 1, 60)
   })
 
   if (window.location.pathname.indexOf('/search') == 0) {
-    $('.page-link').click(function (e) {
+    $('.page-link').on('click', function (e) {
       e.preventDefault()
       let href = $(this).attr('href')
       getToken('paginate', href, 'paginate')
     })
 
-    $('.filtros').click(function (e) {
+    $('.filtros').on('click', function (e) {
       e.preventDefault()
       let href = $(this).attr('href')
       getToken('paginate', href, 'paginate')
     })
   }
 
-  $("#prefers input[type='checkbox']").change(function () {
+  $("#prefers input[type='checkbox']").on('change', function () {
     if ($("#prefers input[type='checkbox']").is(':checked')) {
       $('#para').attr('disabled', true)
       $('#para').removeAttr('required')
@@ -446,7 +446,7 @@ $(document).ready(function () {
     }
   })
 
-  $('#all').change(function () {
+  $('#all').on('change', function () {
     if ($(this).is(':checked')) {
       $('.prefer').attr('checked', true)
     } else {
