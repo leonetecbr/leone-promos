@@ -4,8 +4,5 @@
     "/js/jquery.min.js": "/js/jquery.min.js",
     "/js/bootstrap.bundle.min.js": "/js/bootstrap.bundle.min.js",
     "/js/app.min.js": "/js/app.min.js",
-    "/sw.js": "/sw.js",
-    "/js/bootstrap.bundle.min.js.map": "/js/bootstrap.bundle.min.js.map",
-    "/js/jquery.min.map": "/js/jquery.min.map",
-    "/css/bootstrap.min.css.map": "/css/bootstrap.min.css.map"
+    "/sw.js": "/sw.js"
 }

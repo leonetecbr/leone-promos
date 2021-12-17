@@ -3,7 +3,7 @@ String.prototype.strstr = function (search) {
   if (position == -1) {
     return this
   }
-  return this.substr(0, position)
+  return this.substring(0, position)
 }
 
 function igShare(element) {
@@ -134,7 +134,7 @@ function getCSRF(){
 
 function getReCaptcha(token) {
   let input = document.createElement('input')
-  input.setAttribute(type, 'hidden')
+  input.setAttribute('type', 'hidden')
   input.id = 'g-recaptcha-response'
   input.setAttribute('name', 'g-recaptcha-response')
   input.value = token

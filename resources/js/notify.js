@@ -115,7 +115,7 @@ function update(action) {
         url: '/register',
         type: 'POST',
         data: JSON.stringify(data),
-        dataType: "json",
+        dataType: 'json',
         contentType: 'application/json',
         success: function (data) {
           processResponse(data, action)

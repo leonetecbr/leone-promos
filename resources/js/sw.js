@@ -1,4 +1,4 @@
-let staticCacheName = 'v2.3.5'
+let staticCacheName = 'v2.3.6'
 
 self.addEventListener('install', function(event) {
   event.waitUntil(
@@ -68,7 +68,7 @@ self.addEventListener('push', function(event) {
 self.addEventListener('notificationclick', function(event) {
   event.notification.close()
   event.waitUntil(clients.matchAll({
-    type: "window"
+    type: 'window'
   }).then(function(clientList) {
     for (let i = 0; i < clientList.length; i++) {
       let client = clientList[i]
