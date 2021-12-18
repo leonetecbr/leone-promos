@@ -43,7 +43,7 @@ class ApiHelper
           $s = new Store();
           $s->id = $store_id;
           $s->nome = $cupons[$i]['store']['name'];
-          $s->link = $cupons[$i]['store']['link'];
+          $s->link = '/redirect?url=' . urlencode($cupons[$i]['store']['link']);
           $s->imagem =  $cupons[$i]['store']['image'];
           $s->save();
         } else {
@@ -54,7 +54,7 @@ class ApiHelper
 
       $c = new Cupom();
       $c->code = $cupons[$i]['code'];
-      $c->link = $cupons[$i]['link'];
+      $c->link = '/redirect?url=' . $cupons[$i]['link'];
       $c->desc = mb_strimwidth($cupons[$i]['description'], 0, 50, '...');
       $c->ate = str_replace(":59:00", ":59:59", $cupons[$i]['vigency']);
       $c->store_id = $cupons[$i]['store']['id'];
@@ -105,7 +105,7 @@ class ApiHelper
           $s = new Store();
           $s->id = $store_id;
           $s->nome = $promos[$i]['store']['name'];
-          $s->link = $promos[$i]['store']['link'];
+          $s->link = '/redirect?url=' . $promos[$i]['store']['link'];
           $s->imagem =  $promos[$i]['store']['thumbnail'];
           $s->save();
         } else {
@@ -123,7 +123,7 @@ class ApiHelper
       $p->group_id = self::$group_id;
       $p->store_id = $store_id;
       $p->nome = mb_strimwidth($promos[$i]['name'], 0, 50, '...');
-      $p->link = $promos[$i]['link'];
+      $p->link = '/redirect?url=' . $promos[$i]['link'];
       $p->imagem = $promos[$i]['thumbnail'];
       if ($promos[$i]['discount'] > 0) {
         $p->de = $promos[$i]['priceFrom'];
@@ -244,12 +244,12 @@ class ApiHelper
           'code' => $dado[$i][4],
           'vigency' => $dado[$i][7],
           'description' => $dado[$i][5],
-          'link' => $dado[$i][11],
+          'link' => '/redirect?url=' . $dado[$i][11],
           'store' => [
             'image' => 'https://ae01.alicdn.com/kf/H2111329c7f0e475aac3930a727edf058z.png',
             'name' => 'Aliexpress',
             'id' => 1,
-            'link' => 'https://www.awin1.com/cread.php?awinmid=18879&awinaffid=' . $_ENV['ID_AFILIADO_AWIN'] . '&clickref=deeplink&ued=https%3A%2F%2Fpt.aliexpress.com%2F'
+            'link' => '/redirect?url=https%3A%2F%2Fpt.aliexpress.com%2F'
           ]
         ];
         $a++;
@@ -258,12 +258,12 @@ class ApiHelper
           'code' => $dado[$i][4],
           'vigency' => $dado[$i][7],
           'description' => ucfirst($dado[$i][5]),
-          'link' => $dado[$i][11],
+          'link' => '/redirect?url=' . $dado[$i][11],
           'store' => [
             'image' => 'https://m.casasbahia.com.br/assets/images/casasbahia-logo-new.svg',
             'name' => 'Casas Bahia',
             'id' => 2,
-            'link' => 'https://www.awin1.com/cread.php?awinmid=17629&awinaffid=' . $_ENV['ID_AFILIADO_AWIN'] . '&clickref=deeplink&ued=https%3A%2F%2Fwww.casasbahia.com.br%2F'
+            'link' => '/redirect?url=https%3A%2F%2Fwww.casasbahia.com.br%2F'
           ]
         ];
         $a++;
@@ -272,12 +272,12 @@ class ApiHelper
           'code' => $dado[$i][4],
           'vigency' => $dado[$i][7],
           'description' => ucfirst($dado[$i][5]),
-          'link' => $dado[$i][11],
+          'link' => '/redirect?url=' . $dado[$i][11],
           'store' => [
             'image' => 'https://m.extra.com.br/assets/images/ic-extra-navbar.svg',
             'name' => 'Extra',
             'id' => 3,
-            'link' => 'https://www.awin1.com/cread.php?awinmid=17874&awinaffid=' . $_ENV['ID_AFILIADO_AWIN'] . '&clickref=deeplink&ued=https%3A%2F%2Fwww.casasbahia.com.br%2F'
+            'link' => '/redirect?url=https%3A%2F%2Fwww.casasbahia.com.br%2F'
           ]
         ];
         $a++;
@@ -286,12 +286,12 @@ class ApiHelper
           'code' => $dado[$i][4],
           'vigency' => $dado[$i][7],
           'description' => ucfirst($dado[$i][5]),
-          'link' => $dado[$i][11],
+          'link' => '/redirect?url=' . $dado[$i][11],
           'store' => [
             'image' => 'https://m.pontofrio.com.br/assets/images/ic-navbar-logo.svg',
             'name' => 'Ponto',
             'id' => 4,
-            'link' => 'https://www.awin1.com/cread.php?awinmid=17621&awinaffid=' . $_ENV['ID_AFILIADO_AWIN'] . '&clickref=deeplink&ued=https%3A%2F%2Fwww.pontofrio.com.br%2F'
+            'link' => '/redirect?url=https%3A%2F%2Fwww.pontofrio.com.br%2F'
           ]
         ];
         $a++;
@@ -364,12 +364,12 @@ class ApiHelper
       'page' => $page
     ];
 
-    if (!empty($order)){
-      $dados['sort'] = ($order=='discount')?'discount':'price';
+    if (!empty($order)) {
+      $dados['sort'] = ($order == 'discount') ? 'discount' : 'price';
     }
 
-    if (!empty($price)){
-      switch($price){
+    if (!empty($price)) {
+      switch ($price) {
         case '0-1':
           $dados['maxPrice'] = 1;
           break;
@@ -424,9 +424,9 @@ class ApiHelper
         'store' => [
           'nome' => $promos[$i]['store']['name'],
           'imagem' => $promos[$i]['store']['thumbnail'],
-          'link' => $promos[$i]['store']['link']
+          'link' => '/redirect?url=' . urlencode($promos[$i]['store']['link'])
         ],
-        'link' => $promos[$i]['link'],
+        'link' => '/redirect?url=' . urlencode($promos[$i]['link']),
         'imagem' => $promos[$i]['thumbnail'],
         'de' => $promos[$i]['priceFrom'] ?? NULL,
         'por' => $promos[$i]['price'],

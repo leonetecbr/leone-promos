@@ -101,11 +101,11 @@ Route::domain(env('SHORT_DOMAIN'))->group(function () {
 
   Route::prefix('amazon')->group(function () {
     Route::get('/', function () {
-      return redirect('https://www.amazon.com.br/?tag=leonepromos-20');
+      return redirect('/redirect?url=https://www.amazon.com.br/');
     });
 
     Route::get('/{product_id}', function ($product_id) {
-      return redirect('https://www.amazon.com.br/gp/product/' . $product_id . '?tag=leonepromos08-20');
+      return redirect('/redirect?url=https://www.amazon.com.br/gp/product/' . $product_id);
     });
   });
 
@@ -121,51 +121,51 @@ Route::domain(env('SHORT_DOMAIN'))->group(function () {
 
   Route::prefix('soub')->group(function () {
     Route::get('/', function () {
-      return redirect(RedirectHelper::processAwin('https://www.soubarato.com.br/', 23281, $_ENV['ID_AFILIADO_B2W']));
+      return redirect('/redirect?url=https://www.soubarato.com.br/');
     });
 
     Route::get('/{product_id}', function ($product_id) {
-      return redirect(RedirectHelper::processAwin("https://www.soubarato.com.br/produto/{$product_id}", 23281, $_ENV['ID_AFILIADO_B2W']));
+      return redirect("/redirect?url=https://www.soubarato.com.br/produto/{$product_id}");
     })->where('product_id', '[0-9]+');
   });
 
   Route::prefix('americanas')->group(function () {
     Route::get('/', function () {
-      return redirect(RedirectHelper::processAwin('https://www.americanas.com.br/', 22193, $_ENV['ID_AFILIADO_B2W']));
+      return redirect('/redirect?url=https://www.americanas.com.br/');
     });
 
     Route::get('/{product_id}', function ($product_id) {
-      return redirect(RedirectHelper::processAwin("https://www.americanas.com.br/produto/{$product_id}", 22193, $_ENV['ID_AFILIADO_B2W']));
+      return redirect("/redirect?url=https://www.americanas.com.br/produto/{$product_id}");
     })->where('product_id', '[0-9]+');
   });
 
   Route::prefix('shoptime')->group(function () {
     Route::get('/', function () {
-      return redirect(RedirectHelper::processAwin('https://www.shoptime.com.br/', 22194, $_ENV['ID_AFILIADO_B2W']));
+      return redirect('/redirect?url=https://www.shoptime.com.br/');
     });
 
     Route::get('/{product_id}', function ($product_id) {
-      return redirect(RedirectHelper::processAwin("https://www.shoptime.com.br/produto/{$product_id}", 22194, $_ENV['ID_AFILIADO_B2W']));
+      return redirect("/redirect?url=https://www.shoptime.com.br/produto/{$product_id}");
     })->where('product_id', '[0-9]+');
   });
 
   Route::prefix('submarino')->group(function () {
     Route::get('/', function () {
-      return redirect(RedirectHelper::processAwin('https://www.submarino.com.br/', 22195, $_ENV['ID_AFILIADO_B2W']));
+      return redirect('/redirect?url=https://www.submarino.com.br/');
     });
 
     Route::get('/{product_id}', function ($product_id) {
-      return redirect(RedirectHelper::processAwin("https://www.submarino.com.br/produto/{$product_id}", 22195, $_ENV['ID_AFILIADO_B2W']));
+      return redirect("/redirect?url=https://www.submarino.com.br/produto/{$product_id}");
     })->where('product_id', '[0-9]+');
   });
 
   Route::prefix('aliexpress')->group(function () {
     Route::get('/', function () {
-      return redirect(RedirectHelper::processAwin('https://pt.aliexpress.com/', 18879));
+      return redirect('/redirect?url=https://pt.aliexpress.com/');
     });
     
     Route::get('/{product_id}', function ($product_id) {
-      return redirect(RedirectHelper::processAwin("https://pt.aliexpress.com/item/{$product_id}.html", 18879));
+      return redirect("/redirect?url=https://pt.aliexpress.com/item/{$product_id}.html");
     })->where('product_id', '[0-9]+');
   });
 

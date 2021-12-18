@@ -32,6 +32,8 @@ class RedirectController
           $url = strstr($url, '/ref', true);
         }
         $to = $url . '?tag=leonepromos08-20';
+      } elseif (strpos($url, 'https://redir.lomadee.com/') === 0 || strpos($url, 'https://www.awin1.com/cread.php') === 0 || strpos($url, 'https://amzn.to/') === 0) {
+        $to = $url;
       } elseif (strpos($url, 'https://m.magazineluiza.com.br') === 0 || strpos($url, 'https://www.magazineluiza.com.br') === 0 || strpos($url, 'https://magazineluiza.com.br') === 0 || strpos($url, 'https://www.magazinevoce.com.br') === 0) {
         $to = RedirectHelper::processMagalu($url);
       } elseif (strpos($url, 'https://mbest.aliexpress.com') === 0 || strpos($url, 'https://m.pt.aliexpress.com') === 0 || strpos($url, 'https://best.aliexpress.com') === 0 || strpos($url, 'https://pt.aliexpress.com') === 0 || strpos($url, 'https://aliexpress.com') === 0 || strpos($url, 'https://m.aliexpress.com') === 0) {
