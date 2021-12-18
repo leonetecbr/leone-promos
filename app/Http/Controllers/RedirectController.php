@@ -14,11 +14,11 @@ class RedirectController
 
   /**
    * Procesa a URL recebida, encaminha para o método responsável e retorna o link já com parâmetros de afiliados
+   * @param string $url
+   * @return string
    */
-  public static function process(Request $request)
+  private static function process(string $url): string
   {
-    $url = $request->input('url');
-
     try {
       if (empty($url) || strpos($url, 'https://') !== 0) {
         throw new Exception;
@@ -56,7 +56,47 @@ class RedirectController
     } catch (Exception $e) {
       $to = '/';
     } finally {
-      return redirect($to);
+      return $to;
     }
+  }
+
+  /**
+   * Gera a resposta para a api
+   *
+   * @param Request $request
+   * @return array
+   */
+  public function api(Request $request): array
+  {
+    $result = ['success' => false];
+    try{
+      $url = $request->input('url');
+      $urlAfiliados = $this->process($url);
+      if ($urlAfiliados == '/'){
+        $result['success'] = true;
+        $result['url'] = '/';
+      }else{
+        $ch = curl_init();
+        curl_setopt_array($ch, [
+          CURLOPT_URL => $urlAfiliados,
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_MAXREDIRS => 5
+        ]);
+        curl_exec($ch);
+        $lastUrl = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+        $result['success'] = true;
+        $result['url'] = $lastUrl;
+      }
+    }catch (Exception $e){
+      $result['message'] = 'Erro interno no servidor';
+    }
+    finally{
+      return $result;
+    }
+  }
+
+  public function get(){
+    return view('redirect');
   }
 }

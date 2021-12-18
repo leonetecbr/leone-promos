@@ -141,6 +141,7 @@ if(Request::filled('tag') && Request::input('utm_source')=='push_notify'){
     const KEY_VAPID_PUBLIC = '{{ env("VAPID_PUBLIC_KEY") }}';
   </script>
   <script src="{{ url('js/jquery.min.js') }}"></script>
+  @yield('scripts')
   <script src="{{ url('js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ url('js/app.min.js') }}"></script>
   <footer id="rodape" class="text-center border-top p-3 mt-3 bg-light">

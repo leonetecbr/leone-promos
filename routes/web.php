@@ -35,7 +35,9 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
 
   Route::match(['get', 'post'], '/search/{query}/{page?}', [Controllers\SearchController::class, 'search'])->where('query', '[\w ]+')->where('page', '^[1-9]+[0-9]*$')->name('pesquisa');
 
-  Route::get('/redirect', [Controllers\RedirectController::class, 'process']);
+  Route::get('/redirect', [Controllers\RedirectController::class, 'get']);
+
+  Route::post('/redirect', [Controllers\RedirectController::class, 'api']);
 
   Route::get('/notificacoes', [Controllers\NotificationController::class, 'get'])->name('notificacoes');
 
