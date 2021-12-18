@@ -86,7 +86,7 @@ class TopPromosController extends Controller
     $p->nome = mb_strimwidth($request->input('name'), 0, 50, '...');
     $p->group_id = 9999;
     $p->store_id = $request->input('store_id');
-    $p->link = $request->input('link');
+    $p->link = '/redirect?url=' . $request->input('link');
     $p->por = $request->input('price');
     $p->imagem = $request->input('thumbnail');
     $p->de = $request->input('priceFrom');
