@@ -71,34 +71,20 @@ class RedirectController
   public function api(Request $request): array
   {
     $result = ['success' => false];
-    try{
-      $url = $request->input('url');
-      $urlAfiliados = $this->process($url);
-      if ($urlAfiliados == '/'){
-        $result['success'] = true;
-        $result['url'] = '/';
-      }else{
-        $ch = curl_init();
-        curl_setopt_array($ch, [
-          CURLOPT_URL => $urlAfiliados,
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_MAXREDIRS => 5
-        ]);
-        curl_exec($ch);
-        $lastUrl = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
-        $result['success'] = true;
-        $result['url'] = $lastUrl;
-      }
-    }catch (Exception $e){
-      $result['message'] = 'Erro interno no servidor';
+    $url = $request->input('url');
+    $urlAfiliados = $this->process($url);
+    if ($urlAfiliados == '/') {
+      $result['success'] = true;
+      $result['url'] = '/';
+    } else {
+      $result['success'] = true;
+      $result['url'] = $urlAfiliados;
     }
-    finally{
-      return $result;
-    }
+    return $result;
   }
 
-  public function get(){
+  public function get()
+  {
     return view('redirect');
   }
 }
