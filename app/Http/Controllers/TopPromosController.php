@@ -15,7 +15,7 @@ class TopPromosController extends Controller
     $promo = Promo::where('id', $id)->first();
 
     if (empty($promo)) {
-      return redirect()->route('listpromos')->withErrors([
+      return redirect()->route('promos.list')->withErrors([
         'promo' => ['A promoção solicitada não existe!']
       ]);
     } else {
@@ -24,12 +24,12 @@ class TopPromosController extends Controller
       $title = 'Editar promoção';
     }
 
-    return view('admin.promos', ['title' => $title, 'promo' => $promo, 'id' => $id]);
+    return view('admin.promo', ['title' => $title, 'promo' => $promo, 'id' => $id]);
   }
 
   public function new()
   {
-    return view('admin.promos', ['title' => 'Nova promoção']);
+    return view('admin.promo', ['title' => 'Nova promoção']);
   }
 
   public function delete($id)
@@ -37,14 +37,14 @@ class TopPromosController extends Controller
     $promo = Promo::where('id', $id)->first();
 
     if (empty($promo)) {
-      return redirect()->route('listpromos')->withErrors([
+      return redirect()->route('promos.list')->withErrors([
         'promo' => ['A promoção solicitada não existe!']
       ]);
     }
 
     $promo->delete();
 
-    return redirect()->route('listpromos');
+    return redirect()->route('promos.list');
   }
 
   public function list()
@@ -55,7 +55,7 @@ class TopPromosController extends Controller
       $promos['offers'][$i]['store']['link'] = '/admin/promos/edit/' . $promos['offers'][$i]['id'];
     }
 
-    $botao = '<a href="/admin/promos/new"><button type="submit" class="btn btn-primary text-light mb-4 mt-2 btn-lg w-75">Nova promoção</button></a>';
+    $botao = '<a href="'.route('promos.new').'"><button type="submit" class="btn btn-primary text-light mb-4 mt-2 btn-lg w-75">Nova promoção</button></a>';
 
     return view('promos', ['title' => 'Top Promos', 'subtitle' => 'Top Promos', 'promos' => $promos['offers'], 'cat_id' => 0, 'page' => 1, 'topo' => $topo ?? true, 'share' => false, 'add' => $botao]);
   }
@@ -97,9 +97,9 @@ class TopPromosController extends Controller
     $p->vezes = $request->input('installment_quantity');
 
     if ($p->save()) {
-      return redirect()->route('listpromos');
+      return redirect()->route('promos.list');
     } else {
-      return redirect()->route('listpromos')->withErrors([
+      return redirect()->route('promos.list')->withErrors([
         'store_id' => ['Erro ao salvar, provável erro no store_id!']
       ]);
     }

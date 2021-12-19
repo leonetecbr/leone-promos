@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
 use App\Helpers\RedirectHelper;
+use App\Http\Controllers\Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +47,7 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
   Route::prefix('prefer')->group(function () {
     Route::post('/get', [Controllers\NotificationController::class, 'getPrefer']);
 
-    Route::post('/set', [Controllers\NotificationController::class, 'setPrefer']);
+    Route::post('/set', [Controllers\NotificationController::class, 'setPrefer'])->name('prefer.set');
   });
 
   Route::get('/login', [Controllers\UserController::class, 'login'])->name('login');
@@ -60,23 +61,27 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
       Route::get('/', [Controllers\AdminController::class, 'get'])->name('dashboard');
 
       Route::prefix('promos')->group(function () {
-        Route::get('/', [Controllers\TopPromosController::class, 'list'])->name('listpromos');
+        Route::get('/', [Controllers\TopPromosController::class, 'list'])->name('promos.list');
 
-        Route::get('/new', [Controllers\TopPromosController::class, 'new']);
+        Route::get('/new', [Controllers\TopPromosController::class, 'new'])->name('promos.new');
 
         Route::get('/edit/{id}', [Controllers\TopPromosController::class, 'edit'])->where('id', '[0-9]+');
 
-        Route::get('/delete/{id}', [Controllers\TopPromosController::class, 'delete'])->where('id', '[0-9]+');
+        Route::get('/delete/{id}', [Controllers\TopPromosController::class, 'delete'])->where('id', '[0-9]+')->name('promos.delete');
 
-        Route::post('/save', [Controllers\TopPromosController::class, 'save']);
+        Route::post('/save', [Controllers\TopPromosController::class, 'save'])->name('promos.save');
       });
 
       Route::prefix('notify')->group(function () {
-        Route::get('/', [Controllers\NotificationController::class, 'getAdmin']);
+        Route::get('/', [Controllers\NotificationController::class, 'getAdmin'])->name('notify.new');
 
         Route::post('/send', [Controllers\NotificationController::class, 'send']);
 
         Route::get('/history/{page?}', [Controllers\SendedNotificationController::class, 'get'])->name('notify.history');
+      });
+
+      Route::prefix('lojas')->group(function () {
+        Route::get('/new', [Controllers\LojasController::class, 'new'])->name('lojas.new');
       });
     });
   });

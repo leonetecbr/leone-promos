@@ -4,7 +4,7 @@
 <article class="container">
   <h1 class="display-5 mb-4 text-center">Login administrativo</h1>
   <div id="login">
-    <form action="/admin" method="post" class="col-12 col-md-8 col-lg-6 col-xl-5 mx-auto mt-2 d-flex flex-column border py-5 px-3">
+    <form action="{{ route('dashboard') }}" method="post" class="col-12 col-md-8 col-lg-6 col-xl-5 mx-auto mt-2 d-flex flex-column border py-5 px-3">
       @if ($errors->any())
       @foreach ($errors->all() as $error)
       <div class="alert alert-danger text-center w-100 mb-4 mx-auto">{{ $error }}</div>

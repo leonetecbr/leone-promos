@@ -59,7 +59,7 @@
     <h2 class="display-6">Peferências</h2>
     <p>Você deseja ser notificado sempre que houver promoção de: </p>
     <div class="text-center mb-3 d-none" id="error-pref-form"></div>
-    <form action="/prefer/set" method="post" class="ajax-form container" id="pref-form">
+    <form action="{{ route('prefer.set') }}" method="post" class="ajax-form container" id="pref-form">
       <div class="container flex-row flex-center row-wrap d-md-flex justify-conatent-center flex-wrap" id="prefers">
         <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p0" id="all" class="form-check-input"> <label for="all" class="form-check-label" >Tudo</label></div>
         <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p1" id="p1" class="form-check-input prefer"> <label class="form-check-label" for="p1">Computadores/Notebooks</label></div>

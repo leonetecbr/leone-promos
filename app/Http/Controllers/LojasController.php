@@ -100,4 +100,8 @@ class LojasController extends Controller
 
     return view('promos', ['title' => $title, 'subtitle' => $subtitle ?? $title, 'promos' => $ofertas, 'cat_id' => $store ?? 0, 'page' => $page ?? 1, 'final' => $pages ?? 1, 'topo' => $topo ?? true, 'isLoja' => true, 'group_name' => $loja ?? '']);
   }
+
+  public function new(){
+    return view('admin.loja');
+  }
 }
