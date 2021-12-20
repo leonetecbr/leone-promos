@@ -104,7 +104,11 @@ class NotificationController extends Controller
   {
     $todos = $request->input('para', false);
 
-    $this->validate($request, ['title' => 'required', 'link' => 'required', 'content' => 'required'], ['title.required' => 'O "Título" é obrigatório!', 'content.required' => 'O "Conteúdo" é obrigatório!', 'link.required' => 'O "Link" é obrigatório!']);
+    $this->validate($request, [
+      'title' => 'required',
+      'link' => 'required', 
+      'content' => 'required'
+    ]);
 
     $payload = [
       'msg' => $request->input('content'),
@@ -120,7 +124,9 @@ class NotificationController extends Controller
 
     if (!$todos) {
       if ($request->filled('para2')) {
-        $this->validate($request, ['para2' => 'required', 'integer'], ['para2.required' => 'Digite o id que receberá a notificação!', 'para2.integer' => 'O id precisa ser um número!',]);
+        $this->validate($request, [
+          'para2' => 'required|integer'
+        ], ['para2.required' => 'Digite o id que receberá a notificação!', 'para2.integer' => 'O id precisa ser um número!',]);
         $id = $request->input('para2');
         $subscription = Notification::where('id', $id);
         if (!$subscription->exists()) {

@@ -62,7 +62,13 @@ class TopPromosController extends Controller
 
   public function save(Request $request)
   {
-    $this->validate($request, ['name' => 'required', 'link' => 'required', 'thumbnail' => 'required', 'price' => 'required', 'store_id' => 'required'], ['name.required' => 'O "Título" é obrigatório!', 'link.required' => 'O "Link" é obrigatório!', 'thumbnail.required' => 'A "Imagem" é obrigatória!', 'price.required' => 'O "Por" é obrigatório!', 'store_id.required' => 'O "Id da Loja" é obrigatório!']);
+    $this->validate($request, [
+      'name' => 'required', 
+      'link' => 'required', 
+      'thumbnail' => 'required', 
+      'price' => 'required', 
+      'store_id' => 'required'
+    ]);
 
     $pages = Page::where('id', 9999)->first();
 

@@ -19,7 +19,11 @@ class UserController extends Controller
 
   public function auth(Request $request)
   {
-    $this->validate($request, ['email' => ['required', 'email'], 'password' => ['required'], 'g-recaptcha-response' => ['required']], ['email.required' => 'E-mail é obrigatório!', 'email.email' => 'Digite um e-mail válido!', 'password.required' => 'Senha é obrigatória!', 'g-recaptcha-response.required' => 'Marque a caixa "Não sou um robô"!']);
+    $this->validate($request, [
+      'email' => 'required|email', 
+      'password' => 'required',
+      'g-recaptcha-response' => 'required'
+    ]);
 
     $email = $request->input('email');
     $password = $request->input('password');

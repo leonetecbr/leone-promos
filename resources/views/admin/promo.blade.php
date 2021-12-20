@@ -27,7 +27,7 @@
       </div>
     </div>
     <div class="text-end mt-3">
-      <input type="checkbox" name="redirect" id="redirect" {{ $promo['redirect']??'checked' }} class="form-check-input me-lg-3"/>Link de afiliados
+      <input type="checkbox" name="redirect" id="redirect" {{ $promo['redirect']??'checked' }} class="form-check-input"/> Link de afiliados
     </div>
     <div class="row mx-auto mt-3">
       <div class="col-auto">
