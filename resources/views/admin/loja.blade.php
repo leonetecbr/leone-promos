@@ -8,7 +8,7 @@
   <div class="alert alert-danger text-center mb-3">{{ $error }}</div>
   @endforeach
   @endif
-  <form action="{{ route('promos.save') }}" class="p-3 flex-column" method="post" autocomplete="off">
+  <form action="{{ route('lojas.save') }}" class="p-3 flex-column" method="post" autocomplete="off">
     <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}" />
     <div class="row mx-auto">
       <div class="col-auto">
@@ -47,7 +47,7 @@
     </div>
     <div class="row mt-3">
       <div class="col-sm-6"><button type="submit" class="btn btn-primary text-light btn-lg w-100">Salvar</button></div>
-      <div class="my-3 my-sm-0 col-sm-6"><a href="{{ route('promos.list') }}" class="center"><button type="button" class="btn btn-danger btn-lg w-100">Cancelar</button></a></div>
+      <div class="my-3 my-sm-0 col-sm-6"><a href="{{ route('dashboard') }}" class="center"><button type="button" class="btn btn-danger btn-lg w-100">Cancelar</button></a></div>
     </div>
   </form>
 </article>

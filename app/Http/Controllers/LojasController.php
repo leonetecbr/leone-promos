@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers;
 use Exception;
+use Illuminate\Http\Request;
 
 class LojasController extends Controller
 {
@@ -103,5 +104,10 @@ class LojasController extends Controller
 
   public function new(){
     return view('admin.loja');
+  }
+
+  public function save(Request $request){
+    $request = $request;
+    //TO DO
   }
 }

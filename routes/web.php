@@ -82,6 +82,8 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
 
       Route::prefix('lojas')->group(function () {
         Route::get('/new', [Controllers\LojasController::class, 'new'])->name('lojas.new');
+
+        Route::get('/save', [Controllers\LojasController::class, 'save'])->name('lojas.save');
       });
     });
   });
@@ -184,12 +186,20 @@ Route::domain(env('SHORT_DOMAIN'))->group(function () {
     })->where('product_id', '[0-9]+');
   });
 
-  Route::get('/c/{cupom_id}', function ($cupom_id) {
-    $page = ceil((abs(intval($cupom_id)) + 1) / 18);
-    return redirect(env('APP_URL') . '/cupons/' . $page . '#cupom-' . $cupom_id);
-  })->where('cupom_id', '[0-9]+');
-
-  Route::get('/o/{cat_id}-{page}-{oferta_id}', function ($cat_id, $page, $oferta_id) {
-    return redirect(env('APP_URL') . '/' . RedirectHelper::processPage(intval($cat_id), intval($page), intval($oferta_id)));
-  })->where('cat_id', '[0-9]+')->where('page', '[0-9]+')->where('oferta_id', '[0-9]+');
+  Route::get('/{dados}', function ($dados) {
+    $dados = base64_decode($dados);
+    $dados = explode('-', $dados, 4);
+    if ($dados[0] == 'c' && count($dados) === 2) {
+      $cupom_id = $dados[1];
+      $page = ceil((abs(intval($cupom_id)) + 1) / 18);
+      return redirect(env('APP_URL') . '/cupons/' . $page . '#cupom-' . $cupom_id);
+    } elseif ($dados[0] == 'o' && count($dados) === 4) {
+      $cat_id = $dados[1];
+      $page = $dados[2];
+      $oferta_id = $dados[3];
+      return redirect(env('APP_URL') . '/' . RedirectHelper::processPage(intval($cat_id), intval($page), intval($oferta_id)));
+    } else {
+      return redirect(env('APP_URL'));
+    }
+  })->where('dados', '^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{4})$');
 });

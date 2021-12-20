@@ -74,11 +74,11 @@ function getTextCupom(element) {
 }
 
 function getUrl(element) {
-  return 'https://para.promo/o/' + element.replace('#promo-', '')
+  return 'https://para.promo/' + btoa(element.replace('#promo-', 'o-'))
 }
 
 function getUrlCupom(element) {
-  return 'https://para.promo/c/' + element.replace('#cupom-', '')
+  return 'https://para.promo/' + btoa(element.replace('#cupom-', 'c-'))
 }
 
 function accept() {
