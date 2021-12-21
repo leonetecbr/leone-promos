@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers;
 use Exception;
 use Illuminate\Http\Request;
+use App\Models\Store;
 
 class LojasController extends Controller
 {
@@ -108,6 +109,36 @@ class LojasController extends Controller
 
   public function save(Request $request){
     $request = $request;
-    //TO DO
+
+    $dados = $this->validate($request, [
+      'id' => 'required|integer',
+      'name' => 'required',
+      'imagem' => 'required',
+      'link' => 'required'
+    ]);
+
+    $loja = Store::where('id', $dados['id'])->first();
+
+    if (empty($loja)){
+      $store = new Store;
+      $store->id = $dados['id'];
+      $store->nome = $dados['name'];
+      $store->imagem = $dados['imagem'];
+      $store->link = ($request->filled('redirect')) ? '/redirect?url=' .  $dados['link'] : $dados['link'];
+
+      if ($store->save()) {
+        return redirect()->route('lojas.new')->with([
+          'save' => 'A loja foi salva com sucesso!'
+        ]);
+      } else {
+        return redirect()->route('lojas.new')->withErrors([
+          'id' => ['Erro interno ao salvar a nova loja!']
+        ]);
+      }
+    }else{
+      return redirect()->route('lojas.new')->withErrors([
+        'id' => ['O id informado já existe no banco de dados.']
+      ]);
+    }
   }
 }

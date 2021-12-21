@@ -83,7 +83,7 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
       Route::prefix('lojas')->group(function () {
         Route::get('/new', [Controllers\LojasController::class, 'new'])->name('lojas.new');
 
-        Route::get('/save', [Controllers\LojasController::class, 'save'])->name('lojas.save');
+        Route::post('/save', [Controllers\LojasController::class, 'save'])->name('lojas.save');
       });
     });
   });

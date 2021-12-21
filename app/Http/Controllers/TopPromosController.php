@@ -62,7 +62,7 @@ class TopPromosController extends Controller
 
   public function save(Request $request)
   {
-    $this->validate($request, [
+    $dados = $this->validate($request, [
       'name' => 'required', 
       'link' => 'required', 
       'thumbnail' => 'required', 
@@ -90,12 +90,12 @@ class TopPromosController extends Controller
       $p->id = 9 . date('dHis');
     }
 
-    $p->nome = mb_strimwidth($request->input('name'), 0, 50, '...');
+    $p->nome = mb_strimwidth($dados['name'], 0, 50, '...');
     $p->group_id = 9999;
-    $p->store_id = $request->input('store_id');
-    $p->link = ($request->filled('redirect') && !$request->filled('id')) ? '/redirect?url=' . $request->input('link') : $request->input('link');
-    $p->por = $request->input('price');
-    $p->imagem = $request->input('thumbnail');
+    $p->store_id = $dados['store_id'];
+    $p->link = ($request->filled('redirect') && !$request->filled('id')) ? '/redirect?url=' . $dados['link'] : $dados['link'];
+    $p->por = $dados['price'];
+    $p->imagem = $dados['thumbnail'];
     $p->de = $request->input('priceFrom');
     $p->code = $request->input('code');
     $p->desc = $request->input('description');

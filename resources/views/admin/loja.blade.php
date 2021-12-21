@@ -8,6 +8,11 @@
   <div class="alert alert-danger text-center mb-3">{{ $error }}</div>
   @endforeach
   @endif
+  @if (session('save'))
+  <div class="text-center alert alert-success mb-3">
+    {{ session('save') }}
+  </div>
+  @endif
   <form action="{{ route('lojas.save') }}" class="p-3 flex-column" method="post" autocomplete="off">
     <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}" />
     <div class="row mx-auto">

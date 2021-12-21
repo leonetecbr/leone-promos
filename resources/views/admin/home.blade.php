@@ -14,7 +14,7 @@
     <div class="border p-3 col-12 col-lg-5 mt-4 mt-lg-0">
       <a href="{{ route('lojas.new') }}" class="text-black text-decoration-none">
         <div class="float-end mt-4"><i class="fas fa-angle-right"></i></div>
-        <h3>Nova Loja</h3>
+        <h3>Nova loja</h3>
         <p class="mt-3">Cadastre uma loja nova nova no sistema.</p>
       </a>
     </div>
