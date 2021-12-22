@@ -48,7 +48,7 @@ function getText(element) {
   }
 
   if (priceFrom !== undefined) {
-    text = `De: ${priceFrom} \n\n text`
+    text = `De: ${priceFrom}\n\n${text}`
   }
 
   text = `${title}.\n\n${text}!`
