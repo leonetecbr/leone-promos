@@ -1,8 +1,8 @@
-let staticCacheName = 'v2.3.5'
+let staticCacheName = 'v2.3.4'
 
-self.addEventListener('install', function(event) {
+self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(staticCacheName).then(function(cache) {
+    caches.open(staticCacheName).then((cache) => {
       return cache.addAll(
         [
           'css/app.min.css',
@@ -34,10 +34,10 @@ this.addEventListener('activate', event => {
   )
 })
 
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request)
-      .then(function(response) {
+      .then((response) => {
         if (response) {
           return response
         }
@@ -51,7 +51,7 @@ self.addEventListener('fetch', function(event) {
 
 'use strict'
 
-self.addEventListener('push', function(event) {
+self.addEventListener('push', (event) => {
   const data = event.data.json()
   const options = {
     body: data.msg,
@@ -65,11 +65,11 @@ self.addEventListener('push', function(event) {
   event.waitUntil(self.registration.showNotification(data.title, options))
 })
 
-self.addEventListener('notificationclick', function(event) {
+self.addEventListener('notificationclick', (event) => {
   event.notification.close()
   event.waitUntil(clients.matchAll({
     type: 'window'
-  }).then(function(clientList) {
+  }).then((clientList) => {
     for (let i = 0; i < clientList.length; i++) {
       let client = clientList[i]
       if (client.url == event.notification.data.url && 'focus' in client)

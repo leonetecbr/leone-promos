@@ -224,11 +224,13 @@ class NotificationController extends Controller
   {
     if ($request->filled('endpoint')) {
       $endpoint = $request->input('endpoint');
-      $prefer = Notification::where('endpoint', $endpoint)->first()->toArray();
-
+      $prefer = Notification::where('endpoint', $endpoint)->first();
+      
       if (empty($prefer)) {
         return ['success' => false, 'message' => 'Usuário não encontrado! Desative as notificações, ative e tente novamente.'];
       }
+
+      $prefer = $prefer->toArray();
 
       $pref = [
         $prefer['p1'],

@@ -63,8 +63,8 @@ function getText(element) {
 function getTextCupom(element) {
   let text = $(element).find('.card-title').html() + ' no(a) ' + $(element).find('.loja-image').attr('alt')
   const vigency = $(element).find('.cupom-vigency').html()
-  let cupom = $(element).find('.discount').val()
-  let code = cupom.substr(0, cupom.length - 2)
+  let cupom = String($(element).find('.discount').val())
+  let code = cupom.substring(0, cupom.length - 2)
 
   cupom = 'Cupom: ' + code.replace(/\w/g, '*') + cupom.substr(-2)
 
@@ -100,7 +100,7 @@ function copyS(t) {
     navigator.clipboard.writeText(t)
   }
   $('#copy-success').removeClass('d-none')
-  setTimeout(function () { $('#copy-success').addClass('d-none') }, 3000)
+  setTimeout(() => $('#copy-success').addClass('d-none'), 3000)
 }
 
 function copy(e, o) {
@@ -120,7 +120,7 @@ function copy(e, o) {
 function submit(token) {
   let csrf = getCSRF()
   $('#checkbox').append(csrf)
-  $('#checkbox').submit()
+  $('#checkbox').trigger('submit')
 }
 
 function getCSRF(){
@@ -160,7 +160,7 @@ function getPrefer(endpoint) {
     dataType: 'json',
     contentType: 'application/json',
     type: 'POST'
-  }).done(function (data) {
+  }).done((data) => {
     if (data.success) {
       let checked = 0
       for (let i = 0; i < data.pref.length; i++) {
@@ -180,7 +180,7 @@ function getPrefer(endpoint) {
         alert('Falha')
       }
     }
-  }).fail(function () {
+  }).fail(() => {
     alert('Falha')
   })
 }
@@ -202,7 +202,7 @@ function pesquisar(q, token) {
   form.appendChild(csrf)
   form.appendChild(recaptcha)
   $('body').append(form)
-  $('#pesquisar').submit()
+  $('#pesquisar').trigger('submit')
 }
 
 function paginateSearch(href, token) {
@@ -215,12 +215,13 @@ function paginateSearch(href, token) {
   form.appendChild(csrf)
   form.appendChild(recaptcha)
   $('body').append(form)
-  $('#pesquisar').submit()
+  $('#pesquisar').trigger('submit')
 }
 
 function getToken(action, dados, type = 'ajax') {
-  grecaptcha.ready(function () {
-    grecaptcha.execute(KEY_V3_RECAPTCHA, { action: action }).then(function (token) {
+  grecaptcha.ready(() => {
+    grecaptcha.execute(KEY_V3_RECAPTCHA, { action: action })
+    .then((token) => {
       if (type == 'ajax') {
         sendForm(dados, token);
       } else {
@@ -234,9 +235,9 @@ function getToken(action, dados, type = 'ajax') {
   });
 }
 
-$(document).ready(function () {
+$(function () {
   'use-stric';
-  $('.ajax-form').submit(function (e) {
+  $('.ajax-form').on('submit', function (e) {
     if (!this.checkValidity()) {
       e.preventDefault()
       e.stopPropagation()
@@ -247,7 +248,7 @@ $(document).ready(function () {
     this.classList.add('was-validated')
   });
 
-  $('.needs-validation').submit(function (event) {
+  $('.needs-validation').on('submit', function (event) {
     if (this.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
@@ -269,12 +270,12 @@ $(document).ready(function () {
     $('.plus-share').removeClass('d-none')
   }
 
-  $('.igs').click(function () {
+  $('.igs').on('click', function () {
     alert('Tire print e compartilhe nas suas storys, para fechar dê um duplo clique!')
     igShare('#' + $(this).closest('.promo').attr('id'))
   })
 
-  $('.mre').click(function () {
+  $('.mre').on('click', function () {
     let text, element, url
     if (($(this).closest('.promo').attr('id') !== undefined)) {
       element = '#' + $(this).closest('.promo').attr('id')
@@ -292,7 +293,7 @@ $(document).ready(function () {
     })
   })
 
-  $('.cpy').click(function () {
+  $('.cpy').on('click', function() {
     let text, element, url
     if (($(this).closest('.promo').attr('id') !== undefined)) {
       element = '#' + $(this).closest('.promo').attr('id')
@@ -309,7 +310,7 @@ $(document).ready(function () {
     copyS(text)
   })
 
-  $('.wpp').click(function () {
+  $('.wpp').on('click', function () {
     let text, element, url
     if (($(this).closest('.promo').attr('id') !== undefined)) {
       element = '#' + $(this).closest('.promo').attr('id')
@@ -326,7 +327,7 @@ $(document).ready(function () {
     window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text))
   })
 
-  $('.tlg').click(function () {
+  $('.tlg').on('click', function () {
     let text, element, url
     if (($(this).closest('.promo').attr('id') !== undefined)) {
       element = '#' + $(this).closest('.promo').attr('id')
@@ -341,7 +342,7 @@ $(document).ready(function () {
     window.open('https://telegram.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text))
   })
 
-  $('.twt').click(function () {
+  $('.twt').on('click', function () {
     let text, element, url
     if (($(this).closest('.promo').attr('id') !== undefined)) {
       element = '#' + $(this).closest('.promo').attr('id')
@@ -355,11 +356,11 @@ $(document).ready(function () {
     window.open('https://twitter.com/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text))
   })
 
-  $('#ig-share').dblclick(function () {
+  $('#ig-share').on('dbclick', function () {
     $(this).addClass('d-none')
   })
 
-  $(window).scroll(function () {
+  $(window).on('scroll', function () {
     let nav = $('#cabecalho')
     if ($(this).scrollTop() > 90) {
       nav.addClass('fixed-top')
@@ -372,11 +373,12 @@ $(document).ready(function () {
     }
   })
 
-  $('.ajax-form').submit(function (e) {
+  $('.ajax-form').on('submit', function (e) {
     e.preventDefault()
     form = this
-    grecaptcha.ready(function () {
-      grecaptcha.execute(KEY_V3_RECAPTCHA, { action: 'send_form' }).then(function (token) {
+    grecaptcha.ready(() => {
+      grecaptcha.execute(KEY_V3_RECAPTCHA, { action: 'send_form' })
+      .then((token) => {
         let valores = new Object()
         for (let valor of $(form).serializeArray()) {
           valores[valor.name] = valor.value
@@ -406,10 +408,12 @@ $(document).ready(function () {
             $(errorId).html('<p class="bolder">' + data.message + '</p>')
             $(errorId).show('slow')
           }
-        }).fail(function () {
+        })
+        .fail(() => {
           $(errorId).html('<p class="erro mt-1">Não foi possível enviar os dados, tente novamente!</p>')
           $(errorId).show('slow')
-        }).always(function () {
+        })
+        .always(() => {
           btn.html(value)
           btn.attr('disabled', false)
         })
@@ -417,26 +421,26 @@ $(document).ready(function () {
     })
   })
 
-  $('#inotify').click(function () {
+  $('#inotify').on('click', function () {
     $('#notify').addClass('d-none')
     createCookie('no_notify', 1, 60)
   })
 
   if (window.location.pathname.indexOf('/search') == 0) {
-    $('.page-link').click(function (e) {
+    $('.page-link').on('click', function (e) {
       e.preventDefault()
       let href = $(this).attr('href')
       getToken('paginate', href, 'paginate')
     })
 
-    $('.filtros').click(function (e) {
+    $('.filtros').on('click', function (e) {
       e.preventDefault()
       let href = $(this).attr('href')
       getToken('paginate', href, 'paginate')
     })
   }
 
-  $("#prefers input[type='checkbox']").change(function () {
+  $("#prefers input[type='checkbox']").on('change', function () {
     if ($("#prefers input[type='checkbox']").is(':checked')) {
       $('#para').attr('disabled', true)
       $('#para').removeAttr('required')
@@ -446,7 +450,7 @@ $(document).ready(function () {
     }
   })
 
-  $('#all').change(function () {
+  $('#all').on('change', function () {
     if ($(this).is(':checked')) {
       $('.prefer').attr('checked', true)
     } else {

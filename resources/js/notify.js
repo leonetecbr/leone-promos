@@ -19,7 +19,7 @@ function urlB64ToUint8Array(base64String) {
 }
 
 if ('serviceWorker' in navigator && 'PushManager' in window) {
-  navigator.serviceWorker.register('/sw.js').then(function (swReg) {
+  navigator.serviceWorker.register('/sw.js').then((swReg) => {
     swRegistration = swReg
     initializeUI()
   })
@@ -33,7 +33,7 @@ function initializeUI() {
     $('#notify').removeClass('d-none')
   }
   btn.attr('disabled', false)
-  btn.click(function () {
+  btn.on('click', () => {
     btn.attr('disabled', true)
     btn.html('Aguarde ...')
     if (isSubscribed) {
@@ -42,7 +42,8 @@ function initializeUI() {
       subscribeUser()
     }
   })
-  swRegistration.pushManager.getSubscription().then(function (subscription) {
+  swRegistration.pushManager.getSubscription()
+  .then((subscription) => {
     sub = subscription
     isSubscribed = !(subscription === null)
     if (isSubscribed) {
@@ -68,10 +69,10 @@ function updateBtn() {
 
   btn.attr('disabled', false)
   if (isSubscribed) {
-    setTimeout(function () {
+    setTimeout(() =>  {
       createCookie('no_notify', 1, 60)
-      $('#notify').hide('slow') }
-    , 1000)
+      $('#notify').hide('slow')
+    }, 1000)
     btn.html('Desativar notificações')
   } else {
     btn.html('Ativar notificações')
@@ -83,18 +84,18 @@ function subscribeUser() {
   swRegistration.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: applicationServerKey
-  }).then(function (subscription) {
+  })
+  .then((subscription) => {
     sub = subscription
     update('add')
   })
-    .catch(function () {
-      updateBtn()
-    })
+  .catch(() => updateBtn())
 }
 
 function unsubscribeUser() {
   if (sub) {
     sub.unsubscribe()
+    isSubscribed = false
     update('remove')
     $('#preferencias').addClass('d-none')
   } else {
@@ -103,27 +104,31 @@ function unsubscribeUser() {
 }
 
 function update(action) {
-  grecaptcha.ready(function () {
-    grecaptcha.execute(KEY_V3_RECAPTCHA, { action: 'notify' }).then(function (token) {
+  grecaptcha.ready(() => {
+    grecaptcha.execute(KEY_V3_RECAPTCHA, { action: 'notify' })
+    .then((token) => {
       const data = {
         subscription: sub,
         action: action,
         token: token,
         _token: CSRF
       }
+
       $.ajax({
         url: '/register',
         type: 'POST',
         data: JSON.stringify(data),
         dataType: 'json',
         contentType: 'application/json',
-        success: function (data) {
+        success: (data) => {
           processResponse(data, action)
         }
-      }).fail(function () {
+      })
+      .fail(() => {
         $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
         if (sub) {
           sub.unsubscribe()
+          isSubscribed = false
         }
         return updateBtn()
       })
@@ -136,6 +141,7 @@ function processResponse(data, action) {
     $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
     if (sub) {
       sub.unsubscribe()
+      isSubscribed = false
     }
   } else if (data.success && action == 'add') {
     isSubscribed = true
@@ -145,11 +151,13 @@ function processResponse(data, action) {
     $('#notify').append('<p class="erro mt-2 center">' + data.erro + '</p>')
     if (sub) {
       sub.unsubscribe()
+      isSubscribed = false
     }
   } else {
     $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
     if (sub) {
       sub.unsubscribe()
+      isSubscribed = false
     }
   }
   return updateBtn()
