@@ -15,7 +15,7 @@ class NotificationController extends Controller
     return view('notificacoes');
   }
 
-  public function register(Request $request): array
+  public function userManage(Request $request): array
   {
     $response['success'] = false;
     try {

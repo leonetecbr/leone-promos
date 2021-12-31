@@ -1,4 +1,4 @@
-let staticCacheName = 'v2.3.4'
+let staticCacheName = 'v2.3.5'
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -6,12 +6,9 @@ self.addEventListener('install', (event) => {
       return cache.addAll(
         [
           'css/app.min.css',
-          'css/bootstrap.min.css.map',
           'js/app.min.js',
           'js/bootstrap.bundle.min.js',
-          'js/bootstrap.bundle.min.js.map',
           'js/jquery.min.js',
-          'js/jquery.min.map',
           'css/bootstrap.min.css',
           'img/logo.png',
           'json/manifest.json'

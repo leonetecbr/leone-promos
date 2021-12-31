@@ -42,7 +42,7 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
 
   Route::get('/notificacoes', [Controllers\NotificationController::class, 'get'])->name('notificacoes');
 
-  Route::post('/register', [Controllers\NotificationController::class, 'register']);
+  Route::post('/register', [Controllers\NotificationController::class, 'userManage']);
 
   Route::prefix('prefer')->group(function () {
     Route::post('/get', [Controllers\NotificationController::class, 'getPrefer']);
