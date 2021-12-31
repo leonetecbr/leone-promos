@@ -115,7 +115,7 @@ function update(action) {
       }
 
       $.ajax({
-        url: '/register',
+        url: '/notificacoes/manage',
         type: 'POST',
         data: JSON.stringify(data),
         dataType: 'json',

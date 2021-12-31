@@ -40,9 +40,11 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
 
   Route::post('/redirect', [Controllers\RedirectController::class, 'api']);
 
-  Route::get('/notificacoes', [Controllers\NotificationController::class, 'get'])->name('notificacoes');
+  Route::prefix('notificacoes')->group(function () {
+    Route::get('/', [Controllers\NotificationController::class, 'get'])->name('notificacoes');
 
-  Route::post('/register', [Controllers\NotificationController::class, 'userManage']);
+    Route::post('/manage', [Controllers\NotificationController::class, 'userManage']);
+  });
 
   Route::prefix('prefer')->group(function () {
     Route::post('/get', [Controllers\NotificationController::class, 'getPrefer']);
