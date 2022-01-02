@@ -53,6 +53,17 @@ function initializeUI() {
       } else if (window.location.pathname === '/' && document.cookie.indexOf('no_update') < 0){
         update('update')
       }
+    } else if (Notification.permission === 'granted' && document.cookie.indexOf('no_resubscribe') < 0) {
+      const applicationServerKey = urlB64ToUint8Array(KEY_VAPID_PUBLIC)
+      swRegistration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: applicationServerKey
+      })
+        .then((subscription) => {
+          sub = subscription
+          update('update')
+        })
+        .catch(() => console.log('Falha na reativação das notificações'))
     }
     updateBtn()
   })
@@ -82,6 +93,7 @@ function updateBtn() {
 }
 
 function subscribeUser() {
+  deleteCookie('no_resubscribe')
   const applicationServerKey = urlB64ToUint8Array(KEY_VAPID_PUBLIC)
   swRegistration.pushManager.subscribe({
     userVisibleOnly: true,
@@ -95,6 +107,7 @@ function subscribeUser() {
 }
 
 function unsubscribeUser() {
+  createCookie('no_resubscribe', 1, 365)
   if (sub) {
     sub.unsubscribe()
     isSubscribed = false

@@ -153,6 +153,10 @@ function createCookie(name, value, days) {
   document.cookie = `${name}=${value}${expires}; path=/`
 }
 
+function deleteCookie(cookie_name) {
+  createCookie(cookie_name, '', -1)
+}
+
 function getPrefer(endpoint) {
   $.ajax({
     url: '/prefer/get',
