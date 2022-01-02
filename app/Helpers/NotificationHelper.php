@@ -40,7 +40,7 @@ class NotificationHelper
     if (empty($subscription)) {
       $subscription = Notification::where('id', 0)->first();
       $sended->por = 'API';
-    }else if (Auth::check() && $payload['link'] != '/notificacoes'){
+    }else if (Auth::check()){
       $sended->por = Auth::user()->email;
     }else{
       $sended->por = 'SYS';

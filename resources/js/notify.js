@@ -47,9 +47,11 @@ function initializeUI() {
     sub = subscription
     isSubscribed = !(subscription === null)
     if (isSubscribed) {
-      if (window.location.pathname == '/notificacoes') {
+      if (window.location.pathname === '/notificacoes') {
         getPrefer(subscription.endpoint)
         $('#endpoint').val(subscription.endpoint)
+      } else if (window.location.pathname === '/' && document.cookie.indexOf('no_update') < 0){
+        update('update')
       }
     }
     updateBtn()
@@ -137,28 +139,35 @@ function update(action) {
 }
 
 function processResponse(data, action) {
-  if (typeof data.success == 'undefined') {
-    $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
-    if (sub) {
-      sub.unsubscribe()
-      isSubscribed = false
+  if (action === 'update'){
+    if (typeof data.success === 'undefined' || !data.success) {
+      return
     }
-  } else if (data.success && action == 'add') {
-    isSubscribed = true
-  } else if (data.success && action == 'remove') {
-    isSubscribed = false
-  } else if (typeof data.erro !== 'undefined') {
-    $('#notify').append('<p class="erro mt-2 center">' + data.erro + '</p>')
-    if (sub) {
-      sub.unsubscribe()
+    createCookie('no_update', 1, 10)
+  }else{
+    if (typeof data.success === 'undefined') {
+      $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
+      if (sub) {
+        sub.unsubscribe()
+        isSubscribed = false
+      }
+    } else if (data.success && action === 'add') {
+      isSubscribed = true
+    } else if (data.success && action === 'remove') {
       isSubscribed = false
+    } else if (typeof data.erro !== 'undefined') {
+      $('#notify').append('<p class="erro mt-2 center">' + data.erro + '</p>')
+      if (sub) {
+        sub.unsubscribe()
+        isSubscribed = false
+      }
+    } else {
+      $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
+      if (sub) {
+        sub.unsubscribe()
+        isSubscribed = false
+      }
     }
-  } else {
-    $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
-    if (sub) {
-      sub.unsubscribe()
-      isSubscribed = false
-    }
+    return updateBtn()
   }
-  return updateBtn()
 }

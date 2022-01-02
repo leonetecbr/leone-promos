@@ -35,11 +35,32 @@ class NotificationController extends Controller
         throw new Exception('Talvez você seja um robô, tente novamente mais tarde!');
       }
 
-      if ($action === 'remove') {
+      if ($action === 'update') {
+        if (empty(Notification::where('endpoint', $endpoint)->first())){
+          $notify = new Helpers\NotificationHelper;
+
+          $notification = new Notification;
+          $notification->auth = $auth;
+          $notification->p256dh = $p256dh;
+          $notification->endpoint = $endpoint;
+          $sucess = $notify->sendOneNotification(['auth' => $auth, 'p256dh' => $p256dh, 'endpoint' => $endpoint], [
+            'title' => 'Vai uma promoção ai?',
+            'msg' => 'Que tal vim conferir as nossas melhores promoções? Vem aproveitar!',
+            'link' => '/'
+          ]);
+          if (!$sucess) {
+            throw new Exception('Não foi possível enviar a notificação de confirmação!');
+          }
+          $notification->save();
+          $response['success'] = true;
+        } else {
+          $response['success'] = true;
+        }
+      } elseif ($action === 'remove') {
         Notification::where('endpoint', $endpoint)->delete();
         $response['success'] = true;
       } elseif ($action === 'add') {
-        if (!Notification::where('endpoint', $endpoint)->exists()) {
+        if (empty(Notification::where('endpoint', $endpoint)->first())) {
           $notify = new Helpers\NotificationHelper;
 
           $notification = new Notification;

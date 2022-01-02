@@ -1,4 +1,4 @@
-let staticCacheName = 'v2.3.5'
+let staticCacheName = 'v2.3.6'
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -10,7 +10,6 @@ self.addEventListener('install', (event) => {
           'js/bootstrap.bundle.min.js',
           'js/jquery.min.js',
           'css/bootstrap.min.css',
-          'img/logo.png',
           'json/manifest.json'
         ]
       )
@@ -18,7 +17,7 @@ self.addEventListener('install', (event) => {
   )
 })
 
-this.addEventListener('activate', event => {
+self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
