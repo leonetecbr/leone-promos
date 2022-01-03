@@ -309,7 +309,7 @@ class NotificationController extends Controller
       $prefer->save();
 
       return [
-        'success' => true, 'message' => 'Preferências salvas com sucesso !'
+        'success' => true, 'message' => 'Preferências salvas com sucesso!'
       ];
     } else {
       return ['success' => false, 'message' => 'Endpoint dousuário não informado!'];

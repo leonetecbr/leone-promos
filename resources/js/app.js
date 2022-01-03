@@ -222,32 +222,74 @@ function paginateSearch(href, token) {
   $('#pesquisar').trigger('submit')
 }
 
+function sendForm(id, token){
+  let valores = new Object()
+  for (let valor of $(`#${id}`).serializeArray()) {
+    valores[valor.name] = valor.value
+  }
+  valores['_token'] = CSRF
+  valores['g-recaptcha-response'] = token
+  let value = $(`#${id}-submit`).html()
+  let btn = $(`#${id}-submit`)
+  let errorId = `#error-${id}`
+  btn.attr('disabled', true)
+  btn.html('Aguarde ...')
+  $(`#${id}`).removeClass('was-validated')
+  $(errorId).addClass('d-none')
+  $.ajax({
+    url: $(`#${id}`).attr('action'),
+      data: JSON.stringify(valores),
+      dataType: 'json',
+      contentType: 'application/json',
+      type: 'POST'
+    }).done(function (data) {
+    if (typeof data.success === 'undefined') {
+      $(errorId).html('<p class="alert alert-danger">Erro desconhecido :(</p>')
+      $(errorId).removeClass('d-none')
+    } else if (typeof data.message !== 'undefined'){
+      if (!data.success) {
+        $(errorId).html('<p class="alert alert-danger">' + data.message + '</p>')
+        $(errorId).removeClass('d-none')
+      } else {
+        $(errorId).html('<div class="alert alert-success">' + data.message + '</div>')
+        $(errorId).removeClass('d-none')
+      }
+    }
+  })
+  .fail(() => {
+    $(errorId).html('<p class="alert alert-danger">Não foi possível enviar os dados, tente novamente!</p>')
+    $(errorId).removeClass('d-none')
+  })
+  .always(() => {
+    btn.html(value)
+    btn.attr('disabled', false)
+  })
+}
+
 function getToken(action, dados, type = 'ajax') {
   grecaptcha.ready(() => {
     grecaptcha.execute(KEY_V3_RECAPTCHA, { action: action })
     .then((token) => {
-      if (type == 'ajax') {
-        sendForm(dados, token);
-      } else {
-        if (type == 'search') {
-          pesquisar(dados, token);
-        } else if (type == 'paginate') {
-          paginateSearch(dados, token)
-        }
+      if (type === 'ajax') {
+        sendForm(dados, token)
+      } else if (type === 'search') {
+        pesquisar(dados, token);
+      } else if (type === 'paginate') {
+        paginateSearch(dados, token)
       }
-    });
-  });
+    })
+  })
 }
 
 $(function () {
-  'use-stric';
+  'use-stric'
   $('.ajax-form').on('submit', function (e) {
     if (!this.checkValidity()) {
       e.preventDefault()
       e.stopPropagation()
     } else {
       e.preventDefault();
-      getToken('form-' + this.id, this);
+      getToken($(this).attr('data-action'), this.id)
     }
     this.classList.add('was-validated')
   });
@@ -377,54 +419,6 @@ $(function () {
     }
   })
 
-  $('.ajax-form').on('submit', function (e) {
-    e.preventDefault()
-    form = this
-    grecaptcha.ready(() => {
-      grecaptcha.execute(KEY_V3_RECAPTCHA, { action: 'send_form' })
-      .then((token) => {
-        let valores = new Object()
-        for (let valor of $(form).serializeArray()) {
-          valores[valor.name] = valor.value
-        }
-        valores['_token'] = CSRF
-        valores['g-recaptcha-response'] = token
-        let id = form.id
-        let value = $(`#${id}-submit`).html()
-        let btn = $(`#${id}-submit`)
-        let errorId = `#error-${id}`
-        btn.attr('disabled', true)
-        btn.html('Aguarde ...')
-        $.ajax({
-          url: form.action,
-          data: JSON.stringify(valores),
-          dataType: 'json',
-          contentType: 'application/json',
-          type: 'POST'
-        }).done(function (data) {
-          if (typeof data.success == 'undefined' || typeof data.message == 'undefined') {
-            $(errorId).html('<p class="erro mt-1">Erro desconhecido :(</p>')
-            $(errorId).show('slow')
-          } else if (!data.success) {
-            $(errorId).html('<p class="erro mt-1">' + data.message + '</p>')
-            $(errorId).show('slow')
-          } else {
-            $(errorId).html('<p class="bolder">' + data.message + '</p>')
-            $(errorId).show('slow')
-          }
-        })
-        .fail(() => {
-          $(errorId).html('<p class="erro mt-1">Não foi possível enviar os dados, tente novamente!</p>')
-          $(errorId).show('slow')
-        })
-        .always(() => {
-          btn.html(value)
-          btn.attr('disabled', false)
-        })
-      })
-    })
-  })
-
   $('#inotify').on('click', function () {
     $('#notify').addClass('d-none')
     createCookie('no_notify', 1, 60)
@@ -455,10 +449,18 @@ $(function () {
   })
 
   $('#all').on('change', function () {
-    if ($(this).is(':checked')) {
-      $('.prefer').attr('checked', true)
-    } else {
-      $('.prefer').removeAttr('checked')
+    $('.prefer').prop('checked', $(this).is(':checked'))
+  })
+
+  $('.prefer').on('change', function () {
+    let all = true
+    for(check of $('.prefer')){
+      if (!$(check).is(':checked')){
+        all = false
+      }
     }
+
+   $('#all').prop('checked', all)
+    console.log(all)
   })
 })
