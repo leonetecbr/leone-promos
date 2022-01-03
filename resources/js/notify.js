@@ -153,12 +153,12 @@ function update(action) {
 
 function processResponse(data, action) {
   if (action === 'update'){
-    if (typeof data.success === 'undefined' || !data.success) {
+    if (typeof data.success === undefined || !data.success) {
       return
     }
     createCookie('no_update', 1, 10)
   }else{
-    if (typeof data.success === 'undefined') {
+    if (typeof data.success === undefined) {
       $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
       if (sub) {
         sub.unsubscribe()
@@ -168,7 +168,7 @@ function processResponse(data, action) {
       isSubscribed = true
     } else if (data.success && action === 'remove') {
       isSubscribed = false
-    } else if (typeof data.erro !== 'undefined') {
+    } else if (typeof data.erro !== undefined) {
       $('#notify').append('<p class="erro mt-2 center">' + data.erro + '</p>')
       if (sub) {
         sub.unsubscribe()

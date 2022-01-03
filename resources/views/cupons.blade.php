@@ -29,8 +29,8 @@ Cupons{{ (empty($loja))?'':' - '.$loja }}: Página {{ $page }} de {{ $final }}
   <p class="mx-auto my-3 alert alert-warning w-75 text-center">Nenhum cupom encontrado!</p>
 </article>
 @else
-  @for ($i = 0; $i < count($cupons); $i++)
-  <div class="cupom card col-lg-3-5 col-md-5 col-sm-10 col-12 mb-5" id="cupom-{{ $i }}">
+  @foreach ($cupons as $cupom)
+  <div class="cupom card col-lg-3-5 col-md-5 col-sm-10 col-12 mb-5" id="cupom-{{ $loop->index }}">
     <div class="card-header p-2">
       <button class="border-0 wpp"><i class="fab fa-whatsapp"></i></button>
       <button class="border-0 tlg"><i class="fab fa-telegram-plane"></i></button>
@@ -39,19 +39,19 @@ Cupons{{ (empty($loja))?'':' - '.$loja }}: Página {{ $page }} de {{ $final }}
       <button class="border-0 mre pls d-none plus-share"><i class="fas fa-share-alt"></i></button>
     </div>
     <div class="card-body p-3 text-center mb-md-3">
-      <div class="site mb-3"><img src="{{ $cupons[$i]['store']['imagem'] }}" alt="{{ $cupons[$i]['store']['nome'] }}" class="loja-image"></div>
-      <h4 class="card-title">{{ mb_strimwidth($cupons[$i]['desc'], 0, 100, '...' ) }}</h4>
-      <div class="cupom-vigency my-3">Válido até {{ $cupons[$i]['ate'] }}</div>
-      <div class="code row col-11 mx-auto"><input value="{{ $cupons[$i]['code'] }}" disabled="true" class="form-control text-center discount" id="input_{{ $i }}" /></div>
+      <div class="site mb-3"><img src="{{ $cupom['store']['imagem'] }}" alt="{{ $cupom['store']['nome'] }}" class="loja-image"></div>
+      <h4 class="card-title">{{ mb_strimwidth($cupom['desc'], 0, 100, '...' ) }}</h4>
+      <div class="cupom-vigency my-3">Válido até {{ $cupom['ate'] }}</div>
+      <div class="code row col-11 mx-auto"><input value="{{ $cupom['code'] }}" disabled="true" class="form-control text-center code-text" /></div>
     </div>
     <div class="final text-center p-3">
-      <button onclick="copy('{{ $cupons[$i]['link'] }}', '#input_{{ $i }}')" class="btn btn-outline-danger w-75 mx-auto">
+      <button data-link="{{ $cupom['link'] }}" class="btn btn-outline-danger w-75 mx-auto copy-redirect">
         Copiar e ir para a loja</button>
     </div>
     </div>
-    @endfor
+    @endforeach
 </article>
-<div class="container text-center flex-column fs-12 bolder top"><button class="rounded bg-primary px-3 py-2 border-0" onclick="$('html, body').animate({scrollTop : 0},800);" id="btn-top"><i class="fas fa-angle-double-up text-white"></i></button>
+<div class="container text-center flex-column fs-12 bolder top" id="btn-topo"><button class="rounded bg-primary px-3 py-2 border-0"><i class="fas fa-angle-double-up text-white"></i></button>
   <p class="fs-5 my-2 fw-light">Topo</p>
 </div>
 @endif

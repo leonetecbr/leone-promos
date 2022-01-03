@@ -1,4 +1,4 @@
-let staticCacheName = 'v2.4.0'
+let staticCacheName = 'v2.4.1'
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -55,7 +55,7 @@ self.addEventListener('push', (event) => {
     badge: 'img/icon.png',
     data: {url: data.link}
   }
-  if (typeof data.img !== 'undefined') {
+  if (typeof data.img !== undefined) {
     options.image = data.img
   }
   event.waitUntil(self.registration.showNotification(data.title, options))

@@ -7,10 +7,10 @@ String.prototype.strstr = function (search) {
 }
 
 function igShare(element) {
-  const title = $(element).find('.product-title').html()
-  const desc = $(element).find('.description').html()
-  const priceFrom = $(element).find('del').html()
-  const code = $(element).find('.discount').val()
+  let title = $(element).find('.product-title').html()
+  let desc = $(element).find('.description').html()
+  let priceFrom = $(element).find('del').html()
+  let code = $(element).find('.code-text').val()
   $('#product-title').html(title)
   $('#product-image').attr('src', $(element).find('.product-image').attr('src'))
   $('#product-image').attr('alt', title)
@@ -38,10 +38,10 @@ function igShare(element) {
 }
 
 function getText(element) {
-  const desc = $(element).find('.description').html()
+  let desc = $(element).find('.description').html()
   let text = $(element).find('.pricing-card-title').html()
-  const priceFrom = $(element).find('del').html()
-  const title = $(element).find('.product-title').html()
+  let priceFrom = $(element).find('del').html()
+  let title = $(element).find('.product-title').html()
 
   if (text !== 'Grátis') {
     text = `Por apenas: ${text}`
@@ -62,8 +62,8 @@ function getText(element) {
 
 function getTextCupom(element) {
   let text = $(element).find('.card-title').html() + ' no(a) ' + $(element).find('.loja-image').attr('alt')
-  const vigency = $(element).find('.cupom-vigency').html()
-  let cupom = String($(element).find('.discount').val())
+  let vigency = $(element).find('.cupom-vigency').html()
+  let cupom = String($(element).find('.code-text').val())
   let code = cupom.substring(0, cupom.length - 2)
 
   cupom = 'Cupom: ' + code.replace(/\w/g, '*') + cupom.substr(-2)
@@ -86,38 +86,25 @@ function accept() {
   $('#aviso_cookie').fadeOut('slow')
 }
 
-function copyS(t) {
-  if (!navigator.clipboard) {
-    let textArea = document.createElement('textarea')
-    t = document.createTextNode(t)
-    textArea.id = 'text-copy'
-    textArea.appendChild(t)
-    $('#noeye').html(textArea)
-    $('#text-copy').select()
-    document.execCommand('copy')
-    $('#noeye').html('')
-  } else {
-    navigator.clipboard.writeText(t)
-  }
-  $('#copy-success').removeClass('d-none')
-  setTimeout(() => $('#copy-success').addClass('d-none'), 3000)
+function copyText(text, url = false){
+  navigator.clipboard.writeText(text).then(() => {
+    if (url) window.open(url)
+    else {
+      $('#copy-success').removeClass('d-none')
+      setTimeout(() => $('#copy-success').addClass('d-none'), 3000)
+    }
+  }, () => {
+    alert('Não foi possível copiar, copie manualmente!')
+    if (url) window.open(url)
+  })
+
 }
 
-function copy(e, o) {
-  if (!navigator.clipboard) {
-    $(o).attr('disabled', false)
-    $(o).select()
-    document.execCommand('copy')
-    $(o).attr('disabled', true)
-  } else {
-    const text = $(o).val()
-    navigator.clipboard.writeText(text)
-  }
-
-  window.open(e)
+function topo(){
+  $('html, body').animate({ scrollTop: 0 }, 800)
 }
 
-function submit(token) {
+function submit() {
   let csrf = getCSRF()
   $('#checkbox').append(csrf)
   $('#checkbox').trigger('submit')
@@ -243,10 +230,10 @@ function sendForm(id, token){
       contentType: 'application/json',
       type: 'POST'
     }).done(function (data) {
-    if (typeof data.success === 'undefined') {
+    if (typeof data.success === undefined) {
       $(errorId).html('<p class="alert alert-danger">Erro desconhecido :(</p>')
       $(errorId).removeClass('d-none')
-    } else if (typeof data.message !== 'undefined'){
+    } else if (typeof data.message !== undefined){
       if (!data.success) {
         $(errorId).html('<p class="alert alert-danger">' + data.message + '</p>')
         $(errorId).removeClass('d-none')
@@ -266,16 +253,17 @@ function sendForm(id, token){
   })
 }
 
-function getToken(action, dados, type = 'ajax') {
+function getToken(action, id, type = 'ajax') {
   grecaptcha.ready(() => {
     grecaptcha.execute(KEY_V3_RECAPTCHA, { action: action })
     .then((token) => {
       if (type === 'ajax') {
-        sendForm(dados, token)
+        sendForm(id, token)
       } else if (type === 'search') {
-        pesquisar(dados, token);
+        let q = $('#q').val()
+        pesquisar(q, token)
       } else if (type === 'paginate') {
-        paginateSearch(dados, token)
+        paginateSearch(id, token)
       }
     })
   })
@@ -288,29 +276,26 @@ $(function () {
       e.preventDefault()
       e.stopPropagation()
     } else {
-      e.preventDefault();
+      e.preventDefault()
       getToken($(this).attr('data-action'), this.id)
     }
     this.classList.add('was-validated')
-  });
+  })
 
-  $('.needs-validation').on('submit', function (event) {
+  $('.needs-validation').on('submit', function (e) {
     if (this.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-      $(this).addClass('was-validated');
+      e.preventDefault()
+      e.stopPropagation()
+      $(this).addClass('was-validated')
     } else {
-      event.preventDefault();
-      $(this).addClass('was-validated');
+      e.preventDefault()
+      $(this).addClass('was-validated')
       if (this.id == 'deeplink') {
         redirectUrl()
-      } else if (this.id == 'search') {
-        let q = $('#q').val();
-        getToken('search', q, 'search')
       }
-      $(this).removeClass('was-validated');
+      $(this).removeClass('was-validated')
     }
-  });
+  })
 
   if (navigator.share) {
     $('.plus-share').removeClass('d-none')
@@ -353,7 +338,7 @@ $(function () {
 
     text += `\n\n${url}`
 
-    copyS(text)
+    copyText(text)
   })
 
   $('.wpp').on('click', function () {
@@ -404,6 +389,14 @@ $(function () {
 
   $('#ig-share').on('dbclick', function () {
     $(this).addClass('d-none')
+  })
+
+  $('.copy-redirect').on('click', function (){
+    let element = $(this).closest('.promo').attr('id')
+    element = (element === undefined) ? '#' + $(this).closest('.cupom').attr('id') : '#' + element
+    let url = $(this).attr('data-link')
+    let code = $(element).find('.code-text').val()
+    copyText(code, url)
   })
 
   $(window).on('scroll', function () {
@@ -460,7 +453,8 @@ $(function () {
       }
     }
 
-   $('#all').prop('checked', all)
-    console.log(all)
+    $('#all').prop('checked', all)
   })
+
+  $('#btn-topo').on('click', topo)
 })

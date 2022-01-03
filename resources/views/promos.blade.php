@@ -77,7 +77,7 @@
       </ul>
     </div>
   </div>
-  @endif
+@endif
 <article id="promos" class="d-flex justify-content-around flex-wrap">
   <div id="noeye"></div>
   @if (empty($promos))
@@ -111,15 +111,18 @@
       <p class="description">{!! $promo['desc'] !!}</p>
       @endif
       @if (!empty($promo['code']))
-      <div class="code row col-11 mx-auto"><input value="{{ $promo['code'] }}" disabled="true" class="form-control text-center discount" id="input{{ $loop->index }}" /></div>
+      <div class="code row col-11 mx-auto"><input value="{{ $promo['code'] }}" disabled="true" class="form-control text-center code-text"/></div>
       @endif
     </div>
     <div class="final text-center p-3">
       <div class="text-end"><a target="_blank" href="{{ $promo['store']['link'] }}"><img src="{{ $promo['store']['imagem'] }}" alt="{{ $promo['store']['nome'] }}" class="loja"></a></div>
-      @if (empty($promo['code']))
+      @if ($add)
+        <a target="{{ $target }}" href="{{ $promo['link'] }}" class="mx-auto"><button class="btn btn-outline-danger w-75">Editar promoção</button></a>
+      @elseif (empty($promo['code']))
         <a target="{{ $target }}" href="{{ $promo['link'] }}" class="mx-auto"><button class="btn btn-outline-danger w-75">Ir para a loja</button></a>
       @else
-        <button onclick="copy('{{ $promo['link'] }}', '#input{{ $loop->index }}')" class="btn btn-outline-danger w-75 mx-auto">Copiar e ir para a loja</button>
+        <button data-link="{{ $promo['link'] }}" class="btn btn-outline-danger w-75 mx-auto copy-redirect">
+          Copiar e ir para a loja</button>
       @endif
     </div>
   </div>
@@ -127,7 +130,7 @@
 @endforeach
 </article>
   @if ($topo??true)
-    <div class="container text-center flex-column fs-12 bolder top"><button class="rounded bg-primary px-3 py-2 border-0" onclick="$('html, body').animate({scrollTop : 0},800);" id="btn-top"><i class="fas fa-angle-double-up text-white"></i></button>
+    <div class="container text-center flex-column fs-12 bolder top" id="btn-topo"><button class="rounded bg-primary px-3 py-2 border-0"><i class="fas fa-angle-double-up text-white"></i></button>
       <p class="fs-5 my-2 fw-light">Topo</p>
     </div>
   @endif
