@@ -93,6 +93,26 @@
         <input type="number" value="{{ $promo['store_id']??'' }}" id="store-id" name="store_id" placeholder="Digite o id da loja ..." class="form-control" required />
       </div>
     </div>
+    <div class="row mx-auto mt-3">
+      <div class="form-check ms-auto col-auto">
+        <input class="form-check-input" type="checkbox" name="notify" id="notificacao" checked>
+        <label class="form-check-label" for="notificacao">
+          Enviar notificação
+        </label>
+      </div>
+      <div class="container flex-row flex-center row-wrap d-md-flex justify-conatent-center flex-wrap mt-3" id="prefers">
+        <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="para" id="all" class="form-check-input"><label for="all" class="form-check-label">Todos</label></div>
+        <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p1" id="p1" class="form-check-input prefer"> <label for="p1" class="form-check-label">Computadores/Notebooks</label></div>
+        <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p2" id="p2" class="form-check-input prefer"> <label for="p2" class="form-check-label">Celulares/Smartphones</label></div>
+        <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p3" id="p3" class="form-check-input prefer"> <label for="p3" class="form-check-label">Itens de Mercado</label></div>
+        <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p4" id="p4" class="form-check-input prefer"> <label for="p4" class="form-check-label">Roupas Masculinas</label></div>
+        <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p5" id="p5" class="form-check-input prefer"> <label for="p5" class="form-check-label">Roupas Femininas</label></div>
+        <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p6" id="p6" class="form-check-input prefer"> <label for="p6" class="form-check-label">Livros</label></div>
+        <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p7" id="p7" class="form-check-input prefer"> <label for="p7" class="form-check-label">Móveis</label></div>
+        <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p8" id="p8" class="form-check-input prefer"> <label for="p8" class="form-check-label">Eletrodomésticos</label></div>
+        <div class="form-check col-md-6 col-lg-4"><input type="checkbox" name="p9" id="p9" class="form-check-input prefer"> <label for="p9" class="form-check-label">Eletroportáteis</label></div>
+      </div>
+    </div>
     <div class="row mt-3">
       <div class="{{ (isset($id))?'col-sm-4':'col-sm-6'; }}"><button type="submit" class="btn btn-primary text-light btn-lg w-100">Salvar</button></div>
       <div class="my-3 my-sm-0 {{ (isset($id))?'col-sm-4':'col-sm-6'; }}"><a href="{{ route('promos.list') }}" class="center"><button type="button" class="btn btn-danger btn-lg w-100">Cancelar</button></a></div>

@@ -98,12 +98,14 @@ if(Request::filled('tag') && Request::input('utm_source')=='push_notify'){
           <div class="me-2"><input class="form-control" type="search" placeholder="Pesquisar" minlength="3" maxlength="20" required aria-label="Pesquisar" value="{{ $query??'' }}" name="q" id="q"></div>
           <div><button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button></div>
         </form>
+        <div class="text-center small py-3 d-lg-none w-75 mx-auto">Esta pesquisa é protegida pelo Google reCAPTCHA para garantir que você não é um robô. <a target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas de Privacidade</a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de Serviço</a> do Google são aplicáveis.</div>
         @if (Auth::check())
         <a href="{{ route('dashboard') }}" class="ms-3"><button id="btn-admin" class="btn btn-outline-info mt-3 mt-md-0 float-start"><i class="fa-solid fa-lock"></i></button></a>
         <a href="{{ route('logout') }}" class="ms-3"><button id="btn-logout" class="btn btn-outline-danger mt-3 mt-md-0 float-end"><i class="fas fa-sign-out-alt"></i></button></a>
         @endif
       </div>
     </nav>
+    <div class="text-end small pb-3 d-none d-lg-block">Esta pesquisa é protegida pelo Google reCAPTCHA para garantir que você não é um robô. <a target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas de Privacidade</a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de Serviço</a> do Google são aplicáveis.</div>
   </header>
   @if (empty($_COOKIE['no_notify']) && (Route::currentRouteName()!='notificacoes'))
   <div id="notify" class="container d-none border-bottom p-3">

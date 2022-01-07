@@ -8,6 +8,7 @@
   <div id="notifys">
    <p class="my-3">Receba nossas seleção de melhores promoções em primeira mão por notificação no seu navegador! Aqui você pode ativar, desativar e gerenciar suas preferências de notificação.</p>
     <div class="text-center mb-3"><button id="btn-notify" class="btn btn-primary text-light" disabled="true">Ativar notificações</button></div>
+    <div class="text-center small">Esta botão é protegido pelo Google reCAPTCHA para garantir que você não é um robô. <a target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas de Privacidade</a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de Serviço</a> do Google são aplicáveis.</div>
   </div>
 
   <div id="notify-bloqued" class="d-none">

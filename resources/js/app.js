@@ -445,6 +445,17 @@ $(function () {
     $('.prefer').prop('checked', $(this).is(':checked'))
   })
 
+  $('#notificacao').on('change', function () {
+    if ($(this).is(':checked')){
+      $('#prefers').removeClass('d-none')
+      $('#prefers').addClass('d-md-flex')
+    } else{
+      $('#prefers').addClass('d-none')
+      $('#prefers').removeClass('d-md-flex')
+      $('.prefer').prop('checked', false)
+    }
+  })
+
   $('.prefer').on('change', function () {
     let all = true
     for(check of $('.prefer')){

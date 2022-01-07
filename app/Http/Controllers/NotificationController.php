@@ -6,6 +6,7 @@ use App\Helpers;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\Validator;
 
 class NotificationController extends Controller
 {
@@ -19,15 +20,23 @@ class NotificationController extends Controller
   {
     $response['success'] = false;
     try {
+      $validator = Validator::make($request->all(), [
+        'action' => 'required',
+        'subscription.endpoint' => 'required',
+        'subscription.keys.p256dh' => 'required|size:87',
+        'subscription.keys.auth' => 'required|size:22',
+        'token' => 'required|min:20'
+      ]);
+
+      if ($validator->fails()) {
+        throw new Exception($validator->errors()->all()[0], 400);
+      }
+
       $p256dh = $request->input('subscription.keys.p256dh');
       $auth = $request->input('subscription.keys.auth');
       $endpoint = $request->input('subscription.endpoint');
       $token = $request->input('token');
       $action = $request->input('action');
-
-      if (empty($action) || empty($endpoint) || strlen($p256dh) < 87 || strlen($p256dh) > 88 || strlen($auth) < 22 || strlen($auth) > 24 || strlen($token) < 20) {
-        throw new Exception('Dados obrigatórios não foram recebidos!');
-      }
 
       $recaptcha = new Helpers\RecaptchaHelper($request, $token);
 
@@ -98,12 +107,17 @@ class NotificationController extends Controller
         throw new Exception('Acesso Negado', 403);
       }
 
+      $validator = Validator::make($request->all(), [
+        'valor' => 'required|numeric',
+        'comissao' => 'required|numeric'
+      ]);
+
+      if ($validator->fails()) {
+        throw new Exception($validator->errors()->all()[0], 400);
+      }
+
       $valor = $request->input('valor');
       $comissao = $request->input('comissao');
-
-      if (empty($valor) || empty($comissao)) {
-        throw new Exception('Parâmetros vazios', 400);
-      }
       $payload = ['msg' => 'Sua venda foi de R$ ' . number_format(floatval($valor), 2, ',', '.') . ', sua comissão será de R$ ' . number_format(floatval($comissao), 2, ',', '.'), 'title' => 'Você fez uma nova venda!', 'link' => '/'];
       $notify = new Helpers\NotificationHelper;
       $result['success'] = $notify->sendOneNotification([], $payload);
