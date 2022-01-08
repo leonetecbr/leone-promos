@@ -209,7 +209,24 @@ function paginateSearch(href, token) {
   $('#pesquisar').trigger('submit')
 }
 
-function sendForm(id, token){
+function sendForm(id, token, onSuccess){
+  if(onSuccess === undefined) {
+    onSuccess = (data) => {
+      if (typeof data.success === undefined) {
+        $(errorId).html('<p class="alert alert-danger">Erro desconhecido :(</p>')
+        $(errorId).removeClass('d-none')
+      } else if (typeof data.message !== undefined) {
+        if (!data.success) {
+          $(errorId).html('<p class="alert alert-danger">' + data.message + '</p>')
+          $(errorId).removeClass('d-none')
+        } else {
+          $(errorId).html('<div class="alert alert-success">' + data.message + '</div>')
+          $(errorId).removeClass('d-none')
+        }
+      }
+    }
+  }
+
   let valores = new Object()
   for (let valor of $(`#${id}`).serializeArray()) {
     valores[valor.name] = valor.value
@@ -225,24 +242,12 @@ function sendForm(id, token){
   $(errorId).addClass('d-none')
   $.ajax({
     url: $(`#${id}`).attr('action'),
-      data: JSON.stringify(valores),
-      dataType: 'json',
-      contentType: 'application/json',
-      type: 'POST'
-    }).done(function (data) {
-    if (typeof data.success === undefined) {
-      $(errorId).html('<p class="alert alert-danger">Erro desconhecido :(</p>')
-      $(errorId).removeClass('d-none')
-    } else if (typeof data.message !== undefined){
-      if (!data.success) {
-        $(errorId).html('<p class="alert alert-danger">' + data.message + '</p>')
-        $(errorId).removeClass('d-none')
-      } else {
-        $(errorId).html('<div class="alert alert-success">' + data.message + '</div>')
-        $(errorId).removeClass('d-none')
-      }
-    }
+    data: JSON.stringify(valores),
+    dataType: 'json',
+    contentType: 'application/json',
+    type: 'POST'
   })
+  .done(onSuccess)
   .fail(() => {
     $(errorId).html('<p class="alert alert-danger">Não foi possível enviar os dados, tente novamente!</p>')
     $(errorId).removeClass('d-none')

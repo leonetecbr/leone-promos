@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Helpers;
 use App\Models\Promo;
 use App\Models\Page;
+use App\Models\Notification;
 
 class TopPromosController extends Controller
 {
@@ -103,11 +104,123 @@ class TopPromosController extends Controller
     $p->vezes = $request->input('installment_quantity');
 
     if ($p->save()) {
-      return redirect()->route('promos.list');
+      if ($request->filled('notify')){
+        $payload = [
+          'title' => $p->title,
+          'link' => '/#promo-0-1-0'
+        ];
+
+        if($p->de){
+          $payload['msg'] = 'De: R$'. number_format($p->de, 2, ',', '.') . "\nPor apenas ". number_format($p->por, 2, ',', '.') .'!';
+        }else{
+          $payload['msg'] = 'Por apenas ' . number_format($p->por, 2, ',', '.') . '!';
+        }
+
+        if($p->imagem){
+          $payload['img'] = $p->imagem;
+        }
+
+        $success = $this->sendNotification($request, $payload);
+      } else{
+        $success = true;
+      }
+      if ($success){
+        return redirect()->route('promos.list');
+      } else{
+        return redirect()->route('promos.list')->withErrors([
+          'notify' => ['Erro ao enviar a notificação para um ou mais destinatários!']
+        ]);
+      }
     } else {
       return redirect()->route('promos.list')->withErrors([
         'store_id' => ['Erro ao salvar, provável erro no store_id!']
       ]);
     }
+  }
+
+  private function sendNotification(Request $request, array $payload): bool{
+    $todos = $request->input('para', false);
+
+    $notification = new Helpers\NotificationHelper;
+
+    if (!$todos) {
+      if ($request->filled('p1')) {
+        $where = 'p1 = 1';
+      }
+      if ($request->filled('p2')) {
+        if (empty($where)) {
+          $where = 'p2 = 1';
+        } else {
+          $where .= ' or p2 = 1';
+         }
+       }
+      if ($request->filled('p3')) {
+        if (empty($where)) {
+          $where = 'p3 = 1';
+        } else {
+          $where .= ' or p3 = 1';
+        }
+      }
+      if ($request->filled('p4')) {
+        if (empty($where)) {
+          $where = 'p4 = 1';
+        } else {
+          $where .= ' or p4 = 1';
+        }
+      }
+      if ($request->filled('p5')) {
+        if (empty($where)) {
+          $where = 'p5 = 1';
+        } else {
+          $where .= ' or p5 = 1';
+        }
+      }
+      if ($request->filled('p6')) {
+        if (empty($where)) {
+          $where = 'p6 = 1';
+        } else {
+          $where .= ' or p6 = 1';
+        }
+      }
+      if ($request->filled('p7')) {
+        if (empty($where)) {
+          $where = 'p7 = 1';
+        } else {
+          $where .= ' or p7 = 1';
+        }
+      }
+      if ($request->filled('p8')) {
+        if (empty($where)) {
+          $where = 'p8 = 1';
+        } else {
+          $where .= ' or p8 = 1';
+        }
+      }
+      if ($request->filled('p9')) {
+        if (empty($where)) {
+          $where = 'p9 = 1';
+        } else {
+          $where .= ' or p9 = 1';
+        }
+      }
+      if (empty($where)) {
+        return false;
+      } else {
+        $subscriptions = Notification::whereRaw($where)->get();
+        foreach ($subscriptions as $subscription) {
+          $to[] = $subscription->toArray();
+        }
+        $success = $notification->sendManyNotifications($to, $payload);
+      }
+    } else {
+      $to = [];
+      $subscriptions = Notification::all();
+      foreach ($subscriptions as $subscription) {
+        $to[] = $subscription->toArray();
+      }
+      $success = $notification->sendManyNotifications($to, $payload);
+    }
+
+    return $success;
   }
 }
