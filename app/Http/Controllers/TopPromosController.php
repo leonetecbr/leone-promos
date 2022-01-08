@@ -106,14 +106,16 @@ class TopPromosController extends Controller
     if ($p->save()) {
       if ($request->filled('notify')){
         $payload = [
-          'title' => $p->title,
+          'title' => $p->nome,
           'link' => '/#promo-0-1-0'
         ];
 
-        if($p->de){
-          $payload['msg'] = 'De: R$'. number_format($p->de, 2, ',', '.') . "\nPor apenas ". number_format($p->por, 2, ',', '.') .'!';
+        if($p->por === 0){
+          $payload['msg'] = 'Grátis!';
+        }elseif ($p->de) {
+          $payload['msg'] = 'De: R$'. number_format($p->de, 2, ',', '.') . "\nPor apenas R$". number_format($p->por, 2, ',', '.') .'!';
         }else{
-          $payload['msg'] = 'Por apenas ' . number_format($p->por, 2, ',', '.') . '!';
+          $payload['msg'] = 'Por apenas R$' . number_format($p->por, 2, ',', '.') . '!';
         }
 
         if($p->imagem){

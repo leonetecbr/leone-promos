@@ -457,7 +457,7 @@ $(function () {
     } else{
       $('#prefers').addClass('d-none')
       $('#prefers').removeClass('d-md-flex')
-      $('.prefer').prop('checked', false)
+      $('.prefer').prop('checked', true)
     }
   })
 
