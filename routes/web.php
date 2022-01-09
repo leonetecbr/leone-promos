@@ -52,6 +52,8 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
     Route::post('/set', [Controllers\NotificationController::class, 'setPrefer'])->name('prefer.set');
   });
 
+  Route::get('/rastreio', [Controllers\RastreioController::class, 'get'])->name('rastreio');
+
   Route::get('/login', [Controllers\UserController::class, 'login'])->name('login');
 
   Route::middleware(['auth'])->group(function () {

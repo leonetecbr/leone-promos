@@ -15,15 +15,19 @@ use App\Http\Controllers;
 |
 */
 
-Route::get('/v1/{key}/postback', [Controllers\NotificationController::class, 'postback']);
+Route::prefix('v1')->group(function() {
+  Route::get('/{key}/postback', [Controllers\NotificationController::class, 'postback']);
 
-/*
-APIs reservadas para um possível app
+  Route::post('/rastreio', [Controllers\RastreioController::class, 'post']);
 
-Route::get('/v1/categoria', [Controllers\ApiController::class, 'listPromosCategorias']);
+  /*
+  APIs reservadas para um possível app
 
-Route::get('/v1/loja', [Controllers\ApiController::class, 'listPromosLojas']);
+  Route::get('/categoria', [Controllers\ApiController::class, 'listPromosCategorias']);
 
-Route::get('/v1/home', [Controllers\ApiController::class, 'listPromosHome']);
+  Route::get('/loja', [Controllers\ApiController::class, 'listPromosLojas']);
 
-Route::get('/v1/cupons', [Controllers\ApiController::class, 'listCupons']);*/
+  Route::get('/home', [Controllers\ApiController::class, 'listPromosHome']);
+
+  Route::get('/cupons', [Controllers\ApiController::class, 'listCupons']);*/
+});

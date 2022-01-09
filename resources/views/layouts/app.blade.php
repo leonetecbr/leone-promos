@@ -93,6 +93,7 @@ if(Request::filled('tag') && Request::input('utm_source')=='push_notify'){
           <li class="nav-item"><a href="{{ (Route::currentRouteName()=='lojas')?'#':route('lojas') }}" class="nav-link{{ (Route::currentRouteName()=='lojas')?' active':''; }}">Lojas</a></li>
           <li class="nav-item"><a href="{{ (Route::currentRouteName()=='categorias')?'#':route('categorias') }}" class="nav-link{{ (Route::currentRouteName()=='categorias')?' active':''; }}">Categorias</a></li>
           <li class="nav-item"><a href="{{ (Route::currentRouteName()=='notificacoes')?'#':route('notificacoes') }}" class="nav-link{{ (Route::currentRouteName()=='notificacoes')?' active':''; }}">Notificações</a></li>
+          <li class="nav-item"><a href="{{ (Route::currentRouteName()=='notificacoes')?'#':route('rastreio') }}" class="nav-link{{ (Route::currentRouteName()=='rastreio')?' active':''; }}">Rastreio</a></li>
         </ul>
         <form id="search" class="d-flex justify-content-center ajax-form col-lg-3 col-xl-4 ms-3" data-action="search" action="#" novalidate>
           <div class="me-2"><input class="form-control" type="search" placeholder="Pesquisar" minlength="3" maxlength="20" required aria-label="Pesquisar" value="{{ $query??'' }}" name="q" id="q"></div>

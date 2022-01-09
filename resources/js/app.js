@@ -1,9 +1,48 @@
+let options = {
+  hour: 'numeric', minute: 'numeric', year: 'numeric', month: '2-digit', day: '2-digit'
+}
+
 String.prototype.strstr = function (search) {
   let position = this.indexOf(search)
   if (position == -1) {
     return this
   }
   return this.substring(0, position)
+}
+
+String.prototype.capitalize = function () {
+  return this.charAt(0).toUpperCase() + this.substring(1).toLowerCase();
+}
+
+let rastreioSuccess = (data) => {
+  if (data.success){
+    let rastreio
+    let header = `<h2 class="text-center">${data.rastreio.codObjeto}</h2>\n<div class="text-center small fw-light">${data.rastreio.tipoPostal}</div>`
+    if (data.rastreio.eventos.length !== 0){
+      rastreio = '<div class="list-group eventos col-12 col-lg-9 mx-auto mt-3">'
+      let i = ' active' 
+      for (let evento of data.rastreio.eventos){
+        let data = new Intl.DateTimeFormat('pt-BR', options).format(new Date(evento.dtHrCriado))
+        if (evento.unidadeDestino && evento.unidadeDestino.endereco.length !== 0){
+          evento.descricao = evento.descricao.replace('- por favor aguarde', 'para ' + evento.unidadeDestino.tipo + ' de ' + evento.unidadeDestino.endereco.cidade.capitalize() + ' - ' + evento.unidadeDestino.endereco.uf)
+        }
+        if (!evento.detalhe && evento.unidade.endereco.length !== 0) evento.detalhe = evento.unidade.tipo + ' de ' + evento.unidade.endereco.cidade.capitalize() + ' - ' + evento.unidade.endereco.uf 
+        else if (!evento.detalhe && evento.unidade.endereco.length === 0) evento.detalhe = evento.unidade.nome
+        rastreio += `<a href="#" class="list-group-item list-group-item-action${i}"><div class="evento d-flex w-100 justify-content-between">`
+        rastreio += `<h5 class="mb-1">${evento.descricao}</h5><small>${data}</small>`
+        rastreio += `</div><p class="mb-1">${evento.detalhe}</p></a>`
+        i = ''
+      }
+      rastreio += '</div>'
+    } else{
+      rastreio = '<div class="alert alert-warning">Aguardando postagem do objeto.</div>'
+    }
+    $('#rastreamento').html(header+rastreio)
+    window.location.href = '#rastreamento'
+  } else if (data.message !== undefined){
+    $('#error-rastreio').html('<div class="alert alert-danger">' + data.message + '</div>')
+    $('#error-rastreio').removeClass('d-none')
+  }
 }
 
 function igShare(element) {
@@ -269,6 +308,8 @@ function getToken(action, id, type = 'ajax') {
         pesquisar(q, token)
       } else if (type === 'paginate') {
         paginateSearch(id, token)
+      } else if (type === 'rastreio'){
+        sendForm(id, token, rastreioSuccess)
       }
     })
   })
@@ -297,6 +338,8 @@ $(function () {
       $(this).addClass('was-validated')
       if (this.id == 'deeplink') {
         redirectUrl()
+      } else if (this.id === 'rastreio'){2
+        getToken('rastrear', this.id, 'rastreio')
       }
       $(this).removeClass('was-validated')
     }
