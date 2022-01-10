@@ -89,7 +89,7 @@ class ApiHelper
     if (empty(Page::where('id', self::$group_id)->first())) {
       $p = new Page();
       $p->id = self::$group_id;
-      $p->total = $dados['pagination']['totalSize'];
+      $p->total = $dados['pagination']['totalPage'];
       $p->save();
     }
     if ($exists) {
@@ -136,7 +136,7 @@ class ApiHelper
       $promotions['offers'][$i] = $p->toArray();
       $promotions['offers'][$i]['store'] = $lojas[$store_id];
     }
-    $promotions['totalPage'] = $dados['pagination']['totalSize'];
+    $promotions['totalPage'] = $dados['pagination']['totalPage'];
     return $promotions;
   }
 
@@ -435,7 +435,7 @@ class ApiHelper
       ];
     }
 
-    $promo['totalPage'] = $dados['pagination']['totalSize'];
+    $promo['totalPage'] = $dados['pagination']['totalPage'];
     return $promo;
   }
 }
