@@ -15,7 +15,7 @@
         <label for="name">Título: </label>
       </div>
       <div class="col-12 col-md-10 col-md-11">
-        <input type="text" value="{{ $promo['nome']??'' }}" id="name" name="name" class="form-control" required placeholder="Digite o título da promoção ..."/>
+        <input type="text" value="{{ $promo['nome']??'' }}" id="name" name="name" class="form-control" required placeholder="Digite o título da promoção ..." maxlength="50"/>
       </div>
     </div>
     <div class="row mx-auto mt-3">
