@@ -298,9 +298,14 @@ function sendForm(id, token, onSuccess){
 }
 
 function getToken(action, id, type = 'ajax') {
+  let btn = $(`#${id}-submit`)
+  let text = btn.html()
+  btn.html('Verificando ...')
+  btn.attr('disabled', true)
   grecaptcha.ready(() => {
     grecaptcha.execute(KEY_V3_RECAPTCHA, { action: action })
     .then((token) => {
+      btn.html(text)
       if (type === 'ajax') {
         sendForm(id, token)
       } else if (type === 'search') {
