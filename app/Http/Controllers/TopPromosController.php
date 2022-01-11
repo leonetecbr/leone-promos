@@ -110,7 +110,7 @@ class TopPromosController extends Controller
           'link' => '/#promo-0-1-0'
         ];
 
-        if($p->por === 0){
+        if($p->por <= 0){
           $payload['msg'] = 'Grátis!';
         }elseif ($p->de) {
           $payload['msg'] = 'De: R$'. number_format($p->de, 2, ',', '.') . "\nPor apenas R$". number_format($p->por, 2, ',', '.') .'!';
