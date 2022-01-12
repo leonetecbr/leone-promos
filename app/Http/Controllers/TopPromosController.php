@@ -107,7 +107,7 @@ class TopPromosController extends Controller
       if ($request->filled('notify')){
         $payload = [
           'title' => $p->nome,
-          'link' => '/#promo-0-1-0'
+          'link' => '/#promo-0-1-' . substr($p->id, -2)
         ];
 
         if($p->por <= 0){

@@ -113,11 +113,11 @@ function getTextCupom(element) {
 }
 
 function getUrl(element) {
-  return 'https://para.promo/' + btoa(element.replace('#promo-', 'o-'))
+  return 'https://para.promo/' + btoa(element.replace('#promo-', 'o-')).replace('=', '')
 }
 
 function getUrlCupom(element) {
-  return 'https://para.promo/' + btoa(element.replace('#cupom-', 'c-'))
+  return 'https://para.promo/' + btoa(element.replace('#cupom-', 'c-')).replace('=', '')
 }
 
 function accept() {
@@ -457,11 +457,11 @@ $(function () {
     if ($(this).scrollTop() > 90) {
       nav.addClass('fixed-top')
       nav.addClass('shadow')
-      $('body').css('padding-top', 90)
+      $('body').addClass('pt-5')
     } else {
       nav.removeClass('fixed-top')
       nav.removeClass('shadow')
-      $('body').css('padding-top', 0)
+      $('body').removeClass('pt-5')
     }
   })
 

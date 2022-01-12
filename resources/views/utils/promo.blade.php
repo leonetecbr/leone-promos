@@ -6,7 +6,7 @@
 </article>
 @elseif (is_array($promos))
 @foreach ($promos as $promo)
-<div class="promo card col-lg-3-5 col-md-5 col-sm-10 col-12 mb-5" id="promo-{{ $cat_id }}-{{ $page }}-{{ $loop->index }}">
+<div class="promo card col-lg-3-5 col-md-5 col-sm-10 col-12 mb-5" id="promo-{{ $cat_id }}-{{ $page }}-{{ substr($promo['id'], -2) }}">
   @if ($share??true)
   <div class="card-header p-2">
     @if ($cat_id === 0)

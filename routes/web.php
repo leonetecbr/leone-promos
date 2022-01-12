@@ -23,18 +23,18 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
   Route::prefix('categorias')->group(function () {
     Route::get('/', [Controllers\CategoriasController::class, 'get'])->name('categorias');
 
-    Route::get('/{categoria}/{page?}', [Controllers\CategoriasController::class, 'process'])->where('categoria', '[a-z]+')->where('page', '^[1-9]+[0-9]*$')->name('categoria');
+    Route::get('/{categoria}/{page?}', [Controllers\CategoriasController::class, 'process'])->whereAlpha('categoria')->where('page', '^[1-9]+[0-9]*$')->name('categoria');
   });
 
   Route::prefix('lojas')->group(function () {
     Route::get('/', [Controllers\LojasController::class, 'get'])->name('lojas');
 
-    Route::get('/{loja}/{page?}', [Controllers\LojasController::class, 'process'])->where('loja', '[a-z]+')->where('page', '^[1-9]+[0-9]*$')->name('loja');
+    Route::get('/{loja}/{page?}', [Controllers\LojasController::class, 'process'])->whereAlpha('loja')->where('page', '^[1-9]+[0-9]*$')->name('loja');
   });
 
   Route::get('/cupons/{page?}', [Controllers\CuponsController::class, 'get'])->where('page', '^[1-9]+[0-9]*$')->name('cupons');
 
-  Route::match(['get', 'post'], '/search/{query}/{page?}', [Controllers\SearchController::class, 'search'])->where('query', '[\w ]+')->where('page', '^[1-9]+[0-9]*$')->name('pesquisa');
+  Route::match(['get', 'post'], '/search/{query}/{page?}', [Controllers\SearchController::class, 'search'])->where(['query' => '[\w ]+', 'page' => '^[1-9]+[0-9]*$'])->name('pesquisa');
 
   Route::get('/redirect', [Controllers\RedirectController::class, 'get']);
 
@@ -69,9 +69,9 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
 
         Route::get('/new', [Controllers\TopPromosController::class, 'new'])->name('promos.new');
 
-        Route::get('/edit/{id}', [Controllers\TopPromosController::class, 'edit'])->where('id', '[0-9]+');
+        Route::get('/edit/{id}', [Controllers\TopPromosController::class, 'edit'])->whereNumber('id');
 
-        Route::get('/delete/{id}', [Controllers\TopPromosController::class, 'delete'])->where('id', '[0-9]+')->name('promos.delete');
+        Route::get('/delete/{id}', [Controllers\TopPromosController::class, 'delete'])->whereNumber('id')->name('promos.delete');
 
         Route::post('/save', [Controllers\TopPromosController::class, 'save'])->name('promos.save');
       });
@@ -137,7 +137,7 @@ Route::domain(env('SHORT_DOMAIN'))->group(function () {
 
     Route::get('/{product_id}', function ($product_id) {
       return redirect("/redirect?url=https://www.soubarato.com.br/produto/{$product_id}");
-    })->where('product_id', '[0-9]+');
+    })->whereNumber('product_id');
   });
 
   Route::prefix('americanas')->group(function () {
@@ -147,7 +147,7 @@ Route::domain(env('SHORT_DOMAIN'))->group(function () {
 
     Route::get('/{product_id}', function ($product_id) {
       return redirect("/redirect?url=https://www.americanas.com.br/produto/{$product_id}");
-    })->where('product_id', '[0-9]+');
+    })->whereNumber('product_id');
   });
 
   Route::prefix('shoptime')->group(function () {
@@ -157,7 +157,7 @@ Route::domain(env('SHORT_DOMAIN'))->group(function () {
 
     Route::get('/{product_id}', function ($product_id) {
       return redirect("/redirect?url=https://www.shoptime.com.br/produto/{$product_id}");
-    })->where('product_id', '[0-9]+');
+    })->whereNumber('product_id');
   });
 
   Route::prefix('submarino')->group(function () {
@@ -167,7 +167,7 @@ Route::domain(env('SHORT_DOMAIN'))->group(function () {
 
     Route::get('/{product_id}', function ($product_id) {
       return redirect("/redirect?url=https://www.submarino.com.br/produto/{$product_id}");
-    })->where('product_id', '[0-9]+');
+    })->whereNumber('product_id');
   });
 
   Route::prefix('aliexpress')->group(function () {
@@ -177,7 +177,7 @@ Route::domain(env('SHORT_DOMAIN'))->group(function () {
     
     Route::get('/{product_id}', function ($product_id) {
       return redirect("/redirect?url=https://pt.aliexpress.com/item/{$product_id}.html");
-    })->where('product_id', '[0-9]+');
+    })->whereNumber('product_id');
   });
 
   Route::prefix('shopee')->group(function () {
@@ -187,7 +187,7 @@ Route::domain(env('SHORT_DOMAIN'))->group(function () {
 
     Route::get('/{product_id}', function ($product_id) {
       return redirect("https://shopee.com.br/product/306527682/{$product_id}");
-    })->where('product_id', '[0-9]+');
+    })->whereNumber('product_id');
   });
 
   Route::get('/{dados}', function ($dados) {
@@ -205,5 +205,5 @@ Route::domain(env('SHORT_DOMAIN'))->group(function () {
     } else {
       return redirect(env('APP_URL'));
     }
-  })->where('dados', '^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{4})$');
+  })->whereAlphaNumeric('dados');
 });
