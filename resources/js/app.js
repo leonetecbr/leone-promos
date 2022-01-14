@@ -76,21 +76,32 @@ function igShare(element) {
   $('#ig-share').removeClass('d-none')
 }
 
+function escondeCupom(cupom){
+  cupom = String(cupom)
+  let code = cupom.substring(0, cupom.length - 2)
+  return code.replace(/./g, '*') + cupom.substring(cupom.length - 2)
+}
+
 function getText(element) {
   let desc = $(element).find('.description').html()
   let text = $(element).find('.pricing-card-title').html()
   let priceFrom = $(element).find('del').html()
   let title = $(element).find('.product-title').html()
+  let cupom = $(element).find('.code-text').val()
 
   if (text !== 'Grátis') {
-    text = `Por apenas: ${text}`
+    text = `Por apenas ${text}!`
   }
 
   if (priceFrom !== undefined) {
     text = `De: ${priceFrom}\n\n${text}`
   }
 
-  text = `${title}.\n\n${text}!`
+  if (cupom !== undefined) {
+    text += '\n\nCupom: ' + escondeCupom(cupom)
+  }
+
+  text = `${title}.\n\n${text}`
 
   if (desc !== undefined) {
     text += `\n\n${desc}`
@@ -102,10 +113,9 @@ function getText(element) {
 function getTextCupom(element) {
   let text = $(element).find('.card-title').html() + ' no(a) ' + $(element).find('.loja-image').attr('alt')
   let vigency = $(element).find('.cupom-vigency').html()
-  let cupom = String($(element).find('.code-text').val())
-  let code = cupom.substring(0, cupom.length - 2)
-
-  cupom = 'Cupom: ' + code.replace(/\w/g, '*') + cupom.substr(-2)
+  let cupom = $(element).find('.code-text').val()
+  
+  cupom = 'Cupom: ' + escondeCupom(cupom)
 
   text += `\n\n${vigency}\n\n${cupom}`
 
@@ -320,6 +330,20 @@ function getToken(action, id, type = 'ajax') {
   })
 }
 
+function getData(e){
+  let element, text, url
+  if (($(e).closest('.promo').attr('id') !== undefined)) {
+    element = '#' + $(e).closest('.promo').attr('id')
+    text = getText(element)
+    url = getUrl(element)
+  } else {
+    element = '#' + $(e).closest('.cupom').attr('id')
+    text = '\n' + getTextCupom(element)
+    url = getUrlCupom(element)
+  }
+  return {'url': url, 'text': text}
+}
+
 $(function () {
   'use-stric'
   $('.ajax-form').on('submit', function (e) {
@@ -360,16 +384,7 @@ $(function () {
   })
 
   $('.mre').on('click', function () {
-    let text, element, url
-    if (($(this).closest('.promo').attr('id') !== undefined)) {
-      element = '#' + $(this).closest('.promo').attr('id')
-      text = getText(element) + '\n'
-      url = getUrl(element)
-    } else {
-      element = '#' + $(this).closest('.cupom').attr('id')
-      text = getTextCupom(element) + '\n'
-      url = getUrlCupom(element)
-    }
+    let { text, url } = getData(this) 
 
     navigator.share({
       text: text,
@@ -378,65 +393,29 @@ $(function () {
   })
 
   $('.cpy').on('click', function() {
-    let text, element, url
-    if (($(this).closest('.promo').attr('id') !== undefined)) {
-      element = '#' + $(this).closest('.promo').attr('id')
-      text = getText(element)
-      url = getUrl(element)
-    } else {
-      element = '#' + $(this).closest('.cupom').attr('id')
-      text = getTextCupom(element)
-      url = getUrlCupom(element)
-    }
-
+    let {text, url} = getData(this)
     text += `\n\n${url}`
 
     copyText(text)
   })
 
   $('.wpp').on('click', function () {
-    let text, element, url
-    if (($(this).closest('.promo').attr('id') !== undefined)) {
-      element = '#' + $(this).closest('.promo').attr('id')
-      text = getText(element)
-      url = getUrl(element)
-    } else {
-      element = '#' + $(this).closest('.cupom').attr('id')
-      text = getTextCupom(element)
-      url = getUrlCupom(element)
-    }
-
+    let {text, url} = getData(this) 
     text += `\n\n${url}`
 
     window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text))
   })
 
   $('.tlg').on('click', function () {
-    let text, element, url
-    if (($(this).closest('.promo').attr('id') !== undefined)) {
-      element = '#' + $(this).closest('.promo').attr('id')
-      text = '\n' + getText(element)
-      url = getUrl(element)
-    } else {
-      element = '#' + $(this).closest('.cupom').attr('id')
-      text = '\n' + getTextCupom(element)
-      url = getUrlCupom(element)
-    }
+    let {text, url} = getData(this)
 
     window.open('https://telegram.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text))
   })
 
   $('.twt').on('click', function () {
-    let text, element, url
-    if (($(this).closest('.promo').attr('id') !== undefined)) {
-      element = '#' + $(this).closest('.promo').attr('id')
-      text = getText(element) + '\n\n'
-      url = getUrl(element)
-    } else {
-      element = '#' + $(this).closest('.cupom').attr('id')
-      text = getTextCupom(element) + '\n\n'
-      url = getUrlCupom(element)
-    }
+    let {text, url} = getData(this)
+    text += '\n'
+
     window.open('https://twitter.com/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text))
   })
 
