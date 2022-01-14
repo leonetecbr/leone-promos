@@ -55,7 +55,7 @@ class ApiHelper
       $c = new Cupom();
       $c->code = $cupons[$i]['code'];
       $c->link = $cupons[$i]['link'];
-      $c->desc = mb_strimwidth($cupons[$i]['description'], 0, 50, '...', 'UTF-8');
+      $c->desc = mb_strimwidth($cupons[$i]['description'], 0, 60, '...', 'UTF-8');
       $c->ate = str_replace(":59:00", ":59:59", $cupons[$i]['vigency']);
       $c->store_id = $cupons[$i]['store']['id'];
       $c->save();
@@ -122,7 +122,7 @@ class ApiHelper
       }
       $p->group_id = self::$group_id;
       $p->store_id = $store_id;
-      $p->nome = mb_strimwidth($promos[$i]['name'], 0, 50, '...', 'UTF-8');
+      $p->nome = mb_strimwidth($promos[$i]['name'], 0, 60, '...', 'UTF-8');
       $p->link = $promos[$i]['link'];
       $p->imagem = $promos[$i]['thumbnail'];
       if ($promos[$i]['discount'] > 0) {

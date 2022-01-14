@@ -91,7 +91,7 @@ class TopPromosController extends Controller
       $p->id = 9 . date('dHis');
     }
 
-    $p->nome = mb_strimwidth($dados['name'], 0, 50, '...', 'UTF-8');
+    $p->nome = mb_strimwidth($dados['name'], 0, 60, '...', 'UTF-8');
     $p->group_id = 9999;
     $p->store_id = $dados['store_id'];
     $p->link = ($request->filled('redirect') && !$request->filled('id')) ? '/redirect?url=' . $dados['link'] : $dados['link'];
@@ -112,11 +112,12 @@ class TopPromosController extends Controller
 
         if($p->por <= 0){
           $payload['msg'] = 'Grátis!';
+          $payload['msg'] .= ($p->desc) ? "\n" . mb_strimwidth($p->desc, 0, 60, '...', 'UTF-8') : '';
         }elseif ($p->de) {
           $payload['msg'] = 'De: R$'. number_format($p->de, 2, ',', '.') . "\nPor apenas R$". number_format($p->por, 2, ',', '.') .'!';
         }else{
           $payload['msg'] = 'Por apenas R$' . number_format($p->por, 2, ',', '.') . '!';
-          $payload['msg'] .= ($p->desc) ? "\n".mb_strimwidth($p->desc, 0, 50, '...', 'UTF-8') : '';
+          $payload['msg'] .= ($p->desc) ? "\n".mb_strimwidth($p->desc, 0, 60, '...', 'UTF-8') : '';
         }
 
         if($p->imagem){
