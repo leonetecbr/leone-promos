@@ -10,10 +10,6 @@ String.prototype.strstr = function (search) {
   return this.substring(0, position)
 }
 
-String.prototype.capitalize = function () {
-  return this.charAt(0).toUpperCase() + this.substring(1).toLowerCase();
-}
-
 let rastreioSuccess = (data) => {
   if (data.success){
     let rastreio
@@ -24,9 +20,15 @@ let rastreioSuccess = (data) => {
       for (let evento of data.rastreio.eventos){
         let data = new Intl.DateTimeFormat('pt-BR', options).format(new Date(evento.dtHrCriado))
         if (evento.unidadeDestino && evento.unidadeDestino.endereco.length !== 0){
-          evento.descricao = evento.descricao.replace('- por favor aguarde', 'para ' + evento.unidadeDestino.tipo + ' de ' + evento.unidadeDestino.endereco.cidade.capitalize() + ' - ' + evento.unidadeDestino.endereco.uf)
+          let text
+          if (evento.unidadeDestino.endereco.cidade !== undefined){
+            text = 'para ' + evento.unidadeDestino.tipo + ', ' + evento.unidadeDestino.endereco.cidade + ' - ' + evento.unidadeDestino.endereco.uf
+          } else{
+            text = 'para ' + evento.unidadeDestino.tipo + ', ' + evento.unidadeDestino.endereco.uf
+          }
+          evento.descricao = evento.descricao.replace('- por favor aguarde', text)
         }
-        if (!evento.detalhe && evento.unidade.endereco.length !== 0) evento.detalhe = evento.unidade.tipo + ' de ' + evento.unidade.endereco.cidade.capitalize() + ' - ' + evento.unidade.endereco.uf 
+        if (!evento.detalhe && evento.unidade.endereco.length !== 0) evento.detalhe = evento.unidade.tipo + ', ' + evento.unidade.endereco.cidade + ' - ' + evento.unidade.endereco.uf 
         else if (!evento.detalhe && evento.unidade.endereco.length === 0) evento.detalhe = evento.unidade.nome
         rastreio += `<a href="#" class="list-group-item list-group-item-action${i}"><div class="evento d-flex w-100 justify-content-between">`
         rastreio += `<h5 class="mb-1">${evento.descricao}</h5><small>${data}</small>`
