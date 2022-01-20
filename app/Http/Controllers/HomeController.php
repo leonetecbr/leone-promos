@@ -6,6 +6,10 @@ use App\Helpers\ApiHelper;
 
 class HomeController extends Controller
 {
+
+  /**
+   * Gera a página inicial
+   */
   public function __invoke()
   {
     $ofertas = ApiHelper::getPromo(9999);

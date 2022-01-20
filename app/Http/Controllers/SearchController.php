@@ -8,6 +8,14 @@ use Exception;
 
 class SearchController extends Controller
 {
+  
+  /**
+   * Faz pesquisas na API da Lomadee
+   *
+   * @param Request $request
+   * @param string $q
+   * @param integer $page
+   */
   public static function search(Request $request, string $q, int $page = 1)
   {
     try {

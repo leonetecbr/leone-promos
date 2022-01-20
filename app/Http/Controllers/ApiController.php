@@ -11,7 +11,7 @@ class ApiController extends Controller{
 
   /**
    * Lista promoções filtrando por loja
-   * @param Illuminate\Http\Request $request
+   * @param Request $request
    * @return array
    */
   public function listPromosLojas(Request $request): array{
@@ -23,7 +23,7 @@ class ApiController extends Controller{
 
   /**
    * Lista promoções selecionadas por categoria
-   * @param Illuminate\Http\Request $request
+   * @param Request $request
    * @return array
    */
   public function listPromosCategorias(Request $request): array{
@@ -35,7 +35,7 @@ class ApiController extends Controller{
   
   /**
    * Lista promoções da página inicial
-   * @param Illuminate\Http\Request $request
+   * @param Request $request
    * @return array
    */
   public function listPromosHome(): array{
@@ -44,7 +44,7 @@ class ApiController extends Controller{
 
   /**
    * Lista os cupons
-   * @param Illuminate\Http\Request $request
+   * @param Request $request
    * @return array
    */
   public function listCupons(Request $request): array{

@@ -6,6 +6,12 @@ use App\Models\SendedNotification;
 
 class SendedNotificationController extends Controller
 {
+  
+  /**
+   * Lista as notificações enviadas
+   *
+   * @param integer $page
+   */
   public function get($page = 1)
   {
     $sended_notifications = SendedNotification::orderBy('sended_at', 'DESC')->paginate(10, '*', 'page', $page);

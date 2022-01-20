@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class CuponsController extends Controller
 {
+  
+  /**
+   * Gera a página de cupons
+   *
+   * @param Request $request
+   * @param integer $page
+   */
   public static function get(Request $request, $page = 1)
   {
     $loja = $request->input('loja');

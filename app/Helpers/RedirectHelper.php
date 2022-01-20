@@ -51,10 +51,10 @@ class RedirectHelper
    *
    * @param integer $cat_id
    * @param integer $page
-   * @param integer $oferta_id
+   * @param null|integer $oferta_id
    * @return string
    */
-  public static function processPage(int $cat_id, int $page, int $oferta_id): string
+  public static function processPage(int $cat_id, int $page, ?int $oferta_id = null): string
   {
     switch ($cat_id) {
       case 77:
@@ -175,7 +175,10 @@ class RedirectHelper
     }
 
     $path .= ($page === 1) ? '' : '/' . $page;
-    $path .= '#promo-' . $cat_id . '-' . $page . '-' . $oferta_id;
+    
+    if ($oferta_id) {
+      $path .= '#promo-' . $cat_id . '-' . $page . '-' . $oferta_id;
+    }
 
     return $path;
   }

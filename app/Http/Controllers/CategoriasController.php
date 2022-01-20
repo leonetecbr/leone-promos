@@ -8,7 +8,7 @@ use Exception;
 class CategoriasController extends Controller
 {
 
-  /*
+  /**
    * Retorna a lista com as principais categorias
    */
   public static function get()
@@ -16,7 +16,7 @@ class CategoriasController extends Controller
     return view('categorias');
   }
 
-  /*
+  /**
    * Encontra o código corresponde a categoria através do nome para poder buscar os dados corretos no banco de dados
    * @param string $categoria
    * @param int $page

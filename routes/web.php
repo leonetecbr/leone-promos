@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
 use App\Helpers\RedirectHelper;
-use App\Http\Controllers\Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -190,20 +189,5 @@ Route::domain(env('SHORT_DOMAIN'))->group(function () {
     })->whereNumber('product_id');
   });
 
-  Route::get('/{dados}', function ($dados) {
-    $dados = base64_decode($dados);
-    $dados = explode('-', $dados, 4);
-    if ($dados[0] == 'c' && count($dados) === 2) {
-      $cupom_id = $dados[1];
-      $page = ceil((abs(intval($cupom_id)) + 1) / 18);
-      return redirect(env('APP_URL') . '/cupons/' . $page . '#cupom-' . $cupom_id);
-    } elseif ($dados[0] == 'o' && count($dados) === 4) {
-      $cat_id = $dados[1];
-      $page = $dados[2];
-      $oferta_id = $dados[3];
-      return redirect(env('APP_URL') . '/' . RedirectHelper::processPage(intval($cat_id), intval($page), intval($oferta_id)));
-    } else {
-      return redirect(env('APP_URL'));
-    }
-  })->whereAlphaNumeric('dados');
+  Route::get('/{dados}', [Controllers\RedirectController::class, 'shortLink'])->whereAlphaNumeric('dados');
 });

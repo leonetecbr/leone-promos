@@ -103,10 +103,18 @@ class LojasController extends Controller
     return view('promos', ['title' => $title, 'subtitle' => $subtitle ?? $title, 'promos' => $ofertas, 'cat_id' => $store ?? 0, 'page' => $page ?? 1, 'final' => $pages ?? 1, 'topo' => $topo ?? true, 'isLoja' => true, 'group_name' => $loja ?? '']);
   }
 
+  /**
+   * Gera a página para adição de uma nova loja no sistema
+   */
   public function new(){
     return view('admin.loja');
   }
 
+  /**
+   * Salva a nova loja
+   *
+   * @param Request $request
+   */
   public function save(Request $request){
     $request = $request;
 

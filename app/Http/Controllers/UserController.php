@@ -8,6 +8,10 @@ use App\Helpers;
 
 class UserController extends Controller
 {
+
+  /**
+   * Gera a página de Login
+   */
   public function login()
   {
     if (Auth::check()) {
@@ -17,6 +21,11 @@ class UserController extends Controller
     }
   }
 
+  /**
+   * Realiza a autenticação do usuário
+   *
+   * @param Request $request
+   */
   public function auth(Request $request)
   {
     $this->validate($request, [
@@ -48,6 +57,9 @@ class UserController extends Controller
     }
   }
 
+  /**
+   * Realiza o logout
+   */
   public function logout()
   {
     Auth::logout();

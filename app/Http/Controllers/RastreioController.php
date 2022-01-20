@@ -9,12 +9,22 @@ use App\Helpers\RecaptchaHelper;
 
 class RastreioController extends Controller
 {
+
+  /**
+   * Gera a página de rastreio de pedidos
+   */
   public function get()
   {
     return view('rastreio');
   }
 
-  public function post(Request $request)
+  /**
+   * Responde a solitação de rastreio com os dados do rastreamento
+   *
+   * @param Request $request
+   * @return array
+   */
+  public function post(Request $request): array
   {
     $response['success'] = false;
     try {

@@ -11,11 +11,20 @@ use Illuminate\Support\Facades\Validator;
 class NotificationController extends Controller
 {
 
+  /**
+   * Gera a página de gerenciamento de promoções
+   */
   public function get()
   {
     return view('notificacoes');
   }
 
+  /**
+   * Cadastra, atualiza e exclui credenciais para envio de notificações push
+   *
+   * @param Request $request
+   * @return array
+   */
   public function userManage(Request $request): array
   {
     $response['success'] = false;
@@ -99,6 +108,13 @@ class NotificationController extends Controller
     }
   }
 
+  /**
+   * Envia notificações quando uma venda é realizada
+   *
+   * @param Request $request
+   * @param string $key
+   * @return array
+   */
   public function postback(Request $request, string $key): array
   {
     $result['success'] = false;
@@ -130,11 +146,19 @@ class NotificationController extends Controller
     }
   }
 
+  /**
+   * Gera a página de envio de notificações
+   */
   public function getAdmin()
   {
     return view('admin.notification');
   }
 
+  /**
+   * Envia a(s) notificação(ões) para o(s) destinatário(s)
+   *
+   * @param Request $request
+   */
   public function send(Request $request)
   {
     $todos = $request->input('para', false);
@@ -255,6 +279,12 @@ class NotificationController extends Controller
     }
   }
 
+  /**
+   * Retorna as preferências de notificação do usuário
+   *
+   * @param Request $request
+   * @return array
+   */
   public static function getPrefer(Request $request): array
   {
     if ($request->filled('endpoint')) {
@@ -288,6 +318,12 @@ class NotificationController extends Controller
     }
   }
 
+  /**
+   * Define as preferências de notificação do usuário
+   *
+   * @param Request $request
+   * @return array
+   */
   public static function setPrefer(Request $request): array
   {
     if ($request->filled('endpoint')) {

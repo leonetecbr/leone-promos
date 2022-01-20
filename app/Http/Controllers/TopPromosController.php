@@ -11,6 +11,11 @@ use App\Models\Notification;
 class TopPromosController extends Controller
 {
 
+  /**
+   * Gera a página para edição de uma promoção
+   *
+   * @param integer $id
+   */
   public function edit(int $id)
   {
     $promo = Promo::where('id', $id)->first();
@@ -28,12 +33,21 @@ class TopPromosController extends Controller
     return view('admin.promo', ['title' => $title, 'promo' => $promo, 'id' => $id]);
   }
 
+
+  /**
+   * Gera a página para a criação de uma promoção
+   */
   public function new()
   {
     return view('admin.promo', ['title' => 'Nova promoção']);
   }
 
-  public function delete($id)
+  /**
+   * Deleta uma promoção
+   *
+   * @param integer $id
+   */
+  public function delete(int $id)
   {
     $promo = Promo::where('id', $id)->first();
 
@@ -48,6 +62,9 @@ class TopPromosController extends Controller
     return redirect()->route('promos.list');
   }
 
+  /**
+   * Lista as melhores promoções
+   */
   public function list()
   {
     $promos = Helpers\ApiHelper::getPromo(9999);
@@ -61,6 +78,11 @@ class TopPromosController extends Controller
     return view('promos', ['title' => 'Top Promos', 'subtitle' => 'Top Promos', 'promos' => $promos['offers'], 'cat_id' => 0, 'page' => 1, 'topo' => $topo ?? true, 'share' => false, 'add' => $botao]);
   }
 
+  /**
+   * Salva uma nova promoção ou as alterações de uma existente
+   *
+   * @param Request $request
+   */
   public function save(Request $request)
   {
     $dados = $this->validate($request, [
@@ -142,6 +164,13 @@ class TopPromosController extends Controller
     }
   }
 
+  /**
+   * Gera a payload da notificação que será enviada
+   *
+   * @param Request $request
+   * @param array $payload
+   * @return boolean
+   */
   private function sendNotification(Request $request, array $payload): bool{
     $todos = $request->input('para', false);
 

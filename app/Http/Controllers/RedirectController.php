@@ -13,6 +13,29 @@ class RedirectController
 {
 
   /**
+   * Decodifica o link curto e redireciona
+   * 
+   * @param string $dados
+   */
+  public function shortLink(string $dados)
+  {
+    $dados = base64_decode($dados);
+    $dados = explode('-', $dados, 4);
+    if ($dados[0] == 'c' && count($dados) === 2) {
+      $cupom_id = $dados[1];
+      $page = ceil((abs(intval($cupom_id)) + 1) / 18);
+      return redirect(env('APP_URL') . '/cupons/' . $page . '#cupom-' . $cupom_id);
+    } elseif ($dados[0] == 'o' && count($dados) === 4) {
+      $cat_id = $dados[1];
+      $page = $dados[2];
+      $oferta_id = $dados[3];
+      return redirect(env('APP_URL') . '/' . RedirectHelper::processPage(intval($cat_id), intval($page), intval($oferta_id)));
+    } else {
+      return redirect(env('APP_URL'));
+    }
+  }
+
+  /**
    * Procesa a URL recebida, encaminha para o método responsável e retorna o link já com parâmetros de afiliados
    * @param string $url
    * @return string
@@ -83,6 +106,9 @@ class RedirectController
     return $result;
   }
 
+  /**
+   * Gera a página de redirecionamento
+   */
   public function get()
   {
     return view('redirect');
