@@ -57,6 +57,7 @@ class RastreioController extends Controller
       $rastreamento['codObjeto'] = $rastreio['codObjeto'];
       $rastreamento['eventos'] = $rastreio['eventos'];
       $rastreamento['tipoPostal'] = $rastreio['tipoPostal']['categoria'];
+      $rastreamento['dtPrevista'] = $rastreio['dtPrevista']??'';
 
       $response['rastreio'] = $rastreamento;
       $response['success'] = true;

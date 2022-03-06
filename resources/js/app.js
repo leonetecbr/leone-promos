@@ -13,8 +13,10 @@ String.prototype.strstr = function (search) {
 let rastreioSuccess = (data) => {
   if (data.success){
     let rastreio
-    let header = `<h2 class="text-center">${data.rastreio.codObjeto}</h2>\n<div class="text-center small fw-light">${data.rastreio.tipoPostal}</div>`
+    let date = new Date(data.rastreio.dtPrevista)
+    let header = '<h2 class="text-center">' + data.rastreio.codObjeto + '</h2>'
     if (data.rastreio.eventos.length !== 0){
+      let suspend = true
       rastreio = '<div class="list-group eventos col-12 col-lg-9 mx-auto mt-3">'
       let i = ' active' 
       for (let evento of data.rastreio.eventos){
@@ -28,14 +30,22 @@ let rastreioSuccess = (data) => {
           }
           evento.descricao = evento.descricao.replace('- por favor aguarde', text)
         }
-        if (!evento.detalhe && evento.unidade.endereco.length !== 0) evento.detalhe = evento.unidade.tipo + ', ' + evento.unidade.endereco.cidade + ' - ' + evento.unidade.endereco.uf 
+        if (evento.descricao === 'Objeto encaminhado para retirada no endereço indicado' || evento.descricao === 'Objeto aguardando retirada no endereço indicado'){
+          let number = (typeof evento.unidade.endereco.numero === 'undefined') ? 'S/N' : evento.unidade.endereco.numero
+          evento.detalhe = `${evento.unidade.endereco.logradouro}, ${number} - ${evento.unidade.endereco.bairro}\n<br>\n${evento.unidade.endereco.cidade} - ${evento.unidade.endereco.uf}`
+        } else if (!evento.detalhe && evento.unidade.endereco.length !== 0) evento.detalhe = `${evento.unidade.tipo}, ${evento.unidade.endereco.cidade} - ${evento.unidade.endereco.uf}`
         else if (!evento.detalhe && evento.unidade.endereco.length === 0) evento.detalhe = evento.unidade.nome
+        if (evento.descricao === 'Objeto entregue ao destinatário' || evento.descricao === 'Objeto saiu para entrega ao destinatário') suspend = false
         rastreio += `<a href="#" class="list-group-item list-group-item-action${i}"><div class="evento d-flex w-100 justify-content-between">`
         rastreio += `<h5 class="mb-1">${evento.descricao}</h5><small>${data}</small>`
         rastreio += `</div><p class="mb-1">${evento.detalhe}</p></a>`
         i = ''
       }
       rastreio += '</div>'
+      if (suspend){
+        header += '\n<div class="text-center small fw-bolder">PREVISÂO DE ENTREGA: ' + date.toLocaleDateString() + '*</div>'
+        rastreio += '\n<div class="text-center small my-2">*A previsão de entrega é fornecida pelo Correios e em geral a entrega costuma acontecer bem antes da previsão.</div>\n<div class="mx-auto mt-3 w-75"><a href="https://rastreamento.correios.com.br/app/suspensaoEntrega/index.php?objeto=' + data.rastreio.codObjeto + '" target="_blank"><button class="btn btn-danger text-light btn-lg w-100">Suspender entrega</button></a></div>'      }
+      header += '\n<div class="text-center small fw-light">' + data.rastreio.tipoPostal + '</div>'
     } else{
       rastreio = '<div class="alert alert-warning">Aguardando postagem do objeto.</div>'
     }
