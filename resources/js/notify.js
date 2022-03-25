@@ -6,7 +6,7 @@ let sub
 function urlB64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4)
   const base64 = (base64String + padding)
-    .replace(/\-/g, '+')
+    .replace(/-/g, '+')
     .replace(/_/g, '/')
 
   const rawData = window.atob(base64)
@@ -71,8 +71,8 @@ function initializeUI() {
 
 function updateBtn() {
   if (Notification.permission === 'denied') {
-    $('#btn-notify').html('Notificações bloqueadas')
-    $('#btn-notify').attr("disabled", true)
+    btn.html('Notificações bloqueadas')
+    btn.attr("disabled", true)
     $('#notify-bloqued').removeClass('d-none')
     if (sub) {
       update('remove')

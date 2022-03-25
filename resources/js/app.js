@@ -4,7 +4,7 @@ let options = {
 
 String.prototype.strstr = function (search) {
   let position = this.indexOf(search)
-  if (position == -1) {
+  if (position === -1) {
     return this
   }
   return this.substring(0, position)
@@ -35,7 +35,7 @@ let rastreioSuccess = (data) => {
           evento.detalhe = `${evento.unidade.endereco.logradouro}, ${number} - ${evento.unidade.endereco.bairro}\n<br>\n${evento.unidade.endereco.cidade} - ${evento.unidade.endereco.uf}`
         } else if (!evento.detalhe && evento.unidade.endereco.length !== 0) evento.detalhe = `${evento.unidade.tipo}, ${evento.unidade.endereco.cidade} - ${evento.unidade.endereco.uf}`
         else if (!evento.detalhe && evento.unidade.endereco.length === 0) evento.detalhe = evento.unidade.nome
-        if (evento.descricao === 'Objeto entregue ao destinatário' || evento.descricao === 'Objeto saiu para entrega ao destinatário') suspend = false
+        if (evento.descricao === 'Objeto entregue ao destinatário' || evento.descricao === 'Objeto saiu para entrega ao destinatário' || evento.descricao === 'Distribuído ao remetente.' || evento.descricao === 'Objeto saiu para entrega ao remetente') suspend = false
         rastreio += `<a href="#" class="list-group-item list-group-item-action${i}"><div class="evento d-flex w-100 justify-content-between">`
         rastreio += `<h5 class="mb-1">${evento.descricao}</h5><small>${data}</small>`
         rastreio += `</div><p class="mb-1">${evento.detalhe}</p></a>`
@@ -52,8 +52,7 @@ let rastreioSuccess = (data) => {
     $('#rastreamento').html(header+rastreio)
     window.location.href = '#rastreamento'
   } else if (data.message !== undefined){
-    $('#error-rastreio').html('<div class="alert alert-danger">' + data.message + '</div>')
-    $('#error-rastreio').removeClass('d-none')
+    $('#error-rastreio').html('<div class="alert alert-danger">' + data.message + '</div>').removeClass('d-none')
   }
 }
 
@@ -63,8 +62,7 @@ function igShare(element) {
   let priceFrom = $(element).find('del').html()
   let code = $(element).find('.code-text').val()
   $('#product-title').html(title)
-  $('#product-image').attr('src', $(element).find('.product-image').attr('src'))
-  $('#product-image').attr('alt', title)
+  $('#product-image').attr('src', $(element).find('.product-image').attr('src')).attr('alt', title)
   if (priceFrom !== undefined) {
     $('#product-price-from').html(priceFrom)
     $('#price-from').show()
@@ -73,8 +71,7 @@ function igShare(element) {
   }
   $('#installment').html($(element).find('.installment').html())
   if (desc !== undefined) {
-    $('#product-desc').html(desc)
-    $('#product-desc').show()
+    $('#product-desc').html(desc).show()
   } else {
     $('#product-desc').hide()
   }
@@ -151,8 +148,9 @@ function copyText(text, url = false){
   navigator.clipboard.writeText(text).then(() => {
     if (url) window.open(url)
     else {
-      $('#copy-success').removeClass('d-none')
-      setTimeout(() => $('#copy-success').addClass('d-none'), 3000)
+      let success = $('#copy-success')
+      success.removeClass('d-none')
+      setTimeout(() => success.addClass('d-none'), 3000)
     }
   }, () => {
     alert('Não foi possível copiar, copie manualmente!')
@@ -167,8 +165,7 @@ function topo(){
 
 function submit() {
   let csrf = getCSRF()
-  $('#checkbox').append(csrf)
-  $('#checkbox').trigger('submit')
+  $('#checkbox').append(csrf).trigger('submit')
 }
 
 function getCSRF(){
@@ -221,12 +218,12 @@ function getPrefer(endpoint) {
           checked++
         }
       }
-      if (checked == data.pref.length) {
+      if (checked === data.pref.length) {
         $('#all').attr('checked', true)
       }
       $('#preferencias').removeClass('d-none')
     } else {
-      if (typeof data.message != undefined) {
+      if (typeof data.message !== 'undefined') {
         alert(data.message)
       } else {
         alert('Falha')
@@ -238,10 +235,11 @@ function getPrefer(endpoint) {
 }
 
 function redirectUrl() {
-  let url = $('#url').val()
+  let textbox = $('#url')
+  let url = textbox.val()
   url = url.strstr('?')
   window.open(`/redirect?url=${url}`)
-  $('#url').val('')
+  textbox.val('')
 }
 
 function pesquisar(q, token) {
@@ -288,21 +286,22 @@ function sendForm(id, token, onSuccess){
     }
   }
 
-  let valores = new Object()
-  for (let valor of $(`#${id}`).serializeArray()) {
+  let valores = {}
+  let form = $(`#${id}`)
+  for (let valor of form.serializeArray()) {
     valores[valor.name] = valor.value
   }
   valores['_token'] = CSRF
   valores['g-recaptcha-response'] = token
-  let value = $(`#${id}-submit`).html()
   let btn = $(`#${id}-submit`)
+  let value = btn.html()
   let errorId = `#error-${id}`
   btn.attr('disabled', true)
   btn.html('Aguarde ...')
-  $(`#${id}`).removeClass('was-validated')
+  form.removeClass('was-validated')
   $(errorId).addClass('d-none')
   $.ajax({
-    url: $(`#${id}`).attr('action'),
+    url: form.attr('action'),
     data: JSON.stringify(valores),
     dataType: 'json',
     contentType: 'application/json',
@@ -377,7 +376,7 @@ $(function () {
     } else {
       e.preventDefault()
       $(this).addClass('was-validated')
-      if (this.id == 'deeplink') {
+      if (this.id === 'deeplink') {
         redirectUrl()
       } else if (this.id === 'rastreio'){2
         getToken('rastrear', this.id, 'rastreio')
@@ -461,7 +460,7 @@ $(function () {
     createCookie('no_notify', 1, 60)
   })
 
-  if (window.location.pathname.indexOf('/search') == 0) {
+  if (window.location.pathname.indexOf('/search') === 0) {
     $('.page-link').on('click', function (e) {
       e.preventDefault()
       let href = $(this).attr('href')
@@ -477,11 +476,9 @@ $(function () {
 
   $("#prefers input[type='checkbox']").on('change', function () {
     if ($("#prefers input[type='checkbox']").is(':checked')) {
-      $('#para').attr('disabled', true)
-      $('#para').removeAttr('required')
+      $('#para').attr('disabled', true).removeAttr('required')
     } else {
-      $('#para').attr('disabled', false)
-      $('#para').attr('required')
+      $('#para').attr('disabled', false).attr('required')
     }
   })
 
@@ -491,11 +488,9 @@ $(function () {
 
   $('#notificacao').on('change', function () {
     if ($(this).is(':checked')){
-      $('#prefers').removeClass('d-none')
-      $('#prefers').addClass('d-md-flex')
+      $('#prefers').removeClass('d-none').addClass('d-md-flex')
     } else{
-      $('#prefers').addClass('d-none')
-      $('#prefers').removeClass('d-md-flex')
+      $('#prefers').addClass('d-none').removeClass('d-md-flex')
       $('.prefer').prop('checked', true)
     }
   })

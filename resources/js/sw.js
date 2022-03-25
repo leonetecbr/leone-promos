@@ -68,7 +68,7 @@ self.addEventListener('notificationclick', (event) => {
   }).then((clientList) => {
     for (let i = 0; i < clientList.length; i++) {
       let client = clientList[i]
-      if (client.url == event.notification.data.url && 'focus' in client)
+      if (client.url === event.notification.data.url && 'focus' in client)
         return client.focus()
     }
     if (clients.openWindow)
