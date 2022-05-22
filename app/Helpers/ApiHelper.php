@@ -234,8 +234,8 @@ class ApiHelper
    * Pega os cupons da api do Awin em CVS e converte para array
    * @return array
    */
-  private static function getAwin(): array
-  {
+  private static function getAwin(): array{
+    $cupom = [];
     $dado = CsvHelper::readCSV($_ENV['API_URL_CSV_AWIN']);
     $a = 0;
     for ($i = 0; !empty($dado[$i][1]); $i++) {
