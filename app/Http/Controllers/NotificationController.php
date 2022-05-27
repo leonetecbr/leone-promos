@@ -4,365 +4,318 @@ namespace App\Http\Controllers;
 
 use App\Helpers;
 use App\Models\Notification;
+use ErrorException;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class NotificationController extends Controller
 {
 
-  /**
-   * Gera a página de gerenciamento de promoções
-   */
-  public function get()
-  {
-    return view('notificacoes');
-  }
+	/**
+	 * Gera a página de gerenciamento de promoções
+     * @returns View
+	 */
+	public function get(): View
+	{
+		return view('notificacoes');
+	}
 
-  /**
-   * Cadastra, atualiza e exclui credenciais para envio de notificações push
-   *
-   * @param Request $request
-   * @return array
-   */
-  public function userManage(Request $request): array
-  {
-    $response['success'] = false;
-    try {
-      $validator = Validator::make($request->all(), [
-        'action' => 'required',
-        'subscription.endpoint' => 'required',
-        'subscription.keys.p256dh' => 'required|size:87',
-        'subscription.keys.auth' => 'required|size:22',
-        'token' => 'required|min:20'
-      ]);
+	/**
+	 * Cadastra, atualiza e exclui credenciais para envio de notificações push
+	 * @param Request $request
+	 * @return array
+	 */
+	public function userManage(Request $request): array
+	{
+		$response['success'] = false;
+		try {
+			$validator = Validator::make($request->all(), [
+				'action' => 'required',
+				'subscription.endpoint' => 'required',
+				'subscription.keys.p256dh' => 'required|size:87',
+				'subscription.keys.auth' => 'required|size:22',
+				'token' => 'required|min:20'
+			]);
 
-      if ($validator->fails()) {
-        throw new Exception($validator->errors()->all()[0], 400);
-      }
+			if ($validator->fails()) {
+				throw new Exception($validator->errors()->all()[0], 400);
+			}
 
-      $p256dh = $request->input('subscription.keys.p256dh');
-      $auth = $request->input('subscription.keys.auth');
-      $endpoint = $request->input('subscription.endpoint');
-      $token = $request->input('token');
-      $action = $request->input('action');
+			$p256dh = $request->input('subscription.keys.p256dh');
+			$auth = $request->input('subscription.keys.auth');
+			$endpoint = $request->input('subscription.endpoint');
+			$token = $request->input('token');
+			$action = $request->input('action');
 
-      $recaptcha = new Helpers\RecaptchaHelper($request, $token);
+			$recaptcha = new Helpers\RecaptchaHelper($request, $token);
 
-      if ($recaptcha->isOrNot()) {
-        throw new Exception('Talvez você seja um robô, tente novamente mais tarde!');
-      }
+			if ($recaptcha->isOrNot()) {
+				throw new Exception('Talvez você seja um robô, tente novamente mais tarde!');
+			}
 
-      if ($action === 'update') {
-        if (empty(Notification::where('endpoint', $endpoint)->first())){
-          $notify = new Helpers\NotificationHelper;
+			if ($action === 'update') {
+				if (empty(Notification::where('endpoint', $endpoint)->first())) {
+					$notify = new Helpers\NotificationHelper;
 
-          $notification = new Notification;
-          $notification->auth = $auth;
-          $notification->p256dh = $p256dh;
-          $notification->endpoint = $endpoint;
-          $sucess = $notify->sendOneNotification(['auth' => $auth, 'p256dh' => $p256dh, 'endpoint' => $endpoint], [
-            'title' => 'Vai uma promoção ai?',
-            'msg' => 'Que tal vim conferir as nossas melhores promoções? Vem aproveitar!',
-            'link' => '/'
-          ]);
-          if (!$sucess) {
-            throw new Exception('Não foi possível enviar a notificação de confirmação!');
-          }
-          $notification->save();
-          $response['success'] = true;
-        } else {
-          $response['success'] = true;
-        }
-      } elseif ($action === 'remove') {
-        Notification::where('endpoint', $endpoint)->delete();
-        $response['success'] = true;
-      } elseif ($action === 'add') {
-        if (empty(Notification::where('endpoint', $endpoint)->first())) {
-          $notify = new Helpers\NotificationHelper;
+					$notification = new Notification;
+					$notification->auth = $auth;
+					$notification->p256dh = $p256dh;
+					$notification->endpoint = $endpoint;
+					$success = $notify->sendOneNotification(['auth' => $auth, 'p256dh' => $p256dh, 'endpoint' => $endpoint], [
+						'title' => 'Vai uma promoção ai?',
+						'msg' => 'Que tal vim conferir as nossas melhores promoções? Vem aproveitar!',
+						'link' => '/'
+					]);
+					if (!$success) {
+						throw new Exception('Não foi possível enviar a notificação de confirmação!');
+					}
+					$notification->save();
+                }
+                $response['success'] = true;
+            } elseif ($action === 'remove') {
+				Notification::where('endpoint', $endpoint)->delete();
+				$response['success'] = true;
+			} elseif ($action === 'add') {
+				if (empty(Notification::where('endpoint', $endpoint)->first())) {
+					$notify = new Helpers\NotificationHelper;
 
-          $notification = new Notification;
-          $notification->auth = $auth;
-          $notification->p256dh = $p256dh;
-          $notification->endpoint = $endpoint;
-          $sucess = $notify->sendOneNotification(['auth' => $auth, 'p256dh' => $p256dh, 'endpoint' => $endpoint]);
-          if (!$sucess) {
-            throw new Exception('Não foi possível enviar a notificação de confirmação!');
-          }
-          $notification->save();
-          $response['success'] = true;
-        } else {
-          throw new Exception('Tente novamente!');
-        }
-      } else {
-        throw new Exception('Ação desconhecida!');
-      }
-    } catch (Exception $e) {
-      $response['success'] = false;
-      $erro = $e->getMessage();
-      if (!empty($erro)) {
-        $response['erro'] = $erro;
-      }
-    } finally {
-      return $response;
-    }
-  }
+					$notification = new Notification;
+					$notification->auth = $auth;
+					$notification->p256dh = $p256dh;
+					$notification->endpoint = $endpoint;
+					$success = $notify->sendOneNotification(['auth' => $auth, 'p256dh' => $p256dh, 'endpoint' => $endpoint]);
+					if (!$success) {
+						throw new Exception('Não foi possível enviar a notificação de confirmação!');
+					}
+					$notification->save();
+					$response['success'] = true;
+				} else {
+					throw new Exception('Tente novamente!');
+				}
+			} else {
+				throw new Exception('Ação desconhecida!');
+			}
+		} catch (Exception $e) {
+			$response['success'] = false;
+			$erro = $e->getMessage();
+			if (!empty($erro)) {
+				$response['erro'] = $erro;
+			}
+		} finally {
+			return $response;
+		}
+	}
 
-  /**
-   * Envia notificações quando uma venda é realizada
-   *
-   * @param Request $request
-   * @param string $key
-   * @return array
-   */
-  public function postback(Request $request, string $key): array
-  {
-    $result['success'] = false;
-    try {
-      if ($key !== env('KEY_POSTBACK')) {
-        throw new Exception('Acesso Negado', 403);
-      }
+	/**
+	 * Envia notificações quando uma venda é realizada
+	 * @param Request $request
+	 * @param string $key
+	 * @return array
+	 */
+	public function postback(Request $request, string $key): array
+	{
+		$result['success'] = false;
+		try {
+			if ($key !== env('KEY_POSTBACK')) {
+				throw new Exception('Acesso Negado', 403);
+			}
 
-      $validator = Validator::make($request->all(), [
-        'valor' => 'required|numeric',
-        'comissao' => 'required|numeric'
-      ]);
+			$validator = Validator::make($request->all(), [
+				'valor' => 'required|numeric',
+				'comissao' => 'required|numeric'
+			]);
 
-      if ($validator->fails()) {
-        throw new Exception($validator->errors()->all()[0], 400);
-      }
+			if ($validator->fails()) {
+				throw new Exception($validator->errors()->all()[0], 400);
+			}
 
-      $valor = $request->input('valor');
-      $comissao = $request->input('comissao');
-      $payload = ['msg' => 'Sua venda foi de R$ ' . number_format(floatval($valor), 2, ',', '.') . ', sua comissão será de R$ ' . number_format(floatval($comissao), 2, ',', '.'), 'title' => 'Você fez uma nova venda!', 'link' => '/'];
-      $notify = new Helpers\NotificationHelper;
-      $result['success'] = $notify->sendOneNotification([], $payload);
-      $result['code'] = 200;
-    } catch (Exception $e) {
-      $result['message'] = $e->getMessage();
-      $result['code'] = $e->getCode();
-    } finally {
-      return $result;
-    }
-  }
+			$valor = $request->input('valor');
+			$comissao = $request->input('comissao');
+			$payload = ['msg' => 'Sua venda foi de R$ ' . number_format(floatval($valor), 2, ',', '.') . ', sua comissão será de R$ ' . number_format(floatval($comissao), 2, ',', '.'), 'title' => 'Você fez uma nova venda!', 'link' => '/'];
+			$notify = new Helpers\NotificationHelper;
+			$result['success'] = $notify->sendOneNotification([], $payload);
+			$result['code'] = 200;
+		} catch (Exception $e) {
+			$result['message'] = $e->getMessage();
+			$result['code'] = $e->getCode();
+		} finally {
+			return $result;
+		}
+	}
 
-  /**
-   * Gera a página de envio de notificações
-   */
-  public function getAdmin()
-  {
-    return view('admin.notification');
-  }
+	/**
+	 * Gera a página de envio de notificações
+     * @returns View
+	 */
+	public function getAdmin(): View
+	{
+		return view('admin.notification');
+	}
 
-  /**
-   * Envia a(s) notificação(ões) para o(s) destinatário(s)
-   *
-   * @param Request $request
-   */
-  public function send(Request $request)
-  {
-    $todos = $request->input('para', false);
+    /**
+     * Envia a(s) notificação(ões) para o(s) destinatário(s)
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ErrorException
+     * @throws ValidationException
+     */
+	public function send(Request $request): RedirectResponse
+	{
+		$todos = $request->input('para', false);
 
-    $dados = $this->validate($request, [
-      'title' => 'required',
-      'link' => 'required', 
-      'content' => 'required'
-    ]);
+		$dados = $this->validate($request, [
+			'title' => 'required',
+			'link' => 'required',
+			'content' => 'required'
+		]);
 
-    $payload = [
-      'msg' => $dados['content'],
-      'title' => $dados['title'],
-      'link' => $dados['link']
-    ];
+		$payload = [
+			'msg' => $dados['content'],
+			'title' => $dados['title'],
+			'link' => $dados['link']
+		];
 
-    if (($request->filled('image'))) {
-      $payload['img'] = $request->input('image');
-    }
+		if (($request->filled('image'))) {
+			$payload['img'] = $request->input('image');
+		}
 
-    $notification = new Helpers\NotificationHelper;
+		$notification = new Helpers\NotificationHelper;
 
-    if (!$todos) {
-      if ($request->filled('para2')) {
-        $dados = $this->validate($request, [
-          'para2' => 'required|integer'
-        ], ['para2.required' => 'Digite o id que receberá a notificação!', 'para2.integer' => 'O id precisa ser um número!',]);
-        $id = $dados['para2'];
-        $subscription = Notification::where('id', $id);
-        if (!$subscription->exists()) {
-          return redirect()->back()->withErrors(['para2' => ['Destinátario não encontrado!']]);
-        }
-        $to = $subscription->first()->toArray();
-        $success = $notification->sendOneNotification($to, $payload);
-      } else {
-        if ($request->filled('p1')) {
-          $where = 'p1 = 1';
-        }
-        if ($request->filled('p2')) {
-          if (empty($where)) {
-            $where = 'p2 = 1';
-          } else {
-            $where .= ' or p2 = 1';
-          }
-        }
-        if ($request->filled('p3')) {
-          if (empty($where)) {
-            $where = 'p3 = 1';
-          } else {
-            $where .= ' or p3 = 1';
-          }
-        }
-        if ($request->filled('p4')) {
-          if (empty($where)) {
-            $where = 'p4 = 1';
-          } else {
-            $where .= ' or p4 = 1';
-          }
-        }
-        if ($request->filled('p5')) {
-          if (empty($where)) {
-            $where = 'p5 = 1';
-          } else {
-            $where .= ' or p5 = 1';
-          }
-        }
-        if ($request->filled('p6')) {
-          if (empty($where)) {
-            $where = 'p6 = 1';
-          } else {
-            $where .= ' or p6 = 1';
-          }
-        }
-        if ($request->filled('p7')) {
-          if (empty($where)) {
-            $where = 'p7 = 1';
-          } else {
-            $where .= ' or p7 = 1';
-          }
-        }
-        if ($request->filled('p8')) {
-          if (empty($where)) {
-            $where = 'p8 = 1';
-          } else {
-            $where .= ' or p8 = 1';
-          }
-        }
-        if ($request->filled('p9')) {
-          if (empty($where)) {
-            $where = 'p9 = 1';
-          } else {
-            $where .= ' or p9 = 1';
-          }
-        }
-        if (empty($where)) {
-          return redirect()->back()->withErrors(['prefer' => ['Preferência não informada!']]);
-        } else {
-          $subscriptions = Notification::whereRaw($where)->get();
-          foreach ($subscriptions as $subscription) {
-            $to[] = $subscription->toArray();
-          }
-          $success = $notification->sendManyNotifications($to, $payload);
-        }
-      }
-    } else {
-      $to = [];
-      $subscriptions = Notification::all();
-      foreach ($subscriptions as $subscription) {
-        $to[] = $subscription->toArray();
-      }
-      $success = $notification->sendManyNotifications($to, $payload);
-    }
+		if (!$todos) {
+			if ($request->filled('para2')) {
+				$dados = $this->validate($request, [
+					'para2' => 'required|integer'
+				], ['para2.required' => 'Digite o id que receberá a notificação!', 'para2.integer' => 'O id precisa ser um número!',]);
+				$id = $dados['para2'];
+				$subscription = Notification::where('id', $id);
+				if (!$subscription->exists()) {
+					return redirect()->back()->withErrors(['para2' => ['Destinatário não encontrado!']]);
+				}
+				$to = $subscription->first()->toArray();
+				$success = $notification->sendOneNotification($to, $payload);
+			} else {
+                for ($i = 1; $i <= 9; $i++){
+                    if ($request->filled('p'.$i)) {
+                        if (empty($where)) {
+                            $where = 'p'.$i.' = 1';
+                        } else {
+                            $where .= ' or p'.$i.' = 1';
+                        }
+                    }
+                }
 
-    if (!$success) {
-      return redirect()->back()->withErrors(['para2' => ['Não foi possível enviar a mensagem para 1 ou mais destinatários!']]);
-    } else {
-      return redirect()->back()->with(['sender' => 'Notificação enviada com sucesso a todos os destinatários!']);
-    }
-  }
+				if (empty($where)) {
+					return redirect()->back()->withErrors(['prefer' => ['Preferência não informada!']]);
+				} else {
+					$subscriptions = Notification::whereRaw($where)->get();
+					foreach ($subscriptions as $subscription) {
+						$to[] = $subscription->toArray();
+					}
+					$success = $notification->sendManyNotifications($to, $payload);
+				}
+			}
+		} else {
+			$to = [];
+			$subscriptions = Notification::all();
+			foreach ($subscriptions as $subscription) {
+				$to[] = $subscription->toArray();
+			}
+			$success = $notification->sendManyNotifications($to, $payload);
+		}
 
-  /**
-   * Retorna as preferências de notificação do usuário
-   *
-   * @param Request $request
-   * @return array
-   */
-  public static function getPrefer(Request $request): array
-  {
-    if ($request->filled('endpoint')) {
-      $endpoint = $request->input('endpoint');
-      $prefer = Notification::where('endpoint', $endpoint)->first();
-      
-      if (empty($prefer)) {
-        return ['success' => false, 'message' => 'Usuário não encontrado! Desative as notificações, ative e tente novamente.'];
-      }
+		if (!$success) {
+			return redirect()->back()->withErrors(['para2' => ['Não foi possível enviar a mensagem para 1 ou mais destinatários!']]);
+		} else {
+			return redirect()->back()->with(['sender' => 'Notificação enviada com sucesso a todos os destinatários!']);
+		}
+	}
 
-      $prefer = $prefer->toArray();
+	/**
+	 * Retorna as preferências de notificação do usuário
+	 * @param Request $request
+	 * @return array
+	 */
+	public static function getPrefer(Request $request): array
+	{
+		if ($request->filled('endpoint')) {
+			$endpoint = $request->input('endpoint');
+			$prefer = Notification::where('endpoint', $endpoint)->first();
 
-      $pref = [
-        $prefer['p1'],
-        $prefer['p2'],
-        $prefer['p3'],
-        $prefer['p4'],
-        $prefer['p5'],
-        $prefer['p6'],
-        $prefer['p7'],
-        $prefer['p8'],
-        $prefer['p9']
-      ];
+			if (empty($prefer)) {
+				return ['success' => false, 'message' => 'Usuário não encontrado! Desative as notificações, ative e tente novamente.'];
+			}
 
-      return [
-        'success' => true,
-        'pref' => $pref
-      ];
-    } else {
-      return ['success' => false, 'message' => 'Endpoint dousuário não informado!'];
-    }
-  }
+			$prefer = $prefer->toArray();
 
-  /**
-   * Define as preferências de notificação do usuário
-   *
-   * @param Request $request
-   * @return array
-   */
-  public static function setPrefer(Request $request): array
-  {
-    if ($request->filled('endpoint')) {
-      $endpoint = $request->input('endpoint');
-      $token = $request->input('g-recaptcha-response');
+			$pref = [
+				$prefer['p1'],
+				$prefer['p2'],
+				$prefer['p3'],
+				$prefer['p4'],
+				$prefer['p5'],
+				$prefer['p6'],
+				$prefer['p7'],
+				$prefer['p8'],
+				$prefer['p9']
+			];
 
-      if (empty($token)) {
-        return ['success' => false, 'message' => 'Talvez você seja um robô!'];
-      }
+			return [
+				'success' => true,
+				'pref' => $pref
+			];
+		} else {
+			return ['success' => false, 'message' => 'Endpoint dousuário não informado!'];
+		}
+	}
 
-      $recaptcha = new Helpers\RecaptchaHelper($request, $token);
+	/**
+	 * Define as preferências de notificação do usuário
+	 * @param Request $request
+	 * @return array
+	 */
+	public static function setPrefer(Request $request): array
+	{
+		if ($request->filled('endpoint')) {
+			$endpoint = $request->input('endpoint');
+			$token = $request->input('g-recaptcha-response');
 
-      if ($recaptcha->isOrNot()) {
-        return ['success' => false, 'message' => 'Talvez você seja um robô! :)'];
-      }
+			if (empty($token)) {
+				return ['success' => false, 'message' => 'Talvez você seja um robô!'];
+			}
 
-      $prefer = Notification::where('endpoint', $endpoint)->first();
+			$recaptcha = new Helpers\RecaptchaHelper($request, $token);
 
-      if (empty($prefer)) {
-        return ['success' => false, 'message' => 'Usuário não encontrado! Desative as notificações, ative e tente novamente.'];
-      }
+			if ($recaptcha->isOrNot()) {
+				return ['success' => false, 'message' => 'Talvez você seja um robô! :)'];
+			}
 
-      $prefer->p1 = $request->filled('p1');
-      $prefer->p2 = $request->filled('p2');
-      $prefer->p3 = $request->filled('p3');
-      $prefer->p4 = $request->filled('p4');
-      $prefer->p5 = $request->filled('p5');
-      $prefer->p6 = $request->filled('p6');
-      $prefer->p7 = $request->filled('p7');
-      $prefer->p8 = $request->filled('p8');
-      $prefer->p9 = $request->filled('p9');
+			$prefer = Notification::where('endpoint', $endpoint)->first();
 
-      $prefer->save();
+			if (empty($prefer)) {
+				return ['success' => false, 'message' => 'Usuário não encontrado! Desative as notificações, ative e tente novamente.'];
+			}
 
-      return [
-        'success' => true, 'message' => 'Preferências salvas com sucesso!'
-      ];
-    } else {
-      return ['success' => false, 'message' => 'Endpoint dousuário não informado!'];
-    }
-  }
+			$prefer->p1 = $request->filled('p1');
+			$prefer->p2 = $request->filled('p2');
+			$prefer->p3 = $request->filled('p3');
+			$prefer->p4 = $request->filled('p4');
+			$prefer->p5 = $request->filled('p5');
+			$prefer->p6 = $request->filled('p6');
+			$prefer->p7 = $request->filled('p7');
+			$prefer->p8 = $request->filled('p8');
+			$prefer->p9 = $request->filled('p9');
+
+			$prefer->save();
+
+			return [
+				'success' => true, 'message' => 'Preferências salvas com sucesso!'
+			];
+		} else {
+			return ['success' => false, 'message' => 'Endpoint do usuário não informado!'];
+		}
+	}
 }

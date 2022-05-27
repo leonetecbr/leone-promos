@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\SendedNotification;
+use Illuminate\Contracts\View\View;
 
 class SendedNotificationController extends Controller
 {
-  
-  /**
-   * Lista as notificações enviadas
-   *
-   * @param integer $page
-   */
-  public function get($page = 1)
-  {
-    $sended_notifications = SendedNotification::orderBy('sended_at', 'DESC')->paginate(10, '*', 'page', $page);
-    $notifications = $sended_notifications->items();
-    return view('admin.sended_notifications', ['notifications' => $notifications, 'final' => $sended_notifications->lastPage(), 'page' => $page, 'group_name' => 1]);
-  }
+
+    /**
+     * Lista as notificações enviadas
+     * @param integer $page
+     * @return View
+     */
+    public function get(int $page = 1): View
+    {
+        $sended_notifications = SendedNotification::orderBy('sended_at', 'DESC')->paginate(10, '*', 'page', $page);
+        $notifications = $sended_notifications->items();
+        return view('admin.sended_notifications', ['notifications' => $notifications, 'final' => $sended_notifications->lastPage(), 'page' => $page, 'group_name' => 1]);
+    }
 }

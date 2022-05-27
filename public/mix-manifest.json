@@ -2,6 +2,7 @@
     "/css/bootstrap.min.css": "/css/bootstrap.min.css",
     "/css/app.min.css": "/css/app.min.css",
     "/js/jquery.min.js": "/js/jquery.min.js",
+    "/js/jquery.min.map": "/js/jquery.min.map",
     "/js/bootstrap.bundle.min.js": "/js/bootstrap.bundle.min.js",
     "/js/bootstrap.bundle.min.js.map": "/js/bootstrap.bundle.min.js.map",
     "/js/app.min.js": "/js/app.min.js",
