@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Store;
 use ErrorException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -22,7 +23,7 @@ class TopPromosController extends Controller
      */
     public function edit(int $id)
     {
-        $promo = Promo::where('id', $id)->first();
+        $promo = Promo::find($id);
 
         if (empty($promo)) {
             return redirect()->route('promos.list')->withErrors([
@@ -54,7 +55,7 @@ class TopPromosController extends Controller
      */
     public function delete(int $id): RedirectResponse
     {
-        $promo = Promo::where('id', $id)->first();
+        $promo = Promo::find($id);
 
         if (empty($promo)) {
             return redirect()->route('promos.list')->withErrors([
@@ -79,16 +80,17 @@ class TopPromosController extends Controller
             $promos['offers'][$i]['store']['link'] = '/admin/promos/edit/' . $promos['offers'][$i]['id'];
         }
 
-        $botao = '<a href="' . route('promos.new') . '"><button type="submit" class="btn btn-primary text-light mb-4 mt-2 btn-lg w-75">Nova promoção</button></a>';
+        $button = '<a href="' . route('promos.new') . '"><button type="submit" class="btn btn-primary text-light mb-4 mt-2 btn-lg w-75">Nova promoção</button></a>';
 
-        return view('promos', ['title' => 'Top Promos', 'subtitle' => 'Top Promos', 'promos' => $promos['offers'], 'cat_id' => 0, 'page' => 1, 'topo' => $topo ?? true, 'share' => false, 'add' => $botao]);
+        return view('promos', ['title' => 'Top Promos', 'subtitle' => 'Top Promos', 'promos' => $promos['offers'], 'catId' => 0, 'page' => 1, 'top' => $top ?? true, 'share' => false, 'add' => $button]);
     }
 
     /**
      * Salva uma nova promoção ou as alterações de uma existente
      * @param Request $request
+     * @return RedirectResponse
+     * @throws ErrorException
      * @throws ValidationException
-     * @returns RedirectResponse
      */
     public function save(Request $request): RedirectResponse
     {
@@ -100,57 +102,63 @@ class TopPromosController extends Controller
             'store_id' => 'required'
         ]);
 
-        $pages = Page::where('id', 9999)->first();
+        if (empty(Store::find($dados['store_id']))){
+            return redirect()->back()->withErrors([
+                'store_id' => ['Loja não cadastrada!']
+            ])->withInput();
+        }
 
-        if (empty($pages)) {
-            $pages = new Page();
-            $pages->id = 9999;
-            $pages->total = 1;
-            $pages->save();
+        if (empty(Page::find(9999))) {
+            Page::create([
+                'id' => 9999,
+                'total' => 1
+            ]);
         }
 
         if ($request->filled('id')) {
-            $p = Promo::where('id', $request->input('id'))->first();
-            if (empty($p)) {
-                $p = new Promo();
-                $p->id = 9 . date('dHis');
+            $promo = Promo::firstOrNew([
+                'id' => $request->input('id')
+            ]);
+
+            if (empty($promo->name)) {
+                $promo->id = 9 . date('dHis');
             }
         } else {
-            $p = new Promo();
-            $p->id = 9 . date('dHis');
+            $promo = new Promo;
+            $promo->id = 9 . date('dHis');
         }
 
-        $p->nome = mb_strimwidth($dados['name'], 0, 60, '...', 'UTF-8');
-        $p->group_id = 9999;
-        $p->store_id = $dados['store_id'];
-        $p->link = ($request->filled('redirect') && !$request->filled('id')) ? '/redirect?url=' . $dados['link'] : $dados['link'];
-        $p->por = $dados['price'];
-        $p->imagem = $dados['thumbnail'];
-        $p->de = $request->input('priceFrom');
-        $p->code = $request->input('code');
-        $p->desc = $request->input('description');
-        $p->parcelas =  $request->input('installment_value');
-        $p->vezes = $request->input('installment_quantity');
+        $promo->name = mb_strimwidth($dados['name'], 0, 60, '...', 'UTF-8');
+        $promo->group_id = 9999;
+        $promo->store_id = $dados['store_id'];
+        $promo->link = ($request->filled('redirect') && !$request->filled('id')) ? '/redirect?url=' . $dados['link'] : $dados['link'];
+        $promo->for = $dados['price'];
+        $promo->image = $dados['thumbnail'];
+        $promo->from = $request->input('priceFrom');
+        $promo->code = $request->input('code');
+        $promo->description = $request->input('description');
+        $promo->installments =  $request->input('installment_value');
+        $promo->times = $request->input('installment_quantity');
 
-        if ($p->save()) {
+        if ($promo->save()) {
             if ($request->filled('notify')) {
                 $payload = [
-                    'title' => $p->nome,
-                    'link' => '/#promo-0-1-' . substr($p->id, -3)
+                    'title' => $promo->name,
+                    'link' => '/#promo-0-1-' . substr($promo->id, -3)
                 ];
 
-                if ($p->por <= 0) {
+                if ($promo->for <= 0) {
                     $payload['msg'] = 'Grátis!';
-                    $payload['msg'] .= ($p->desc) ? "\n" . mb_strimwidth($p->desc, 0, 60, '...', 'UTF-8') : '';
-                } elseif ($p->de) {
-                    $payload['msg'] = 'De: R$' . number_format($p->de, 2, ',', '.') . "\nPor apenas R$" . number_format($p->por, 2, ',', '.') . '!';
+                    $payload['msg'] .= ($promo->description) ? "\n" . mb_strimwidth($promo->description, 0, 60, '...', 'UTF-8') : '';
+                } elseif ($promo->from) {
+                    $payload['msg'] = 'De: R$' . number_format($promo->from, 2, ',', '.') . "\nPor apenas R$" . number_format($promo->for, 2, ',', '.') . '!';
                 } else {
-                    $payload['msg'] = 'Por apenas R$' . number_format($p->por, 2, ',', '.') . '!';
-                    $payload['msg'] .= ($p->desc) ? "\n" . mb_strimwidth($p->desc, 0, 60, '...', 'UTF-8') : '';
+                    $payload['msg'] = 'Por apenas R$' . number_format($promo->for, 2, ',', '.') . '!';
+                    $payload['msg'] .= ($promo->description) ? "\n" . mb_strimwidth($promo->description, 0, 60, '...', 'UTF-8') : '';
                 }
 
-                if ($p->imagem) {
-                    $payload['img'] = $p->imagem;
+                if ($promo->image) {
+                    $payload['img'] = $promo->image;
                 }
 
                 $success = $this->sendNotification($request, $payload);
@@ -165,9 +173,9 @@ class TopPromosController extends Controller
                 ]);
             }
         } else {
-            return redirect()->route('promos.list')->withErrors([
-                'store_id' => ['Erro ao salvar, provável erro no store_id!']
-            ]);
+            return redirect()->back()->withErrors([
+                'form' => ['Erro ao salvar!']
+            ])->withInput();
         }
     }
 

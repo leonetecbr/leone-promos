@@ -136,6 +136,9 @@ return [
         'g-recaptcha-response' => [
             'required' => 'Marque a caixa "Não sou um robô"!',
         ],
+        'query' => [
+            'required' => 'Pesquisa inválida!',
+        ],
     ],
 
     /*
@@ -159,6 +162,7 @@ return [
         'country'   => 'país',
         'date'      => 'data',
         'day'       => 'dia',
+        'image'     => 'imagem',
         'excerpt'   => 'resumo',
         'first_name' => 'primeiro nome',
         'gender'    => 'gênero',

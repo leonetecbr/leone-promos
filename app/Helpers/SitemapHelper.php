@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Page;
+use Exception;
 
 /**
  * Gera o sitemap
@@ -13,6 +14,7 @@ class SitemapHelper
     /**
      * Gera um sitemap.txt
      * @return void
+     * @throws Exception
      */
     public static function generate(): void
     {
@@ -24,10 +26,10 @@ class SitemapHelper
             route('categoria', 'smartphones'), route('categoria', 'informatica'), route('categoria', 'eletronicos'), route('categoria', 'eletrodomesticos'), route('categoria', 'pc'), route('categoria', 'bonecas'), route('categoria', 'tv'), route('categoria', 'fogao'), route('categoria', 'geladeira'), route('categoria', 'lavaroupas'), route('categoria', 'roupasm'), route('categoria', 'roupasf'), route('categoria', 'talheres'), route('categoria', 'camas'), route('categoria', 'casaedeco'), route('categoria', 'mesas')
         ];
 
-        $pages = Page::all();
+        $endPage = Page::all();
 
-        if (!empty($pages)) {
-            foreach ($pages as $page) {
+        if (!empty($endPage)) {
+            foreach ($endPage as $page) {
                 if ($page->id == 9999) {
                     continue;
                 }

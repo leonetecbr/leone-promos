@@ -9,11 +9,32 @@ use Illuminate\Http\Request;
  */
 class RecaptchaHelper
 {
-    private $response, $ip, $secret, $type;
+    /**
+     * @var string|mixed
+     */
+    private string $secret;
 
     /**
-     * Preenche as variáveis nescessárias para a verificação
-     * @param Illuminate\Http\Request $request
+     * v2 | v3
+     * @var string $type
+     */
+    public string $type;
+
+    /**
+     * @var string|null
+     */
+    private ?string $ip;
+
+    /**
+     * @var string $response
+     */
+    private string $response;
+
+    /**
+     * Preenche as variáveis necessárias para a verificação
+     * @param Request $request
+     * @param string $response
+     * @param string $type
      * @params string $response $type
      */
     public function __construct(Request $request, string $response, string $type = 'v3')

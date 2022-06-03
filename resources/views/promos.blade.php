@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('title', $title)
 <?php $target = ($share ?? true) ? '_blank' : '_self'; ?>
-@if($subtitle??false)
+@if($subtitle ?? false)
     @section('keywords', $subtitle.', promoção, menor preço, ofertas, promoções, ofertas')
-    @if($isLoja??false)
+    @if($isStore ?? false)
         @section('description', 'Aproveite as melhores ofertas da '.$subtitle.' na internet para você comprar com segurança!')
     @else
         @section('description', 'Aproveite as melhores ofertas de '.$subtitle.' em várias lojas da internet para você comprar com segurança!')
@@ -29,11 +29,11 @@
     <div id="product-code" class="mt-3 code"><input type="text" disabled="true" value="Acesse o link para obter o cupom" class="form-control text-center"></div>
     <p id="share-link" class="mt-3 fw-bolder fs-5"></p>
     </div>
-    <h1 class="display-5 text-center">{{ $subtitle??$title }}</h1>
+    <h1 class="display-5 text-center">{{ $subtitle ?? $title }}</h1>
     @include('utils.pagination')
-    @if ($add??false)
+    @if ($add ?? false)
     <div class="text-center">
-        {!! $add??'' !!}
+        {!! $add ?? '' !!}
     </div>
     @endif
     @if ($errors->any())
@@ -41,7 +41,7 @@
     <div class="alert alert-danger text-center w-75 mb-4 mx-auto">{{ $error }}</div>
         @endforeach
     @endif
-    @if ($cat_id==0 && is_array($promos) && !empty($query))
+    @if ($catId==0 && is_array($promos) && !empty($query))
     <?php
     $url = Request::url().'?';
     $price = Request::get('price');
@@ -105,12 +105,12 @@
     </div>
     @endif
     @include('utils.promo')
-    @if ($add??false)
+    @if ($add ?? false)
     <div class="text-center mt-3">
         <a href="{{ route('dashboard') }}" class="col-5"><button type="button" class="btn btn-danger w-75 btn-lg">Voltar</button></a>
     </div>
     @endif
 @endsection
 @section('headers')
-    {!! $headers??'' !!}
+    {!! $headers ?? '' !!}
 @endsection

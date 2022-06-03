@@ -8,39 +8,37 @@
         <div class="mx-auto mt-4 alert alert-warning w-75 text-center">Nenhuma notificação encontrada!</div>
     </article>
         @else
-        <div class="ntotifications d-lg-flex justify-content-around flex-wrap">
+        <div class="notifications d-lg-flex justify-content-around flex-wrap">
             @foreach($notifications as $notification)
             <div class="notification col-lg-5 border border-1 d-flex flex-column mt-4">
                 <div class="toast-header">
-                    <div class="me-auto fw-bolder">{{ $notification->titulo }}</div>
+                    <div class="me-auto fw-bolder">{{ $notification->title }}</div>
                     <div class="small">{{ $notification->sended_at }}</div>
                 </div>
                 <div class="toast-body my-auto">
                     <div class="text-center mb-2">
-                        <img src="{{ $notification->imagem??'/img/sem-imagem.jpeg' }}" class="h-200"/>
+                        <img src="{{ $notification->image ?? '/img/sem-imagem.jpeg' }}" class="h-200"/>
                     </div>
-                    {{ $notification->conteudo}}
+                    {{ $notification->content}}
                 </div>
                 <div class="toast-footer border border-bottom d-flex justify-content-between p-2 flex-wrap">
                     <div class="col-4">
-                        Para: {{ $notification->para}} usuário(s)
+                        Para: {{ $notification->to}} usuário(s)
                     </div>
                     <div class="col-4 text-center">
-                        Cliques: {{ $notification->cliques}}
+                        Cliques: {{ $notification->clicks}}
                     </div>
                     <div class="col-4 text-end">
                         <a href="{{ $notification->link}}">Link</a>
                     </div>
                     <div class="col-12 mt-3 text-center text-muted">
-                        Enviado por: {{ $notification->por}}
+                        Enviado por: {{ $notification->by}}
                     </div>
                 </div>
             </div>
             @endforeach
         </div>
-        @endif
     </article>
-    @if (!empty($notifications))
     <div class="mt-5 text-center flex-column fs-12 bolder top">
         <button class="rounded bg-primary px-3 py-2 border-0" onclick="$('html, body').animate({scrollTop : 0},800);" id="btn-top">
             <i class="fas fa-angle-double-up text-white"></i>

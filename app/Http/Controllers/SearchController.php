@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\RequestException;
 use App\Helpers;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\Validator;
 
 class SearchController extends Controller
 {
@@ -13,48 +15,60 @@ class SearchController extends Controller
     /**
      * Faz pesquisas na API da Lomadee
      * @param Request $request
-     * @param string $q
+     * @param string $query
      * @param integer $page
      * @return View
+     * @throws Exception
      */
-    public static function search(Request $request, string $q, int $page = 1): View
+    public static function search(Request $request, string $query, int $page = 1): View
     {
         try {
-            if (empty($q) || mb_strlen($q, 'UTF-8') < 3 || mb_strlen($q, 'UTF-8') > 20) {
-                throw new Exception('Pesquisa inválida!');
-            }
+            $recaptchaResponse = $request->input('g-recaptcha-response');
 
-            $g_response = $request->input('g-recaptcha-response');
-            if (empty($g_response) || strlen($g_response) < 20) {
-                throw new Exception('Não temos certeza que você não é um robô, marque a caixa de verificação abaixo para continuar com sua pesquisa:', 499);
+            $validator = Validator::make([
+                'query' => $query,
+                'g-recaptcha-response' => $recaptchaResponse
+            ], [
+                'query' => 'required|min:3|max:20',
+                'g-recaptcha-response' => 'required|min:20'
+            ]);
+
+            if ($validator->fails()) {
+                $errors = $validator->errors();
+                $code = ($errors->has('g-recaptcha-response'))?401:400;
+                throw new RequestException($errors->all()[0], $code);
             }
 
             $type = $request->input('type', 'v3');
-            $robot = new Helpers\RecaptchaHelper($request, $g_response, $type);
+            $robot = new Helpers\RecaptchaHelper($request, $recaptchaResponse, $type);
 
             $isRobot = $robot->isOrNot();
 
             if ($isRobot) {
-                throw new Exception('Não temos certeza que você não é um robô, marque a caixa de verificação abaixo para continuar com sua pesquisa:', 499);
+                throw new RequestException('Não temos certeza que você não é um robô, marque a caixa de verificação abaixo para continuar com sua pesquisa:', 401);
             }
 
-            $dado = Helpers\ApiHelper::search($request, $q, $page);
-            $ofertas = $dado['offers'];
-            $pages = $dado['totalPage'];
-            $subtitle = 'Pesquisa por "' . $q . '"';
-            $title = 'Pesquisa: "' . $q . '" - Página ' . $page . ' de ' . $pages;
-        } catch (Exception $e) {
+            $dado = Helpers\ApiHelper::search($request, $query, $page);
+            $offers = $dado['offers'];
+            $endPage = $dado['totalPage'];
+            $subtitle = 'Pesquisa por "' . $query . '"';
+            $title = 'Pesquisa: "' . $query . '" - Página ' . $page . ' de ' . $endPage;
+        } catch (RequestException $e) {
             $title = 'Erro encontrado';
-            if ($e->getCode() === 499) {
-                $ofertas = '<p class="fs-4 text-danger my-3">' . $e->getMessage() . '</p>
-        <div class="text-center mt-2"><form id="checkbox" method="post"><input type="hidden" name="type" value="v2"><div class="g-recaptcha" data-sitekey="' . $_ENV['PUBLIC_RECAPTCHA_V2'] . '" data-callback="submit"></div></form></div>';
+            if ($e->getCode() === 401) {
+                $offers = '<p class="fs-4 text-danger my-3">' . $e->getMessage() . '</p>
+        <div class="text-center mt-2">
+            <form id="checkbox" method="post"><input type="hidden" name="type" value="v2">
+                <div class="g-recaptcha" data-sitekey="' . $_ENV['PUBLIC_RECAPTCHA_V2'] . '" data-callback="submit"></div>
+            </form>
+        </div>';
                 $headers = '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
             } else {
-                $ofertas = '<p class="fs-4 text-danger mt-3">' . $e->getMessage() . '</p>';
+                $offers = '<p class="fs-4 text-danger mt-3">' . $e->getMessage() . '</p>';
             }
             $subtitle = 'Erro encontrado!';
         } finally {
-            return view('promos', ['title' => $title, 'subtitle' => $subtitle, 'promos' => $ofertas, 'final' => $pages ?? '', 'topo' => $topo ?? true, 'headers' => $headers ?? '', 'cat_id' => 0, 'page' => $page, 'query' => $q, 'robots' => 'noindex', 'isLoja' => false, 'group_name' => $q, 'share' => false]);
+            return view('promos', ['title' => $title, 'subtitle' => $subtitle, 'promos' => $offers, 'endPage' => $endPage ?? '', 'top' => $top ?? true, 'headers' => $headers ?? '', 'catId' => 0, 'page' => $page, 'query' => $query, 'robots' => 'noindex', 'isLoja' => false, 'groupName' => $query, 'share' => false]);
         }
     }
 }

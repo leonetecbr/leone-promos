@@ -1,10 +1,10 @@
-const mix = require('laravel-mix');
+const mix = require('laravel-mix')
 
 mix.webpackConfig({
     stats: {
         children: true,
     },
-});
+})
 
 mix.sass('resources/views/layouts/app.scss', 'public/css/bootstrap.min.css').sourceMaps()
     .styles('resources/css/style.css', 'public/css/app.min.css').sourceMaps()
@@ -17,4 +17,4 @@ mix.sass('resources/views/layouts/app.scss', 'public/css/bootstrap.min.css').sou
         'resources/js/notify.js'
     ], 'public/js/app.min.js').sourceMaps()
     .scripts('resources/js/sw.js', 'public/sw.js').sourceMaps()
-    .disableNotifications();
+    .disableNotifications()

@@ -2,7 +2,7 @@
 
 use App\Models\SendedNotification;
 
-$notification = SendedNotification::where('id', Request::input('tag'))->first();
+$notification = SendedNotification::find(Request::input('tag'));
 
 if (!empty($notification)) {
     $notification->cliques++;

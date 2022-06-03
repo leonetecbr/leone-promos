@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\RequestException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -12,7 +13,7 @@ class RastreioController extends Controller
 {
 
     /**
-     * Gera a página de rastreio de pedidos
+     * Gera a página de track de pedidos
      * @returns View
      */
     public function get(): View
@@ -30,39 +31,39 @@ class RastreioController extends Controller
         $response['success'] = false;
         try {
             $validator = Validator::make($request->all(), [
-                'codigo' => 'required|size:13',
+                'code' => 'required|size:13',
                 'g-recaptcha-response' => 'required|min:12'
             ]);
 
             if ($validator->fails()) {
-                throw new Exception($validator->errors()->all()[0], 400);
+                throw new RequestException($validator->errors()->all()[0], 400);
             }
 
             $token = $request->input('g-recaptcha-response');
             $recaptcha = new RecaptchaHelper($request, $token);
 
             if ($recaptcha->isOrNot()) {
-                throw new Exception('Talvez você seja um robô, tente novamente mais tarde!');
+                throw new RequestException('Talvez você seja um robô, tente novamente mais tarde!');
             }
 
-            $codigo = strtoupper($request->input('codigo'));
+            $code = strtoupper($request->input('code'));
 
-            $rastreio = json_decode(file_get_contents('https://proxyapp.correios.com.br/v1/sro-rastro/' . $codigo), true)['objetos'][0];
-            $aviso = $rastreio['mensagem'] ?? '';
+            $track = json_decode(file_get_contents('https://proxyapp.correios.com.br/v1/sro-rastro/' . $code), true)['objetos'][0];
+            $message = $track['mensagem'] ?? '';
 
-            if (!empty($aviso)) {
-                $mensagem = ltrim(explode(':', $aviso)[1]);
-                throw new Exception($mensagem, 400);
+            if (!empty($message)) {
+                $message = ltrim(explode(':', $message)[1]);
+                throw new RequestException($message, 400);
             }
 
-            $rastreamento['codObjeto'] = $rastreio['codObjeto'];
-            $rastreamento['eventos'] = $rastreio['eventos'];
-            $rastreamento['tipoPostal'] = $rastreio['tipoPostal']['categoria'];
-            $rastreamento['dtPrevista'] = $rastreio['dtPrevista'] ?? '';
+            $tracking['codObjeto'] = $track['codObjeto'];
+            $tracking['eventos'] = $track['eventos'];
+            $tracking['tipoPostal'] = $track['tipoPostal']['categoria'];
+            $tracking['dtPrevista'] = $track['dtPrevista'] ?? '';
 
-            $response['rastreio'] = $rastreamento;
+            $response['track'] = $tracking;
             $response['success'] = true;
-        } catch (Exception $e) {
+        } catch (RequestException $e) {
             $response['message'] = $e->getMessage();
             $response['code'] = $e->getCode();
         } finally {

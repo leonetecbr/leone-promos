@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\RequestException;
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Exception;
 use App\Helpers\RedirectHelper;
 
 /**
@@ -18,20 +19,21 @@ class RedirectController
      * Decodifica o link curto e redireciona
      * @param string $dados
      * @return RedirectResponse
+     * @throws Exception
      */
 	public function shortLink(string $dados): RedirectResponse
 	{
 		$dados = base64_decode($dados);
 		$dados = explode('-', $dados, 4);
 		if ($dados[0] == 'c' && count($dados) === 2) {
-			$cupom_id = $dados[1];
-			$page = ceil((abs(intval($cupom_id)) + 1) / 18);
-			return redirect(env('APP_URL') . '/cupons/' . $page . '#cupom-' . $cupom_id);
+			$couponId = $dados[1];
+			$page = ceil((abs(intval($couponId)) + 1) / 18);
+			return redirect(env('APP_URL') . '/cupons/' . $page . '#cupom-' . $couponId);
 		} elseif ($dados[0] == 'o' && count($dados) === 4) {
-			$cat_id = $dados[1];
+			$catId = $dados[1];
 			$page = $dados[2];
-			$oferta_id = $dados[3];
-			return redirect(env('APP_URL') . '/' . RedirectHelper::processPage(intval($cat_id), intval($page), intval($oferta_id)));
+			$ofertaId = $dados[3];
+			return redirect(env('APP_URL') . '/' . RedirectHelper::processPage(intval($catId), intval($page), intval($ofertaId)));
 		} else {
 			return redirect(env('APP_URL'));
 		}
@@ -46,7 +48,7 @@ class RedirectController
 	{
 		try {
 			if (empty($url) || strpos($url, 'https://') !== 0) {
-				throw new Exception;
+				throw new RequestException();
 			}
 			if (strpos($url, '?') !== false) {
 				$url = strstr($url, '?', true);
@@ -80,7 +82,7 @@ class RedirectController
 			} else {
 				$to = RedirectHelper::processLomadee($url);
 			}
-		} catch (Exception $e) {
+		} catch (RequestException $e) {
 			$to = '/';
 		} finally {
 			return $to;

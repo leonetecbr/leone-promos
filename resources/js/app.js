@@ -2,6 +2,10 @@ let options = {
     hour: 'numeric', minute: 'numeric', year: 'numeric', month: '2-digit', day: '2-digit'
 }
 
+let preferInputs = $("#prefers input[type='checkbox']")
+
+let paraInput = $('#para')
+
 String.prototype.strstr = function (search) {
     let position = this.indexOf(search)
     if (position === -1) {
@@ -10,14 +14,14 @@ String.prototype.strstr = function (search) {
     return this.substring(0, position)
 }
 
-let rastreioSuccess = (data) => {
+let trackSuccess = (data) => {
     if (data.success) {
-        let rastreio
+        let track
         let date = new Date(data.rastreio.dtPrevista)
         let header = '<h2 class="text-center">' + data.rastreio.codObjeto + '</h2>'
         if (data.rastreio.eventos.length !== 0) {
             let suspend = true
-            rastreio = '<div class="list-group eventos col-12 col-lg-9 mx-auto mt-3">'
+            track = '<div class="list-group eventos col-12 col-lg-9 mx-auto mt-3">'
             let i = ' active'
             for (let evento of data.rastreio.eventos) {
                 let data = new Intl.DateTimeFormat('pt-BR', options).format(new Date(evento.dtHrCriado))
@@ -36,24 +40,24 @@ let rastreioSuccess = (data) => {
                 } else if (!evento.detalhe && evento.unidade.endereco.length !== 0) evento.detalhe = `${evento.unidade.tipo}, ${evento.unidade.endereco.cidade} - ${evento.unidade.endereco.uf}`
                 else if (!evento.detalhe && evento.unidade.endereco.length === 0) evento.detalhe = evento.unidade.nome
                 if (evento.descricao === 'Objeto entregue ao destinatário' || evento.descricao === 'Objeto saiu para entrega ao destinatário' || evento.descricao === 'Distribuído ao remetente.' || evento.descricao === 'Objeto saiu para entrega ao remetente') suspend = false
-                rastreio += `<a href="#" class="list-group-item list-group-item-action${i}"><div class="evento d-flex w-100 justify-content-between">`
-                rastreio += `<h5 class="mb-1">${evento.descricao}</h5><small>${data}</small>`
-                rastreio += `</div><p class="mb-1">${evento.detalhe}</p></a>`
+                track += `<a href="#" class="list-group-item list-group-item-action${i}"><div class="evento d-flex w-100 justify-content-between">`
+                track += `<h5 class="mb-1">${evento.descricao}</h5><small>${data}</small>`
+                track += `</div><p class="mb-1">${evento.detalhe}</p></a>`
                 i = ''
             }
-            rastreio += '</div>'
+            track += '</div>'
             if (suspend) {
                 header += '\n<div class="text-center small fw-bolder">PREVISÂO DE ENTREGA: ' + date.toLocaleDateString() + '*</div>'
-                rastreio += '\n<div class="text-center small my-2">*A previsão de entrega é fornecida pelo Correios e em geral a entrega costuma acontecer bem antes da previsão.</div>\n<div class="mx-auto mt-3 w-75"><a href="https://rastreamento.correios.com.br/app/suspensaoEntrega/index.php?objeto=' + data.rastreio.codObjeto + '" target="_blank"><button class="btn btn-danger text-light btn-lg w-100">Suspender entrega</button></a></div>'
+                track += '\n<div class="text-center small my-2">*A previsão de entrega é fornecida pelo Correios e em geral a entrega costuma acontecer bem antes da previsão.</div>\n<div class="mx-auto mt-3 w-75"><a href="https://rastreamento.correios.com.br/app/suspensaoEntrega/index.php?objeto=' + data.rastreio.codObjeto + '" target="_blank"><button class="btn btn-danger text-light btn-lg w-100">Suspender entrega</button></a></div>'
             }
             header += '\n<div class="text-center small fw-light">' + data.rastreio.tipoPostal + '</div>'
         } else {
-            rastreio = '<div class="alert alert-warning">Aguardando postagem do objeto.</div>'
+            track = '<div class="alert alert-warning">Aguardando postagem do objeto.</div>'
         }
-        $('#rastreamento').html(header + rastreio)
+        $('#rastreamento').html(header + track)
         window.location.href = '#rastreamento'
     } else if (data.message !== undefined) {
-        $('#error-rastreio').html('<div class="alert alert-danger">' + data.message + '</div>').removeClass('d-none')
+        $('#error-track').html('<div class="alert alert-danger">' + data.message + '</div>').removeClass('d-none')
     }
 }
 
@@ -335,8 +339,8 @@ function getToken(action, id, type = 'ajax') {
                     pesquisar(q, token)
                 } else if (type === 'paginate') {
                     paginateSearch(id, token)
-                } else if (type === 'rastreio') {
-                    sendForm(id, token, rastreioSuccess)
+                } else if (type === 'track') {
+                    sendForm(id, token, trackSuccess)
                 }
             })
     })
@@ -379,9 +383,8 @@ $(function () {
             $(this).addClass('was-validated')
             if (this.id === 'deeplink') {
                 redirectUrl()
-            } else if (this.id === 'rastreio') {
-                2
-                getToken('rastrear', this.id, 'rastreio')
+            } else if (this.id === 'track') {
+                getToken('rastrear', this.id, 'track')
             }
             $(this).removeClass('was-validated')
         }
@@ -476,12 +479,13 @@ $(function () {
         })
     }
 
-    $("#prefers input[type='checkbox']").on('change', function () {
-        if ($("#prefers input[type='checkbox']").is(':checked')) {
-            $('#para').attr('disabled', true).removeAttr('required')
-        } else {
-            $('#para').attr('disabled', false).attr('required')
+    preferInputs.on('change', function () {
+        if (preferInputs.is(':checked')) {
+            if ((this.id === 'all' && $(this).is(':checked')) || this.id !== 'all') {
+                return paraInput.attr('disabled', true).removeAttr('required')
+            }
         }
+        paraInput.attr('disabled', false).attr('required')
     })
 
     $('#all').on('change', function () {

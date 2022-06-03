@@ -22,7 +22,8 @@
         "twbs/bootstrap": "5.0.2",
         "ext-mbstring": "*",
         "ext-curl": "*",
-        "ext-json": "*"
+        "ext-json": "*",
+      "ext-openssl": "*"
     },
     "support": {
         "email": "falecom@leone.tec.br"

@@ -15,7 +15,7 @@
                     <label for="name">Título: </label>
                 </div>
                 <div class="col-12 col-md-10 col-md-11">
-                    <input type="text" value="{{ $promo['nome']??'' }}" id="name" name="name" class="form-control" required placeholder="Digite o título da promoção ..." maxlength="60"/>
+                    <input type="text" value="{{ $promo['name'] ?? old('name') }}" id="name" name="name" class="form-control" required placeholder="Digite o título da promoção ..." maxlength="60"/>
                 </div>
             </div>
             <div class="row mx-auto mt-3">
@@ -23,18 +23,18 @@
                     <label for="link">Link: </label>
                 </div>
                 <div class="col-12 col-md-10 col-md-11">
-                    <input type="text" value="{{ $promo['link']??'' }}" id="link" name="link" class="form-control" required placeholder="Digite o link de afiliados da promoção ..."/>
+                    <input type="text" value="{{ $promo['link'] ?? old('link') }}" id="link" name="link" class="form-control" required placeholder="Digite o link de afiliados da promoção ..."/>
                 </div>
             </div>
             <div class="text-end mt-3">
-                <input type="checkbox" name="redirect" id="redirect" {{ $promo['redirect']??'checked' }} class="form-check-input"/> Link de afiliados
+                <input type="checkbox" name="redirect" id="redirect" {{ $promo['redirect'] ?? 'checked' }} class="form-check-input"/> Link de afiliados
             </div>
             <div class="row mx-auto mt-3">
                 <div class="col-auto">
                     <label for="thumbnail">Imagem: </label>
                 </div>
                 <div class="col-12 col-md-10 col-md-11">
-                    <input type="text" value="{{ $promo['imagem']??'' }}" id="thumbnail" name="thumbnail" class="form-control" required placeholder="Digite a URL da imagem..."/>
+                    <input type="text" value="{{ $promo['image'] ?? old('image') }}" id="thumbnail" name="thumbnail" class="form-control" required placeholder="Digite a URL da imagem..."/>
                 </div>
             </div>
             <div class="row mx-auto mt-3">
@@ -42,7 +42,7 @@
                     <label for="priceFrom">De: </label>
                 </div>
                 <div class="col-12 col-md-10 col-md-11">
-                    <input type="number" value="{{ $promo['de']??'' }}" id="priceFrom" name="priceFrom" class="form-control" step="0.01" min="0.01" placeholder="Digite o preço anterior ..."/>
+                    <input type="number" value="{{ $promo['from'] ?? old('for') }}" id="priceFrom" name="priceFrom" class="form-control" step="0.01" min="0.01" placeholder="Digite o preço anterior ..."/>
                 </div>
             </div>
             <div class="row mx-auto mt-3">
@@ -50,7 +50,7 @@
                     <label for="price">Por: </label>
                 </div>
                 <div class="col-12 col-md-10 col-md-11">
-                    <input type="number" value="{{ $promo['por']??'' }}" id="price" name="price" class="form-control" required step="0.01" min="-500" placeholder="Digite o preço atual ..."/>
+                    <input type="number" value="{{ $promo['for'] ?? old('for') }}" id="price" name="price" class="form-control" required step="0.01" min="-500" placeholder="Digite o preço atual ..."/>
                 </div>
             </div>
             <div class="row mx-auto mt-3">
@@ -58,7 +58,7 @@
                     <label for="installment_quantity">Parcelas: </label>
                 </div>
                 <div class="col-12 col-md-10 col-md-11">
-                    <input type="number" value="{{ $promo['vezes']??'' }}" id="installment_quantity" name="installment_quantity" class="form-control" min="1" max="48" placeholder="Digite a quantidade máxima de parcelas ..."/>
+                    <input type="number" value="{{ $promo['times'] ?? old('times') }}" id="installment_quantity" name="installment_quantity" class="form-control" min="1" max="48" placeholder="Digite a quantidade máxima de parcelas ..."/>
                 </div>
             </div>
             <div class="row mx-auto mt-3">
@@ -66,7 +66,7 @@
                     <label for="installment_value">Valor: </label>
                 </div>
                 <div class="col-12 col-md-10 col-md-11">
-                    <input type="number" value="{{ $promo['parcelas']??'' }}" id="installment_value" name="installment_value" class="form-control" step="0.01" min="0" placeholder="Digite o valor de cada parcela ..."/>
+                    <input type="number" value="{{ $promo['installments'] ?? old('installments') }}" id="installment_value" name="installment_value" class="form-control" step="0.01" min="0" placeholder="Digite o valor de cada parcela ..."/>
                 </div>
             </div>
             <div class="row mx-auto mt-3">
@@ -74,7 +74,7 @@
                     <label for="code">Cupom: </label>
                 </div>
                 <div class="col-12 col-md-10 col-md-11">
-                    <input type="text" value="{{ $promo['code']??'' }}" id="code" name="code" class="form-control" placeholder="Digite o cupom ..."/>
+                    <input type="text" value="{{ $promo['code'] ?? old('code') }}" id="code" name="code" class="form-control" placeholder="Digite o cupom ..."/>
                 </div>
             </div>
             <div class="row mx-auto mt-3">
@@ -82,7 +82,7 @@
                     <label for="description">Descrição: </label>
                 </div>
                 <div class="col-12 col-md-10 col-md-11">
-                    <textarea name="description" id="description" class="form-control" placeholder="Digite a descrição da promoção ...">{{ $promo['desc']??'' }}</textarea>
+                    <textarea name="description" id="description" class="form-control" placeholder="Digite a descrição da promoção ...">{{ $promo['description'] ?? old('description') }}</textarea>
                 </div>
             </div>
             <div class="row mx-auto mt-3">
@@ -90,7 +90,7 @@
                     <label for="store-id">Loja: </label>
                 </div>
                 <div class="col-12 col-md-10 col-md-11">
-                    <input type="number" value="{{ $promo['store_id']??'' }}" id="store-id" name="store_id" placeholder="Digite o id da loja ..." class="form-control" required />
+                    <input type="number" value="{{ $promo['store_id'] ?? '' }}" id="store-id" name="store_id" placeholder="Digite o id da loja ..." class="form-control @error('store_id') is-invalid @enderror" required />
                 </div>
             </div>
             @if (empty($id))

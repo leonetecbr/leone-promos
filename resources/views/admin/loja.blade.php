@@ -20,7 +20,7 @@
                     <label for="id">ID: </label>
                 </div>
                 <div class="col-12 col-md-10 col-md-11">
-                    <input type="number" value="{{ $loja['id']??'' }}" id="id" name="id" class="form-control" required placeholder="Digite o id da loja ..." min="1"/>
+                    <input type="number" value="{{ $loja['id'] ?? '' }}" id="id" name="id" class="form-control @error('id') is-invalid @enderror" required placeholder="Digite o id da loja ..." min="1"/>
                 </div>
             </div>
             <div class="row mx-auto mt-3">
@@ -28,7 +28,7 @@
                     <label for="name">Nome: </label>
                 </div>
                 <div class="col-12 col-md-10 col-md-11">
-                    <input type="text" value="{{ $loja['nome']??'' }}" id="name" name="name" class="form-control" required placeholder="Digite o nome da loja ..."/>
+                    <input type="text" value="{{ $loja['name'] ?? old('name') }}" id="name" name="name" class="form-control" required placeholder="Digite o nome da loja ..."/>
                 </div>
             </div>
             <div class="row mx-auto mt-3">
@@ -36,7 +36,7 @@
                     <label for="imagem">Imagem: </label>
                 </div>
                 <div class="col-12 col-md-10 col-md-11">
-                    <input type="text" value="{{ $loja['imagem']??'' }}" id="imagem" name="imagem" class="form-control" required placeholder="Digite o link da imagem da loja ..."/>
+                    <input type="text" value="{{ $loja['image'] ?? old('image') }}" id="imagem" name="image" class="form-control" required placeholder="Digite o link da imagem da loja ..."/>
                 </div>
             </div>
             <div class="row mx-auto mt-3">
@@ -44,11 +44,11 @@
                     <label for="link">Link: </label>
                 </div>
                 <div class="col-12 col-md-10 col-md-11">
-                    <input type="text" value="{{ $loja['link']??'' }}" id="link" name="link" class="form-control" required placeholder="Digite o link da página inicial loja ..."/>
+                    <input type="text" value="{{ $loja['link'] ?? old('link') }}" id="link" name="link" class="form-control" required placeholder="Digite o link da página inicial loja ..."/>
                 </div>
             </div>
             <div class="text-end mt-3">
-                <input type="checkbox" name="redirect" id="redirect" {{ $loja['redirect']??'checked' }} class="form-check-input"/>
+                <input type="checkbox" name="redirect" id="redirect" {{ $loja['redirect'] ?? 'checked' }} class="form-check-input"/>
                 <label for="redirect" class="form-check-label">Link de afiliados</label>
             </div>
             <div class="row mt-3">

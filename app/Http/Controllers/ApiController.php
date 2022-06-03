@@ -56,11 +56,12 @@ class ApiController extends Controller
      * Lista os cupons
      * @param Request $request
      * @return array
+     * @throws Exception
      */
     public function listCupons(Request $request): array
     {
         $page = $request->input('page', 1);
         $loja = $request->input('loja', 0);
-        return Helpers\ApiHelper::getCupons($page, $loja);
+        return Helpers\ApiHelper::getCoupons($page, $loja);
     }
 }

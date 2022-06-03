@@ -11,4 +11,5 @@ class SendedNotification extends Model
 
     public $timestamps = false;
     protected $table = 'sended_notifications';
+    protected $fillable = ['id', 'by', 'title', 'image', 'content', 'link', 'to'];
 }

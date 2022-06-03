@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers;
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -15,55 +16,56 @@ class CuponsController extends Controller
      * @param Request $request
      * @param integer $page
      * @return View
+     * @throws Exception
      */
     public static function get(Request $request, int $page = 1): View
     {
-        $loja = $request->input('loja');
-        switch ($loja) {
+        $store = $request->input('loja');
+        switch ($store) {
             case 'Americanas':
-                $store_id = 5632;
+                $storeId = 5632;
                 break;
 
             case 'Casas Bahia':
-                $store_id = 2;
+                $storeId = 2;
                 break;
 
             case 'Consul':
-                $store_id = 5937;
+                $storeId = 5937;
                 break;
 
             case 'Ponto':
-                $store_id = 4;
+                $storeId = 4;
                 break;
 
             case 'Submarino':
-                $store_id = 5766;
+                $storeId = 5766;
                 break;
 
             case 'Efácil':
-                $store_id = 5779;
+                $storeId = 5779;
                 break;
 
             case 'Positivo':
-                $store_id = 6117;
+                $storeId = 6117;
                 break;
 
             case 'Lenovo':
-                $store_id = 5798;
+                $storeId = 5798;
                 break;
 
             default:
-                $store_id = 0;
+                $storeId = 0;
         }
-        $cupons = Helpers\ApiHelper::getCupons($page, $store_id);
-        $final = $cupons['totalPage'] ?? 1;
-        $cupons = $cupons['coupons'] ?? [];
+        $coupons = Helpers\ApiHelper::getCoupons($page, $storeId);
+        $endPage = $coupons['totalPage'] ?? 1;
+        $coupons = $coupons['coupons'] ?? [];
         return view('cupons', [
-            'cupons' => $cupons,
-            'group_name' => 1,
-            'final' => $final,
+            'coupons' => $coupons,
+            'groupName' => 1,
+            'endPage' => $endPage,
             'page' => $page,
-            'loja' => $loja
+            'store' => $store
         ]);
     }
 }

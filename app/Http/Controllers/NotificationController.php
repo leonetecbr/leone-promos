@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\RequestException;
 use App\Helpers;
 use App\Models\Notification;
 use ErrorException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -24,11 +24,12 @@ class NotificationController extends Controller
 		return view('notificacoes');
 	}
 
-	/**
-	 * Cadastra, atualiza e exclui credenciais para envio de notificações push
-	 * @param Request $request
-	 * @return array
-	 */
+    /**
+     * Cadastra, atualiza e exclui credenciais para envio de notificações push
+     * @param Request $request
+     * @return array
+     * @throws ErrorException
+     */
 	public function userManage(Request $request): array
 	{
 		$response['success'] = false;
@@ -42,7 +43,7 @@ class NotificationController extends Controller
 			]);
 
 			if ($validator->fails()) {
-				throw new Exception($validator->errors()->all()[0], 400);
+				throw new RequestException($validator->errors()->all()[0], 400);
 			}
 
 			$p256dh = $request->input('subscription.keys.p256dh');
@@ -54,7 +55,7 @@ class NotificationController extends Controller
 			$recaptcha = new Helpers\RecaptchaHelper($request, $token);
 
 			if ($recaptcha->isOrNot()) {
-				throw new Exception('Talvez você seja um robô, tente novamente mais tarde!');
+				throw new RequestException('Talvez você seja um robô, tente novamente mais tarde!');
 			}
 
 			if ($action === 'update') {
@@ -71,7 +72,7 @@ class NotificationController extends Controller
 						'link' => '/'
 					]);
 					if (!$success) {
-						throw new Exception('Não foi possível enviar a notificação de confirmação!');
+						throw new RequestException('Não foi possível enviar a notificação de confirmação!');
 					}
 					$notification->save();
                 }
@@ -89,17 +90,17 @@ class NotificationController extends Controller
 					$notification->endpoint = $endpoint;
 					$success = $notify->sendOneNotification(['auth' => $auth, 'p256dh' => $p256dh, 'endpoint' => $endpoint]);
 					if (!$success) {
-						throw new Exception('Não foi possível enviar a notificação de confirmação!');
+						throw new RequestException('Não foi possível enviar a notificação de confirmação!');
 					}
 					$notification->save();
 					$response['success'] = true;
 				} else {
-					throw new Exception('Tente novamente!');
+					throw new RequestException('Tente novamente!');
 				}
 			} else {
-				throw new Exception('Ação desconhecida!');
+				throw new RequestException('Ação desconhecida!');
 			}
-		} catch (Exception $e) {
+		} catch (RequestException $e) {
 			$response['success'] = false;
 			$erro = $e->getMessage();
 			if (!empty($erro)) {
@@ -110,18 +111,19 @@ class NotificationController extends Controller
 		}
 	}
 
-	/**
-	 * Envia notificações quando uma venda é realizada
-	 * @param Request $request
-	 * @param string $key
-	 * @return array
-	 */
+    /**
+     * Envia notificações quando uma venda é realizada
+     * @param Request $request
+     * @param string $key
+     * @return array
+     * @throws ErrorException
+     */
 	public function postback(Request $request, string $key): array
 	{
 		$result['success'] = false;
 		try {
 			if ($key !== env('KEY_POSTBACK')) {
-				throw new Exception('Acesso Negado', 403);
+				throw new RequestException('Acesso Negado', 403);
 			}
 
 			$validator = Validator::make($request->all(), [
@@ -130,16 +132,16 @@ class NotificationController extends Controller
 			]);
 
 			if ($validator->fails()) {
-				throw new Exception($validator->errors()->all()[0], 400);
+				throw new RequestException($validator->errors()->all()[0], 400);
 			}
 
-			$valor = $request->input('valor');
-			$comissao = $request->input('comissao');
-			$payload = ['msg' => 'Sua venda foi de R$ ' . number_format(floatval($valor), 2, ',', '.') . ', sua comissão será de R$ ' . number_format(floatval($comissao), 2, ',', '.'), 'title' => 'Você fez uma nova venda!', 'link' => '/'];
+			$value = $request->input('valor');
+			$commission = $request->input('comissao');
+			$payload = ['msg' => 'Sua venda foi de R$ ' . number_format(floatval($value), 2, ',', '.') . ', sua comissão será de R$ ' . number_format(floatval($commission), 2, ',', '.'), 'title' => 'Você fez uma nova venda!', 'link' => '/'];
 			$notify = new Helpers\NotificationHelper;
 			$result['success'] = $notify->sendOneNotification([], $payload);
 			$result['code'] = 200;
-		} catch (Exception $e) {
+		} catch (RequestException $e) {
 			$result['message'] = $e->getMessage();
 			$result['code'] = $e->getCode();
 		} finally {
@@ -191,11 +193,13 @@ class NotificationController extends Controller
 					'para2' => 'required|integer'
 				], ['para2.required' => 'Digite o id que receberá a notificação!', 'para2.integer' => 'O id precisa ser um número!',]);
 				$id = $dados['para2'];
-				$subscription = Notification::where('id', $id);
-				if (!$subscription->exists()) {
-					return redirect()->back()->withErrors(['para2' => ['Destinatário não encontrado!']]);
+				$subscription = Notification::find($id);
+				if (empty($subscription)) {
+					return redirect()->back()->withErrors([
+                        'para2' => ['Destinatário não encontrado!']
+                    ])->withInput();
 				}
-				$to = $subscription->first()->toArray();
+				$to = $subscription->toArray();
 				$success = $notification->sendOneNotification($to, $payload);
 			} else {
                 for ($i = 1; $i <= 9; $i++){
@@ -209,7 +213,9 @@ class NotificationController extends Controller
                 }
 
 				if (empty($where)) {
-					return redirect()->back()->withErrors(['prefer' => ['Preferência não informada!']]);
+					return redirect()->back()->withErrors([
+                        'prefer' => ['Preferência não informada!']
+                    ])->withInput();
 				} else {
 					$subscriptions = Notification::whereRaw($where)->get();
 					foreach ($subscriptions as $subscription) {

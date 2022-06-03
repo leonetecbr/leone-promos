@@ -6,18 +6,18 @@ class CsvHelper
 {
     /**
      * Faz a leitura de arquivos CSV
-     * @param string $arquivo
-     * @param bool $cabecalho
-     * @param string $delimitador
+     * @param string $filename
+     * @param bool $header
+     * @param string $delimiter
      * @return array
      */
-    public static function readCSV(string $arquivo, bool $cabecalho = true, string $delimitador = ','): array
+    public static function readCSV(string $filename, bool $header = true, string $delimiter = ','): array
     {
-        if (file_exists($arquivo) || strpos($arquivo, 'https://') == 0) {
+        if (file_exists($filename) || strpos($filename, 'https://') == 0) {
             $dados = [];
-            $csv = fopen($arquivo, 'r');
-            while ($linha = fgetcsv($csv, 0, $delimitador)) {
-                if ($cabecalho) : $cabecalho = false;
+            $csv = fopen($filename, 'r');
+            while ($linha = fgetcsv($csv, 0, $delimiter)) {
+                if ($header) : $header = false;
                     continue;
                 endif;
                 $dados[] = $linha;

@@ -41,16 +41,16 @@ class UserController extends Controller
 
         $email = $request->input('email');
         $password = $request->input('password');
-        $g_response = $request->input('g-recaptcha-response');
+        $recaptchaResponse = $request->input('g-recaptcha-response');
 
-        $robot = new Helpers\RecaptchaHelper($request, $g_response, 'v2');
+        $robot = new Helpers\RecaptchaHelper($request, $recaptchaResponse, 'v2');
 
         $isRobot = $robot->isOrNot();
 
         if ($isRobot) {
             return redirect()->back()->withErrors([
                 'g-recaptcha' => ['Talvez você seja um robô!']
-            ])->with('email', $email);
+            ])->withInput();
         }
 
         if (Auth::attempt(['email' => $email, 'password' => $password], true)) {
@@ -58,7 +58,7 @@ class UserController extends Controller
         } else {
             return redirect()->back()->withErrors([
                 'password' => ['E-mail e/ou senha inválidos!']
-            ])->with('email', $email);
+            ])->withInput();
         }
     }
 

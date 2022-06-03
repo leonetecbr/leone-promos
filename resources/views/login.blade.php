@@ -15,7 +15,7 @@
                         <label for="email">Email: </label>
                     </div>
                     <div class="col-auto col-lg-9">
-                        <input type="text" name="email" id="email" class="form-control" placeholder="Digite seu email ..." required @if (session('email')) value="{{ session('email') }}" @endif>
+                        <input type="text" name="email" id="email" class="form-control" placeholder="Digite seu email ..." required value="{{ old('email') }}">
                     </div>
                 </div>
                 <div class="row col-lg-9 mx-auto my-4">
@@ -23,7 +23,7 @@
                         <label for="password">Senha: </label>
                     </div>
                     <div class="col-auto col-lg-9">
-                        <input type="password" name="password" id="password" class="form-control" placeholder="Digite sua senha ...">
+                        <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="Digite sua senha ...">
                     </div>
                 </div>
                 <div class="g-recaptcha mb-4 mx-auto" data-sitekey="{{ $_ENV['PUBLIC_RECAPTCHA_V2'] }}" data-callback="submit"></div>

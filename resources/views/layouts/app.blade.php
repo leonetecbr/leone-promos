@@ -33,7 +33,7 @@
     @hasSection('keywords')
     <meta name="keywords" content="@yield('keywords')">
     @endif
-    <meta name="robots" content="{{ $robots??'index, follow' }}">
+    <meta name="robots" content="{{ $robots ?? 'index, follow' }}">
     <meta name="author" content="Leone Oliveira">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <script src="https://kit.fontawesome.com/6719bc67c5.js" crossorigin="anonymous" async></script>
@@ -109,7 +109,7 @@
                 </ul>
                 <form id="search" class="d-flex justify-content-center ajax-form col-lg-3 col-xl-4 ms-3" data-action="search" action="#" novalidate>
                     <div class="me-2">
-                        <input class="form-control" type="search" placeholder="Pesquisar" minlength="3" maxlength="20" required aria-label="Pesquisar" value="{{ $query??'' }}" name="q" id="q">
+                        <input class="form-control" type="search" placeholder="Pesquisar" minlength="3" maxlength="20" required aria-label="Pesquisar" value="{{ $query ?? '' }}" name="q" id="q">
                     </div>
                     <div>
                         <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
@@ -140,7 +140,7 @@
     <form action="#" id="search" class="d-none d-lg-none needs-validation p-3" method="post" novalidate>
         <div class="row mb-3">
             <div class="col-10 col-sm-11">
-                <input type="search" name="q" id="qs" placeholder="Digite sua pesquisa ..." class="form-control" required autocomplete="off" value="{{ $query??'' }}" />
+                <input type="search" name="q" id="qs" placeholder="Digite sua pesquisa ..." class="form-control" required autocomplete="off" value="{{ $query ?? '' }}" />
             </div>
             <div class="col-1">
                 <button type="submit" class="btn btn-outline-success"><i class="fas fa-search"></i></button>

@@ -15,13 +15,13 @@ class CreateSendedNotificationsTable extends Migration
     {
         Schema::create('sended_notifications', function (Blueprint $table) {
             $table->string('id')->unique()->primary();
-            $table->string('por');
-            $table->string('titulo', 60);
-            $table->text('imagem')->nullable();
-            $table->string('conteudo', 200);
+            $table->string('by');
+            $table->string('title', 60);
+            $table->text('image')->nullable();
+            $table->string('content', 200);
             $table->string('link', 60);
-            $table->integer('para')->default(1);
-            $table->integer('cliques')->default(0);
+            $table->integer('to')->default(1);
+            $table->integer('clicks')->default(0);
             $table->dateTime('sended_at')->useCurrent();
         });
     }

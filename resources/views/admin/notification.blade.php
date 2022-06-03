@@ -20,7 +20,7 @@
                     <label for="name" class="col-auto">Título: </label>
                 </div>
                 <div class="col-8">
-                    <input type="text" id="name" name="title" class="form-control" required placeholder="Digite o título da notificação ..." />
+                    <input type="text" id="name" name="title" class="form-control" required placeholder="Digite o título da notificação ..." value="{{ old('title') }}"/>
                 </div>
             </div>
             <div class="row mt-3">
@@ -28,7 +28,7 @@
                     <label for="image">Imagem: </label>
                 </div>
                 <div class="col-8">
-                    <input type="text" id="image" name="image" class="form-control" placeholder="Digite o link da imagem. Ex: /img/icon.png ..." />
+                    <input type="text" id="image" name="image" class="form-control" placeholder="Digite o link da imagem. Ex: /img/icon.png ..." value="{{ old('image') }}"/>
                 </div>
             </div>
             <div class="row mt-3">
@@ -36,12 +36,12 @@
                     <label for="link">Link: </label>
                 </div>
                 <div class="col-8">
-                    <input type="text" id="link" name="link" class="form-control" required placeholder="Digite o link. Ex: /admin ..." />
+                    <input type="text" id="link" name="link" class="form-control" required placeholder="Digite o link. Ex: /admin ..." value="{{ old('link') }}"/>
                 </div>
             </div>
             <div class="form-group mt-3">
                 <label for="content" class="mb-2">Conteúdo: </label>
-                <textarea name="content" id="content" class="form-control" placeholder="Digite o conteúdo da notificação ..." required></textarea>
+                <textarea name="content" id="content" class="form-control" placeholder="Digite o conteúdo da notificação ..." required>{{ old('content') }}</textarea>
             </div>
             <div class="mt-3">
                 <div class="row mb-3">
@@ -49,48 +49,48 @@
                         <label for="para">Para:</label>
                     </div>
                     <div class="col-8">
-                        <input type="number" name="para2" id="para" class="form-control" placeholder="Digite o id do destinatário ..." required>
+                        <input type="number" name="para2" id="para" class="form-control @error('para2') is-invalid @enderror" placeholder="Digite o id do destinatário ..." required>
                     </div>
                 </div>
                 <div class="container flex-row flex-center row-wrap d-md-flex justify-conatent-center flex-wrap" id="prefers">
                     <div class="form-check col-md-6 col-lg-4">
-                        <input type="checkbox" name="para" id="all" class="form-check-input">
+                        <input type="checkbox" name="para" id="all" class="form-check-input @error('prefer') is-invalid @enderror">
                         <label for="all" class="form-check-label">Todos</label>
                     </div>
                     <div class="form-check col-md-6 col-lg-4">
-                        <input type="checkbox" name="p1" id="p1" class="form-check-input prefer">
+                        <input type="checkbox" name="p1" id="p1" class="form-check-input prefer @error('prefer') is-invalid @enderror">
                         <label for="p1" class="form-check-label">Computadores/Notebooks</label>
                     </div>
                     <div class="form-check col-md-6 col-lg-4">
-                        <input type="checkbox" name="p2" id="p2" class="form-check-input prefer">
+                        <input type="checkbox" name="p2" id="p2" class="form-check-input prefer @error('prefer') is-invalid @enderror">
                         <label for="p2" class="form-check-label">Celulares/Smartphones</label>
                     </div>
                     <div class="form-check col-md-6 col-lg-4">
-                        <input type="checkbox" name="p3" id="p3" class="form-check-input prefer">
+                        <input type="checkbox" name="p3" id="p3" class="form-check-input prefer @error('prefer') is-invalid @enderror">
                         <label for="p3" class="form-check-label">Itens de Mercado</label>
                     </div>
                     <div class="form-check col-md-6 col-lg-4">
-                        <input type="checkbox" name="p4" id="p4" class="form-check-input prefer">
+                        <input type="checkbox" name="p4" id="p4" class="form-check-input prefer @error('prefer') is-invalid @enderror">
                         <label for="p4" class="form-check-label">Roupas Masculinas</label>
                     </div>
                     <div class="form-check col-md-6 col-lg-4">
-                        <input type="checkbox" name="p5" id="p5" class="form-check-input prefer">
+                        <input type="checkbox" name="p5" id="p5" class="form-check-input prefer @error('prefer') is-invalid @enderror">
                         <label for="p5" class="form-check-label">Roupas Femininas</label>
                     </div>
                     <div class="form-check col-md-6 col-lg-4">
-                        <input type="checkbox" name="p6" id="p6" class="form-check-input prefer">
+                        <input type="checkbox" name="p6" id="p6" class="form-check-input prefer @error('prefer') is-invalid @enderror">
                         <label for="p6" class="form-check-label">Livros</label>
                     </div>
                     <div class="form-check col-md-6 col-lg-4">
-                        <input type="checkbox" name="p7" id="p7" class="form-check-input prefer">
+                        <input type="checkbox" name="p7" id="p7" class="form-check-input prefer @error('prefer') is-invalid @enderror">
                         <label for="p7" class="form-check-label">Móveis</label>
                     </div>
                     <div class="form-check col-md-6 col-lg-4">
-                        <input type="checkbox" name="p8" id="p8" class="form-check-input prefer">
+                        <input type="checkbox" name="p8" id="p8" class="form-check-input prefer @error('prefer') is-invalid @enderror">
                         <label for="p8" class="form-check-label">Eletrodomésticos</label>
                     </div>
                     <div class="form-check col-md-6 col-lg-4">
-                        <input type="checkbox" name="p9" id="p9" class="form-check-input prefer">
+                        <input type="checkbox" name="p9" id="p9" class="form-check-input prefer @error('prefer') is-invalid @enderror">
                         <label for="p9" class="form-check-label">Eletroportáteis</label>
                     </div>
                 </div>

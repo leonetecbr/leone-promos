@@ -43,23 +43,23 @@ class NotificationHelper
      */
     public function sendOneNotification(array $subscription = [], array $payload = ['msg' => 'Agora você será notificado a cada promoção imperdível! Toque para editar suas preferências ;)', 'title' => 'Notificações Ativadas ;)', 'link' => '/notificacoes']): bool
     {
-        $sended = new SendedNotification;
+        $id = uniqid();
+        $notification = [
+            'link' => $payload['link'],
+            'title' => $payload['title'],
+            'content' => $payload['msg'],
+            'image' => $payload['img'] ?? NULL,
+            'id' => $id
+        ];
 
         if (empty($subscription)) {
-            $subscription = Notification::where('id', 0)->first();
-            $sended->por = 'API';
+            $subscription = Notification::find(0);
+            $notification['by'] = 'API';
         } else if (Auth::check()) {
-            $sended->por = Auth::user()->email;
+            $notification['by'] = Auth::user()->email;
         } else {
-            $sended->por = 'SYS';
+            $notification['by'] = 'SYS';
         }
-
-        $sended->link = $payload['link'];
-        $sended->titulo = $payload['title'];
-        $sended->conteudo = $payload['msg'];
-        $sended->imagem = $payload['img'] ?? NULL;
-        $id = uniqid();
-        $sended->id = $id;
 
         if (strpos($payload['link'], '#') !== false) {
             $link = explode('#', $payload['link'], 2);
@@ -75,7 +75,7 @@ class NotificationHelper
         $webPush->setReuseVAPIDHeaders(true);
         $report = $webPush->sendOneNotification($subscription, json_encode($payload));
         if ($report->isSuccess()) {
-            $sended->save();
+            SendedNotification::create($notification);
             return true;
         }
         return false;
@@ -92,14 +92,15 @@ class NotificationHelper
      */
     public function sendManyNotifications(array $subscriptions, array $payload): bool
     {
-        $sended = new SendedNotification;
-        $sended->por = Auth::user()->email;
-        $sended->link = $payload['link'];
-        $sended->titulo = $payload['title'];
-        $sended->conteudo = $payload['msg'];
-        $sended->imagem = $payload['img'] ?? NULL;
         $id = uniqid();
-        $sended->id = $id;
+        $notification = [
+            'by' => Auth::user()->email,
+            'link' => $payload['link'],
+            'title' => $payload['title'],
+            'content' => $payload['msg'],
+            'image' => $payload['img'] ?? NULL,
+            'id' => $id
+        ];
 
         if (strpos($payload['link'], '#') !== false) {
             $link = explode('#', $payload['link'], 2);
@@ -125,20 +126,22 @@ class NotificationHelper
         }
 
         $result = true;
-        $s = 0;
+        $sended = 0;
         foreach ($webPush->flush() as $report) {
             if (!$report->isSuccess()) {
                 $endpoint = $report->getRequest()->getUri()->__toString();
                 Notification::where('endpoint', $endpoint)->delete();
                 $result = false;
             } else {
-                $s++;
+                $sended++;
             }
         }
-        if ($s > 0) {
-            $sended->para = $s;
-            $sended->save();
+
+        if ($sended > 0) {
+            $notification['to'] = $sended;
+            SendedNotification::create($notification);
         }
+
         return $result;
     }
 }

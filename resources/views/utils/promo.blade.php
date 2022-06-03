@@ -6,10 +6,10 @@
     </article>
         @elseif (is_array($promos))
         @foreach ($promos as $promo)
-        <div class="promo card col-lg-3-5 col-md-5 col-sm-10 col-12 mb-5" id="promo-{{ $cat_id }}-{{ $page }}-{{ substr($promo['id'], -3) }}">
-        @if ($share??true)
+        <div class="promo card col-lg-3-5 col-md-5 col-sm-10 col-12 mb-5" id="promo-{{ $catId }}-{{ $page }}-{{ substr($promo['id'], -3) }}">
+        @if ($share ?? true)
             <div class="card-header p-2">
-            @if ($cat_id === 0)
+            @if ($catId === 0)
                 <button class="border-0 igs"><i class="fab fa-instagram"></i></button>
             @endif
                 <button class="border-0 wpp"><i class="fab fa-whatsapp"></i></button>
@@ -20,23 +20,23 @@
             </div>
         @endif
             <div class="card-body p-3 text-center">
-                <img src="{{ $promo['imagem'] }}" alt="{{ $promo['nome'] }}" class="product-image mb-3" /><br />
+                <img src="{{ $promo['image'] }}" alt="{{ $promo['name'] }}" class="product-image mb-3" /><br />
                 <h4 class="card-title">
-                    <a target="{{ $target }}" href="{{ $promo['link'] }}" class="text-decoration-none link-dark product-title">{{ $promo['nome'] }}</a>
+                    <a target="{{ $target }}" href="{{ $promo['link'] }}" class="text-decoration-none link-dark product-title">{{ $promo['name'] }}</a>
                 </h4>
-                @if ($cat_id === 0 && !empty($promo['de']) && ($promo['de']-$promo['por'])>=0.01)
-                <p class="mb-0">De: <div class="text-decoration-line-through">R${{ number_format($promo['de'], 2, ',', '.') }}</div></p>
+                @if ($catId === 0 && !empty($promo['from']) && ($promo['from']-$promo['for'])>=0.01)
+                <p class="mb-0">De: <div class="text-decoration-line-through">R${{ number_format($promo['from'], 2, ',', '.') }}</div></p>
                 @endif
-                <h5 class="pricing-card-title mt-3">{{ ($promo['por'] != 0)? 'R$' . number_format($promo['por'], 2, ',', '.') : 'Grátis'; }}</h5>
+                <h5 class="pricing-card-title mt-3">{{ ($promo['for'] != 0)? 'R$' . number_format($promo['for'], 2, ',', '.') : 'Grátis'; }}</h5>
                 <p class="installment text-muted">
-                    @if ($promo['vezes']!==1 && $promo['vezes']!==NULL)
-                    {{ $promo['vezes'] }}x {{ (($promo['parcelas']*$promo['vezes']) <= $promo['por']+0.05)?'sem juros':''; }} de R${{ number_format($promo['parcelas'], 2, ',', '.') }}
-                    @elseif ($promo['por'] > 0)
+                    @if ($promo['times']!==1 && $promo['times']!==NULL)
+                    {{ $promo['times'] }}x {{ (($promo['installments']*$promo['times']) <= $promo['for']+0.05)?'sem juros':''; }} de R${{ number_format($promo['installments'], 2, ',', '.') }}
+                    @elseif ($promo['for'] > 0)
                     Apenas à vista!
                     @endif
                 </p>
-                @if (!empty($promo['desc']))
-                <p class="description">{!! $promo['desc'] !!}</p>
+                @if (!empty($promo['description']))
+                <p class="description">{!! $promo['description'] !!}</p>
                 @endif
                 @if (!empty($promo['code']))
                 <div class="code row col-11 mx-auto">
@@ -45,8 +45,8 @@
                 @endif
             </div>
             <div class="final text-center p-3">
-                <div class="text-end"><a target="{{ $target }}" href="{{ $promo['store']['link'] }}"><img src="{{ $promo['store']['imagem'] }}" alt="{{ $promo['store']['nome'] }}" class="loja"></a></div>
-                @if ($add??false)
+                <div class="text-end"><a target="{{ $target }}" href="{{ $promo['store']['link'] }}"><img src="{{ $promo['store']['image'] }}" alt="{{ $promo['store']['name'] }}" class="loja"></a></div>
+                @if ($add ?? false)
                 <a target="{{ $target }}" href="{{ $promo['link'] }}" class="mx-auto"><button class="btn btn-outline-danger w-75">Editar promoção</button></a>
                 @elseif (empty($promo['code']))
                 <a target="{{ $target }}" href="{{ $promo['link'] }}" class="mx-auto"><button class="btn btn-outline-danger w-75">Ir para a loja</button></a>
@@ -58,7 +58,7 @@
         </div>
     @endforeach
     </article>
-    @if ($topo??true)
+    @if ($top ?? true)
     <div class="container text-center flex-column fs-12 bolder top" id="btn-topo"><button class="rounded bg-primary px-3 py-2 border-0"><i class="fas fa-angle-double-up text-white"></i></button>
         <p class="fs-5 my-2 fw-light">Topo</p>
     </div>
