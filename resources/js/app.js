@@ -17,13 +17,13 @@ String.prototype.strstr = function (search) {
 let trackSuccess = (data) => {
     if (data.success) {
         let track
-        let date = new Date(data.rastreio.dtPrevista)
-        let header = '<h2 class="text-center">' + data.rastreio.codObjeto + '</h2>'
-        if (data.rastreio.eventos.length !== 0) {
+        let rastreio = data.track
+        let header = '<h2 class="text-center">' + rastreio.codObjeto + '</h2>'
+        if (rastreio.eventos.length !== 0) {
             let suspend = true
             track = '<div class="list-group eventos col-12 col-lg-9 mx-auto mt-3">'
             let i = ' active'
-            for (let evento of data.rastreio.eventos) {
+            for (let evento of rastreio.eventos) {
                 let data = new Intl.DateTimeFormat('pt-BR', options).format(new Date(evento.dtHrCriado))
                 if (evento.unidadeDestino && evento.unidadeDestino.endereco.length !== 0) {
                     let text
@@ -47,10 +47,11 @@ let trackSuccess = (data) => {
             }
             track += '</div>'
             if (suspend) {
+                let date = new Date(rastreio.dtPrevista)
                 header += '\n<div class="text-center small fw-bolder">PREVISÂO DE ENTREGA: ' + date.toLocaleDateString() + '*</div>'
-                track += '\n<div class="text-center small my-2">*A previsão de entrega é fornecida pelo Correios e em geral a entrega costuma acontecer bem antes da previsão.</div>\n<div class="mx-auto mt-3 w-75"><a href="https://rastreamento.correios.com.br/app/suspensaoEntrega/index.php?objeto=' + data.rastreio.codObjeto + '" target="_blank"><button class="btn btn-danger text-light btn-lg w-100">Suspender entrega</button></a></div>'
+                track += '\n<div class="text-center small my-2">*A previsão de entrega é fornecida pelo Correios e em geral a entrega costuma acontecer bem antes da previsão.</div>\n<div class="mx-auto mt-3 w-75"><a href="https://rastreamento.correios.com.br/app/suspensaoEntrega/index.php?objeto=' + rastreio.codObjeto + '" target="_blank"><button class="btn btn-danger text-light btn-lg w-100">Suspender entrega</button></a></div>'
             }
-            header += '\n<div class="text-center small fw-light">' + data.rastreio.tipoPostal + '</div>'
+            header += '\n<div class="text-center small fw-light">' + rastreio.tipoPostal + '</div>'
         } else {
             track = '<div class="alert alert-warning">Aguardando postagem do objeto.</div>'
         }

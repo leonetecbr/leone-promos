@@ -40,6 +40,7 @@ class RecaptchaHelper
     public function __construct(Request $request, string $response, string $type = 'v3')
     {
         $this->ip = $request->ip();
+        $this->type = $type;
         if ($type == 'v3') {
             $this->secret = env('SECRET_RECAPTCHA_V3');
         } else {
@@ -79,8 +80,6 @@ class RecaptchaHelper
      */
     public function isOrNot(float $min = 0.6): bool
     {
-        if (env('APP_DEBUG')) : return false;
-        endif;
         if ($this->type == 'v3') {
             return $this->isOrNotV3($min);
         } else {

@@ -16,7 +16,7 @@
 				</div>
 				<div class="text-center small mb-3">Este rastreio é protegido pelo Google reCAPTCHA para garantir que você não é um robô. <a target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas de Privacidade</a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de Serviço</a> do Google são aplicáveis.</div>
 				<div class="mx-auto w-75">
-				<button class="btn-block btn btn-primary btn-lg text-light w-100" id="rastreio-submit">Rastrear</button>
+				<button class="btn-block btn btn-primary btn-lg text-light w-100" id="track-submit">Rastrear</button>
 				</div>
 			</form>
 		</div>
