@@ -46,7 +46,7 @@ let trackSuccess = (data) => {
                 i = ''
             }
             track += '</div>'
-            if (suspend) {
+            if (suspend && rastreio.dtPrevista !== '') {
                 let date = new Date(rastreio.dtPrevista)
                 header += '\n<div class="text-center small fw-bolder">PREVISÂO DE ENTREGA: ' + date.toLocaleDateString() + '*</div>'
                 track += '\n<div class="text-center small my-2">*A previsão de entrega é fornecida pelo Correios e em geral a entrega costuma acontecer bem antes da previsão.</div>\n<div class="mx-auto mt-3 w-75"><a href="https://rastreamento.correios.com.br/app/suspensaoEntrega/index.php?objeto=' + rastreio.codObjeto + '" target="_blank"><button class="btn btn-danger text-light btn-lg w-100">Suspender entrega</button></a></div>'
