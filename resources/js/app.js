@@ -145,11 +145,6 @@ function getUrlCupom(element) {
     return 'https://para.promo/' + btoa(element.replace('#cupom-', 'c-')).replace('=', '')
 }
 
-function accept() {
-    createCookie('accept', 'true', 365)
-    $('#aviso_cookie').fadeOut('slow')
-}
-
 function copyText(text, url = false) {
     navigator.clipboard.writeText(text).then(() => {
         if (url) window.open(url)
@@ -204,8 +199,8 @@ function createCookie(name, value, days) {
     document.cookie = `${name}=${value}${expires}; path=/`
 }
 
-function deleteCookie(cookie_name) {
-    createCookie(cookie_name, '', -1)
+function deleteCookie(cookieName) {
+    createCookie(cookieName, '', -1)
 }
 
 function getPrefer(endpoint) {
@@ -394,6 +389,11 @@ $(function () {
     if (navigator.share) {
         $('.plus-share').removeClass('d-none')
     }
+
+    $('#accept').on('click', () => {
+        createCookie('accept', 'true', 365)
+        $('#aviso-cookie').fadeOut('slow')
+    })
 
     $('.igs').on('click', function () {
         alert('Tire print e compartilhe nas suas storys, para fechar dê um duplo clique!')
