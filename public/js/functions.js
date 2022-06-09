@@ -1,0 +1,1 @@
+function createCookie(e,t,o){let i;if(o){let e=new Date;e.setTime(e.getTime()+24*o*60*60*1e3),i="; expires="+e.toGMTString()}else i="";document.cookie=`${e}=${t}${i}; path=/`}function deleteCookie(e){createCookie(e,"",-1)}

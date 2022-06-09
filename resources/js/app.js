@@ -187,22 +187,6 @@ function getReCaptcha(token) {
     return input
 }
 
-function createCookie(name, value, days) {
-    let expires
-    if (days) {
-        let date = new Date()
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
-        expires = '; expires=' + date.toGMTString()
-    } else {
-        expires = ''
-    }
-    document.cookie = `${name}=${value}${expires}; path=/`
-}
-
-function deleteCookie(cookieName) {
-    createCookie(cookieName, '', -1)
-}
-
 function getPrefer(endpoint) {
     $.ajax({
         url: '/prefer/get',
@@ -324,22 +308,27 @@ function getToken(action, id, type = 'ajax') {
     let text = btn.html()
     btn.html('Verificando ...')
     btn.attr('disabled', true)
-    grecaptcha.ready(() => {
-        grecaptcha.execute(KEY_V3_RECAPTCHA, { action: action })
-            .then((token) => {
-                btn.html(text)
-                if (type === 'ajax') {
-                    sendForm(id, token)
-                } else if (type === 'search') {
-                    let q = $('#q').val()
-                    pesquisar(q, token)
-                } else if (type === 'paginate') {
-                    paginateSearch(id, token)
-                } else if (type === 'track') {
-                    sendForm(id, token, trackSuccess)
-                }
+    let interval = setInterval(function () {
+        if (window.grecaptcha) {
+            clearInterval(interval)
+            grecaptcha.ready(() => {
+                grecaptcha.execute(KEY_V3_RECAPTCHA, { action: action })
+                    .then((token) => {
+                        btn.html(text)
+                        if (type === 'ajax') {
+                            sendForm(id, token)
+                        } else if (type === 'search') {
+                            let q = $('#q').val()
+                            pesquisar(q, token)
+                        } else if (type === 'paginate') {
+                            paginateSearch(id, token)
+                        } else if (type === 'track') {
+                            sendForm(id, token, trackSuccess)
+                        }
+                    })
             })
-    })
+        }
+    }, 100)
 }
 
 function getData(e) {
@@ -356,162 +345,160 @@ function getData(e) {
     return { 'url': url, 'text': text }
 }
 
-$(function () {
-    'use-stric'
-    $('.ajax-form').on('submit', function (e) {
-        if (!this.checkValidity()) {
-            e.preventDefault()
-            e.stopPropagation()
-        } else {
-            e.preventDefault()
-            getToken($(this).attr('data-action'), this.id)
-        }
-        this.classList.add('was-validated')
-    })
-
-    $('.needs-validation').on('submit', function (e) {
-        if (this.checkValidity() === false) {
-            e.preventDefault()
-            e.stopPropagation()
-            $(this).addClass('was-validated')
-        } else {
-            e.preventDefault()
-            $(this).addClass('was-validated')
-            if (this.id === 'deeplink') {
-                redirectUrl()
-            } else if (this.id === 'track') {
-                getToken('rastrear', this.id, 'track')
-            }
-            $(this).removeClass('was-validated')
-        }
-    })
-
-    if (navigator.share) {
-        $('.plus-share').removeClass('d-none')
+'use-stric'
+$('.ajax-form').on('submit', function (e) {
+    if (!this.checkValidity()) {
+        e.preventDefault()
+        e.stopPropagation()
+    } else {
+        e.preventDefault()
+        getToken($(this).attr('data-action'), this.id)
     }
-
-    $('#accept').on('click', () => {
-        createCookie('accept', 'true', 365)
-        $('#aviso-cookie').fadeOut('slow')
-    })
-
-    $('.igs').on('click', function () {
-        alert('Tire print e compartilhe nas suas storys, para fechar dê um duplo clique!')
-        igShare('#' + $(this).closest('.promo').attr('id'))
-    })
-
-    $('.mre').on('click', function () {
-        let { text, url } = getData(this)
-
-        navigator.share({
-            text: text,
-            url: url,
-        })
-    })
-
-    $('.cpy').on('click', function () {
-        let { text, url } = getData(this)
-        text += `\n\n${url}`
-
-        copyText(text)
-    })
-
-    $('.wpp').on('click', function () {
-        let { text, url } = getData(this)
-        text += `\n\n${url}`
-
-        window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text))
-    })
-
-    $('.tlg').on('click', function () {
-        let { text, url } = getData(this)
-
-        window.open('https://telegram.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text))
-    })
-
-    $('.twt').on('click', function () {
-        let { text, url } = getData(this)
-        text += '\n'
-
-        window.open('https://twitter.com/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text))
-    })
-
-    $('#ig-share').on('dbclick', function () {
-        $(this).addClass('d-none')
-    })
-
-    $('.copy-redirect').on('click', function () {
-        let element = $(this).closest('.promo').attr('id')
-        element = (element === undefined) ? '#' + $(this).closest('.cupom').attr('id') : '#' + element
-        let url = $(this).attr('data-link')
-        let code = $(element).find('.code-text').val()
-        copyText(code, url)
-    })
-
-    $(window).on('scroll', function () {
-        let nav = $('#cabecalho')
-        if ($(this).scrollTop() > 90) {
-            nav.addClass('fixed-top')
-            nav.addClass('shadow')
-            $('body').addClass('pt-5')
-        } else {
-            nav.removeClass('fixed-top')
-            nav.removeClass('shadow')
-            $('body').removeClass('pt-5')
-        }
-    })
-
-    $('#inotify').on('click', function () {
-        $('#notify').addClass('d-none')
-        createCookie('no_notify', 1, 60)
-    })
-
-    if (window.location.pathname.indexOf('/search') === 0) {
-        $('.page-link').on('click', function (e) {
-            e.preventDefault()
-            let href = $(this).attr('href')
-            getToken('paginate', href, 'paginate')
-        })
-
-        $('.filtros').on('click', function (e) {
-            e.preventDefault()
-            let href = $(this).attr('href')
-            getToken('paginate', href, 'paginate')
-        })
-    }
-
-    preferInputs.on('change', function () {
-        if (preferInputs.is(':checked')) {
-            if ((this.id === 'all' && $(this).is(':checked')) || this.id !== 'all') {
-                return paraInput.attr('disabled', true).removeAttr('required')
-            }
-        }
-        paraInput.attr('disabled', false).attr('required')
-    })
-
-    $('#all').on('change', function () {
-        $('.prefer').prop('checked', $(this).is(':checked'))
-    })
-
-    $('#notificacao').on('change', function () {
-        if ($(this).is(':checked')) {
-            $('#prefers').removeClass('d-none').addClass('d-md-flex')
-        } else {
-            $('#prefers').addClass('d-none').removeClass('d-md-flex')
-            $('.prefer').prop('checked', true)
-        }
-    })
-
-    $('.prefer').on('change', function () {
-        let all = true
-        for (check of $('.prefer')) {
-            if (!$(check).is(':checked')) {
-                all = false
-            }
-        }
-
-        $('#all').prop('checked', all)
-    })
-
-    $('#btn-topo').on('click', topo)
+    this.classList.add('was-validated')
 })
+
+$('.needs-validation').on('submit', function (e) {
+    if (this.checkValidity() === false) {
+        e.preventDefault()
+        e.stopPropagation()
+        $(this).addClass('was-validated')
+    } else {
+        e.preventDefault()
+        $(this).addClass('was-validated')
+        if (this.id === 'deeplink') {
+            redirectUrl()
+        } else if (this.id === 'track') {
+            getToken('rastrear', this.id, 'track')
+        }
+        $(this).removeClass('was-validated')
+    }
+})
+
+if (navigator.share) {
+    $('.plus-share').removeClass('d-none')
+}
+
+$('#accept').on('click', () => {
+    createCookie('accept', 'true', 365)
+    $('#aviso-cookie').fadeOut('slow')
+})
+
+$('.igs').on('click', function () {
+    alert('Tire print e compartilhe nas suas storys, para fechar dê um duplo clique!')
+    igShare('#' + $(this).closest('.promo').attr('id'))
+})
+
+$('.mre').on('click', function () {
+    let { text, url } = getData(this)
+
+    navigator.share({
+        text: text,
+        url: url,
+    })
+})
+
+$('.cpy').on('click', function () {
+    let { text, url } = getData(this)
+    text += `\n\n${url}`
+
+    copyText(text)
+})
+
+$('.wpp').on('click', function () {
+    let { text, url } = getData(this)
+    text += `\n\n${url}`
+
+    window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text))
+})
+
+$('.tlg').on('click', function () {
+    let { text, url } = getData(this)
+
+    window.open('https://telegram.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text))
+})
+
+$('.twt').on('click', function () {
+    let { text, url } = getData(this)
+    text += '\n'
+
+    window.open('https://twitter.com/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text))
+})
+
+$('#ig-share').on('dbclick', function () {
+    $(this).addClass('d-none')
+})
+
+$('.copy-redirect').on('click', function () {
+    let element = $(this).closest('.promo').attr('id')
+    element = (element === undefined) ? '#' + $(this).closest('.cupom').attr('id') : '#' + element
+    let url = $(this).attr('data-link')
+    let code = $(element).find('.code-text').val()
+    copyText(code, url)
+})
+
+$(window).on('scroll', function () {
+    let nav = $('#cabecalho')
+    if ($(this).scrollTop() > 90) {
+        nav.addClass('fixed-top')
+        nav.addClass('shadow')
+        $('body').addClass('pt-5')
+    } else {
+        nav.removeClass('fixed-top')
+        nav.removeClass('shadow')
+        $('body').removeClass('pt-5')
+    }
+})
+
+$('#inotify').on('click', function () {
+    $('#notify').addClass('d-none')
+    createCookie('no_notify', 1, 60)
+})
+
+if (window.location.pathname.indexOf('/search') === 0) {
+    $('.page-link').on('click', function (e) {
+        e.preventDefault()
+        let href = $(this).attr('href')
+        getToken('paginate', href, 'paginate')
+    })
+
+    $('.filtros').on('click', function (e) {
+        e.preventDefault()
+        let href = $(this).attr('href')
+        getToken('paginate', href, 'paginate')
+    })
+}
+
+preferInputs.on('change', function () {
+    if (preferInputs.is(':checked')) {
+        if ((this.id === 'all' && $(this).is(':checked')) || this.id !== 'all') {
+            return paraInput.attr('disabled', true).removeAttr('required')
+        }
+    }
+    paraInput.attr('disabled', false).attr('required')
+})
+
+$('#all').on('change', function () {
+    $('.prefer').prop('checked', $(this).is(':checked'))
+})
+
+$('#notificacao').on('change', function () {
+    if ($(this).is(':checked')) {
+        $('#prefers').removeClass('d-none').addClass('d-md-flex')
+    } else {
+        $('#prefers').addClass('d-none').removeClass('d-md-flex')
+        $('.prefer').prop('checked', true)
+    }
+})
+
+$('.prefer').on('change', function () {
+    let all = true
+    for (check of $('.prefer')) {
+        if (!$(check).is(':checked')) {
+            all = false
+        }
+    }
+
+    $('#all').prop('checked', all)
+})
+
+$('#btn-topo').on('click', topo)

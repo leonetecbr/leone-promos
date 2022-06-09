@@ -119,36 +119,41 @@ function unsubscribeUser() {
 }
 
 function update(action) {
-    grecaptcha.ready(() => {
-        grecaptcha.execute(KEY_V3_RECAPTCHA, { action: 'notify' })
-            .then((token) => {
-                const data = {
-                    subscription: sub,
-                    action: action,
-                    token: token,
-                    _token: CSRF
-                }
-
-                $.ajax({
-                    url: '/notificacoes/manage',
-                    type: 'POST',
-                    data: JSON.stringify(data),
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    success: (data) => {
-                        processResponse(data, action)
-                    }
-                })
-                    .fail(() => {
-                        $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
-                        if (sub) {
-                            sub.unsubscribe()
-                            isSubscribed = false
+    let interval = setInterval(function () {
+        if (window.grecaptcha) {
+            clearInterval(interval)
+            grecaptcha.ready(() => {
+                grecaptcha.execute(KEY_V3_RECAPTCHA, { action: 'notify' })
+                    .then((token) => {
+                        const data = {
+                            subscription: sub,
+                            action: action,
+                            token: token,
+                            _token: CSRF
                         }
-                        return updateBtn()
+
+                        $.ajax({
+                            url: '/notificacoes/manage',
+                            type: 'POST',
+                            data: JSON.stringify(data),
+                            dataType: 'json',
+                            contentType: 'application/json',
+                            success: (data) => {
+                                processResponse(data, action)
+                            }
+                        })
+                            .fail(() => {
+                                $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
+                                if (sub) {
+                                    sub.unsubscribe()
+                                    isSubscribed = false
+                                }
+                                return updateBtn()
+                            })
                     })
             })
-    })
+        }
+    }, 100)
 }
 
 function processResponse(data, action) {

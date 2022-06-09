@@ -18,8 +18,8 @@
         gtag('config', 'G-VHZEX7GYK2');
     </script>
     @endif
-    <link rel="stylesheet" type="text/css" href="{{ url('css/bootstrap.min.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url('css/app.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ mix('css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ mix('css/app.min.css') }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>@yield('title') | {{ env('APP_NAME') }}</title>
     @hasSection('description')
@@ -165,10 +165,11 @@
         const KEY_V3_RECAPTCHA = '{{ env("PUBLIC_RECAPTCHA_V3") }}';
         const KEY_VAPID_PUBLIC = '{{ env("VAPID_PUBLIC_KEY") }}';
     </script>
-    <script src="{{ url('js/jquery.min.js') }}"></script>
+    <script src="{{ mix('js/jquery.min.js') }}"></script>
     @yield('scripts')
-    <script src="{{ url('js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ url('js/app.min.js') }}"></script>
+    <script src="{{ mix('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ mix('js/functions.js') }}" async defer></script>
+    <script src="{{ mix('js/app.min.js') }}" async defer></script>
     <footer id="rodape" class="text-center border-top p-3 mt-3 bg-light">
         <div id="social" class="mx-auto fs-2 mb-3">
             <a href="https://wa.me/{{ env('WHATSAPP_NUMBER') }}"><i class="fab fa-whatsapp-square"></i></a>

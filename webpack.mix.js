@@ -16,5 +16,7 @@ mix.sass('resources/views/layouts/app.scss', 'public/css/bootstrap.min.css').sou
         'resources/js/app.js',
         'resources/js/notify.js'
     ], 'public/js/app.min.js').sourceMaps()
+    .scripts('resources/js/functions.js', 'public/js/functions.js')
+    .version()
     .js('resources/js/sw.js', 'public/sw.js').sourceMaps()
     .disableNotifications()
