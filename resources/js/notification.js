@@ -25,7 +25,7 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
     })
 } else {
     btn.html('Notificações não suportadas')
-    $('#notify-unsupport').removeClass('d-none')
+    $('#notify-unsupported').removeClass('d-none')
 }
 
 function initializeUI() {
@@ -73,7 +73,7 @@ function updateBtn() {
     if (Notification.permission === 'denied') {
         btn.html('Notificações bloqueadas')
         btn.attr("disabled", true)
-        $('#notify-bloqued').removeClass('d-none')
+        $('#notify-blocked').removeClass('d-none')
         if (sub) {
             update('remove')
         }

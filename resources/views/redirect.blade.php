@@ -2,7 +2,7 @@
 @section('title', 'Estamos redirecionando você ...')
 @section('content')
     <h1 class="display-5 text-center my-5">Estamos redirecionando você ...</h1>
-    <p class="text-center">Aguarde enquanto te redirecionamos em segurança para a loja onde você poderá adiquirir seu produto ...</p>
+    <p class="text-center">Aguarde enquanto te redirecionamos em segurança para a loja onde você poderá adquirir seu produto ...</p>
     <div class="progress my-5">
         <div class="progress-bar progress-bar-striped progress-bar-animated w-0" id="load" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
@@ -10,7 +10,7 @@
 @section('scripts')
     <script>
         const URL = '{{Request::get('url')}}'
-        if (URL == '' || URL.indexOf('https://') !== 0){
+        if (URL === '' || URL.indexOf('https://') !== 0){
             window.location.href = '/'
         } else{
             let progressBar = document.getElementById('load')

@@ -449,9 +449,9 @@ $(window).on('scroll', function () {
     }
 })
 
-$('#inotify').on('click', function () {
-    $('#notify').addClass('d-none')
-    createCookie('no_notify', 1, 60)
+$('#inotification').on('click', function () {
+    $('#notification').addClass('d-none')
+    createCookie('no_notification', 1, 60)
 })
 
 if (window.location.pathname.indexOf('/search') === 0) {

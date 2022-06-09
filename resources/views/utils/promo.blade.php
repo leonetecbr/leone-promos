@@ -1,6 +1,5 @@
 <?php $target = ($share ?? true) ? '_blank' : '_self'; ?>
     <article id="promos" class="d-flex justify-content-around flex-wrap">
-        <div id="noeye"></div>
         @if (empty($promos))
         <p class="mx-auto my-3 alert alert-warning w-75 text-center">Nenhuma oferta encontrada!</p>
     </article>
@@ -40,7 +39,7 @@
                 @endif
                 @if (!empty($promo['code']))
                 <div class="code row col-11 mx-auto">
-                    <input value="{{ $promo['code'] }}" disabled="true" class="form-control text-center code-text"/>
+                    <input value="{{ $promo['code'] }}" disabled class="form-control text-center code-text"/>
                 </div>
                 @endif
             </div>

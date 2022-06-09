@@ -19,14 +19,14 @@
                 </a>
             </div>
             <div class="border p-3 col-12 col-lg-5 mt-4">
-                <a href="{{ route('notify.new') }}" class="text-black text-decoration-none">
+                <a href="{{ route('notification.new') }}" class="text-black text-decoration-none">
                     <div class="float-end mt-4"><i class="fas fa-angle-right"></i></div>
                     <h3>Nova notificação</h3>
                     <p class="mt-3">Envie notificações para um usuário específico, para todos usuário ou para um grupo específico.</p>
                 </a>
             </div>
             <div class="border p-3 col-12 col-lg-5 mt-4">
-                <a href="{{ route('notify.history') }}" class="text-black text-decoration-none">
+                <a href="{{ route('notification.history') }}" class="text-black text-decoration-none">
                     <div class="float-end mt-4"><i class="fas fa-angle-right"></i></div>
                     <h3>Histórico de notificações</h3>
                     <p class="mt-3">Consulte o histórico de notificações enviadas pelo sitema, APIs ou painel de administração.</p>

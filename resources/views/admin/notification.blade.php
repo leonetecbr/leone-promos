@@ -13,7 +13,7 @@
             {{ session('sender') }}
         </div>
         @endif
-        <form action="/admin/notify/send" class="p3 px-lg-5 flex-column" method="post" autocomplete="off">
+        <form action="{{ route('notification.send') }}" class="p3 px-lg-5 flex-column" method="post" autocomplete="off">
             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}" />
             <div class="row">
                 <div class="col-auto">
@@ -97,7 +97,7 @@
             </div>
             <div class="row justify-content-around mt-4">
                 <button type="submit" class="btn btn-primary text-light col-5 btn-lg">Enviar</button>
-                <a href="/admin" class="col-5">
+                <a href="{{ route('dashboard') }}" class="col-5">
                     <button type="button" class="btn btn-danger w-100 btn-lg">Cancelar</button>
                 </a>
             </div>

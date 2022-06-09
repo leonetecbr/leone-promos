@@ -63,9 +63,9 @@ class NotificationHelper
 
         if (strpos($payload['link'], '#') !== false) {
             $link = explode('#', $payload['link'], 2);
-            $payload['link'] = $link[0] . '?utm_source=push_notify&tag=' . $id . '#' . $link[1];
+            $payload['link'] = $link[0] . '?utm_source=push_notification&tag=' . $id . '#' . $link[1];
         } else {
-            $payload['link'] .= '?utm_source=push_notify&tag=' . $id;
+            $payload['link'] .= '?utm_source=push_notification&tag=' . $id;
         }
 
         $subscription = WebPush\Subscription::create(["endpoint" => $subscription['endpoint'], "keys" => ['p256dh' => $subscription['p256dh'], 'auth' => $subscription['auth']]]);
@@ -104,9 +104,9 @@ class NotificationHelper
 
         if (strpos($payload['link'], '#') !== false) {
             $link = explode('#', $payload['link'], 2);
-            $payload['link'] = $link[0] . '?utm_source=push_notify&tag=' . $id . '#' . $link[1];
+            $payload['link'] = $link[0] . '?utm_source=push_notification&tag=' . $id . '#' . $link[1];
         } else {
-            $payload['link'] .= '?utm_source=push_notify&tag=' . $id;
+            $payload['link'] .= '?utm_source=push_notification&tag=' . $id;
         }
 
         $notifications = [];

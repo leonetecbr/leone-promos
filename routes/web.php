@@ -74,12 +74,12 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
                 Route::post('/save', [Controllers\TopPromosController::class, 'save'])->name('promos.save');
             });
 
-            Route::prefix('notify')->group(function () {
-                Route::get('/', [Controllers\NotificationController::class, 'getAdmin'])->name('notify.new');
+            Route::prefix('notification')->group(function () {
+                Route::get('/', [Controllers\NotificationController::class, 'getAdmin'])->name('notification.new');
 
-                Route::post('/send', [Controllers\NotificationController::class, 'send']);
+                Route::post('/send', [Controllers\NotificationController::class, 'send'])->name('notification.send');
 
-                Route::get('/history/{page?}', [Controllers\SendedNotificationController::class, 'get'])->name('notify.history');
+                Route::get('/history/{page?}', [Controllers\SendedNotificationController::class, 'get'])->name('notification.history');
             });
 
             Route::prefix('lojas')->group(function () {

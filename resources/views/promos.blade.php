@@ -12,13 +12,13 @@
 @section('content')
     <div id="ig-share" class="d-none fixed-top bg-white p-3 w-100 h-100 text-center">
     <div id="logomarca" class="border-bottom mh-10">
-        <img src="/img/logo.png" alt="Logo" class="mx-auto">
+        <img src="{{ url('/img/logo.png') }}" alt="Logo" class="mx-auto">
     </div>
     <img id="product-image" class="my-3 mh-33" alt="Imagem do produto">
     <h4 class="h4" id="product-title"></h4>
     <div class="mt-3 fs-5">
         <div id="price-from" class="mb-3">
-            <div class="text-muted samll">De:</div>&nbsp;
+            <div class="text-muted small">De:</div>&nbsp;
             <div id="product-price-from" class="text-decoration-line-through h4 fw-light"></div>
         </div>
         <div class="text-muted small">Por:</div>&nbsp;
@@ -26,7 +26,7 @@
         <div id="installment" class="mt-2"></div>
     </div>
     <div id="product-desc" class="mt-3"></div>
-    <div id="product-code" class="mt-3 code"><input type="text" disabled="true" value="Acesse o link para obter o cupom" class="form-control text-center"></div>
+    <div id="product-code" class="mt-3 code"><input type="text" disabled value="Acesse o link para obter o cupom" class="form-control text-center"></div>
     <p id="share-link" class="mt-3 fw-bolder fs-5"></p>
     </div>
     <h1 class="display-5 text-center">{{ $subtitle ?? $title }}</h1>

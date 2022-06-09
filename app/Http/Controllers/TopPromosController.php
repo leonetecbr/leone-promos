@@ -141,7 +141,7 @@ class TopPromosController extends Controller
         $promo->times = $request->input('installment_quantity');
 
         if ($promo->save()) {
-            if ($request->filled('notify')) {
+            if ($request->filled('notification')) {
                 $payload = [
                     'title' => $promo->name,
                     'link' => '/#promo-0-1-' . substr($promo->id, -3)
@@ -169,7 +169,7 @@ class TopPromosController extends Controller
                 return redirect()->route('promos.list');
             } else {
                 return redirect()->route('promos.list')->withErrors([
-                    'notify' => ['Erro ao enviar a notificação para um ou mais destinatários!']
+                    'notification' => ['Erro ao enviar a notificação para um ou mais destinatários!']
                 ]);
             }
         } else {

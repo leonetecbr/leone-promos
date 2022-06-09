@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <?php
-    if(Request::filled('tag') && Request::input('utm_source')=='push_notify'){
+    if(Request::filled('tag') && Request::input('utm_source')=='push_notification'){
         require_once(__DIR__.'/../../../app/Includes/ClickNotification.php');
     }
 ?>
@@ -36,7 +36,7 @@
     <meta name="author" content="Leone Oliveira">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <script src="https://kit.fontawesome.com/6719bc67c5.js" crossorigin="anonymous" async></script>
-    <link rel="icon" href="/img/icon.png">
+    <link rel="icon" href="{{ url('/img/icon.png') }}">
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="{{ env('APP_NAME') }}" />
@@ -46,23 +46,23 @@
     <meta name="apple-mobile-web-app-title" content="Ofertas" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="msapplication-TileColor" content="#da6709" />
-    <meta name="msapplication-TileImage" content="/img/icon.png" />
-    <link rel="apple-touch-icon" href="/img/icon.png" />
-    <link rel="manifest" href="/json/manifest.json">
+    <meta name="msapplication-TileImage" content="{{ url('/img/icon.png') }}" />
+    <link rel="apple-touch-icon" href="{{ url('/img/icon.png') }}" />
+    <link rel="manifest" href="{{ url('/json/manifest.json') }}">
     <meta name="application-name" content="Ofertas">
-    <link rel="icon" sizes="152x152" href="/img/152.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/img/152.png" />
-    <link rel="icon" sizes="144x144" href="/img/144.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/img/144.png" />
-    <link rel="icon" sizes="128x128" href="/img/128.png">
-    <link rel="icon" sizes="96x96" href="/img/96.png">
-    <link rel="icon" sizes="90x90" href="/img/90.png">
-    <link rel="icon" sizes="72x72" href="/img/72.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/img/72.png" />
-    <link rel="icon" sizes="64x64" href="/img/64.png">
-    <link rel="icon" sizes="60x60" href="/img/60.png">
-    <link rel="icon" sizes="32x32" href="/img/32.png">
-    <link rel="icon" sizes="16x16" href="/img/16.png">
+    <link rel="icon" sizes="152x152" href="{{ url('/img/152.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ url('/img/152.png') }}" />
+    <link rel="icon" sizes="144x144" href="{{ url('/img/144.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ url('/img/144.png') }}" />
+    <link rel="icon" sizes="128x128" href="{{ url('/img/128.png') }}">
+    <link rel="icon" sizes="96x96" href="{{ url('/img/96.png') }}">
+    <link rel="icon" sizes="90x90" href="{{ url('/img/90.png') }}">
+    <link rel="icon" sizes="72x72" href="{{ url('/img/72.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ url('/img/72.png') }}" />
+    <link rel="icon" sizes="64x64" href="{{ url('/img/64.png') }}">
+    <link rel="icon" sizes="60x60" href="{{ url('/img/60.png') }}">
+    <link rel="icon" sizes="32x32" href="{{ url('/img/32.png') }}">
+    <link rel="icon" sizes="16x16" href="{{ url('/img/16.png') }}">
     <meta name="theme-color" content="#da6709">
     <link rel="canonical" href="{{ Request::url() }}" />
     <script src="https://www.google.com/recaptcha/api.js?render={{ env('PUBLIC_RECAPTCHA_V3') }}" async></script>@yield('headers')
@@ -127,12 +127,12 @@
         </nav>
         <div class="text-end small pb-3 d-none d-lg-block">Esta pesquisa é protegida pelo Google reCAPTCHA para garantir que você não é um robô. <a target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas de Privacidade</a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de Serviço</a> do Google são aplicáveis.</div>
     </header>
-    @if (empty($_COOKIE['no_notify']) && (Route::currentRouteName()!='notificacoes'))
-    <div id="notify" class="container d-none border-bottom p-3">
+    @if (empty($_COOKIE['no_notification']) && (Route::currentRouteName()!='notificacoes'))
+    <div id="notification" class="container d-none border-bottom p-3">
         <p>Receba nossas seleção de melhores promoções em primeira mão por notificação no seu navegador!</p><br />
-        <div class="float-end me-2" id="inotify"><i class="fw-bolder far fa-eye-slash pointer"></i></div>
+        <div class="float-end me-2" id="inotification"><i class="fw-bolder far fa-eye-slash pointer"></i></div>
         <div class="text-center">
-            <button id="btn-notify" class="btn btn-primary text-light" disabled="true">Ativar notificações</button>
+            <button id="btn-notification" class="btn btn-primary text-light" disabled>Ativar notificações</button>
         </div>
     </div>
     @endif

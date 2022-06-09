@@ -47,7 +47,7 @@
     </div>
     @endif
     <div class="text-center mt-3">
-        <a href="/admin" class="col-5">
+        <a href="{{ route('dashboard') }}" class="col-5">
             <button type="button" class="btn btn-primary text-white w-75 btn-lg">Voltar</button>
         </a>
     </div>
