@@ -32,7 +32,7 @@
                     <div id="collapseIg" class="accordion-collapse collapse" aria-labelledby="headingIg" data-bs-parent="#notification-unsupported">
                         <div class="accordion-body">
                             <h3 class="fw-light mb-3">Siga esses passo para conseguir ativar!</h3>
-                            <img src="{{ url('/img/ajuda/barra-navegador-instagram.jpg')) }}" alt="Barra do navegador integrado do Instagram">
+                            <img src="{{ url('/img/ajuda/barra-navegador-instagram.jpg') }}" alt="Barra do navegador integrado do Instagram">
                             <p class="my-3 text-muted">Clique nos "3 pontinhos" para acessar mais opções do navegador do Instagram.</p>
                             <img src="{{ url('/img/ajuda/abrir-no-navegador-instagram.jpg') }}" alt="Menu da barra do navegador integrado do Instagram">
                             <p class="my-3 text-muted">Agora clique em "Abrir no Chrome" ou no navegador de sua preferência.</p>

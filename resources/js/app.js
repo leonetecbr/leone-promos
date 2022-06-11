@@ -1,10 +1,8 @@
-let options = {
+const options = {
     hour: 'numeric', minute: 'numeric', year: 'numeric', month: '2-digit', day: '2-digit'
-}
+}, igShareDiv = $('#ig-share'), notificationInput = $('#notificacao'), allPrefer = $('#all')
 
-let preferInputs = $("#prefers input[type='checkbox']")
-
-let paraInput = $('#para')
+const prefersInputs = $("#prefers input[type='checkbox']"), paraInput = $('#para'), preferInputs = $('.prefer');
 
 String.prototype.strstr = function (search) {
     let position = this.indexOf(search)
@@ -49,7 +47,7 @@ let trackSuccess = (data) => {
             if (suspend && rastreio.dtPrevista !== '') {
                 let date = new Date(rastreio.dtPrevista)
                 header += '\n<div class="text-center small fw-bolder">PREVISÂO DE ENTREGA: ' + date.toLocaleDateString() + '*</div>'
-                track += '\n<div class="text-center small my-2">*A previsão de entrega é fornecida pelo Correios e em geral a entrega costuma acontecer bem antes da previsão.</div>\n<div class="mx-auto mt-3 w-75"><a href="https://rastreamento.correios.com.br/app/suspensaoEntrega/index.php?objeto=' + rastreio.codObjeto + '" target="_blank"><button class="btn btn-danger text-light btn-lg w-100">Suspender entrega</button></a></div>'
+                track += '\n<div class="text-center small my-2">*A previsão de entrega é fornecida pelos Correios e, em geral a entrega costuma acontecer bem antes da previsão.</div>\n<div class="mx-auto mt-3 w-75"><a href="https://rastreamento.correios.com.br/app/suspensaoEntrega/index.php?objeto=' + rastreio.codObjeto + '" target="_blank"><button class="btn btn-danger text-light btn-lg w-100">Suspender entrega</button></a></div>'
             }
             header += '\n<div class="text-center small fw-light">' + rastreio.tipoPostal + '</div>'
         } else {
@@ -88,7 +86,7 @@ function igShare(element) {
     }
     $('#product-price-to').html($(element).find('.pricing-card-title').html())
     $('#share-link').html(getUrl(element))
-    $('#ig-share').removeClass('d-none')
+    igShareDiv.removeClass('d-none')
 }
 
 function escondeCupom(cupom) {
@@ -149,13 +147,13 @@ function copyText(text, url = false) {
     navigator.clipboard.writeText(text).then(() => {
         if (url) window.open(url)
         else {
-            let success = $('#copy-success')
-            success.removeClass('d-none')
-            setTimeout(() => success.addClass('d-none'), 3000)
+            let toast = new bootstrap.Toast(document.getElementById('copy-success'))
+            toast.show()
         }
     }, () => {
-        alert('Não foi possível copiar, copie manualmente!')
         if (url) window.open(url)
+        else errorAlert('Não foi possível copiar, copie manualmente!')
+
     })
 
 }
@@ -187,44 +185,12 @@ function getReCaptcha(token) {
     return input
 }
 
-function getPrefer(endpoint) {
-    $.ajax({
-        url: '/prefer/get',
-        data: JSON.stringify({ 'endpoint': endpoint, '_token': CSRF }),
-        dataType: 'json',
-        contentType: 'application/json',
-        type: 'POST'
-    }).done((data) => {
-        if (data.success) {
-            let checked = 0
-            for (let i = 0; i < data.pref.length; i++) {
-                if (data.pref[i]) {
-                    $('#p' + (i + 1)).attr('checked', true)
-                    checked++
-                }
-            }
-            if (checked === data.pref.length) {
-                $('#all').attr('checked', true)
-            }
-            $('#preferencias').removeClass('d-none')
-        } else {
-            if (typeof data.message !== 'undefined') {
-                alert(data.message)
-            } else {
-                alert('Falha')
-            }
-        }
-    }).fail(() => {
-        alert('Falha')
-    })
-}
-
 function redirectUrl() {
-    let textbox = $('#url')
-    let url = textbox.val()
+    let textBox = $('#url')
+    let url = textBox.val()
     url = url.strstr('?')
     window.open(`/redirect?url=${url}`)
-    textbox.val('')
+    textBox.val('')
 }
 
 function pesquisar(q, token) {
@@ -345,7 +311,6 @@ function getData(e) {
     return { 'url': url, 'text': text }
 }
 
-'use-stric'
 $('.ajax-form').on('submit', function (e) {
     if (!this.checkValidity()) {
         e.preventDefault()
@@ -384,7 +349,7 @@ $('#accept').on('click', () => {
 })
 
 $('.igs').on('click', function () {
-    alert('Tire print e compartilhe nas suas storys, para fechar dê um duplo clique!')
+    alert('Tire print e compartilhe nas suas stories, para fechar dê um duplo clique!')
     igShare('#' + $(this).closest('.promo').attr('id'))
 })
 
@@ -424,9 +389,7 @@ $('.twt').on('click', function () {
     window.open('https://twitter.com/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text))
 })
 
-$('#ig-share').on('dbclick', function () {
-    $(this).addClass('d-none')
-})
+igShareDiv.on('dblclick', () => igShareDiv.addClass('d-none'))
 
 $('.copy-redirect').on('click', function () {
     let element = $(this).closest('.promo').attr('id')
@@ -436,9 +399,9 @@ $('.copy-redirect').on('click', function () {
     copyText(code, url)
 })
 
-$(window).on('scroll', function () {
+$(window).on('scroll', () => {
     let nav = $('#cabecalho')
-    if ($(this).scrollTop() > 90) {
+    if ($(window).scrollTop() > 90) {
         nav.addClass('fixed-top')
         nav.addClass('shadow')
         $('body').addClass('pt-5')
@@ -449,7 +412,7 @@ $(window).on('scroll', function () {
     }
 })
 
-$('#inotification').on('click', function () {
+$('#i-notification').on('click', () => {
     $('#notification').addClass('d-none')
     createCookie('no_notification', 1, 60)
 })
@@ -468,8 +431,8 @@ if (window.location.pathname.indexOf('/search') === 0) {
     })
 }
 
-preferInputs.on('change', function () {
-    if (preferInputs.is(':checked')) {
+prefersInputs.on('change', function () {
+    if (prefersInputs.is(':checked')) {
         if ((this.id === 'all' && $(this).is(':checked')) || this.id !== 'all') {
             return paraInput.attr('disabled', true).removeAttr('required')
         }
@@ -477,22 +440,20 @@ preferInputs.on('change', function () {
     paraInput.attr('disabled', false).attr('required')
 })
 
-$('#all').on('change', function () {
-    $('.prefer').prop('checked', $(this).is(':checked'))
-})
+allPrefer.on('change', () => preferInputs.prop('checked', allPrefer.is(':checked')))
 
-$('#notificacao').on('change', function () {
-    if ($(this).is(':checked')) {
-        $('#prefers').removeClass('d-none').addClass('d-md-flex')
+notificationInput.on('change', () => {
+    if (notificationInput.is(':checked')) {
+        prefersInputs.removeClass('d-none').addClass('d-md-flex')
     } else {
-        $('#prefers').addClass('d-none').removeClass('d-md-flex')
-        $('.prefer').prop('checked', true)
+        prefersInputs.addClass('d-none').removeClass('d-md-flex')
+        preferInputs.prop('checked', true)
     }
 })
 
-$('.prefer').on('change', function () {
+preferInputs.on('change', function () {
     let all = true
-    for (check of $('.prefer')) {
+    for (check of preferInputs) {
         if (!$(check).is(':checked')) {
             all = false
         }

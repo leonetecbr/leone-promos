@@ -34,7 +34,7 @@ class RedirectHelper
     public static function processAwin(string $url, int $advertiserId, int $uid = null): string
     {
         if (empty($uid)) {
-            $uid = $_ENV['ID_AFILIADO_AWIN'];
+            $uid = env('ID_AFILIADO_AWIN');
         }
 
         return 'https://www.awin1.com/cread.php?awinmid=' . $advertiserId . '&awinaffid=' . $uid . '&clickref=deeplink&ued=' . urlencode($url);
@@ -47,7 +47,7 @@ class RedirectHelper
      */
     public static function processLomadee(string $url): string
     {
-        return 'https://redir.lomadee.com/v2/deeplink?sourceId=' . $_ENV['SOURCE_ID_LOMADEE'] . '&url=' . urlencode($url);
+        return 'https://redir.lomadee.com/v2/deeplink?sourceId=' . env('SOURCE_ID_LOMADEE') . '&url=' . urlencode($url);
     }
 
     /**

@@ -72,13 +72,13 @@ class RedirectController
 			} elseif (strpos($url, 'https://m.casasbahia.com.br') === 0 || strpos($url, 'https://www.casasbahia.com.br') === 0 || strpos($url, 'https://casasbahia.com.br') === 0) {
 				$to = RedirectHelper::processAwin($url, 17629);
 			} elseif (strpos($url, 'https://www.soubarato.com.br') === 0 || strpos($url, 'https://soubarato.com.br') === 0) {
-				$to = RedirectHelper::processAwin($url, 23281, $_ENV['ID_AFILIADO_B2W']);
+				$to = RedirectHelper::processAwin($url, 23281, env('ID_AFILIADO_B2W'));
 			} elseif (strpos($url, 'https://www.submarino.com.br') === 0 || strpos($url, 'https://submarino.com.br') === 0) {
-				$to = RedirectHelper::processAwin($url, 22195, $_ENV['ID_AFILIADO_B2W']);
+				$to = RedirectHelper::processAwin($url, 22195, env('ID_AFILIADO_B2W'));
 			} elseif (strpos($url, 'https://www.shoptime.com.br') === 0 || strpos($url, 'https://shoptime.com.br') === 0) {
-				$to = RedirectHelper::processAwin($url, 22194, $_ENV['ID_AFILIADO_B2W']);
+				$to = RedirectHelper::processAwin($url, 22194, env('ID_AFILIADO_B2W'));
 			} elseif (strpos($url, 'https://www.americanas.com.br') === 0 || strpos($url, 'https://americanas.com.br') === 0) {
-				$to = RedirectHelper::processAwin($url, 22193, $_ENV['ID_AFILIADO_B2W']);
+				$to = RedirectHelper::processAwin($url, 22193, env('ID_AFILIADO_B2W'));
 			} else {
 				$to = RedirectHelper::processLomadee($url);
 			}

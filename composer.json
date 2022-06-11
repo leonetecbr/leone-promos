@@ -23,7 +23,7 @@
         "ext-mbstring": "*",
         "ext-curl": "*",
         "ext-json": "*",
-      "ext-openssl": "*"
+        "ext-openssl": "*"
     },
     "support": {
         "email": "falecom@leone.tec.br"

@@ -1,7 +1,5 @@
-let isSubscribed = false
-let swRegistration = null
-let btn = $('#btn-notify')
-let sub
+let isSubscribed = false, swRegistration = null, sub
+const btn = $('#btn-notification')
 
 function urlB64ToUint8Array(base64String) {
     const padding = '='.repeat((4 - base64String.length % 4) % 4)
@@ -25,13 +23,14 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
     })
 } else {
     btn.html('Notificações não suportadas')
-    $('#notify-unsupported').removeClass('d-none')
+    $('#notification-unsupported').removeClass('d-none')
 }
 
 function initializeUI() {
-    if (document.cookie.indexOf('no_notify') < 0) {
-        $('#notify').removeClass('d-none')
+    if (document.cookie.indexOf('no-notification') < 0) {
+        $('#notification').removeClass('d-none')
     }
+
     btn.attr('disabled', false)
     btn.on('click', () => {
         btn.attr('disabled', true)
@@ -42,6 +41,7 @@ function initializeUI() {
             subscribeUser()
         }
     })
+
     swRegistration.pushManager.getSubscription()
         .then((subscription) => {
             sub = subscription
@@ -73,7 +73,7 @@ function updateBtn() {
     if (Notification.permission === 'denied') {
         btn.html('Notificações bloqueadas')
         btn.attr("disabled", true)
-        $('#notify-blocked').removeClass('d-none')
+        $('#notification-blocked').removeClass('d-none')
         if (sub) {
             update('remove')
         }
@@ -83,8 +83,8 @@ function updateBtn() {
     btn.attr('disabled', false)
     if (isSubscribed) {
         setTimeout(() => {
-            createCookie('no_notify', 1, 60)
-            $('#notify').hide('slow')
+            createCookie('no-notification', 1, 60)
+            $('#notification').hide('slow')
         }, 1000)
         btn.html('Desativar notificações')
     } else {
@@ -123,7 +123,7 @@ function update(action) {
         if (window.grecaptcha) {
             clearInterval(interval)
             grecaptcha.ready(() => {
-                grecaptcha.execute(KEY_V3_RECAPTCHA, { action: 'notify' })
+                grecaptcha.execute(KEY_V3_RECAPTCHA, { action: 'change_notification' })
                     .then((token) => {
                         const data = {
                             subscription: sub,
@@ -164,7 +164,7 @@ function processResponse(data, action) {
         createCookie('no_update', 1, 10)
     } else {
         if (typeof data.success === undefined) {
-            $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
+            $('#notification').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
             if (sub) {
                 sub.unsubscribe()
                 isSubscribed = false
@@ -174,13 +174,13 @@ function processResponse(data, action) {
         } else if (data.success && action === 'remove') {
             isSubscribed = false
         } else if (typeof data.erro !== undefined) {
-            $('#notify').append('<p class="erro mt-2 center">' + data.erro + '</p>')
+            $('#notification').append('<p class="erro mt-2 center">' + data.erro + '</p>')
             if (sub) {
                 sub.unsubscribe()
                 isSubscribed = false
             }
         } else {
-            $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
+            $('#notification').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
             if (sub) {
                 sub.unsubscribe()
                 isSubscribed = false

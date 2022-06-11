@@ -26,7 +26,7 @@
                         <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="Digite sua senha ...">
                     </div>
                 </div>
-                <div class="g-recaptcha mb-4 mx-auto" data-sitekey="{{ $_ENV['PUBLIC_RECAPTCHA_V2'] }}" data-callback="submit"></div>
+                <div class="g-recaptcha mb-4 mx-auto" data-sitekey="{{ env('PUBLIC_RECAPTCHA_V2') }}" data-callback="submit"></div>
                 <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}" />
                 <button type="submit" class="btn btn-primary btn-lg text-light col-8 mx-auto">Logar</button>
             </form>

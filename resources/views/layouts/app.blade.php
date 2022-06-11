@@ -130,7 +130,7 @@
     @if (empty($_COOKIE['no_notification']) && (Route::currentRouteName()!='notificacoes'))
     <div id="notification" class="container d-none border-bottom p-3">
         <p>Receba nossas seleção de melhores promoções em primeira mão por notificação no seu navegador!</p><br />
-        <div class="float-end me-2" id="inotification"><i class="fw-bolder far fa-eye-slash pointer"></i></div>
+        <div class="float-end me-2" id="i-notification"><i class="fw-bolder far fa-eye-slash pointer"></i></div>
         <div class="text-center">
             <button id="btn-notification" class="btn btn-primary text-light" disabled>Ativar notificações</button>
         </div>
@@ -148,9 +148,21 @@
         <div class="invalid-feedback">Pesquisa inválida (Mínimo de 3 caracteres e máximo 20)</div>
         <p class="small">Esta pesquisa é protegida pelo Google reCAPTCHA para garantir que você não é um robô. <a target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas de Privacidade</a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de Serviço</a> do Google são aplicáveis.</p>
     </form>
-    <div class="container mt-5 p-3 alert-success d-none fixed-top" id="copy-success">
-        <h6 class="bolder">Texto copiado! <i class="fas fa-check"></i></h6>
-        <p>Agora é só compartilhar com seus amigos.</p>
+    <div class="d-flex justify-content-center">
+        <div class="toast align-items-center text-white bg-success border-0 position-fixed fs-5 z-index-fixed" id="copy-success" data-bs-delay="3000">
+            <div class="d-flex">
+                <div class="toast-body mx-auto">
+                    <i class="fa fa-check"></i> Texto copiado com sucesso!
+                </div>
+            </div>
+        </div>
+        <div class="col-8 col-lg-6 toast align-items-center text-white bg-danger border-0 position-fixed fs-5 z-index-fixed" id="error-alert" data-bs-delay="5000">
+            <div class="d-flex">
+                <div class="toast-body mx-auto">
+                    <i class="fa-solid fa-xmark"></i> <span id="error-message"></span>
+                </div>
+            </div>
+        </div>
     </div>
     <main class="p-3 px-md-5">
         @yield('content')

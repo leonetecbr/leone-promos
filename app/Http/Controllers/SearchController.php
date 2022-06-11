@@ -59,7 +59,7 @@ class SearchController extends Controller
                 $offers = '<p class="fs-4 text-danger my-3">' . $e->getMessage() . '</p>
         <div class="text-center mt-2">
             <form id="checkbox" method="post"><input type="hidden" name="type" value="v2">
-                <div class="g-recaptcha" data-sitekey="' . $_ENV['PUBLIC_RECAPTCHA_V2'] . '" data-callback="submit"></div>
+                <div class="g-recaptcha" data-sitekey="' . env('PUBLIC_RECAPTCHA_V2') . '" data-callback="submit"></div>
             </form>
         </div>';
                 $headers = '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';

@@ -184,7 +184,7 @@ class ApiHelper
     private static function getAPI(): array
     {
         $dados = [
-            'sourceId' => $_ENV['SOURCE_ID_LOMADEE']
+            'sourceId' => env('SOURCE_ID_LOMADEE')
         ];
 
         if (self::$store !== 0) {
@@ -194,20 +194,22 @@ class ApiHelper
         // Promoções por loja
         if (self::$id === 999) {
             $dados['page'] = self::$page;
-            $url = $_ENV['API_URL_LOMADEE'] . '/v3/' . $_ENV['APP_TOKEN_LOMADEE'] . '/offer/_store/' . self::$store . '?' . http_build_query($dados);
+            $url = env('API_URL_LOMADEE') . '/v3/' . env('APP_TOKEN_LOMADEE') . '/offer/_store/' . self::$store . '?' . http_build_query($dados);
         }
         // Promoções por categoria
         elseif (self::$id !== 0) {
             $dados['page'] = self::$page;
-            $url = $_ENV['API_URL_LOMADEE'] . '/v3/' . $_ENV['APP_TOKEN_LOMADEE'] . '/offer/_category/' . self::$id . '?' . http_build_query($dados);
+            $url = env('API_URL_LOMADEE') . '/v3/' . env('APP_TOKEN_LOMADEE') . '/offer/_category/' . self::$id . '?' . http_build_query($dados);
         }
         // Cupons
         else {
-            $url = $_ENV['API_URL_LOMADEE'] . '/v2/' . $_ENV['APP_TOKEN_LOMADEE'] . '/coupon/_all?' . http_build_query($dados);
+            $url = env('API_URL_LOMADEE') . '/v2/' . env('APP_TOKEN_LOMADEE') . '/coupon/_all?' . http_build_query($dados);
         }
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true
+        ]);
         $json = curl_exec($ch);
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if (empty($json) || $status !== 200) {
@@ -283,7 +285,7 @@ class ApiHelper
     private static function getAwin(): array
     {
         $coupon = [];
-        $dado = CsvHelper::readCSV($_ENV['API_URL_CSV_AWIN']);
+        $dado = CsvHelper::readCSV(env('API_URL_CSV_AWIN'));
         $a = 0;
         for ($i = 0; !empty($dado[$i][1]); $i++) {
             /**if ($dado[$i][1] === 'Aliexpress BR & LATAM') {
@@ -372,6 +374,7 @@ class ApiHelper
             // Verifica se o horário da última atualização é maior que 24 horas atrás
             if (time() - strtotime($coupons[0]->created_at) > 86400) {
                 self::$page = $page;
+                self::$store = $loja;
                 return self::toCachedCoupons($loja, true);
             }
 
@@ -408,7 +411,7 @@ class ApiHelper
         $price = $request->get('price');
         $dados = [
             'keyword' => $q,
-            'sourceId' => $_ENV['SOURCE_ID_LOMADEE'],
+            'sourceId' => env('SOURCE_ID_LOMADEE'),
             'page' => $page
         ];
 
@@ -456,7 +459,7 @@ class ApiHelper
         }
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $_ENV['API_URL_LOMADEE'] . '/v3/' . $_ENV['APP_TOKEN_LOMADEE'] . '/offer/_search?' . http_build_query($dados));
+        curl_setopt($ch, CURLOPT_URL, env('API_URL_LOMADEE') . '/v3/' . env('APP_TOKEN_LOMADEE') . '/offer/_search?' . http_build_query($dados));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $json = curl_exec($ch);
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
