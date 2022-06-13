@@ -24,9 +24,9 @@
                     <a target="{{ $target }}" href="{{ $promo['link'] }}" class="text-decoration-none link-dark product-title">{{ $promo['name'] }}</a>
                 </h4>
                 @if ($catId === 0 && !empty($promo['from']) && ($promo['from']-$promo['for'])>=0.01)
-                <p class="mb-0">De: <div class="text-decoration-line-through">R${{ number_format($promo['from'], 2, ',', '.') }}</div></p>
+                <div class="mb-0 col-auto d-flex justify-content-center">De:&nbsp;<div class="text-decoration-line-through price-from">R${{ number_format($promo['from'], 2, ',', '.') }}</div></div>
                 @endif
-                <h5 class="pricing-card-title mt-3">{{ ($promo['for'] != 0)? 'R$' . number_format($promo['for'], 2, ',', '.') : 'Grátis'; }}</h5>
+                <h5 class="pricing-card-title mt-3">{{ ($promo['for'] != 0) ? 'R$' . number_format($promo['for'], 2, ',', '.') : 'Grátis' }}</h5>
                 <p class="installment text-muted">
                     @if ($promo['times']!==1 && $promo['times']!==NULL)
                     {{ $promo['times'] }}x {{ (($promo['installments']*$promo['times']) <= $promo['for']+0.05)?'sem juros':''; }} de R${{ number_format($promo['installments'], 2, ',', '.') }}

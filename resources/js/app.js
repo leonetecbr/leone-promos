@@ -1,8 +1,8 @@
 const options = {
     hour: 'numeric', minute: 'numeric', year: 'numeric', month: '2-digit', day: '2-digit'
-}, igShareDiv = $('#ig-share'), notificationInput = $('#notificacao'), allPrefer = $('#all')
+}, igShareDiv = $('#ig-share'), notificationInput = $('#notificacao'), allPrefer = $('#all'), prefersDiv = $('#prefers')
 
-const prefersInputs = $("#prefers input[type='checkbox']"), paraInput = $('#para'), preferInputs = $('.prefer');
+const prefersInputs = $("#prefers input[type='checkbox']"), paraInput = $('#para'), preferInputs = $('.prefer')
 
 String.prototype.strstr = function (search) {
     let position = this.indexOf(search)
@@ -63,7 +63,7 @@ let trackSuccess = (data) => {
 function igShare(element) {
     let title = $(element).find('.product-title').html()
     let desc = $(element).find('.description').html()
-    let priceFrom = $(element).find('del').html()
+    let priceFrom = $(element).find('.price-from').html()
     let code = $(element).find('.code-text').val()
     $('#product-title').html(title)
     $('#product-image').attr('src', $(element).find('.product-image').attr('src')).attr('alt', title)
@@ -444,10 +444,11 @@ allPrefer.on('change', () => preferInputs.prop('checked', allPrefer.is(':checked
 
 notificationInput.on('change', () => {
     if (notificationInput.is(':checked')) {
-        prefersInputs.removeClass('d-none').addClass('d-md-flex')
+        prefersDiv.removeClass('d-none').addClass('d-md-flex')
+        prefersInputs.prop('checked', true)
     } else {
-        prefersInputs.addClass('d-none').removeClass('d-md-flex')
-        preferInputs.prop('checked', true)
+        prefersDiv.addClass('d-none')
+        prefersInputs.prop('checked', false)
     }
 })
 
