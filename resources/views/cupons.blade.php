@@ -85,5 +85,8 @@
                 </button>
                 <p class="fs-5 my-2 fw-light">Topo</p>
             </div>
+            <div class="container text-center text-muted">
+                *Sujeito a disponibilidade do lote de cupons
+            </div>
             @endif
             @endsection

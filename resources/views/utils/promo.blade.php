@@ -62,6 +62,9 @@
         <p class="fs-5 my-2 fw-light">Topo</p>
     </div>
     @endif
+    <div class="container text-center text-muted">
+        *Ofertas válidas enquanto durarem os estoques e sujeitas a disponibilidade do lote de cupons!
+    </div>
 @else
     {!! $promos !!}</article>
 @endif
