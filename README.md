@@ -1,16 +1,35 @@
-# Leone Promos
+<div align="center">
+    <img src="https://raw.githubusercontent.com/leonetecbr/leone-promos/main/public/img/128.png" alt="Leone Promos">
+    <h1>Leone Promos</h1>
+    <img src="https://img.shields.io/badge/PHP->=7.4-green.svg" alt="Versão mínima do PHP"/>&nbsp;&nbsp;
+    <img src="https://img.shields.io/github/license/leonetecbr/leone-promos.svg" alt="Licença"/>&nbsp;&nbsp;
+    <img src="https://img.shields.io/website-up-down-green-red/https/ofertas.leone.tec.br.svg" alt="Website ativo ?"/>&nbsp;&nbsp;
+    <img src="https://img.shields.io/github/issues/leonetecbr/leone-promos.svg" alt="Problemas"/>&nbsp;&nbsp;
+    <br><br>
+    <img src="https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel"/>&nbsp;&nbsp;
+    <img src="https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white" alt="JQuery"/>&nbsp;&nbsp;
+    <img src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap"/>&nbsp;&nbsp;
+</div>
+
+
 
 ## Instalação
 
 O mínimo recomendo é:
 
-```PHP 7.3 ou superior```
+```PHP 7.4 ou superior```
 
-Estando rodando essa versão do PHP ou superior, basta copiar o arquivo ```.env.example```, renomea-lo para ```.env``` e preencher o que for nescessário com base em seu ambiente, após isso basta rodar os seguintes comandos:
+Estando rodando essa versão do PHP ou superior e tendo o Composer instalado, basta copiar o arquivo ```.env.example```, renomea-lo para ```.env``` e preencher o que for nescessário com base em seu ambiente, após isso basta rodar os seguintes comandos:
 
 ```composer install```
 
 ```php artisan migrate```
+
+Após alterar arquivos JavaScript e/ou CSS é necessário minificá-los novamente através dos comandos:
+
+Para instalar os pacotes necessários: `npm install`
+
+Para minificar: `npm run prod`
 
 ## História do site
 
