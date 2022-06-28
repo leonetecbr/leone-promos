@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use App\Helpers\SitemapHelper;
 
@@ -34,7 +35,8 @@ class generateSitemap extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return void
+     * @throws Exception
      */
     public function handle()
     {

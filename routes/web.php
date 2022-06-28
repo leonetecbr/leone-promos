@@ -14,6 +14,12 @@ use App\Http\Controllers;
 |
 */
 
+// BEGIN Suspensão do funcionamento do site
+Route::any('/{uri?}', function($uri = ''){
+    return view('suspend');
+})->name('home');
+// END Suspensão do funcionamento do site
+
 Route::domain(env('APP_DOMAIN'))->group(function () {
 
     Route::get('/', Controllers\HomeController::class)->name('home');

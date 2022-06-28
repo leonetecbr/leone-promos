@@ -2,7 +2,9 @@
 
 namespace App\Helpers;
 
+use App\Models\Category;
 use App\Models\Page;
+use App\Models\TopStores;
 use Exception;
 
 /**
@@ -20,11 +22,26 @@ class SitemapHelper
     {
         $arquivo = public_path('sitemap.txt');
 
+        $stores = TopStores::all()->toArray();
+        $categories = Category::all()->toArray();
+
         $a = [
-            route('home'), route('privacidade'), route('cookies'), route('notificacoes'), route('lojas'), route('categorias'), route('cupons'),
-            route('loja', 'americanas'), route('loja', 'magalu'), route('loja', 'submarino'), route('loja', 'shoptime'), route('loja', 'brandili'), route('loja', 'usaflex'), route('loja', 'electrolux'), route('loja', 'submarino'), route('loja', 'itatiaia'), route('loja', 'brastemp'), route('loja', 'positivo'), route('loja', 'etna'), route('loja', 'repassa'),
-            route('categoria', 'smartphones'), route('categoria', 'informatica'), route('categoria', 'eletronicos'), route('categoria', 'eletrodomesticos'), route('categoria', 'pc'), route('categoria', 'bonecas'), route('categoria', 'tv'), route('categoria', 'fogao'), route('categoria', 'geladeira'), route('categoria', 'lavaroupas'), route('categoria', 'roupasm'), route('categoria', 'roupasf'), route('categoria', 'talheres'), route('categoria', 'camas'), route('categoria', 'casaedeco'), route('categoria', 'mesas')
+            route('home'),
+            route('privacidade'),
+            route('cookies'),
+            route('notificacoes'),
+            route('lojas'),
+            route('categorias'),
+            route('cupons'),
         ];
+
+        foreach ($stores as $store){
+            $a[] = route('loja', $store['name']);
+        }
+
+        foreach ($categories as $category){
+            $a[] = route('categoria', $category['name']);
+        }
 
         $endPage = Page::all();
 
