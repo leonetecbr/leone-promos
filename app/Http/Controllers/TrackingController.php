@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\RequestException;
+use App\Helpers\RecaptchaHelper;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Exception;
-use App\Helpers\RecaptchaHelper;
 
-class RastreioController extends Controller
+class TrackingController extends Controller
 {
 
     /**
@@ -18,7 +17,7 @@ class RastreioController extends Controller
      */
     public function get(): View
     {
-        return view('rastreio');
+        return view('tracking');
     }
 
     /**

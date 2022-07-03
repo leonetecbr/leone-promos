@@ -14,7 +14,7 @@
             <div class="categoria">
                 <a href="{{ route('loja', $store['name']) }}">
                 <span class="fs-3 fw-light">
-                     <img src="{{ $store['image'] }}" alt="{{ $store['title'] }}" class="icon" />
+                     <img src="{{ $store['image'] }}" alt="{{ $store['title'] }}" class="icon"/>
                 </span>
                 </a>
             </div>

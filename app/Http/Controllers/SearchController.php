@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\RequestException;
 use App\Helpers;
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Exception;
 use Illuminate\Support\Facades\Validator;
 
 class SearchController extends Controller
@@ -35,7 +35,7 @@ class SearchController extends Controller
 
             if ($validator->fails()) {
                 $errors = $validator->errors();
-                $code = ($errors->has('g-recaptcha-response'))?401:400;
+                $code = ($errors->has('g-recaptcha-response')) ? 401 : 400;
                 throw new RequestException($errors->all()[0], $code);
             }
 

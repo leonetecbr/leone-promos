@@ -26,7 +26,9 @@
     <div id="banner" class="d-md-flex justify-content-between my-3">
         <div class="title col-md-8">
             <h2 class="display-5 mb-3">PROMOÇÕES</h2>
-            <h3 class="mb-2">As melhores promoções da internet para você aproveitar com total segurança! Confira nossa seleção de ofertas, de cupons, navegue pelas categorias ou então sinta-se livre para fazer pesquisas em nossa seleção de ofertas.</h3>
+            <h3 class="mb-2">As melhores promoções da internet para você aproveitar com total segurança! Confira nossa
+                seleção de ofertas, de cupons, navegue pelas categorias ou então sinta-se livre para fazer pesquisas em
+                nossa seleção de ofertas.</h3>
         </div>
         <div class="col-md-3">
             <a href="{{ route('cupons') }}">
@@ -38,7 +40,7 @@
                 <button class="btn btn-dark btn-lg w-100 mt-3">
                     <i class="fas fa-list"></i> Categorias
                 </button>
-                </a>
+            </a>
             <a href="{{ route('lojas') }}">
                 <button class="btn text-light btn-primary btn-lg w-100 mt-3"><i class="fas fa-store"></i> Lojas
                 </button>
@@ -48,11 +50,13 @@
     <h2 class="display-6 mb-4 mt-2">Melhores promoções</h2>
     @include('utils.promo')
     <h2 class="display-6">Verificar promoção</h2>
-    <p class="f-5 my-3">Está com dúvidas se está na pagina real? Não sabe se a promoção é verdadeira? Cole o link da promoção abaixo e você será redirecionado para essa promoção com total segurança.</p>
+    <p class="f-5 my-3">Está com dúvidas se está na pagina real? Não sabe se a promoção é verdadeira? Cole o link da
+        promoção abaixo e você será redirecionado para essa promoção com total segurança.</p>
     <form id="deeplink" novalidate autocomplete="off" class="needs-validation justify-content-center row">
         <div class="col-7">
             <label for="url" class="visually-hidden">Link</label>
-            <input type="url" id="url" placeholder="Digite o link da promoção ..." name="url" class="form-control" required>
+            <input type="url" id="url" placeholder="Digite o link da promoção ..." name="url" class="form-control"
+                   required>
             <div class="invalid-feedback">Link inválido! Lembre-se de usar "https://".</div>
         </div>
         <div class="col-auto">

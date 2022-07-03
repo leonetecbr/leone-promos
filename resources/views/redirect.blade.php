@@ -2,25 +2,27 @@
 @section('title', 'Estamos redirecionando você ...')
 @section('content')
     <h1 class="display-5 text-center my-5">Estamos redirecionando você ...</h1>
-    <p class="text-center">Aguarde enquanto te redirecionamos em segurança para a loja onde você poderá adquirir seu produto ...</p>
+    <p class="text-center">Aguarde enquanto te redirecionamos em segurança para a loja onde você poderá adquirir seu
+        produto ...</p>
     <div class="progress my-5">
-        <div class="progress-bar progress-bar-striped progress-bar-animated w-0" id="load" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar progress-bar-striped progress-bar-animated w-0" id="load" role="progressbar"
+             aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
 @endsection
 @section('scripts')
     <script>
         const URL = '{{Request::get('url')}}'
-        if (URL === '' || URL.indexOf('https://') !== 0){
+        if (URL === '' || URL.indexOf('https://') !== 0) {
             window.location.href = '/'
-        } else{
+        } else {
             let progressBar = document.getElementById('load')
             let progress = 0, url
 
-            function updateBar(){
-                progressBar.classList.remove('w-'+progress)
+            function updateBar() {
+                progressBar.classList.remove('w-' + progress)
                 progress += 25
-                progressBar.classList.add('w-'+progress)
-                if(progress === 100){
+                progressBar.classList.add('w-' + progress)
+                if (progress === 100) {
                     redirect()
                 }
             }
@@ -28,14 +30,14 @@
             updateBar()
 
             setTimeout(updateBar, 1000)
-        
-            function urlError(){
+
+            function urlError() {
                 alert('Falha ao obter link do produto, tentaremos novamente!')
                 document.location.reload()
             }
 
-            function redirect(){
-            window.location.href = url
+            function redirect() {
+                window.location.href = url
             }
 
             $.ajax({
@@ -46,11 +48,11 @@
                 type: 'POST'
             }).done((data) => {
                 updateBar()
-        
-                if(data.success){
+
+                if (data.success) {
                     url = data.url
                     updateBar()
-                }else{
+                } else {
                     return urlError()
                 }
             }).fail(urlError)

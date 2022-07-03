@@ -62,7 +62,8 @@
                 </div>
                 <div class="card-body p-3 text-center mb-md-3">
                     <div class="site mb-3">
-                        <img src="{{ $coupon['store']['image'] }}" alt="{{ $coupon['store']['name'] }}" class="loja-image">
+                        <img src="{{ $coupon['store']['image'] }}" alt="{{ $coupon['store']['name'] }}"
+                             class="loja-image">
                     </div>
                     <h4 class="card-title">{{ mb_strimwidth($coupon['description'], 0, 100, '...' ) }}</h4>
                     <div class="cupom-vigency my-3">Válido até {{ $coupon['expiration'] }}</div>

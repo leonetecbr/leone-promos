@@ -1,9 +1,9 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\User;
 
 class CreateUsersTable extends Migration
 {
@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
 
         User::create([
             'name' => 'Admin',
-            'email' => 'admin@'.env('APP_DOMAIN'),
+            'email' => 'admin@' . env('APP_DOMAIN'),
             'email_verified_at' => time(),
             'password' => password_hash(env('APP_PASSWORD'), PASSWORD_DEFAULT),
             'remember_token' => bin2hex(openssl_random_pseudo_bytes(32))

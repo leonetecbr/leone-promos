@@ -13,28 +13,28 @@ a#logo {
     visibility: hidden;
 }
 
-.card-header>.wpp {
+.card-header > .wpp {
     background-color: #34af23;
 }
 
-.card-header>.tlg {
+.card-header > .tlg {
     background-color: #0088cc;
 }
 
-.card-header>.igs {
+.card-header > .igs {
     background: linear-gradient(to top, #fbad50, #8a3ab9);
 }
 
-.card-header>.twt {
+.card-header > .twt {
     background-color: #00acee;
 }
 
-.card-header>.pls {
+.card-header > .pls {
     background-color: #000;
     color: #fff;
 }
 
-.card-header>button {
+.card-header > button {
     padding: 5px;
     width: 30px;
     border-radius: 30px;
@@ -59,12 +59,12 @@ img.loja {
     text-align: center;
 }
 
-.categoria>a>img {
+.categoria > a > img {
     height: 100px;
     max-width: 200px;
 }
 
-#categorias>.categoria a {
+#categorias > .categoria a {
     margin-top: 10px;
 }
 
@@ -80,13 +80,13 @@ img.loja {
 
 }
 
-.categoria>a {
+.categoria > a {
     color: #000;
     text-decoration: none;
     text-align: center;
 }
 
-#social>a {
+#social > a {
     margin-right: 10px;
 }
 
@@ -100,7 +100,7 @@ img.loja {
     padding-top: 10px;
 }
 
-.wp-button>a {
+.wp-button > a {
     line-height: 35px;
     color: #fff;
     font-size: 35px;
@@ -115,7 +115,7 @@ img.loja {
     max-height: 300px;
 }
 
-#logomarca>img {
+#logomarca > img {
     width: 250px;
 }
 
@@ -142,9 +142,17 @@ img[alt=Ponto] {
     z-index: 1050;
 }
 
+.padding-menu {
+    padding-top: 61px;
+}
+
 @media (max-width: 768px) {
     #menu {
         font-size: calc(1.375rem + 1.5vw) !important;
+    }
+
+    .padding-menu {
+        padding-top: 116px;
     }
 }
 
@@ -152,7 +160,7 @@ img[alt=Ponto] {
     .toast {
         width: 500px;
     }
-    
+
     div.card-body {
         position: relative;
         top: 40%;

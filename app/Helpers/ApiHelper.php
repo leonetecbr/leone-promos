@@ -2,12 +2,12 @@
 
 namespace App\Helpers;
 
-use Exception;
 use App\Exceptions\RequestException;
-use App\Models\Promo;
-use App\Models\Page;
-use App\Models\Store;
 use App\Models\Coupon;
+use App\Models\Page;
+use App\Models\Promo;
+use App\Models\Store;
+use Exception;
 use Illuminate\Http\Request;
 
 /**
@@ -38,185 +38,6 @@ class ApiHelper
      * @var int $groupId
      */
     private static int $groupId;
-
-    /**
-     * Atualiza os cupons do banco de dados
-     * @param int $loja
-     * @param bool $exists
-     * @return array
-     * @throws Exception
-     */
-    private static function toCachedCoupons(int $loja = 0, bool $exists = false): array
-    {
-        self::$id = 0;
-        $lomadee = self::getAPI();
-        $awin = self::getAwin();
-        $data = array_merge_recursive($awin, $lomadee['coupons']);
-
-        // Limpa a tabela
-        if ($exists) {
-            Coupon::truncate();
-        }
-
-        $stores = [];
-        $a = 0;
-        for ($i = 0; $i < count($data); $i++) {
-            $storeId = $data[$i]['store']['id'];
-
-            // Verifica se a loja já está na lista de lojas e adiciona se não tiver
-            if (!array_key_exists($storeId, $stores)) {
-                $store = Store::firstOrNew([
-                    'id' => $storeId
-                ]);
-
-                if (empty($store->link)){
-                    $store->name = $data[$i]['store']['name'];
-                    $store->link = $data[$i]['store']['link'];
-                    $store->image =  $data[$i]['store']['image'];
-                    $store->save();
-                }
-                $stores[$storeId] = $store->toArray();
-            }
-
-            // Insere os dados do cupom no banco
-            $coupon = Coupon::create([
-                'code' => $data[$i]['code'],
-                'link' => $data[$i]['link'],
-                'description' => mb_strimwidth($data[$i]['description'], 0, 60, '...', 'UTF-8'),
-                'expiration' => str_replace(":59:00", ":59:59", $data[$i]['vigency']),
-                'store_id' => $data[$i]['store']['id']
-            ]);
-
-            // Verifica se deve filtrar por loja
-            if ($loja == 0) {
-                if (($i >= (self::$page - 1) * 18) && ($i < self::$page * 18)) {
-                    $coupons['coupons'][$a] = $coupon->toArray();
-                    $coupons['coupons'][$a]['store'] = $stores[$storeId];
-                    $a++;
-                }
-            } elseif ($loja == $data[$i]['store']['id']) {
-                $coupons['coupons'][$a] = $coupon->toArray();
-                $coupons['coupons'][$a]['store'] = $stores[$storeId];
-                $a++;
-            }
-        }
-
-        $coupons['totalPage'] = ceil( $i / 18);
-        $coupons['store'] = $stores;
-        return $coupons;
-    }
-
-    /**
-     * Obtém as promoções atualizadas, exclui as antigas e passa as novas para o banco de dados
-     * @param bool $exists
-     * @return array
-     * @throws Exception
-     */
-    private static function toCachedPromos(bool $exists = false): array
-    {
-        $dados = self::getAPI();
-        $promos = $dados['offers'];
-
-        // Atualiza o número total de páginas
-        $page = Page::firstOrNew([
-            'id' => self::$groupId
-        ]);
-        $page->total = $dados['pagination']['totalPage'];
-        $page->save();
-
-        // Limpa os itens antigos do banco
-        if ($exists) {
-            Promo::where('group_id', self::$groupId)->where('page', self::$page)->take(12)->delete();
-        }
-
-        $lojas = [];
-        $promotions = [];
-        for ($i = 0; $i < count($promos); $i++) {
-            $storeId = $promos[$i]['store']['id'];
-
-            // Verifica se a loja já está na lista de lojas e adiciona se não tiver// Verifica se a loja já está na lista de lojas e adiciona se não tiver
-            if (!array_key_exists($storeId, $lojas)) {
-                $store = Store::firstOrNew([
-                    'id' => $storeId
-                ]);
-
-                if (empty($store->link)){
-                    $store->name = $promos[$i]['store']['name'];
-                    $store->link = $promos[$i]['store']['link'];
-                    $store->image =  $promos[$i]['store']['thumbnail'];
-                    $store->save();
-                }
-
-                $lojas[$storeId] = $store->toArray();
-            }
-
-            $id = (is_numeric($promos[$i]['id'])) ? self::$groupId . $promos[$i]['id'] : 9 . date('His') . $i;
-
-            $from = ($promos[$i]['discount'] > 0) ? $promos[$i]['priceFrom'] : NULL;
-
-            // Insere os dados da promoção no banco
-            $promo = Promo::create([
-                'id' => $id,
-                'group_id' => self::$groupId,
-                'store_id' => $storeId,
-                'name' => mb_strimwidth($promos[$i]['name'], 0, 60, '...', 'UTF-8'),
-                'link' => $promos[$i]['link'],
-                'image' => $promos[$i]['thumbnail'],
-                'from' => $from,
-                'for' => $promos[$i]['price'],
-                'times' => $promos[$i]['installment']['quantity'] ?? NULL,
-                'installments' => $promos[$i]['installment']['value'] ?? NULL,
-                'page' => self::$page
-            ]);
-
-            $promotions['offers'][$i] = $promo->toArray();
-            $promotions['offers'][$i]['store'] = $lojas[$storeId];
-        }
-        $promotions['totalPage'] = $dados['pagination']['totalPage'];
-        return $promotions;
-    }
-
-    /**
-     * Pega os cupons ou promoções da API da Lomadee
-     * @return array
-     * @throws Exception
-     */
-    private static function getAPI(): array
-    {
-        $dados = [
-            'sourceId' => env('SOURCE_ID_LOMADEE')
-        ];
-
-        if (self::$store !== 0) {
-            $dados['storeId'] = self::$store;
-        }
-
-        // Promoções por loja
-        if (self::$id === 999) {
-            $dados['page'] = self::$page;
-            $url = env('API_URL_LOMADEE') . '/v3/' . env('APP_TOKEN_LOMADEE') . '/offer/_store/' . self::$store . '?' . http_build_query($dados);
-        }
-        // Promoções por categoria
-        elseif (self::$id !== 0) {
-            $dados['page'] = self::$page;
-            $url = env('API_URL_LOMADEE') . '/v3/' . env('APP_TOKEN_LOMADEE') . '/offer/_category/' . self::$id . '?' . http_build_query($dados);
-        }
-        // Cupons
-        else {
-            $url = env('API_URL_LOMADEE') . '/v2/' . env('APP_TOKEN_LOMADEE') . '/coupon/_all?' . http_build_query($dados);
-        }
-        $ch = curl_init();
-        curl_setopt_array($ch, [
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true
-        ]);
-        $json = curl_exec($ch);
-        $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        if (empty($json) || $status !== 200) {
-            throw new RequestException('Parece que tivemos um probleminha, que tal tentar de novo ?');
-        }
-        return json_decode($json, true);
-    }
 
     /**
      * Verifica se as promoções salvas no banco de dados ainda estão adequadas para uso, se sim, as usa, se não pega da API
@@ -279,6 +100,230 @@ class ApiHelper
     }
 
     /**
+     * Obtém as promoções atualizadas, exclui as antigas e passa as novas para o banco de dados
+     * @param bool $exists
+     * @return array
+     * @throws Exception
+     */
+    private static function toCachedPromos(bool $exists = false): array
+    {
+        $dados = self::getAPI();
+        $promos = $dados['offers'];
+
+        // Atualiza o número total de páginas
+        $page = Page::firstOrNew([
+            'id' => self::$groupId
+        ]);
+        $page->total = $dados['pagination']['totalPage'];
+        $page->save();
+
+        // Limpa os itens antigos do banco
+        if ($exists) {
+            Promo::where('group_id', self::$groupId)->where('page', self::$page)->take(12)->delete();
+        }
+
+        $lojas = [];
+        $promotions = [];
+        for ($i = 0; $i < count($promos); $i++) {
+            $storeId = $promos[$i]['store']['id'];
+
+            // Verifica se a loja já está na lista de lojas e adiciona se não tiver// Verifica se a loja já está na lista de lojas e adiciona se não tiver
+            if (!array_key_exists($storeId, $lojas)) {
+                $store = Store::firstOrNew([
+                    'id' => $storeId
+                ]);
+
+                if (empty($store->link)) {
+                    $store->name = $promos[$i]['store']['name'];
+                    $store->link = $promos[$i]['store']['link'];
+                    $store->image = $promos[$i]['store']['thumbnail'];
+                    $store->save();
+                }
+
+                $lojas[$storeId] = $store->toArray();
+            }
+
+            $id = (is_numeric($promos[$i]['id'])) ? self::$groupId . $promos[$i]['id'] : 9 . date('His') . $i;
+
+            $from = ($promos[$i]['discount'] > 0) ? $promos[$i]['priceFrom'] : NULL;
+
+            // Insere os dados da promoção no banco
+            $promo = Promo::create([
+                'id' => $id,
+                'group_id' => self::$groupId,
+                'store_id' => $storeId,
+                'name' => mb_strimwidth($promos[$i]['name'], 0, 60, '...', 'UTF-8'),
+                'link' => $promos[$i]['link'],
+                'image' => $promos[$i]['thumbnail'],
+                'from' => $from,
+                'for' => $promos[$i]['price'],
+                'times' => $promos[$i]['installment']['quantity'] ?? NULL,
+                'installments' => $promos[$i]['installment']['value'] ?? NULL,
+                'page' => self::$page
+            ]);
+
+            $promotions['offers'][$i] = $promo->toArray();
+            $promotions['offers'][$i]['store'] = $lojas[$storeId];
+        }
+        $promotions['totalPage'] = $dados['pagination']['totalPage'];
+        return $promotions;
+    }
+
+    /**
+     * Pega os cupons ou promoções da API da Lomadee
+     * @return array
+     * @throws Exception
+     */
+    private static function getAPI(): array
+    {
+        $dados = [
+            'sourceId' => env('SOURCE_ID_LOMADEE')
+        ];
+
+        if (self::$store !== 0) {
+            $dados['storeId'] = self::$store;
+        }
+
+        // Promoções por loja
+        if (self::$id === 999) {
+            $dados['page'] = self::$page;
+            $url = env('API_URL_LOMADEE') . '/v3/' . env('APP_TOKEN_LOMADEE') . '/offer/_store/' . self::$store . '?' . http_build_query($dados);
+        } // Promoções por categoria
+        elseif (self::$id !== 0) {
+            $dados['page'] = self::$page;
+            $url = env('API_URL_LOMADEE') . '/v3/' . env('APP_TOKEN_LOMADEE') . '/offer/_category/' . self::$id . '?' . http_build_query($dados);
+        } // Cupons
+        else {
+            $url = env('API_URL_LOMADEE') . '/v2/' . env('APP_TOKEN_LOMADEE') . '/coupon/_all?' . http_build_query($dados);
+        }
+        $ch = curl_init();
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true
+        ]);
+        $json = curl_exec($ch);
+        $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if (empty($json) || $status !== 200) {
+            throw new RequestException('Parece que tivemos um probleminha, que tal tentar de novo ?');
+        }
+        return json_decode($json, true);
+    }
+
+    /**
+     * Verifica se os cupons salvos no banco ainda estão adequados para uso, se sim, os usa, se não pega da API
+     * @param int $page
+     * @param int $loja
+     * @return array
+     * @throws Exception
+     */
+    public static function getCoupons(int $page, int $loja = 0): array
+    {
+        if (empty(Coupon::find(1))) {
+            self::$page = $page;
+            self::$store = $loja;
+            return self::toCachedCoupons($loja);
+        } else {
+            $coupons = ($loja == 0) ? Coupon::paginate(18, '*', 'coupons', $page) : Coupon::where('store_id', $loja)->get();
+
+            // Caso não exista cupons cadastrados
+            if (empty($coupons[0]->id)) {
+                return [];
+            }
+
+            // Verifica se o horário da última atualização é maior que 24 horas atrás
+            if (time() - strtotime($coupons[0]->created_at) > 86400) {
+                self::$page = $page;
+                self::$store = $loja;
+                return self::toCachedCoupons($loja, true);
+            }
+
+            $coupon['totalPage'] = ($loja == 0) ? $coupons->lastPage() : 1;
+            $coupons = ($loja == 0) ? $coupons->items() : $coupons;
+
+            // Adiciona informações das lojas
+            $store = [];
+            for ($i = 0; $i < count($coupons); $i++) {
+                $coupon['coupons'][$i] = $coupons[$i]->toArray();
+                if (empty($store)) {
+                    $store[$coupons[$i]->store_id] = Store::find($coupons[$i]->store_id)->toArray();
+                } elseif (!array_key_exists($coupons[$i]->store_id, $store)) {
+                    $store[$coupons[$i]->store_id] = Store::find($coupons[$i]->store_id)->toArray();
+                }
+                $coupon['coupons'][$i]['store'] = $store[$coupons[$i]->store_id];
+            }
+        }
+
+        return $coupon;
+    }
+
+    /**
+     * Atualiza os cupons do banco de dados
+     * @param int $loja
+     * @param bool $exists
+     * @return array
+     * @throws Exception
+     */
+    private static function toCachedCoupons(int $loja = 0, bool $exists = false): array
+    {
+        self::$id = 0;
+        $lomadee = self::getAPI();
+        $awin = self::getAwin();
+        $data = array_merge_recursive($awin, $lomadee['coupons']);
+
+        // Limpa a tabela
+        if ($exists) {
+            Coupon::truncate();
+        }
+
+        $stores = [];
+        $a = 0;
+        for ($i = 0; $i < count($data); $i++) {
+            $storeId = $data[$i]['store']['id'];
+
+            // Verifica se a loja já está na lista de lojas e adiciona se não tiver
+            if (!array_key_exists($storeId, $stores)) {
+                $store = Store::firstOrNew([
+                    'id' => $storeId
+                ]);
+
+                if (empty($store->link)) {
+                    $store->name = $data[$i]['store']['name'];
+                    $store->link = $data[$i]['store']['link'];
+                    $store->image = $data[$i]['store']['image'];
+                    $store->save();
+                }
+                $stores[$storeId] = $store->toArray();
+            }
+
+            // Insere os dados do cupom no banco
+            $coupon = Coupon::create([
+                'code' => $data[$i]['code'],
+                'link' => $data[$i]['link'],
+                'description' => mb_strimwidth($data[$i]['description'], 0, 60, '...', 'UTF-8'),
+                'expiration' => str_replace(":59:00", ":59:59", $data[$i]['vigency']),
+                'store_id' => $data[$i]['store']['id']
+            ]);
+
+            // Verifica se deve filtrar por loja
+            if ($loja == 0) {
+                if (($i >= (self::$page - 1) * 18) && ($i < self::$page * 18)) {
+                    $coupons['coupons'][$a] = $coupon->toArray();
+                    $coupons['coupons'][$a]['store'] = $stores[$storeId];
+                    $a++;
+                }
+            } elseif ($loja == $data[$i]['store']['id']) {
+                $coupons['coupons'][$a] = $coupon->toArray();
+                $coupons['coupons'][$a]['store'] = $stores[$storeId];
+                $a++;
+            }
+        }
+
+        $coupons['totalPage'] = ceil($i / 18);
+        $coupons['store'] = $stores;
+        return $coupons;
+    }
+
+    /**
      * Pega os cupons da api do Awin em CVS e converte para array
      * @return array
      */
@@ -289,20 +334,21 @@ class ApiHelper
         $a = 0;
         for ($i = 0; !empty($dado[$i][1]); $i++) {
             /**if ($dado[$i][1] === 'Aliexpress BR & LATAM') {
-        $coupon[$a] = [
-          'code' => $dado[$i][4],
-          'vigency' => $dado[$i][7],
-          'description' => $dado[$i][5],
-          'link' => $dado[$i][11],
-          'store' => [
-            'image' => 'https://ae01.alicdn.com/kf/H2111329c7f0e475aac3930a727edf058z.png',
-            'name' => 'Aliexpress',
-            'id' => 1,
-            'link' => '/redirect?url=https%3A%2F%2Fpt.aliexpress.com%2F'
-          ]
-        ];
-        $a++;
-      } else**/ if ($dado[$i][1] === 'Casas Bahia BR') {
+             * $coupon[$a] = [
+             * 'code' => $dado[$i][4],
+             * 'vigency' => $dado[$i][7],
+             * 'description' => $dado[$i][5],
+             * 'link' => $dado[$i][11],
+             * 'store' => [
+             * 'image' => 'https://ae01.alicdn.com/kf/H2111329c7f0e475aac3930a727edf058z.png',
+             * 'name' => 'Aliexpress',
+             * 'id' => 1,
+             * 'link' => '/redirect?url=https%3A%2F%2Fpt.aliexpress.com%2F'
+             * ]
+             * ];
+             * $a++;
+             * } else**/
+            if ($dado[$i][1] === 'Casas Bahia BR') {
                 $coupon[$a] = [
                     'code' => $dado[$i][4],
                     'vigency' => $dado[$i][7],
@@ -344,53 +390,6 @@ class ApiHelper
                     ]
                 ];
                 $a++;
-            }
-        }
-
-        return $coupon;
-    }
-
-    /**
-     * Verifica se os cupons salvos no banco ainda estão adequados para uso, se sim, os usa, se não pega da API
-     * @param int $page
-     * @param int $loja
-     * @return array
-     * @throws Exception
-     */
-    public static function getCoupons(int $page, int $loja = 0): array
-    {
-        if (empty(Coupon::find(1))) {
-            self::$page = $page;
-            self::$store = $loja;
-            return self::toCachedCoupons($loja);
-        } else {
-            $coupons = ($loja == 0) ? Coupon::paginate(18, '*', 'coupons', $page) : Coupon::where('store_id', $loja)->get();
-
-            // Caso não exista cupons cadastrados
-            if (empty($coupons[0]->id)) {
-                return [];
-            }
-
-            // Verifica se o horário da última atualização é maior que 24 horas atrás
-            if (time() - strtotime($coupons[0]->created_at) > 86400) {
-                self::$page = $page;
-                self::$store = $loja;
-                return self::toCachedCoupons($loja, true);
-            }
-
-            $coupon['totalPage'] =  ($loja == 0) ? $coupons->lastPage() : 1;
-            $coupons = ($loja == 0) ? $coupons->items() : $coupons;
-
-            // Adiciona informações das lojas
-            $store = [];
-            for ($i = 0; $i < count($coupons); $i++) {
-                $coupon['coupons'][$i] = $coupons[$i]->toArray();
-                if (empty($store)) {
-                    $store[$coupons[$i]->store_id] = Store::find($coupons[$i]->store_id)->toArray();
-                } elseif (!array_key_exists($coupons[$i]->store_id, $store)) {
-                    $store[$coupons[$i]->store_id] = Store::find($coupons[$i]->store_id)->toArray();
-                }
-                $coupon['coupons'][$i]['store'] = $store[$coupons[$i]->store_id];
             }
         }
 

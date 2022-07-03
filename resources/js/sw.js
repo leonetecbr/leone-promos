@@ -6,7 +6,7 @@ self.addEventListener('push', (event) => {
         body: data.msg,
         icon: 'img/icon.png',
         badge: 'img/icon.png',
-        data: { url: data.link }
+        data: {url: data.link}
     }
     if (typeof data.img !== undefined) {
         options.image = data.img

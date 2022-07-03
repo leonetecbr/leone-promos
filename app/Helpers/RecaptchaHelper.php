@@ -10,16 +10,14 @@ use Illuminate\Http\Request;
 class RecaptchaHelper
 {
     /**
-     * @var string|mixed
-     */
-    private string $secret;
-
-    /**
      * v2 | v3
      * @var string $type
      */
     public string $type;
-
+    /**
+     * @var string|mixed
+     */
+    private string $secret;
     /**
      * @var string|null
      */
@@ -44,33 +42,9 @@ class RecaptchaHelper
         if ($type == 'v3') {
             $this->secret = env('SECRET_RECAPTCHA_V3');
         } else {
-            $this->secret =  env('SECRET_RECAPTCHA_V2');
+            $this->secret = env('SECRET_RECAPTCHA_V2');
         }
         $this->response = $response;
-    }
-
-    /**
-     * Faz a consulta na API
-     * @return array
-     */
-    private function getApi(): array
-    {
-        $dados = array(
-            "secret" => $this->secret,
-            "response" => $this->response,
-            "remoteip" => $this->ip
-        );
-        $curlReCaptcha = curl_init();
-        $options = [
-            CURLOPT_URL => "https://www.google.com/recaptcha/api/siteverify",
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => http_build_query($dados),
-            CURLOPT_RETURNTRANSFER => true
-        ];
-        curl_setopt_array($curlReCaptcha, $options);
-        $result = json_decode(curl_exec($curlReCaptcha), true);
-        curl_close($curlReCaptcha);
-        return $result;
     }
 
     /**
@@ -104,6 +78,30 @@ class RecaptchaHelper
         } else {
             return true;
         }
+    }
+
+    /**
+     * Faz a consulta na API
+     * @return array
+     */
+    private function getApi(): array
+    {
+        $dados = array(
+            "secret" => $this->secret,
+            "response" => $this->response,
+            "remoteip" => $this->ip
+        );
+        $curlReCaptcha = curl_init();
+        $options = [
+            CURLOPT_URL => "https://www.google.com/recaptcha/api/siteverify",
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => http_build_query($dados),
+            CURLOPT_RETURNTRANSFER => true
+        ];
+        curl_setopt_array($curlReCaptcha, $options);
+        $result = json_decode(curl_exec($curlReCaptcha), true);
+        curl_close($curlReCaptcha);
+        return $result;
     }
 
     /**

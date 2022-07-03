@@ -17,7 +17,7 @@ function deleteCookie(cookieName) {
 function getPrefer(endpoint) {
     $.ajax({
         url: '/prefer/get',
-        data: JSON.stringify({ 'endpoint': endpoint, '_token': CSRF }),
+        data: JSON.stringify({'endpoint': endpoint, '_token': CSRF}),
         dataType: 'json',
         contentType: 'application/json',
         type: 'POST'
@@ -46,14 +46,16 @@ function getPrefer(endpoint) {
     })
 }
 
-function errorAlert(message){
+function errorAlert(message) {
     $('#error-message').html(message)
     let toast = new bootstrap.Toast(document.getElementById('error-alert'))
     toast.show()
-}function getPrefer(endpoint) {
+}
+
+function getPrefer(endpoint) {
     $.ajax({
         url: '/prefer/get',
-        data: JSON.stringify({ 'endpoint': endpoint, '_token': CSRF }),
+        data: JSON.stringify({'endpoint': endpoint, '_token': CSRF}),
         dataType: 'json',
         contentType: 'application/json',
         type: 'POST'
@@ -82,7 +84,7 @@ function errorAlert(message){
     })
 }
 
-function errorAlert(message){
+function errorAlert(message) {
     $('#error-message').html(message)
     let toast = new bootstrap.Toast(document.getElementById('error-alert'))
     toast.show()

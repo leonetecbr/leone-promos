@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Helpers\SitemapHelper;
 use Exception;
 use Illuminate\Console\Command;
-use App\Helpers\SitemapHelper;
 
 class generateSitemap extends Command
 {

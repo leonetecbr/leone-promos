@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Helpers;
 use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller

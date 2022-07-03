@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers;
+use App\Models\Notification;
+use App\Models\Page;
+use App\Models\Promo;
 use App\Models\Store;
 use ErrorException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Helpers;
-use App\Models\Promo;
-use App\Models\Page;
-use App\Models\Notification;
 use Illuminate\Validation\ValidationException;
 
 class TopPromosController extends Controller
@@ -76,7 +76,7 @@ class TopPromosController extends Controller
     {
         $promos = Helpers\ApiHelper::getPromo(9999);
         for ($i = 0; $i < count($promos['offers']); $i++) {
-            $promos['offers'][$i]['link'] = '/admin/promos/edit/' .  $promos['offers'][$i]['id'];
+            $promos['offers'][$i]['link'] = '/admin/promos/edit/' . $promos['offers'][$i]['id'];
             $promos['offers'][$i]['store']['link'] = '/admin/promos/edit/' . $promos['offers'][$i]['id'];
         }
 
@@ -102,7 +102,7 @@ class TopPromosController extends Controller
             'store_id' => 'required'
         ]);
 
-        if (empty(Store::find($dados['store_id']))){
+        if (empty(Store::find($dados['store_id']))) {
             return redirect()->back()->withErrors([
                 'store_id' => ['Loja não cadastrada!']
             ])->withInput();
@@ -137,7 +137,7 @@ class TopPromosController extends Controller
         $promo->from = $request->input('priceFrom');
         $promo->code = $request->input('code');
         $promo->description = $request->input('description');
-        $promo->installments =  $request->input('installment_value');
+        $promo->installments = $request->input('installment_value');
         $promo->times = $request->input('installment_quantity');
 
         if ($promo->save()) {
@@ -193,12 +193,12 @@ class TopPromosController extends Controller
         $notification = new Helpers\NotificationHelper;
 
         if (!$todos) {
-            for ($i = 1; $i <= 9; $i++){
-                if ($request->filled('p'.$i)) {
+            for ($i = 1; $i <= 9; $i++) {
+                if ($request->filled('p' . $i)) {
                     if (empty($where)) {
-                        $where = 'p'.$i.' = 1';
+                        $where = 'p' . $i . ' = 1';
                     } else {
-                        $where .= ' or p'.$i.' = 1';
+                        $where .= ' or p' . $i . ' = 1';
                     }
                 }
             }

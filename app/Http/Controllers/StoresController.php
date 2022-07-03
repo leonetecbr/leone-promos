@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\RequestException;
 use App\Helpers;
+use App\Models\Store;
 use App\Models\TopStores;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Models\Store;
 use Illuminate\Validation\ValidationException;
 
-class LojasController extends Controller
+class StoresController extends Controller
 {
 
     /**
@@ -22,7 +22,7 @@ class LojasController extends Controller
     public static function get(): View
     {
         $stores = TopStores::all()->toArray();
-        return view('lojas', ['stores' => $stores]);
+        return view('stores', ['stores' => $stores]);
     }
 
     /**
@@ -39,9 +39,9 @@ class LojasController extends Controller
             $title = '';
             $stores = TopStores::all()->toArray();
 
-            foreach ($stores as $store){
-                if ($store['name'] == $name){
-                    if (!is_null($store['url'])){
+            foreach ($stores as $store) {
+                if ($store['name'] == $name) {
+                    if (!is_null($store['url'])) {
                         return redirect($store['url']);
                     }
 
@@ -99,7 +99,7 @@ class LojasController extends Controller
                 'id' => $dados['id'],
                 'name' => $dados['name'],
                 'image' => $dados['image'],
-                'link' => ($request->filled('redirect')) ? '/redirect?url=' .  $dados['link'] : $dados['link']
+                'link' => ($request->filled('redirect')) ? '/redirect?url=' . $dados['link'] : $dados['link']
             ];
 
             if (Store::create($store)) {

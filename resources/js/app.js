@@ -153,13 +153,12 @@ function copyText(text, url = false) {
     }, () => {
         if (url) window.open(url)
         else errorAlert('Não foi possível copiar, copie manualmente!')
-
     })
 
 }
 
 function topo() {
-    $('html, body').animate({ scrollTop: 0 }, 800)
+    $('html, body').animate({scrollTop: 0}, 800)
 }
 
 function submit() {
@@ -278,7 +277,7 @@ function getToken(action, id, type = 'ajax') {
         if (window.grecaptcha) {
             clearInterval(interval)
             grecaptcha.ready(() => {
-                grecaptcha.execute(KEY_V3_RECAPTCHA, { action: action })
+                grecaptcha.execute(KEY_V3_RECAPTCHA, {action: action})
                     .then((token) => {
                         btn.html(text)
                         if (type === 'ajax') {
@@ -308,7 +307,7 @@ function getData(e) {
         text = '\n' + getTextCupom(element)
         url = getUrlCupom(element)
     }
-    return { 'url': url, 'text': text }
+    return {'url': url, 'text': text}
 }
 
 $('.ajax-form').on('submit', function (e) {
@@ -354,7 +353,7 @@ $('.igs').on('click', function () {
 })
 
 $('.mre').on('click', function () {
-    let { text, url } = getData(this)
+    let {text, url} = getData(this)
 
     navigator.share({
         text: text,
@@ -363,27 +362,27 @@ $('.mre').on('click', function () {
 })
 
 $('.cpy').on('click', function () {
-    let { text, url } = getData(this)
+    let {text, url} = getData(this)
     text += `\n\n${url}`
 
     copyText(text)
 })
 
 $('.wpp').on('click', function () {
-    let { text, url } = getData(this)
+    let {text, url} = getData(this)
     text += `\n\n${url}`
 
     window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text))
 })
 
 $('.tlg').on('click', function () {
-    let { text, url } = getData(this)
+    let {text, url} = getData(this)
 
     window.open('https://telegram.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text))
 })
 
 $('.twt').on('click', function () {
-    let { text, url } = getData(this)
+    let {text, url} = getData(this)
     text += '\n'
 
     window.open('https://twitter.com/share?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text))
@@ -401,14 +400,15 @@ $('.copy-redirect').on('click', function () {
 
 $(window).on('scroll', () => {
     let nav = $('#cabecalho')
-    if ($(window).scrollTop() > 90) {
+    let maxScroll = (window.screen.width < 768) ? 61 : 116
+    if ($(window).scrollTop() > maxScroll) {
+        $('body').css('padding-top', maxScroll)
         nav.addClass('fixed-top')
         nav.addClass('shadow')
-        $('body').addClass('pt-5')
     } else {
+        $('body').css('padding-top', 0)
         nav.removeClass('fixed-top')
         nav.removeClass('shadow')
-        $('body').removeClass('pt-5')
     }
 })
 

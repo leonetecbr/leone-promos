@@ -123,7 +123,7 @@ function update(action) {
         if (window.grecaptcha) {
             clearInterval(interval)
             grecaptcha.ready(() => {
-                grecaptcha.execute(KEY_V3_RECAPTCHA, { action: 'change_notification' })
+                grecaptcha.execute(KEY_V3_RECAPTCHA, {action: 'change_notification'})
                     .then((token) => {
                         const data = {
                             subscription: sub,

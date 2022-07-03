@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +17,7 @@ use App\Http\Controllers;
 Route::prefix('v1')->group(function () {
     Route::get('/{key}/postback', [Controllers\NotificationController::class, 'postback']);
 
-    Route::post('/rastreio', [Controllers\RastreioController::class, 'post'])->name('rastreio.api');
+    Route::post('/rastreio', [Controllers\TrackingController::class, 'post'])->name('rastreio.api');
 
     /*
     APIs reservadas para um possível app

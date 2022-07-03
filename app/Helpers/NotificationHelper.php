@@ -2,12 +2,12 @@
 
 namespace App\Helpers;
 
-use ErrorException;
-use Exception;
-use Minishlink\WebPush;
 use App\Models\Notification;
 use App\Models\SendedNotification;
+use ErrorException;
+use Exception;
 use Illuminate\Support\Facades\Auth;
+use Minishlink\WebPush;
 
 /**
  * Realiza o envio da notificação

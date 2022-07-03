@@ -35,11 +35,11 @@ class SitemapHelper
             route('cupons'),
         ];
 
-        foreach ($stores as $store){
+        foreach ($stores as $store) {
             $a[] = route('loja', $store['name']);
         }
 
-        foreach ($categories as $category){
+        foreach ($categories as $category) {
             $a[] = route('categoria', $category['name']);
         }
 
@@ -51,12 +51,12 @@ class SitemapHelper
                     continue;
                 }
 
-                if ($page->total > 1500) {
+                if ($page->total > 1000) {
                     $page->total = 1000;
                 }
 
                 for ($i = 2; $i != $page->total; $i++) {
-                    $path = RedirectHelper::processPage($page->id, $i);
+                    $path = RedirectHelper::processPage($page->id, $i, null, true);
 
                     if (empty($path)) {
                         break;

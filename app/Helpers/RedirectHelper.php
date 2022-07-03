@@ -55,26 +55,26 @@ class RedirectHelper
      *
      * @param integer $catId
      * @param integer $page
-     * @param null|integer $ofertaId
+     * @param integer|null $ofertaId
+     * @param bool|null $pageNumber
      * @return string
-     * @throws Exception
      */
-    public static function processPage(int $catId, int $page, ?int $ofertaId = null): string
+    public static function processPage(int $catId, int $page, ?int $ofertaId = null, ?bool $pageNumber = false): string
     {
         if ($catId !== 0) {
             $data = Category::find($catId);
             if (empty($data)) {
                 $data = TopStores::find($catId);
                 if (empty($data)): return ''; endif;
-                $path = 'lojas/'.$data['name'];
-            }else{
-                $path = 'categorias/'.$data['name'];
+                $path = 'lojas/' . $data['name'];
+            } else {
+                $path = 'categorias/' . $data['name'];
             }
-        } else{
+        } else {
             $path = '';
         }
 
-        $path .= ($page === 1) ? '' : '/' . $page;
+        $path .= ($page === 1 && !$pageNumber) ? '' : '/' . $page;
 
         if ($ofertaId) {
             $path .= '#promo-' . $catId . '-' . $page . '-' . $ofertaId;

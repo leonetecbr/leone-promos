@@ -8,7 +8,7 @@ use App\Models\Category;
 use Exception;
 use Illuminate\Contracts\View\View;
 
-class CategoriasController extends Controller
+class CategoriesController extends Controller
 {
 
     /**
@@ -18,7 +18,7 @@ class CategoriasController extends Controller
     public static function get(): View
     {
         $categories = Category::all()->toArray();
-        return view('categorias', ['categories' => $categories]);
+        return view('categories', ['categories' => $categories]);
     }
 
     /**
@@ -34,8 +34,8 @@ class CategoriasController extends Controller
             $title = '';
             $categories = Category::all()->toArray();
 
-            foreach ($categories as $category){
-                if ($category['name'] == $name){
+            foreach ($categories as $category) {
+                if ($category['name'] == $name) {
                     $id = $category['id'];
                     $title = $category['title'];
                 }
@@ -56,6 +56,6 @@ class CategoriasController extends Controller
             $top = false;
         }
 
-        return view('promos', ['title' => $title, 'subtitle' => $subtitle ?? $title, 'promos' => $offers, 'catId' => $id ?? 0, 'page' => $page, 'endPage'=> $endPage ?? '', 'top' => $top ?? true, 'isLoja' => false, 'groupName' => $name ?? '']);
+        return view('promos', ['title' => $title, 'subtitle' => $subtitle ?? $title, 'promos' => $offers, 'catId' => $id ?? 0, 'page' => $page, 'endPage' => $endPage ?? '', 'top' => $top ?? true, 'isLoja' => false, 'groupName' => $name ?? '']);
     }
 }

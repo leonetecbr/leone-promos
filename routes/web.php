@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,18 +25,18 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
     Route::get('/', Controllers\HomeController::class)->name('home');
 
     Route::prefix('categorias')->group(function () {
-        Route::get('/', [Controllers\CategoriasController::class, 'get'])->name('categorias');
+        Route::get('/', [Controllers\CategoriesController::class, 'get'])->name('categorias');
 
-        Route::get('/{categoria}/{page?}', [Controllers\CategoriasController::class, 'process'])->whereAlpha('categoria')->where('page', '^[1-9]+[0-9]*$')->name('categoria');
+        Route::get('/{categoria}/{page?}', [Controllers\CategoriesController::class, 'process'])->whereAlpha('categoria')->where('page', '^[1-9]+[0-9]*$')->name('categoria');
     });
 
     Route::prefix('lojas')->group(function () {
-        Route::get('/', [Controllers\LojasController::class, 'get'])->name('lojas');
+        Route::get('/', [Controllers\StoresController::class, 'get'])->name('lojas');
 
-        Route::get('/{loja}/{page?}', [Controllers\LojasController::class, 'process'])->whereAlpha('loja')->where('page', '^[1-9]+[0-9]*$')->name('loja');
+        Route::get('/{loja}/{page?}', [Controllers\StoresController::class, 'process'])->whereAlpha('loja')->where('page', '^[1-9]+[0-9]*$')->name('loja');
     });
 
-    Route::get('/cupons/{page?}', [Controllers\CuponsController::class, 'get'])->where('page', '^[1-9]+[0-9]*$')->name('cupons');
+    Route::get('/cupons/{page?}', [Controllers\CouponsController::class, 'get'])->where('page', '^[1-9]+[0-9]*$')->name('cupons');
 
     Route::match(['get', 'post'], '/search/{query}/{page?}', [Controllers\SearchController::class, 'search'])->where(['query' => '[\w ]+', 'page' => '^[1-9]+[0-9]*$'])->name('pesquisa');
 
@@ -56,7 +56,7 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
         Route::post('/set', [Controllers\NotificationController::class, 'setPrefer'])->name('prefer.set');
     });
 
-    Route::get('/rastreio', [Controllers\RastreioController::class, 'get'])->name('rastreio');
+    Route::get('/rastreio', [Controllers\TrackingController::class, 'get'])->name('rastreio');
 
     Route::get('/login', [Controllers\UserController::class, 'login'])->name('login');
 
@@ -89,9 +89,9 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
             });
 
             Route::prefix('lojas')->group(function () {
-                Route::get('/new', [Controllers\LojasController::class, 'new'])->name('lojas.new');
+                Route::get('/new', [Controllers\StoresController::class, 'new'])->name('lojas.new');
 
-                Route::post('/save', [Controllers\LojasController::class, 'save'])->name('lojas.save');
+                Route::post('/save', [Controllers\StoresController::class, 'save'])->name('lojas.save');
             });
         });
     });
@@ -101,7 +101,7 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
     });
 
     Route::get('/privacidade', function () {
-        return view('privacidade');
+        return view('privacy');
     })->name('privacidade');
 
     Route::get('/cookies', function () {

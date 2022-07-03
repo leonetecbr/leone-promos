@@ -7,7 +7,7 @@ use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
-class CuponsController extends Controller
+class CouponsController extends Controller
 {
 
     /**
@@ -60,7 +60,7 @@ class CuponsController extends Controller
         $coupons = Helpers\ApiHelper::getCoupons($page, $storeId);
         $endPage = $coupons['totalPage'] ?? 1;
         $coupons = $coupons['coupons'] ?? [];
-        return view('cupons', [
+        return view('coupons', [
             'coupons' => $coupons,
             'groupName' => 1,
             'endPage' => $endPage,

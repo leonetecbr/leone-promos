@@ -11,14 +11,14 @@
             </div>
         @endif
         @foreach($categories as $category)
-        <div class="categoria">
-            <a href="{{ route('categoria', $category['name']) }}">
+            <div class="categoria">
+                <a href="{{ route('categoria', $category['name']) }}">
                 <span class="fs-3 fw-light">
                     <i class="fa-solid fa-{{ $category['icon'] }}"></i>{!! (strlen($category['title']) > 15)?'<br/>':''; !!}
                     {{ ($category['title']) }}
                 </span>
-            </a>
-        </div>
+                </a>
+            </div>
         @endforeach
     </article>
 @endsection
