@@ -14,11 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// BEGIN Suspensão do funcionamento do site
-Route::any('/{uri?}', function($uri = ''){
-    return view('suspend');
-})->name('home');
-// END Suspensão do funcionamento do site
+/* BEGIN Suspensão do funcionamento do site
+if (env('SITE_OFF', false)) {
+    Route::any('/{uri?}', function ($uri = '') {
+        return view('suspend');
+    })->name('home');
+}
+END Suspensão do funcionamento do site*/
 
 Route::domain(env('APP_DOMAIN'))->group(function () {
 

@@ -10,6 +10,17 @@ use Illuminate\Http\Request;
 class CouponsController extends Controller
 {
 
+    const TOP_STORES = [
+        'Americanas' => 5632,
+        'Casas Bahia' => 2,
+        'Consul' => 5937,
+        'Ponto' => 4,
+        'Submarino' => 5766,
+        'Efácil' => 5779,
+        'Positivo' => 6117,
+        'Lenovo' => 5798
+    ];
+
     /**
      * Gera a página de cupons
      *
@@ -21,51 +32,30 @@ class CouponsController extends Controller
     public static function get(Request $request, int $page = 1): View
     {
         $store = $request->input('loja');
-        switch ($store) {
-            case 'Americanas':
-                $storeId = 5632;
-                break;
 
-            case 'Casas Bahia':
-                $storeId = 2;
-                break;
-
-            case 'Consul':
-                $storeId = 5937;
-                break;
-
-            case 'Ponto':
-                $storeId = 4;
-                break;
-
-            case 'Submarino':
-                $storeId = 5766;
-                break;
-
-            case 'Efácil':
-                $storeId = 5779;
-                break;
-
-            case 'Positivo':
-                $storeId = 6117;
-                break;
-
-            case 'Lenovo':
-                $storeId = 5798;
-                break;
-
-            default:
-                $storeId = 0;
+        if ($store == '') {
+            $storeId = 0;
+        } elseif (!empty(self::TOP_STORES[$store])) {
+            $storeId = self::TOP_STORES[$store];
+        } else {
+            $storeId = null;
+            $coupons = 'A loja informada é inválida!';
+            $endPage = 1;
         }
-        $coupons = Helpers\ApiHelper::getCoupons($page, $storeId);
-        $endPage = $coupons['totalPage'] ?? 1;
-        $coupons = $coupons['coupons'] ?? [];
+
+        if (!is_null($storeId)) {
+            $coupons = Helpers\ApiHelper::getCoupons($page, $storeId);
+            $endPage = $coupons['totalPage'] ?? 1;
+            $coupons = $coupons['coupons'] ?? [];
+        }
+
         return view('coupons', [
             'coupons' => $coupons,
             'groupName' => 1,
             'endPage' => $endPage,
             'page' => $page,
-            'store' => $store
+            'store' => $store,
+            'topStores' => self::TOP_STORES
         ]);
     }
 }

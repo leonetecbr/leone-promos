@@ -48,27 +48,42 @@ class SearchController extends Controller
                 throw new RequestException('Não temos certeza que você não é um robô, marque a caixa de verificação abaixo para continuar com sua pesquisa:', 401);
             }
 
-            $dado = Helpers\ApiHelper::search($request, $query, $page);
-            $offers = $dado['offers'];
-            $endPage = $dado['totalPage'];
+            $data = Helpers\ApiHelper::search($request, $query, $page);
+            $offers = $data['offers'];
+            $endPage = $data['totalPage'];
             $subtitle = 'Pesquisa por "' . $query . '"';
             $title = 'Pesquisa: "' . $query . '" - Página ' . $page . ' de ' . $endPage;
         } catch (RequestException $e) {
             $title = 'Erro encontrado';
             if ($e->getCode() === 401) {
-                $offers = '<p class="fs-4 text-danger my-3">' . $e->getMessage() . '</p>
-        <div class="text-center mt-2">
-            <form id="checkbox" method="post"><input type="hidden" name="type" value="v2">
+                $offers = '<div class="alert alert-danger fs-4 text-center mt-3">' . $e->getMessage() . '</div>
+        <div class="mt-4 mx-auto mw-304">
+            <form id="checkbox" method="post">
+                <input type="hidden" name="type" value="v2">
                 <div class="g-recaptcha" data-sitekey="' . env('PUBLIC_RECAPTCHA_V2') . '" data-callback="submit"></div>
             </form>
         </div>';
                 $headers = '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
             } else {
-                $offers = '<p class="fs-4 text-danger mt-3">' . $e->getMessage() . '</p>';
+                $offers = '<div class="alert alert-danger fs-4 mt-3 text-center">' . $e->getMessage() . '</div>';
             }
             $subtitle = 'Erro encontrado!';
         } finally {
-            return view('promos', ['title' => $title, 'subtitle' => $subtitle, 'promos' => $offers, 'endPage' => $endPage ?? '', 'top' => $top ?? true, 'headers' => $headers ?? '', 'catId' => 0, 'page' => $page, 'query' => $query, 'robots' => 'noindex', 'isLoja' => false, 'groupName' => $query, 'share' => false]);
+            return view('promos', [
+                'title' => $title,
+                'subtitle' => $subtitle,
+                'promos' => $offers,
+                'endPage' => $endPage ?? '',
+                'top' => $top ?? true,
+                'headers' => $headers ?? '',
+                'catId' => 0,
+                'page' => $page,
+                'query' => $query,
+                'robots' => 'noindex',
+                'isLoja' => false,
+                'groupName' => $query,
+                'share' => false
+            ]);
         }
     }
 }

@@ -40,4 +40,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Cria os registros padrões no banco de dados
+     * @return void
+     */
+    public static function initialize()
+    {
+        self::create([
+            'name' => 'Admin',
+            'email' => 'admin@' . env('APP_DOMAIN'),
+            'email_verified_at' => time(),
+            'password' => password_hash(env('APP_PASSWORD'), PASSWORD_DEFAULT),
+            'remember_token' => bin2hex(openssl_random_pseudo_bytes(32))
+        ]);
+    }
 }

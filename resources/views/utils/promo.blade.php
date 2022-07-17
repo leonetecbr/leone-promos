@@ -82,5 +82,8 @@
             *Ofertas válidas enquanto durarem os estoques e sujeitas a disponibilidade do lote de cupons!
         </div>
         @else
-            {!! $promos !!}</article>
+            <div class="container">
+                {!! $promos !!}
+            </div>
+        </article>
         @endif

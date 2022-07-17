@@ -48,14 +48,14 @@
         $price = Request::get('price');
         $order = Request::get('order_by');
         if (empty($price) && empty($order)) {
-            $without_order = $url;
-            $without_price = $url;
+            $withoutOrder = $url;
+            $withoutPrice = $url;
         } else {
-            $without_order = $url . http_build_query(['price' => $price]) . '&';
-            $without_price = $url . http_build_query(['order' => $order]) . '&';
+            $withoutOrder = $url . http_build_query(['price' => $price]);
+            $withoutPrice = $url . http_build_query(['order_by' => $order]);
         }
         ?>
-        <div class="px-3 my-3 d-flex justify-content-around">
+        <div class="px-3 mt-4 mb-3 d-flex justify-content-around">
             <div class="dropdown col-5">
                 <a class="btn btn-primary text-light dropdown-toggle w-100" href="#" role="button" id="dropdownMenuLink"
                    data-bs-toggle="dropdown" aria-expanded="false">
@@ -64,15 +64,15 @@
                 <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
                     <li>
                         <a class="dropdown-item filtros {{ (empty($order))?'active':'' }}"
-                           href="{{ (empty($order_by))?'#':$without_order }}">Maior destaque</a>
+                           href="{{ (empty($order))?'#':$withoutOrder }}">Mais recentes</a>
                     </li>
                     <li>
                         <a class="dropdown-item filtros {{ ($order=='discount')?'active':'' }}"
-                           href="{{ ($order=='discount')?'#':$without_order.'order_by=discount' }}">Maior desconto</a>
+                           href="{{ ($order=='discount')?'#':$withoutOrder.'&order_by=discount' }}">Maior desconto</a>
                     </li>
                     <li>
                         <a class="dropdown-item filtros {{ ($order=='price')?'active':'' }}"
-                           href="{{ ($order=='price')?'#':$without_order.'order_by=price' }}">Menor Preço</a>
+                           href="{{ ($order=='price')?'#':$withoutOrder.'&order_by=price' }}">Menor Preço</a>
                     </li>
                 </ul>
             </div>
@@ -84,36 +84,36 @@
                 <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
                     <li>
                         <a class="dropdown-item filtros {{ (empty($price))?'active':'' }}"
-                           href="{{ (empty($price))?'#':$without_price }}">0 - </a>
+                           href="{{ (empty($price))?'#':$withoutPrice }}">0 - </a>
                     </li>
                     <li>
                         <a class="dropdown-item filtros {{ ($price=='0-1')?'active':'' }}"
-                           href="{{ ($price=='0-1')?'#':$without_price.'price=0-1' }}">0 - 1</a>
+                           href="{{ ($price=='0-1')?'#':$withoutPrice.'&price=0-1' }}">0 - 1</a>
                     </li>
                     <li>
                         <a class="dropdown-item filtros {{ ($price=='1-10')?'active':'' }}"
-                           href="{{ ($price=='1-10')?'#':$without_price.'price=1-10' }}">1 - 10</a>
+                           href="{{ ($price=='1-10')?'#':$withoutPrice.'&price=1-10' }}">1 - 10</a>
                     </li>
                     <li>
                         <a class="dropdown-item filtros {{ ($price=='10-50')?'active':'' }}"
-                           href="{{ ($price=='10-50')?'#':$without_price.'price=10-50' }}">10 - 50</a>
+                           href="{{ ($price=='10-50')?'#':$withoutPrice.'&price=10-50' }}">10 - 50</a>
                     </li>
                     <li>
                         <a class="dropdown-item filtros {{ ($price=='50-100')?'active':'' }}"
-                           href="{{ ($price=='50-100')?'#':$without_price.'price=50-100' }}">50 - 100</a>
+                           href="{{ ($price=='50-100')?'#':$withoutPrice.'&price=50-100' }}">50 - 100</a>
                     </li>
                     <li>
                         <a class="dropdown-item filtros {{ ($price=='100-500')?'active':'' }}"
-                           href="{{ ($price=='100-500')?'#':$without_price.'price=100-500' }}">100 - 500</a>
+                           href="{{ ($price=='100-500')?'#':$withoutPrice.'&price=100-500' }}">100 - 500</a>
                     </li>
                     <li>
                         <a class="dropdown-item filtros {{ ($price=='500-1000')?'active':'' }}"
-                           href="{{ ($price=='500-1000')?'#':$without_price.'price=500-1000' }}"" href="#">500 -
+                           href="{{ ($price=='500-1000')?'#':$withoutPrice.'&price=500-1000' }}"" href="#">500 -
                         1000</a>
                     </li>
                     <li>
                         <a class="dropdown-item filtros {{ ($price=='1000-')?'active':'' }}"
-                           href="{{ ($price=='1000-')?'#':$without_price.'price=1000-' }}">1000 - </a>
+                           href="{{ ($price=='1000-')?'#':$withoutPrice.'&price=1000-' }}">1000 - </a>
                     </li>
                 </ul>
             </div>

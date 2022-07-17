@@ -4,7 +4,6 @@ namespace App\Helpers;
 
 use App\Models\Category;
 use App\Models\TopStores;
-use Exception;
 
 class RedirectHelper
 {

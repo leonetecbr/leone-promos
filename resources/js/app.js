@@ -161,20 +161,6 @@ function topo() {
     $('html, body').animate({scrollTop: 0}, 800)
 }
 
-function submit() {
-    let csrf = getCSRF()
-    $('#checkbox').append(csrf).trigger('submit')
-}
-
-function getCSRF() {
-    let input = document.createElement('input')
-    input.setAttribute('type', 'hidden')
-    input.id = 'token'
-    input.setAttribute('name', '_token')
-    input.value = CSRF
-    return input
-}
-
 function getReCaptcha(token) {
     let input = document.createElement('input')
     input.setAttribute('type', 'hidden')
@@ -269,17 +255,25 @@ function sendForm(id, token, onSuccess) {
 }
 
 function getToken(action, id, type = 'ajax') {
-    let btn = $(`#${id}-submit`)
-    let text = btn.html()
-    btn.html('Verificando ...')
-    btn.attr('disabled', true)
+    let text, btn, changeBtn = false
+    if (type === 'ajax' || type === 'track') changeBtn = true
+
+    if (changeBtn) {
+        btn = $(`#${id}-submit`)
+        text = btn.html()
+        btn.html('Verificando ...').attr('disabled', true)
+    }
+
     let interval = setInterval(function () {
         if (window.grecaptcha) {
             clearInterval(interval)
             grecaptcha.ready(() => {
                 grecaptcha.execute(KEY_V3_RECAPTCHA, {action: action})
                     .then((token) => {
-                        btn.html(text)
+                        if (changeBtn){
+                            btn.html(text)
+                        }
+
                         if (type === 'ajax') {
                             sendForm(id, token)
                         } else if (type === 'search') {
@@ -316,7 +310,9 @@ $('.ajax-form').on('submit', function (e) {
         e.stopPropagation()
     } else {
         e.preventDefault()
-        getToken($(this).attr('data-action'), this.id)
+        let action = $(this).attr('data-action')
+        if (action === 'search') getToken(action, this.id, action)
+        else getToken(action, this.id)
     }
     this.classList.add('was-validated')
 })
@@ -426,8 +422,7 @@ if (window.location.pathname.indexOf('/search') === 0) {
 
     $('.filtros').on('click', function (e) {
         e.preventDefault()
-        let href = $(this).attr('href')
-        getToken('paginate', href, 'paginate')
+        getToken('paginate', $(this).attr('href'), 'paginate')
     })
 }
 

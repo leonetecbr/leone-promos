@@ -67,7 +67,8 @@
 </header>
 <main class="px-3 mt-5 container">
     <h2>Site desativado</h2>
-    <p class="lead my-4">Neste momento optamos por manter esse site desativado, o código-fonte continua público e continuará
+    <p class="lead my-4">Neste momento optamos por manter esse site desativado, o código-fonte continua público e
+        continuará
         sendo atualizado periodicamente.</p>
     <a href="https://github.com/leonetecbr/leone-promos" class="btn btn-primary text-light btn-lg">Ver no GitHub</a>
 </main>
@@ -78,9 +79,11 @@
         <div class="text-start mw-400 mx-auto">
             <pre tabindex="0" class="font-monospace">
 // BEGIN Suspensão do funcionamento do site
-Route::any('/{uri?}', function($uri = ''){
-    return view('suspend');
-})->name('home');
+if (env('SITE_OFF', true)) {
+    Route::any('/{uri?}', function($uri = ''){
+        return view('suspend');
+    })->name('home');
+}
 // END Suspensão do funcionamento do site
             </pre>
         </div>

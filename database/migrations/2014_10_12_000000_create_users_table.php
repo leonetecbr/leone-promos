@@ -24,13 +24,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
-        User::create([
-            'name' => 'Admin',
-            'email' => 'admin@' . env('APP_DOMAIN'),
-            'email_verified_at' => time(),
-            'password' => password_hash(env('APP_PASSWORD'), PASSWORD_DEFAULT),
-            'remember_token' => bin2hex(openssl_random_pseudo_bytes(32))
-        ]);
+        User::initialize();
     }
 
     /**

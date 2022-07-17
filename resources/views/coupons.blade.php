@@ -5,7 +5,7 @@
 @section('keywords', 'cupom, desconto, cupom de desconto, Americanas, Casas Bahia, Ponto Frio, Amazon, promoção, menor preço, ofertas, promoções, oferta')
 @section('description', 'Está de olho naquele produto tão desejado, mas precisa de um desconto antes de fechar a compra ? Aqui você encontra os cupons de desconto que ainda funcionam para usar nas maiores lojas do Brasil.')
 @section('content')
-    <h1 class="display-5 text-center">Cupons{{ (empty($store))?'':': '.$store }}</h1>
+    <h1 class="display-5 text-center">Cupons{{ (empty($store) || !is_array($coupons))?'':': '.$store }}</h1>
     @include('utils.pagination')
     <div class="dropdown my-4 col-md-6 mx-auto">
         <button class="btn btn-primary text-light dropdown-toggle w-100" type="button" id="dropdownMenuButton1"
@@ -13,43 +13,22 @@
             Escolher lojas
         </button>
         <ul class="dropdown-menu w-100 text-center" aria-labelledby="dropdownMenuButton1">
-            <li>
-                <a class="dropdown-item{{ ($store=='')?' active':''; }}" href="{{ route('cupons') }}">Todas</a>
-            </li>
-            <li>
-                <a class="dropdown-item{{ ($store=='Americanas')?' active':''; }}"
-                   href="{{ route('cupons') }}?loja=Americanas">Americanas</a>
-            </li>
-            <li>
-                <a class="dropdown-item{{ ($store=='Casas Bahia')?' active':''; }}"
-                   href="{{ route('cupons') }}?loja=Casas Bahia">Casas Bahia</a>
-            </li>
-            <li>
-                <a class="dropdown-item{{ ($store=='Consul')?' active':''; }}" href="{{ route('cupons') }}?loja=Consul">Consul</a>
-            </li>
-            <li>
-                <a class="dropdown-item{{ ($store=='Ponto')?' active':''; }}" href="{{ route('cupons') }}?loja=Ponto">Ponto</a>
-            </li>
-            <li>
-                <a class="dropdown-item{{ ($store=='Submarino')?' active':''; }}"
-                   href="{{ route('cupons') }}?loja=Submarino">Submarino</a>
-            </li>
-            <li>
-                <a class="dropdown-item{{ ($store=='Efácil')?' active':''; }}" href="{{ route('cupons') }}?loja=Efácil">Efácil</a>
-            </li>
-            <li>
-                <a class="dropdown-item{{ ($store=='Positivo')?' active':''; }}"
-                   href="{{ route('cupons') }}?loja=Positivo">Positivo</a>
-            </li>
-            <li>
-                <a class="dropdown-item{{ ($store=='Lenovo')?' active':''; }}" href="{{ route('cupons') }}?loja=Lenovo">Lenovo</a>
-            </li>
+            @foreach($topStores as $storeName => $id)
+                <li>
+                    <a class="dropdown-item{{ ($store==$storeName)?' active':''; }}"
+                       href="{{ route('cupons').'?loja='.$storeName }}">{{ $storeName }}</a>
+                </li>
+            @endforeach
         </ul>
     </div>
     <article id="cupons" class="container d-flex justify-content-around flex-wrap">
         @if (empty($coupons))
-            <p class="mx-auto my-3 alert alert-warning w-75 text-center">Nenhum cupom encontrado!</p>
+            <dic class="mx-auto my-3 alert alert-warning w-75 text-center">Nenhum cupom encontrado!</dic>
     </article>
+    @elseif (!is_array($coupons))
+        <div class="alert alert-danger w-75 mx-auto my-3 text-center">
+            {{ $coupons  }}
+        </div>
     @else
         @foreach ($coupons as $coupon)
             <div class="cupom card col-lg-3-5 col-md-5 col-sm-10 col-12 mb-5" id="cupom-{{ $loop->index }}">

@@ -120,7 +120,7 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
                 </li>
             </ul>
             <form id="search" class="d-flex justify-content-center ajax-form col-lg-3 col-xl-4 ms-3"
-                  data-action="search" action="#" novalidate>
+                  data-action="search" action="/search/" novalidate>
                 <div class="me-2">
                     <input class="form-control" type="search" placeholder="Pesquisar" minlength="3" maxlength="20"
                            required aria-label="Pesquisar" value="{{ $query ?? '' }}" name="q" id="q">
@@ -162,7 +162,7 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
         </div>
     </div>
 @endif
-<form action="#" id="search" class="d-none d-lg-none needs-validation p-3" method="post" novalidate>
+<form action="/search/" id="search-desktop" data-action="search" class="d-none d-lg-none needs-validation p-3" method="post" novalidate>
     <div class="row mb-3">
         <div class="col-10 col-sm-11">
             <input type="search" name="q" id="qs" placeholder="Digite sua pesquisa ..." class="form-control" required

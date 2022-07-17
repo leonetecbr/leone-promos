@@ -408,7 +408,7 @@ class ApiHelper
     {
         $order = $request->get('order_by');
         $price = $request->get('price');
-        $dados = [
+        $query = [
             'keyword' => $q,
             'sourceId' => env('SOURCE_ID_LOMADEE'),
             'page' => $page
@@ -416,59 +416,38 @@ class ApiHelper
 
         // Verifica se foi definido um filtro de ordenação
         if (!empty($order)) {
-            $dados['sort'] = ($order == 'discount') ? 'discount' : 'price';
+            $query['sort'] = ($order == 'discount') ? 'discount' : 'price';
         }
 
         // Verifica se foi definido um filtro de preço
         if (!empty($price)) {
-            switch ($price) {
-                case '0-1':
-                    $dados['maxPrice'] = 1;
-                    break;
+            $price = explode('-', $price, 2);
 
-                case '1-10':
-                    $dados['minPrice'] = 1;
-                    $dados['maxPrice'] = 10;
-                    break;
-
-                case '10-50':
-                    $dados['minPrice'] = 10;
-                    $dados['maxPrice'] = 50;
-                    break;
-
-                case '50-100':
-                    $dados['minPrice'] = 50;
-                    $dados['maxPrice'] = 100;
-                    break;
-
-                case '100-500':
-                    $dados['minPrice'] = 100;
-                    $dados['maxPrice'] = 500;
-                    break;
-
-                case '500-1000':
-                    $dados['minPrice'] = 500;
-                    $dados['maxPrice'] = 1000;
-                    break;
-
-                case '1000-':
-                    $dados['minPrice'] = 1000;
-                    break;
+            if (is_numeric($price[0]) && is_numeric($price[1])) {
+                $query['minPrice'] = (int) $price[0];
+                $query['maxPrice'] = (int) $price[1];
             }
         }
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, env('API_URL_LOMADEE') . '/v3/' . env('APP_TOKEN_LOMADEE') . '/offer/_search?' . http_build_query($dados));
+        curl_setopt($ch, CURLOPT_URL, env('API_URL_LOMADEE') . '/v3/' . env('APP_TOKEN_LOMADEE') . '/offer/_search?' . http_build_query($query));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $json = curl_exec($ch);
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        if ($status === 404){
+            $promo['totalPage'] = 1;
+            $promo['offers'] = [];
+            return $promo;
+        }
+
         if (empty($json) || $status !== 200) {
             throw new RequestException('Parece que tivemos um probleminha, que tal tentar de novo, escrevendo de outra forma ?');
         }
 
-        $dados = json_decode($json, true);
+        $data = json_decode($json, true);
 
-        $promos = $dados['offers'];
+        $promos = $data['offers'];
 
         for ($i = 0; $i < count($promos); $i++) {
             $promo['offers'][$i] = [
@@ -487,7 +466,7 @@ class ApiHelper
             ];
         }
 
-        $promo['totalPage'] = $dados['pagination']['totalPage'];
+        $promo['totalPage'] = $query['pagination']['totalPage'];
         return $promo;
     }
 }

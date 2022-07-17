@@ -61,7 +61,7 @@ class StoresController extends Controller
             $title = 'Loja: ' . $title . " - Página {$page} de {$endPage}";
         } catch (RequestException $e) {
             $title = 'Não encontrada';
-            $offers = '<p class="fs-4 text-danger error mt-3 mx-auto">' . $e->getMessage() . '</p>';
+            $offers = '<div class="alert alert-danger fs-4 mt-3 text-center">' . $e->getMessage() . '</div>';
             $top = false;
         }
 
