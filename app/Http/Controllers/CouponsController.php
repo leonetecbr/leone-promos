@@ -6,6 +6,7 @@ use App\Helpers;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class CouponsController extends Controller
 {
@@ -25,29 +26,26 @@ class CouponsController extends Controller
      * Gera a página de cupons
      *
      * @param Request $request
-     * @param integer $page
+     * @param int $page
      * @return View
      * @throws Exception
+     * @paramint $page
      */
+    #[Route('/cupons/{page?}', name: 'cupons')]
     public static function get(Request $request, int $page = 1): View
     {
         $store = $request->input('loja');
 
-        if ($store == '') {
-            $storeId = 0;
-        } elseif (!empty(self::TOP_STORES[$store])) {
-            $storeId = self::TOP_STORES[$store];
-        } else {
-            $storeId = null;
-            $coupons = 'A loja informada é inválida!';
-            $endPage = 1;
-        }
+        $storeId = ($store == '') ?
+            0 :
+            (self::TOP_STORES[$store] ?? null);
 
-        if (!is_null($storeId)) {
-            $coupons = Helpers\ApiHelper::getCoupons($page, $storeId);
-            $endPage = $coupons['totalPage'] ?? 1;
-            $coupons = $coupons['coupons'] ?? [];
-        }
+        $coupons = (!is_null($storeId)) ?
+            Helpers\ApiHelper::getCoupons($page, $storeId) :
+            'A loja informada é inválida!';
+
+        $endPage = $coupons['totalPage'] ?? 1;
+        $coupons = $coupons['coupons'] ?? [];
 
         return view('coupons', [
             'coupons' => $coupons,

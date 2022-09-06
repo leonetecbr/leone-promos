@@ -424,8 +424,8 @@ class ApiHelper
             $price = explode('-', $price, 2);
 
             if (is_numeric($price[0]) && is_numeric($price[1])) {
-                $query['minPrice'] = (int) $price[0];
-                $query['maxPrice'] = (int) $price[1];
+                $query['minPrice'] = (int)$price[0];
+                $query['maxPrice'] = (int)$price[1];
             }
         }
 
@@ -435,7 +435,7 @@ class ApiHelper
         $json = curl_exec($ch);
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        if ($status === 404){
+        if ($status === 404) {
             $promo['totalPage'] = 1;
             $promo['offers'] = [];
             return $promo;

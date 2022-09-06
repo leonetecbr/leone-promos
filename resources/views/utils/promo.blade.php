@@ -27,7 +27,7 @@
                 </h4>
                 @if ($catId === 0 && !empty($promo['from']) && ($promo['from']-$promo['for'])>=0.01)
                     <div class="mb-0 col-auto d-flex justify-content-center">De:&nbsp;<div
-                                class="text-decoration-line-through price-from">
+                            class="text-decoration-line-through price-from">
                             R${{ number_format($promo['from'], 2, ',', '.') }}</div>
                     </div>
                 @endif
@@ -52,8 +52,8 @@
             </div>
             <div class="final text-center p-3">
                 <div class="text-end"><a target="{{ $target }}" href="{{ $promo['store']['link'] }}"><img
-                                src="{{ $promo['store']['image'] }}" alt="{{ $promo['store']['name'] }}"
-                                class="loja"></a></div>
+                            src="{{ $promo['store']['image'] }}" alt="{{ $promo['store']['name'] }}"
+                            class="loja"></a></div>
                 @if ($add ?? false)
                     <a target="{{ $target }}" href="{{ $promo['link'] }}" class="mx-auto">
                         <button class="btn btn-outline-danger w-75">Editar promoção</button>
@@ -85,5 +85,5 @@
             <div class="container">
                 {!! $promos !!}
             </div>
-        </article>
+            </article>
         @endif

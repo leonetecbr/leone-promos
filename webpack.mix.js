@@ -7,7 +7,7 @@ mix.webpackConfig({
 })
 
 mix.sass('resources/views/layouts/app.scss', 'public/css/bootstrap.min.css').sourceMaps()
-    .css('resources/css/style.css', 'public/css/app.min.css').sourceMaps()
+    .css('resources/css/app.css', 'public/css/app.min.css').sourceMaps()
     .copy('node_modules/jquery/dist/jquery.min.js', 'public/js/jquery.min.js')
     .copy('node_modules/jquery/dist/jquery.min.js', 'public/js/jquery.min.map')
     .copy('node_modules/bootstrap/dist/js/bootstrap.bundle.min.js', 'public/js/bootstrap.bundle.min.js')

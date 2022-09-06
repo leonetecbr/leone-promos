@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Gera os links de afiliado para as lojas
@@ -21,6 +22,7 @@ class RedirectController
      * @return RedirectResponse
      * @throws Exception
      */
+    #[Route('/{dados}')]
     public function shortLink(string $dados): RedirectResponse
     {
         $dados = base64_decode($dados);
@@ -44,6 +46,7 @@ class RedirectController
      * @param Request $request
      * @return array
      */
+    #[Route('/redirect', name: 'redirect.api')]
     public function api(Request $request): array
     {
         $url = $request->input('url');
@@ -65,37 +68,37 @@ class RedirectController
     private static function process(string $url): string
     {
         try {
-            if (empty($url) || strpos($url, 'https://') !== 0) {
+            if (empty($url) || !str_starts_with($url, 'https://')) {
                 throw new RequestException();
             }
-            if (strpos($url, '?') !== false) {
+            if (str_contains($url, '?')) {
                 $url = strstr($url, '?', true);
             }
 
-            if (strpos($url, 'https://www.amazon.com.br') === 0 || strpos($url, 'https://amazon.com.br') === 0) {
-                if (strpos($url, '/ref') !== false) {
+            if (str_starts_with($url, 'https://www.amazon.com.br') || str_starts_with($url, 'https://amazon.com.br')) {
+                if (str_contains($url, '/ref')) {
                     $url = strstr($url, '/ref', true);
                 }
                 $to = $url . '?tag=leonepromos08-20';
-            } elseif (strpos($url, 'https://redir.lomadee.com/') === 0 || strpos($url, 'https://www.awin1.com/cread.php') === 0 || strpos($url, 'https://amzn.to/') === 0) {
+            } elseif (str_starts_with($url, 'https://redir.lomadee.com/') || str_starts_with($url, 'https://www.awin1.com/cread.php') || str_starts_with($url, 'https://amzn.to/')) {
                 $to = $url;
-            } elseif (strpos($url, 'https://m.magazineluiza.com.br') === 0 || strpos($url, 'https://www.magazineluiza.com.br') === 0 || strpos($url, 'https://magazineluiza.com.br') === 0 || strpos($url, 'https://www.magazinevoce.com.br') === 0) {
+            } elseif (str_starts_with($url, 'https://m.magazineluiza.com.br') || str_starts_with($url, 'https://www.magazineluiza.com.br') || str_starts_with($url, 'https://magazineluiza.com.br') || str_starts_with($url, 'https://www.magazinevoce.com.br')) {
                 $to = RedirectHelper::processMagalu($url);
-            } elseif (strpos($url, 'https://mbest.aliexpress.com') === 0 || strpos($url, 'https://m.pt.aliexpress.com') === 0 || strpos($url, 'https://best.aliexpress.com') === 0 || strpos($url, 'https://pt.aliexpress.com') === 0 || strpos($url, 'https://aliexpress.com') === 0 || strpos($url, 'https://m.aliexpress.com') === 0) {
+            } elseif (str_starts_with($url, 'https://mbest.aliexpress.com') || str_starts_with($url, 'https://m.pt.aliexpress.com') || str_starts_with($url, 'https://best.aliexpress.com') || str_starts_with($url, 'https://pt.aliexpress.com') || str_starts_with($url, 'https://aliexpress.com') || str_starts_with($url, 'https://m.aliexpress.com')) {
                 $to = RedirectHelper::processAwin($url, 18879);
-            } elseif (strpos($url, 'https://m.pontofrio.com.br') === 0 || strpos($url, 'https://www.pontofrio.com.br') === 0 || strpos($url, 'https://pontofrio.com.br') === 0) {
+            } elseif (str_starts_with($url, 'https://m.pontofrio.com.br') || str_starts_with($url, 'https://www.pontofrio.com.br') || str_starts_with($url, 'https://pontofrio.com.br')) {
                 $to = RedirectHelper::processAwin($url, 17621);
-            } elseif (strpos($url, 'https://m.extra.com.br') === 0 || strpos($url, 'https://www.extra.com.br') === 0 || strpos($url, 'https://extra.com.br') === 0) {
+            } elseif (str_starts_with($url, 'https://m.extra.com.br') || str_starts_with($url, 'https://www.extra.com.br') || str_starts_with($url, 'https://extra.com.br')) {
                 $to = RedirectHelper::processAwin($url, 17874);
-            } elseif (strpos($url, 'https://m.casasbahia.com.br') === 0 || strpos($url, 'https://www.casasbahia.com.br') === 0 || strpos($url, 'https://casasbahia.com.br') === 0) {
+            } elseif (str_starts_with($url, 'https://m.casasbahia.com.br') || str_starts_with($url, 'https://www.casasbahia.com.br') || str_starts_with($url, 'https://casasbahia.com.br')) {
                 $to = RedirectHelper::processAwin($url, 17629);
-            } elseif (strpos($url, 'https://www.soubarato.com.br') === 0 || strpos($url, 'https://soubarato.com.br') === 0) {
+            } elseif (str_starts_with($url, 'https://www.soubarato.com.br') || str_starts_with($url, 'https://soubarato.com.br')) {
                 $to = RedirectHelper::processAwin($url, 23281, env('ID_AFILIADO_B2W'));
-            } elseif (strpos($url, 'https://www.submarino.com.br') === 0 || strpos($url, 'https://submarino.com.br') === 0) {
+            } elseif (str_starts_with($url, 'https://www.submarino.com.br') || str_starts_with($url, 'https://submarino.com.br')) {
                 $to = RedirectHelper::processAwin($url, 22195, env('ID_AFILIADO_B2W'));
-            } elseif (strpos($url, 'https://www.shoptime.com.br') === 0 || strpos($url, 'https://shoptime.com.br') === 0) {
+            } elseif (str_starts_with($url, 'https://www.shoptime.com.br') || str_starts_with($url, 'https://shoptime.com.br')) {
                 $to = RedirectHelper::processAwin($url, 22194, env('ID_AFILIADO_B2W'));
-            } elseif (strpos($url, 'https://www.americanas.com.br') === 0 || strpos($url, 'https://americanas.com.br') === 0) {
+            } elseif (str_starts_with($url, 'https://www.americanas.com.br') || str_starts_with($url, 'https://americanas.com.br')) {
                 $to = RedirectHelper::processAwin($url, 22193, env('ID_AFILIADO_B2W'));
             } else {
                 $to = RedirectHelper::processLomadee($url);
@@ -111,6 +114,7 @@ class RedirectController
      * Gera a página de redirecionamento
      * @return View
      */
+    #[Route('/redirect', name: 'redirect.page')]
     public function get(): View
     {
         return view('redirect');

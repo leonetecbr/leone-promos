@@ -42,9 +42,9 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
 
     Route::match(['get', 'post'], '/search/{query}/{page?}', [Controllers\SearchController::class, 'search'])->where(['query' => '[\w ]+', 'page' => '^[1-9]+[0-9]*$'])->name('pesquisa');
 
-    Route::get('/redirect', [Controllers\RedirectController::class, 'get']);
+    Route::get('/redirect', [Controllers\RedirectController::class, 'get'])->name('redirect.page');
 
-    Route::post('/redirect', [Controllers\RedirectController::class, 'api']);
+    Route::post('/redirect', [Controllers\RedirectController::class, 'api'])->name('redirect.api');
 
     Route::prefix('notificacoes')->group(function () {
         Route::get('/', [Controllers\NotificationController::class, 'get'])->name('notificacoes');
@@ -102,13 +102,9 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
         return abort(403);
     });
 
-    Route::get('/privacidade', function () {
-        return view('privacy');
-    })->name('privacidade');
+    Route::view('/privacidade', 'privacy')->name('privacidade');
 
-    Route::get('/cookies', function () {
-        return view('cookies');
-    })->name('cookies');
+    Route::view('/cookies', 'cookies')->name('cookies');
 });
 
 Route::domain(env('SHORT_DOMAIN'))->group(function () {

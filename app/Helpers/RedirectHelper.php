@@ -15,7 +15,7 @@ class RedirectHelper
     public static function processMagalu(string $url): string
     {
         $partes = explode('/', $url, 7);
-        if (strpos($url, 'https://www.magazinevoce.com.br') !== 0) {
+        if (!str_starts_with($url, 'https://www.magazinevoce.com.br')) {
             return 'https://www.magazinevoce.com.br/magazineofertasleone/p/' . $partes[3] . '/' . $partes[5];
         } else {
             $partes[3] = 'magazineofertasleone';
@@ -52,9 +52,9 @@ class RedirectHelper
     /**
      * Encontra o link da página da ofertas
      *
-     * @param integer $catId
-     * @param integer $page
-     * @param integer|null $ofertaId
+     * @paramint $catId
+     * @paramint $page
+     * @paramint|null $ofertaId
      * @param bool|null $pageNumber
      * @return string
      */

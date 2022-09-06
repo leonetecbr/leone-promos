@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class NotificationController extends Controller
 {
@@ -20,6 +21,7 @@ class NotificationController extends Controller
      * @param Request $request
      * @return array
      */
+    #[Route('/prefer/get')]
     public static function getPrefer(Request $request): array
     {
         if ($request->filled('endpoint')) {
@@ -49,7 +51,7 @@ class NotificationController extends Controller
                 'pref' => $pref
             ];
         } else {
-            return ['success' => false, 'message' => 'Endpoint dousuário não informado!'];
+            return ['success' => false, 'message' => 'Endpoint do usuário não informado!'];
         }
     }
 
@@ -58,6 +60,7 @@ class NotificationController extends Controller
      * @param Request $request
      * @return array
      */
+    #[Route('/prefer/set', name: 'prefer.set')]
     public static function setPrefer(Request $request): array
     {
         if ($request->filled('endpoint')) {
@@ -106,6 +109,7 @@ class NotificationController extends Controller
      * @return array
      * @throws ErrorException
      */
+    #[Route('/notificacoes/manage')]
     public function userManage(Request $request): array
     {
         $response['success'] = false;
@@ -194,6 +198,7 @@ class NotificationController extends Controller
      * @return array
      * @throws ErrorException
      */
+    #[Route('/api/v1//{key}/postback')]
     public function postback(Request $request, string $key): array
     {
         $result['success'] = false;
@@ -229,6 +234,7 @@ class NotificationController extends Controller
      * Gera a página de envio de notificações
      * @returns View
      */
+    #[Route('/notification', name: 'notification.new')]
     public function getAdmin(): View
     {
         return view('admin.notification');
@@ -241,6 +247,7 @@ class NotificationController extends Controller
      * @throws ErrorException
      * @throws ValidationException
      */
+    #[Route('/notification/send', name: 'notification.send')]
     public function send(Request $request): RedirectResponse
     {
         $todos = $request->input('para', false);
@@ -317,9 +324,10 @@ class NotificationController extends Controller
     }
 
     /**
-     * Gera a página de gerenciamento de promoções
+     * Gera o histórico de notificações enviadas
      * @returns View
      */
+    #[Route('/notificacoes', name: 'notificacoes')]
     public function get(): View
     {
         return view('notifications');

@@ -10,12 +10,7 @@ use Illuminate\Http\Request;
 class RecaptchaHelper
 {
     /**
-     * v2 | v3
-     * @var string $type
-     */
-    public string $type;
-    /**
-     * @var string|mixed
+     * @var string
      */
     private string $secret;
     /**
@@ -24,27 +19,22 @@ class RecaptchaHelper
     private ?string $ip;
 
     /**
-     * @var string $response
-     */
-    private string $response;
-
-    /**
      * Preenche as variáveis necessárias para a verificação
      * @param Request $request
      * @param string $response
      * @param string $type
      * @params string $response $type
      */
-    public function __construct(Request $request, string $response, string $type = 'v3')
+    public function __construct(Request        $request,
+                                private string $response,
+                                private string $type = 'v3')
     {
         $this->ip = $request->ip();
-        $this->type = $type;
         if ($type == 'v3') {
             $this->secret = env('SECRET_RECAPTCHA_V3');
         } else {
             $this->secret = env('SECRET_RECAPTCHA_V2');
         }
-        $this->response = $response;
     }
 
     /**

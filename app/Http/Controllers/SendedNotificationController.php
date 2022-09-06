@@ -10,7 +10,7 @@ class SendedNotificationController extends Controller
 
     /**
      * Lista as notificações enviadas
-     * @param integer $page
+     * @paramint $page
      * @return View
      */
     public function get(int $page = 1): View

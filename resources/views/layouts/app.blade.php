@@ -76,7 +76,7 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
 @if (empty($_COOKIE['accept']))
     <section class="fixed-bottom bg-primary col-12 col-md-9 col-lg-8 mx-auto mb-md-3 text-light p-3" id="aviso-cookie">
         <div class="mb-2">Esse site utiliza cookies para te dá uma melhor experiência de navegação. <a
-                    href="{{ route('cookies') }}" target="_blank" class="text-light">Saiba mais &raquo;</a></div>
+                href="{{ route('cookies') }}" target="_blank" class="text-light">Saiba mais &raquo;</a></div>
         <div class="text-end">
             <button class="btn btn-outline-light" id="accept">Fechar e aceitar</button>
         </div>
@@ -138,11 +138,11 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
             @if (Auth::check())
                 <a href="{{ route('dashboard') }}" class="ms-3">
                     <button id="btn-admin" class="btn btn-outline-info mt-3 mt-md-0 float-start"><i
-                                class="fa-solid fa-lock"></i></button>
+                            class="fa-solid fa-lock"></i></button>
                 </a>
                 <a href="{{ route('logout') }}" class="ms-3">
                     <button id="btn-logout" class="btn btn-outline-danger mt-3 mt-md-0 float-end"><i
-                                class="fas fa-sign-out-alt"></i></button>
+                            class="fas fa-sign-out-alt"></i></button>
                 </a>
             @endif
         </div>
@@ -162,7 +162,8 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
         </div>
     </div>
 @endif
-<form action="/search/" id="search-desktop" data-action="search" class="d-none d-lg-none needs-validation p-3" method="post" novalidate>
+<form action="/search/" id="search-desktop" data-action="search" class="d-none d-lg-none needs-validation p-3"
+      method="post" novalidate>
     <div class="row mb-3">
         <div class="col-10 col-sm-11">
             <input type="search" name="q" id="qs" placeholder="Digite sua pesquisa ..." class="form-control" required
@@ -174,7 +175,7 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
     </div>
     <div class="invalid-feedback">Pesquisa inválida (Mínimo de 3 caracteres e máximo 20)</div>
     <p class="small">Esta pesquisa é protegida pelo Google reCAPTCHA para garantir que você não é um robô. <a
-                target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas de Privacidade</a> e
+            target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas de Privacidade</a> e
         <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de Serviço</a> do Google são
         aplicáveis.</p>
 </form>
@@ -232,7 +233,8 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
     <p class="fs-6">
         <span class="bolder">Políticas: </span> <a href="`{{ route('privacidade') }}" target="_blank"
                                                    class="text-decoration-none">de Privacidade</a> | <a
-                href="{{ route('cookies') }}" target="_blank" class="text-decoration-none">de Cookies</a>
+            href="{{ route('cookies') }}" target="_blank"
+            class="text-decoration-none">de Cookies</a>
     </p>
 </footer>
 </body>

@@ -8,7 +8,7 @@
         <h2 class="display-6">Introdução</h2>
         <p>A sua privacidade é importante para nós. É política do {{ env('APP_NAME') }} respeitar a sua privacidade em
             relação a qualquer informação sua que possamos coletar no site <a
-                    href="{{ env('APP_URL') }}">{{ env('APP_NAME') }}</a>, e outros sites que possuímos e operamos.</p>
+                href="{{ env('APP_URL') }}">{{ env('APP_NAME') }}</a>, e outros sites que possuímos e operamos.</p>
         <p>Solicitamos informações pessoais apenas quando realmente precisamos delas para lhe fornecer um serviço.
             Fazemos por meios justos e legais, com o seu conhecimento e consentimento. Também informamos por que estamos
             coletando e como será usado.</p>

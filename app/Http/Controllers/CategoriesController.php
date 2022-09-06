@@ -7,6 +7,7 @@ use App\Helpers;
 use App\Models\Category;
 use Exception;
 use Illuminate\Contracts\View\View;
+use Symfony\Component\Routing\Annotation\Route;
 
 class CategoriesController extends Controller
 {
@@ -15,6 +16,7 @@ class CategoriesController extends Controller
      * Retorna a lista com as principais categorias
      * @return View
      */
+    #[Route('/categorias', name: 'categorias')]
     public static function get(): View
     {
         $categories = Category::all()->toArray();
@@ -28,6 +30,7 @@ class CategoriesController extends Controller
      * @return View
      * @throws Exception
      */
+    #[Route('/categorias/{categoria}/{page?}', name: 'categoria')]
     public static function process(string $name, int $page = 1): View
     {
         try {

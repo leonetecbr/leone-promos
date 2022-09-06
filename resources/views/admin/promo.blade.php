@@ -113,8 +113,9 @@
                         <input class="form-check-input" type="checkbox" name="notification" id="notificacao" checked>
                         <label class="form-check-label" for="notificacao">Enviar notificação</label>
                     </div>
-                    <div class="container flex-row flex-center row-wrap d-md-flex justify-conatent-center flex-wrap mt-3"
-                         id="prefers">
+                    <div
+                        class="container flex-row flex-center row-wrap d-md-flex justify-conatent-center flex-wrap mt-3"
+                        id="prefers">
                         <div class="form-check col-md-6 col-lg-4">
                             <input type="checkbox" name="para" id="all" class="form-check-input" checked>
                             <label for="all" class="form-check-label">Todos</label>

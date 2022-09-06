@@ -43,18 +43,18 @@
         @endforeach
     @endif
     @if ($catId==0 && is_array($promos) && !empty($query))
-        <?php
-        $url = Request::url() . '?';
-        $price = Request::get('price');
-        $order = Request::get('order_by');
-        if (empty($price) && empty($order)) {
-            $withoutOrder = $url;
-            $withoutPrice = $url;
-        } else {
-            $withoutOrder = $url . http_build_query(['price' => $price]);
-            $withoutPrice = $url . http_build_query(['order_by' => $order]);
-        }
-        ?>
+            <?php
+            $url = Request::url() . '?';
+            $price = Request::get('price');
+            $order = Request::get('order_by');
+            if (empty($price) && empty($order)) {
+                $withoutOrder = $url;
+                $withoutPrice = $url;
+            } else {
+                $withoutOrder = $url . http_build_query(['price' => $price]);
+                $withoutPrice = $url . http_build_query(['order_by' => $order]);
+            }
+            ?>
         <div class="px-3 mt-4 mb-3 d-flex justify-content-around">
             <div class="dropdown col-5">
                 <a class="btn btn-primary text-light dropdown-toggle w-100" href="#" role="button" id="dropdownMenuLink"

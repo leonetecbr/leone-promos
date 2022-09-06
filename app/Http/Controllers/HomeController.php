@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\ApiHelper;
 use Exception;
 use Illuminate\Contracts\View\View;
+use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends Controller
 {
@@ -14,6 +15,7 @@ class HomeController extends Controller
      * @returns View
      * @throws Exception
      */
+    #[Route('/', name: 'home')]
     public function __invoke(): View
     {
         $offers = ApiHelper::getPromo(9999);

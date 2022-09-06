@@ -16,7 +16,7 @@ class SearchController extends Controller
      * Faz pesquisas na API da Lomadee
      * @param Request $request
      * @param string $query
-     * @param integer $page
+     * @paramint $page
      * @return View
      * @throws Exception
      */

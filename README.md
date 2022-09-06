@@ -15,17 +15,18 @@
 
 O mínimo recomendo é:
 
-```PHP 7.4 ou superior```
+```PHP 8.0.2 ou superior```
 
-Estando rodando essa versão do PHP ou superior e tendo o Composer instalado, basta copiar o arquivo ```.env.example```,
-renomea-lo para ```.env``` e preencher o que for nescessário com base em seu ambiente, após isso basta rodar os
+Estando rodando essa versão do PHP ou superior e tendo o Composer instalado, basta rodar os
 seguintes comandos:
 
 ```composer install```
 
 ```php artisan migrate```
 
-Após alterar arquivos JavaScript e/ou CSS é necessário minificá-los novamente através dos comandos:
+Após isso abra o arquivo ``.env``` e preencher o que for necessário com base em seu ambiente
+
+Ao alterar arquivos JavaScript e/ou CSS é necessário minificá-los novamente através dos comandos:
 
 Para instalar os pacotes necessários: `npm install`
 

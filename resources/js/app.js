@@ -270,7 +270,7 @@ function getToken(action, id, type = 'ajax') {
             grecaptcha.ready(() => {
                 grecaptcha.execute(KEY_V3_RECAPTCHA, {action: action})
                     .then((token) => {
-                        if (changeBtn){
+                        if (changeBtn) {
                             btn.html(text)
                         }
 

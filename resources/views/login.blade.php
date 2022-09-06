@@ -41,4 +41,4 @@
 @section('headers')
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endsection
-<?php $robots = 'noindex'; ?>
+    <?php $robots = 'noindex'; ?>

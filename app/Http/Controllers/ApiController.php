@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers;
 use Exception;
 use Illuminate\Http\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Controla a API de listagem de promoções e cupons
@@ -18,6 +19,7 @@ class ApiController extends Controller
      * @return array
      * @throws Exception
      */
+    #[Route('/api/v1/loja')]
     public function listPromosLojas(Request $request): array
     {
         $page = $request->input('page', 1);
@@ -33,6 +35,7 @@ class ApiController extends Controller
      * @return array
      * @throws Exception
      */
+    #[Route('/api/v1/categoria')]
     public function listPromosCategorias(Request $request): array
     {
         $page = $request->input('page', 1);
@@ -47,6 +50,7 @@ class ApiController extends Controller
      * @return array
      * @throws Exception
      */
+    #[Route('/api/v1/home')]
     public function listPromosHome(): array
     {
         return Helpers\ApiHelper::getPromo(9999);
@@ -58,6 +62,7 @@ class ApiController extends Controller
      * @return array
      * @throws Exception
      */
+    #[Route('/api/v1/cupons')]
     public function listCupons(Request $request): array
     {
         $page = $request->input('page', 1);

@@ -18,7 +18,7 @@ class TopPromosController extends Controller
 
     /**
      * Gera a página para edição de uma promoção
-     * @param integer $id
+     * @paramint $id
      * @return View|RedirectResponse
      */
     public function edit(int $id)
@@ -50,7 +50,7 @@ class TopPromosController extends Controller
 
     /**
      * Deleta uma promoção
-     * @param integer $id
+     * @paramint $id
      * @return RedirectResponse
      */
     public function delete(int $id): RedirectResponse

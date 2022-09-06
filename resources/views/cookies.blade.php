@@ -35,7 +35,7 @@
             <li>
                 <p class="fw-bolder">Cookies de segurança</p>
                 <p>São cookies que servem para proteger nossos usuários de ataques CSRF, sigla em inglês para <span
-                            class="fw-bolder">Falsificação de solicitação entre sites.</span></p>
+                        class="fw-bolder">Falsificação de solicitação entre sites.</span></p>
             </li>
             <li>
                 <p class="fw-bolder">Cookies de sessão</p>
