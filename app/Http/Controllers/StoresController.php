@@ -11,6 +11,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class StoresController extends Controller
 {
@@ -19,6 +20,7 @@ class StoresController extends Controller
      * Retorna a lista com as principais lojas
      * @returns View
      */
+    #[Route('/lojas', name: 'lojas')]
     public static function get(): View
     {
         $stores = TopStores::all()->toArray();
@@ -32,7 +34,8 @@ class StoresController extends Controller
      * @return View|RedirectResponse
      * @throws Exception
      */
-    public static function process(string $name, int $page = 1)
+    #[Route('/lojas/{loja}/{page?}', name: 'loja')]
+    public static function process(string $name, int $page = 1): View|RedirectResponse
     {
         try {
 
@@ -58,7 +61,7 @@ class StoresController extends Controller
             $offers = $dado['offers'];
             $endPage = $dado['totalPage'];
             $subtitle = $title;
-            $title = 'Loja: ' . $title . " - Página {$page} de {$endPage}";
+            $title = "Loja: $title - Página $page de $endPage";
         } catch (RequestException $e) {
             $title = 'Não encontrada';
             $offers = '<div class="alert alert-danger fs-4 mt-3 text-center">' . $e->getMessage() . '</div>';
@@ -72,6 +75,7 @@ class StoresController extends Controller
      * Gera a página para adição de uma nova loja no sistema
      * @returns View
      */
+    #[Route('/lojas/new', name: 'lojas.new')]
     public function new(): View
     {
         return view('admin.loja');
@@ -83,6 +87,7 @@ class StoresController extends Controller
      * @return RedirectResponse
      * @throws ValidationException
      */
+    #[Route('/lojas/save', name: 'lojas.save')]
     public function save(Request $request): RedirectResponse
     {
         $dados = $this->validate($request, [
@@ -103,16 +108,14 @@ class StoresController extends Controller
             ];
 
             if (Store::create($store)) {
-                return redirect()->route('lojas.new')->with([
-                    'save' => 'A loja foi salva com sucesso!'
-                ]);
+                return to_route('lojas.new', ['save' => 'A loja foi salva com sucesso!']);
             } else {
-                return redirect()->route('lojas.new')->withErrors([
+                return to_route('lojas.new')->withErrors([
                     'form' => ['Erro interno ao salvar a nova loja!']
                 ])->withInput();
             }
         } else {
-            return redirect()->route('lojas.new')->withErrors([
+            return to_route('lojas.new')->withErrors([
                 'id' => ['O id informado já existe no banco de dados.']
             ])->withInput();
         }

@@ -29,7 +29,10 @@ class NotificationController extends Controller
             $prefer = Notification::where('endpoint', $endpoint)->first();
 
             if (empty($prefer)) {
-                return ['success' => false, 'message' => 'Usuário não encontrado! Desative as notificações, ative e tente novamente.'];
+                return [
+                    'success' => false,
+                    'message' => 'Usuário não encontrado! Desative as notificações, ative e tente novamente.'
+                ];
             }
 
             $prefer = $prefer->toArray();
@@ -80,7 +83,10 @@ class NotificationController extends Controller
             $prefer = Notification::where('endpoint', $endpoint)->first();
 
             if (empty($prefer)) {
-                return ['success' => false, 'message' => 'Usuário não encontrado! Desative as notificações, ative e tente novamente.'];
+                return [
+                    'success' => false,
+                    'message' => 'Usuário não encontrado! Desative as notificações, ative e tente novamente.'
+                ];
             }
 
             $prefer->p1 = $request->filled('p1');
@@ -146,7 +152,11 @@ class NotificationController extends Controller
                     $notification->auth = $auth;
                     $notification->p256dh = $p256dh;
                     $notification->endpoint = $endpoint;
-                    $success = $notify->sendOneNotification(['auth' => $auth, 'p256dh' => $p256dh, 'endpoint' => $endpoint], [
+                    $success = $notify->sendOneNotification([
+                        'auth' => $auth,
+                        'p256dh' => $p256dh,
+                        'endpoint' => $endpoint
+                    ], [
                         'title' => 'Vai uma promoção ai?',
                         'msg' => 'Que tal vim conferir as nossas melhores promoções? Vem aproveitar!',
                         'link' => '/'
@@ -218,7 +228,11 @@ class NotificationController extends Controller
 
             $value = $request->input('valor');
             $commission = $request->input('comissao');
-            $payload = ['msg' => 'Sua venda foi de R$ ' . number_format(floatval($value), 2, ',', '.') . ', sua comissão será de R$ ' . number_format(floatval($commission), 2, ',', '.'), 'title' => 'Você fez uma nova venda!', 'link' => '/'];
+            $payload = [
+                'msg' => 'Sua venda foi de R$ ' . number_format(floatval($value), 2, ',', '.') . ', sua comissão será de R$ ' . number_format(floatval($commission), 2, ',', '.'),
+                'title' => 'Você fez uma nova venda!',
+                'link' => '/'
+            ];
             $notify = new Helpers\NotificationHelper;
             $result['success'] = $notify->sendOneNotification([], $payload);
             $result['code'] = 200;
@@ -274,7 +288,10 @@ class NotificationController extends Controller
             if ($request->filled('para2')) {
                 $dados = $this->validate($request, [
                     'para2' => 'required|integer'
-                ], ['para2.required' => 'Digite o id que receberá a notificação!', 'para2.integer' => 'O id precisa ser um número!',]);
+                ], [
+                    'para2.required' => 'Digite o id que receberá a notificação!',
+                    'para2.integer' => 'O id precisa ser um número!'
+                ]);
                 $id = $dados['para2'];
                 $subscription = Notification::find($id);
                 if (empty($subscription)) {
@@ -317,7 +334,9 @@ class NotificationController extends Controller
         }
 
         if (!$success) {
-            return redirect()->back()->withErrors(['para2' => ['Não foi possível enviar a mensagem para 1 ou mais destinatários!']]);
+            return redirect()->back()->withErrors([
+                'para2' => ['Não foi possível enviar a mensagem para 1 ou mais destinatários!']
+            ]);
         } else {
             return redirect()->back()->with(['sender' => 'Notificação enviada com sucesso a todos os destinatários!']);
         }

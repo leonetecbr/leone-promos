@@ -17,7 +17,7 @@ class Category extends Model
      * Cria os registros padrões no banco de dados
      * @return void
      */
-    public static function initialize()
+    public static function initialize(): void
     {
         self::insert([[
             'id' => 77,

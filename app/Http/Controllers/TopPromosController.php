@@ -8,10 +8,12 @@ use App\Models\Page;
 use App\Models\Promo;
 use App\Models\Store;
 use ErrorException;
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class TopPromosController extends Controller
 {
@@ -19,19 +21,21 @@ class TopPromosController extends Controller
     /**
      * Gera a página para edição de uma promoção
      * @paramint $id
+     * @param int $id
      * @return View|RedirectResponse
      */
-    public function edit(int $id)
+    #[Route('/admin/promos/edit/{id}', name: 'promos.edit')]
+    public function edit(int $id): View|RedirectResponse
     {
         $promo = Promo::find($id);
 
         if (empty($promo)) {
-            return redirect()->route('promos.list')->withErrors([
+            return to_route('promos.list')->withErrors([
                 'promo' => ['A promoção solicitada não existe!']
             ]);
         } else {
             $promo = $promo->toArray();
-            $promo['redirect'] = (strpos($promo['link'], '/redirect?url=') === 0) ? 'checked' : '';
+            $promo['redirect'] = (str_starts_with($promo['link'], '/redirect?url=')) ? 'checked' : '';
             $title = 'Editar promoção';
         }
 
@@ -43,6 +47,7 @@ class TopPromosController extends Controller
      * Gera a página para a criação de uma promoção
      * @returns View
      */
+    #[Route('/admin/promos/new', name: 'promos.new')]
     public function new(): View
     {
         return view('admin.promo', ['title' => 'Nova promoção']);
@@ -51,27 +56,31 @@ class TopPromosController extends Controller
     /**
      * Deleta uma promoção
      * @paramint $id
+     * @param int $id
      * @return RedirectResponse
      */
+    #[Route('/admin/promos/delete/{id}', name: 'promos.delete')]
     public function delete(int $id): RedirectResponse
     {
         $promo = Promo::find($id);
 
         if (empty($promo)) {
-            return redirect()->route('promos.list')->withErrors([
+            return to_route('promos.list')->withErrors([
                 'promo' => ['A promoção solicitada não existe!']
             ]);
         }
 
         $promo->delete();
 
-        return redirect()->route('promos.list');
+        return to_route('promos.list');
     }
 
     /**
      * Lista as melhores promoções
      * @returns View
+     * @throws Exception
      */
+    #[Route('/admin/promos', name: 'promos.list')]
     public function list(): View
     {
         $promos = Helpers\ApiHelper::getPromo(9999);
@@ -92,6 +101,7 @@ class TopPromosController extends Controller
      * @throws ErrorException
      * @throws ValidationException
      */
+    #[Route('/admin/promos/save', name: 'promos.save')]
     public function save(Request $request): RedirectResponse
     {
         $dados = $this->validate($request, [
@@ -166,9 +176,9 @@ class TopPromosController extends Controller
                 $success = true;
             }
             if ($success) {
-                return redirect()->route('promos.list');
+                return to_route('promos.list');
             } else {
-                return redirect()->route('promos.list')->withErrors([
+                return to_route('promos.list')->withErrors([
                     'notification' => ['Erro ao enviar a notificação para um ou mais destinatários!']
                 ]);
             }

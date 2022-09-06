@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <?php
 if (Request::filled('tag') && Request::input('utm_source') == 'push_notification') {
-    require_once(__DIR__ . '/../../../app/Includes/ClickNotification.php');
+    require_once(__DIR__ . '/../../../app/Includes/clickNotification.php');
 }
 ?>
 <head>

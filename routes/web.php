@@ -26,40 +26,43 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
 
     Route::get('/', Controllers\HomeController::class)->name('home');
 
-    Route::prefix('categorias')->group(function () {
-        Route::get('/', [Controllers\CategoriesController::class, 'get'])->name('categorias');
+    Route::controller(Controllers\CategoriesController::class)->prefix('categorias')->group(function () {
+        Route::get('/', 'get')->name('categorias');
 
-        Route::get('/{categoria}/{page?}', [Controllers\CategoriesController::class, 'process'])->whereAlpha('categoria')->where('page', '^[1-9]+[0-9]*$')->name('categoria');
+        Route::get('/{categoria}/{page?}', 'process')->whereAlpha('categoria')->where('page', '^[1-9]+[0-9]*$')->name('categoria');
     });
 
-    Route::prefix('lojas')->group(function () {
-        Route::get('/', [Controllers\StoresController::class, 'get'])->name('lojas');
+    Route::controller(Controllers\StoresController::class)->prefix('lojas')->group(function () {
+        Route::get('/', 'get')->name('lojas');
 
-        Route::get('/{loja}/{page?}', [Controllers\StoresController::class, 'process'])->whereAlpha('loja')->where('page', '^[1-9]+[0-9]*$')->name('loja');
+        Route::get('/{loja}/{page?}', 'process')->whereAlpha('loja')->where('page', '^[1-9]+[0-9]*$')->name('loja');
     });
 
     Route::get('/cupons/{page?}', [Controllers\CouponsController::class, 'get'])->where('page', '^[1-9]+[0-9]*$')->name('cupons');
 
     Route::match(['get', 'post'], '/search/{query}/{page?}', [Controllers\SearchController::class, 'search'])->where(['query' => '[\w ]+', 'page' => '^[1-9]+[0-9]*$'])->name('pesquisa');
 
-    Route::get('/redirect', [Controllers\RedirectController::class, 'get'])->name('redirect.page');
+    Route::controller(Controllers\RedirectController::class)->prefix('redirect')->group(function () {
+        Route::get('/', 'get')->name('redirect.page');
 
-    Route::post('/redirect', [Controllers\RedirectController::class, 'api'])->name('redirect.api');
-
-    Route::prefix('notificacoes')->group(function () {
-        Route::get('/', [Controllers\NotificationController::class, 'get'])->name('notificacoes');
-
-        Route::post('/manage', [Controllers\NotificationController::class, 'userManage']);
+        Route::post('/', 'api')->name('redirect.api');
     });
 
-    Route::prefix('prefer')->group(function () {
-        Route::post('/get', [Controllers\NotificationController::class, 'getPrefer']);
+    Route::controller(Controllers\NotificationController::class)->group(function () {
+        Route::prefix('notificacoes')->group(function () {
+            Route::get('/', 'get')->name('notificacoes');
 
-        Route::post('/set', [Controllers\NotificationController::class, 'setPrefer'])->name('prefer.set');
+            Route::post('/manage', 'userManage');
+        });
+
+        Route::prefix('prefer')->group(function () {
+            Route::post('/get', 'getPrefer');
+
+            Route::post('/set', 'setPrefer')->name('prefer.set');
+        });
     });
 
     Route::get('/rastreio', [Controllers\TrackingController::class, 'get'])->name('rastreio');
-
     Route::get('/login', [Controllers\UserController::class, 'login'])->name('login');
 
     Route::middleware(['auth'])->group(function () {
@@ -70,16 +73,16 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
 
             Route::get('/', [Controllers\AdminController::class, 'get'])->name('dashboard');
 
-            Route::prefix('promos')->group(function () {
-                Route::get('/', [Controllers\TopPromosController::class, 'list'])->name('promos.list');
+            Route::controller(Controllers\TopPromosController::class)->prefix('promos')->group(function () {
+                Route::get('/', 'list')->name('promos.list');
 
-                Route::get('/new', [Controllers\TopPromosController::class, 'new'])->name('promos.new');
+                Route::get('/new', 'new')->name('promos.new');
 
-                Route::get('/edit/{id}', [Controllers\TopPromosController::class, 'edit'])->whereNumber('id');
+                Route::get('/edit/{id}', 'edit')->whereNumber('id');
 
-                Route::get('/delete/{id}', [Controllers\TopPromosController::class, 'delete'])->whereNumber('id')->name('promos.delete');
+                Route::get('/delete/{id}', 'delete')->whereNumber('id')->name('promos.delete');
 
-                Route::post('/save', [Controllers\TopPromosController::class, 'save'])->name('promos.save');
+                Route::post('/save', 'save')->name('promos.save');
             });
 
             Route::prefix('notification')->group(function () {
@@ -90,10 +93,10 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
                 Route::get('/history/{page?}', [Controllers\SendedNotificationController::class, 'get'])->name('notification.history');
             });
 
-            Route::prefix('lojas')->group(function () {
-                Route::get('/new', [Controllers\StoresController::class, 'new'])->name('lojas.new');
+            Route::controller(controllers\StoresController::class)->prefix('lojas')->group(function () {
+                Route::get('/new', 'new')->name('lojas.new');
 
-                Route::post('/save', [Controllers\StoresController::class, 'save'])->name('lojas.save');
+                Route::post('/save', 'save')->name('lojas.save');
             });
         });
     });
@@ -108,87 +111,61 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
 });
 
 Route::domain(env('SHORT_DOMAIN'))->group(function () {
-    Route::get('/', function () {
-        return redirect(env('APP_URL'));
-    });
+    Route::redirect('/', env('APP_URL'));
 
     Route::prefix('amazon')->group(function () {
-        Route::get('/', function () {
-            return redirect('/redirect?url=https://www.amazon.com.br/');
-        });
+        Route::redirect('/', '/redirect?url=https://www.amazon.com.br/');
 
         Route::get('/{product_id}', function ($product_id) {
-            return redirect('/redirect?url=https://www.amazon.com.br/gp/product/' . $product_id);
+            return redirect("/redirect?url=https://www.amazon.com.br/gp/product/$product_id");
         });
     });
 
     Route::prefix('magalu')->group(function () {
-        Route::get('/', function () {
-            return redirect('https://www.magazinevoce.com.br/magazineofertasleone/');
-        });
+        Route::redirect('/', 'https://www.magazinevoce.com.br/magazineofertasleone/');
 
         Route::get('/{product_id}', function ($product_id) {
-            return redirect("https://www.magazinevoce.com.br/magazineofertasleone/p/{$product_id}");
+            return redirect("https://www.magazinevoce.com.br/magazineofertasleone/p/$product_id");
         });
-    });
-
-    Route::prefix('soub')->group(function () {
-        Route::get('/', function () {
-            return redirect('/redirect?url=https://www.soubarato.com.br/');
-        });
-
-        Route::get('/{product_id}', function ($product_id) {
-            return redirect("/redirect?url=https://www.soubarato.com.br/produto/{$product_id}");
-        })->whereNumber('product_id');
     });
 
     Route::prefix('americanas')->group(function () {
-        Route::get('/', function () {
-            return redirect('/redirect?url=https://www.americanas.com.br/');
-        });
+        Route::redirect('/', '/redirect?url=https://www.americanas.com.br/');
 
         Route::get('/{product_id}', function ($product_id) {
-            return redirect("/redirect?url=https://www.americanas.com.br/produto/{$product_id}");
+            return redirect("/redirect?url=https://www.americanas.com.br/produto/$product_id");
         })->whereNumber('product_id');
     });
 
     Route::prefix('shoptime')->group(function () {
-        Route::get('/', function () {
-            return redirect('/redirect?url=https://www.shoptime.com.br/');
-        });
+        Route::redirect('/', '/redirect?url=https://www.shoptime.com.br/');
 
         Route::get('/{product_id}', function ($product_id) {
-            return redirect("/redirect?url=https://www.shoptime.com.br/produto/{$product_id}");
+            return redirect("/redirect?url=https://www.shoptime.com.br/produto/$product_id");
         })->whereNumber('product_id');
     });
 
     Route::prefix('submarino')->group(function () {
-        Route::get('/', function () {
-            return redirect('/redirect?url=https://www.submarino.com.br/');
-        });
+        Route::redirect('/', '/redirect?url=https://www.submarino.com.br/');
 
         Route::get('/{product_id}', function ($product_id) {
-            return redirect("/redirect?url=https://www.submarino.com.br/produto/{$product_id}");
+            return redirect("/redirect?url=https://www.submarino.com.br/produto/$product_id");
         })->whereNumber('product_id');
     });
 
     Route::prefix('aliexpress')->group(function () {
-        Route::get('/', function () {
-            return redirect('/redirect?url=https://pt.aliexpress.com/');
-        });
+        Route::redirect('/', '/redirect?url=https://pt.aliexpress.com/');
 
         Route::get('/{product_id}', function ($product_id) {
-            return redirect("/redirect?url=https://pt.aliexpress.com/item/{$product_id}.html");
+            return redirect("/redirect?url=https://pt.aliexpress.com/item/$product_id.html");
         })->whereNumber('product_id');
     });
 
     Route::prefix('shopee')->group(function () {
-        Route::get('/', function () {
-            return redirect('https://shopee.com.br/ofertas.leone.tec.br');
-        });
+        Route::redirect('/', 'https://shopee.com.br/ofertas.leone.tec.br');
 
         Route::get('/{product_id}', function ($product_id) {
-            return redirect("https://shopee.com.br/product/306527682/{$product_id}");
+            return redirect("https://shopee.com.br/product/306527682/$product_id");
         })->whereNumber('product_id');
     });
 

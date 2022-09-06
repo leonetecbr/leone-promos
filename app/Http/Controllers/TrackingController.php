@@ -7,6 +7,7 @@ use App\Helpers\RecaptchaHelper;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\Routing\Annotation\Route;
 
 class TrackingController extends Controller
 {
@@ -15,6 +16,7 @@ class TrackingController extends Controller
      * Gera a página de track de pedidos
      * @returns View
      */
+    #[Route('/rastreio', name: 'rastreio')]
     public function get(): View
     {
         return view('tracking');
@@ -25,6 +27,7 @@ class TrackingController extends Controller
      * @param Request $request
      * @return array
      */
+    #[Route('/api/v1/rastreio', name: 'rastreio.api')]
     public function post(Request $request): array
     {
         $response['success'] = false;

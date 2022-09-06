@@ -13,7 +13,7 @@ class CsvHelper
      */
     public static function readCSV(string $filename, bool $header = true, string $delimiter = ','): array
     {
-        if (file_exists($filename) || strpos($filename, 'https://') == 0) {
+        if (file_exists($filename) || str_starts_with($filename, 'https://')) {
             $dados = [];
             $csv = fopen($filename, 'r');
             while ($linha = fgetcsv($csv, 0, $delimiter)) {

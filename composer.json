@@ -16,7 +16,7 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "minishlink/web-push": "^6.0",
+        "minishlink/web-push": "^7.0",
         "ext-mbstring": "*",
         "ext-curl": "*",
         "ext-json": "*",
@@ -31,7 +31,6 @@
         "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ignition": "^1.0"
     },
-
     "support": {
         "email": "falecom@leone.tec.br"
     },

@@ -52,7 +52,7 @@ class CategoriesController extends Controller
             $offers = $data['offers'];
             $endPage = $data['totalPage'];
             $subtitle = $title;
-            $title = 'Categoria: ' . $title . " - Página {$page} de {$endPage}";
+            $title = "Categoria: {$title} - Página {$page} de {$endPage}";
         } catch (RequestException $e) {
             $title = 'Não encontrada';
             $offers = '<div class="alert alert-danger mt-3 text-center">' . $e->getMessage() . '</div>';

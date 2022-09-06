@@ -55,6 +55,9 @@ class RedirectHelper
      * @paramint $catId
      * @paramint $page
      * @paramint|null $ofertaId
+     * @param int $catId
+     * @param int $page
+     * @param int|null $ofertaId
      * @param bool|null $pageNumber
      * @return string
      */

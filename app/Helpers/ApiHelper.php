@@ -44,13 +44,15 @@ class ApiHelper
      * @param int $id
      * @param int $page
      * @param int $loja
-     * @return array|array[]
+     * @return array
      * @throws Exception
      */
     public static function getPromo(int $id, int $page = 1, int $loja = 0): array
     {
         $groupId = ($loja == 0) ? $id : $loja;
-        $promos = ($id == 9999) ? Promo::where('group_id', $groupId)->where('page', $page)->take(12)->orderBy('created_at', 'DESC') : Promo::where('group_id', $groupId)->where('page', $page)->take(12);
+        $promos = ($id == 9999) ?
+            Promo::where('group_id', $groupId)->where('page', $page)->take(12)->orderBy('created_at', 'DESC') :
+            Promo::where('group_id', $groupId)->where('page', $page)->take(12);
         $promotions = [];
 
         // Verifica se tem as promoções solicitadas no banco de dados
@@ -127,7 +129,7 @@ class ApiHelper
         for ($i = 0; $i < count($promos); $i++) {
             $storeId = $promos[$i]['store']['id'];
 
-            // Verifica se a loja já está na lista de lojas e adiciona se não tiver// Verifica se a loja já está na lista de lojas e adiciona se não tiver
+            // Verifica se a loja já está na lista de lojas e adiciona se não tiver
             if (!array_key_exists($storeId, $lojas)) {
                 $store = Store::firstOrNew([
                     'id' => $storeId
@@ -300,7 +302,7 @@ class ApiHelper
                 'code' => $data[$i]['code'],
                 'link' => $data[$i]['link'],
                 'description' => mb_strimwidth($data[$i]['description'], 0, 60, '...', 'UTF-8'),
-                'expiration' => str_replace(":59:00", ":59:59", $data[$i]['vigency']),
+                'expiration' => str_replace(':59:00', ':59:59', $data[$i]['vigency']),
                 'store_id' => $data[$i]['store']['id']
             ]);
 
@@ -429,9 +431,13 @@ class ApiHelper
             }
         }
 
+        $url = env('API_URL_LOMADEE') . '/v3/' . env('APP_TOKEN_LOMADEE') . '/offer/_search?' . http_build_query($query);
+
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, env('API_URL_LOMADEE') . '/v3/' . env('APP_TOKEN_LOMADEE') . '/offer/_search?' . http_build_query($query));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true
+        ]);
         $json = curl_exec($ch);
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 

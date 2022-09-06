@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\Routing\Annotation\Route;
 
 class SearchController extends Controller
 {
@@ -16,10 +17,11 @@ class SearchController extends Controller
      * Faz pesquisas na API da Lomadee
      * @param Request $request
      * @param string $query
-     * @paramint $page
+     * @param int $page
      * @return View
      * @throws Exception
      */
+    #[Route('/search/{query}/{page?}', name: 'pesquisa')]
     public static function search(Request $request, string $query, int $page = 1): View
     {
         try {
@@ -51,8 +53,8 @@ class SearchController extends Controller
             $data = Helpers\ApiHelper::search($request, $query, $page);
             $offers = $data['offers'];
             $endPage = $data['totalPage'];
-            $subtitle = 'Pesquisa por "' . $query . '"';
-            $title = 'Pesquisa: "' . $query . '" - Página ' . $page . ' de ' . $endPage;
+            $subtitle = "Pesquisa por \"$query\"";
+            $title = "Pesquisa: $query - Página $page de $endPage";
         } catch (RequestException $e) {
             $title = 'Erro encontrado';
             if ($e->getCode() === 401) {

@@ -77,18 +77,17 @@ class RecaptchaHelper
     private function getApi(): array
     {
         $dados = array(
-            "secret" => $this->secret,
-            "response" => $this->response,
-            "remoteip" => $this->ip
+            'secret' => $this->secret,
+            'response' => $this->response,
+            'remoteip' => $this->ip
         );
         $curlReCaptcha = curl_init();
-        $options = [
-            CURLOPT_URL => "https://www.google.com/recaptcha/api/siteverify",
+        curl_setopt_array($curlReCaptcha, [
+            CURLOPT_URL => 'https://www.google.com/recaptcha/api/siteverify',
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => http_build_query($dados),
             CURLOPT_RETURNTRANSFER => true
-        ];
-        curl_setopt_array($curlReCaptcha, $options);
+        ]);
         $result = json_decode(curl_exec($curlReCaptcha), true);
         curl_close($curlReCaptcha);
         return $result;

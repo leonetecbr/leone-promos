@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends Controller
 {
@@ -16,10 +17,11 @@ class UserController extends Controller
      * Gera a página de Login
      * @returns View|RedirectResponse
      */
-    public function login()
+    #[Route('/login', name: 'login')]
+    public function login(): View|RedirectResponse
     {
         if (Auth::check()) {
-            return redirect()->route('dashboard');
+            return to_route('dashboard');
         } else {
             return view('login');
         }
@@ -31,6 +33,7 @@ class UserController extends Controller
      * @return RedirectResponse
      * @throws ValidationException
      */
+    #[Route('/admin')]
     public function auth(Request $request): RedirectResponse
     {
         $this->validate($request, [
@@ -54,7 +57,7 @@ class UserController extends Controller
         }
 
         if (Auth::attempt(['email' => $email, 'password' => $password], true)) {
-            return redirect()->route('dashboard');
+            return to_route('dashboard');
         } else {
             return redirect()->back()->withErrors([
                 'password' => ['E-mail e/ou senha inválidos!']
@@ -66,9 +69,10 @@ class UserController extends Controller
      * Realiza o logout
      * @returns RedirectResponse
      */
+    #[Route('/logout', name: 'logout')]
     public function logout(): RedirectResponse
     {
         Auth::logout();
-        return redirect()->route('login');
+        return to_route('login');
     }
 }

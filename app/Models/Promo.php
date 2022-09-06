@@ -10,5 +10,17 @@ class Promo extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $fillable = ['id', 'group_id', 'store_id', 'name', 'link', 'image', 'from', 'for', 'times', 'installments', 'page'];
+    protected $fillable = [
+        'id',
+        'group_id',
+        'store_id',
+        'name',
+        'link',
+        'image',
+        'from',
+        'for',
+        'times',
+        'installments',
+        'page'
+    ];
 }

@@ -15,7 +15,7 @@ use Minishlink\WebPush;
 class NotificationHelper
 {
     /**
-     * @var array[]
+     * @var array
      */
     private array $auth;
 
@@ -31,22 +31,6 @@ class NotificationHelper
                 'privateKey' => env('VAPID_PRIVATE_KEY')
             ]
         ];
-    }
-
-    /**
-     * Adiciona parâmetros de rastreio no link que vai ser enviado por notificação
-     * @param string $link
-     * @param string $id
-     * @return string
-     */
-    function insertParams(string $link, string $id): string
-    {
-        if (str_contains($link, '#')) {
-            $link = explode('#', $link, 2);
-            return $link[0] . '?utm_source=push_notification&tag=' . $id . '#' . $link[1];
-        } else {
-            return '?utm_source=push_notification&tag=' . $id;
-        }
     }
 
     /**
@@ -79,7 +63,13 @@ class NotificationHelper
 
         $this->insertParams($payload['link'], $id);
 
-        $subscription = WebPush\Subscription::create(["endpoint" => $subscription['endpoint'], "keys" => ['p256dh' => $subscription['p256dh'], 'auth' => $subscription['auth']]]);
+        $subscription = WebPush\Subscription::create([
+            'endpoint' => $subscription['endpoint'],
+            'keys' => [
+                'p256dh' => $subscription['p256dh'],
+                'auth' => $subscription['auth']
+            ]
+        ]);
 
         $webPush = new WebPush\WebPush($this->auth);
         $webPush->setAutomaticPadding(false);
@@ -92,6 +82,21 @@ class NotificationHelper
         return false;
     }
 
+    /**
+     * Adiciona parâmetros de rastreio no link que vai ser enviado por notificação
+     * @param string $link
+     * @param string $id
+     * @return string
+     */
+    function insertParams(string $link, string $id): string
+    {
+        if (str_contains($link, '#')) {
+            $link = explode('#', $link, 2);
+            return $link[0] . '?utm_source=push_notification&tag=' . $id . '#' . $link[1];
+        } else {
+            return '?utm_source=push_notification&tag=' . $id;
+        }
+    }
 
     /**
      * Envia notificações para vários usuários
@@ -117,7 +122,13 @@ class NotificationHelper
 
         $notifications = [];
         for ($i = 0; !empty($subscriptions[$i]); $i++) {
-            $notifications[$i]['subscription'] = WebPush\Subscription::create(["endpoint" => $subscriptions[$i]['endpoint'], "keys" => ['p256dh' => $subscriptions[$i]['p256dh'], 'auth' => $subscriptions[$i]['auth']]]);
+            $notifications[$i]['subscription'] = WebPush\Subscription::create([
+                'endpoint' => $subscriptions[$i]['endpoint'],
+                'keys' => [
+                    'p256dh' => $subscriptions[$i]['p256dh'],
+                    'auth' => $subscriptions[$i]['auth']
+                ]
+            ]);
             $notifications[$i]['payload'] = json_encode($payload);
         }
 

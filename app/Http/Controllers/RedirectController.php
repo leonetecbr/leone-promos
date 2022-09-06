@@ -92,8 +92,6 @@ class RedirectController
                 $to = RedirectHelper::processAwin($url, 17874);
             } elseif (str_starts_with($url, 'https://m.casasbahia.com.br') || str_starts_with($url, 'https://www.casasbahia.com.br') || str_starts_with($url, 'https://casasbahia.com.br')) {
                 $to = RedirectHelper::processAwin($url, 17629);
-            } elseif (str_starts_with($url, 'https://www.soubarato.com.br') || str_starts_with($url, 'https://soubarato.com.br')) {
-                $to = RedirectHelper::processAwin($url, 23281, env('ID_AFILIADO_B2W'));
             } elseif (str_starts_with($url, 'https://www.submarino.com.br') || str_starts_with($url, 'https://submarino.com.br')) {
                 $to = RedirectHelper::processAwin($url, 22195, env('ID_AFILIADO_B2W'));
             } elseif (str_starts_with($url, 'https://www.shoptime.com.br') || str_starts_with($url, 'https://shoptime.com.br')) {

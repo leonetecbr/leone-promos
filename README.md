@@ -24,7 +24,7 @@ seguintes comandos:
 
 ```php artisan migrate```
 
-Após isso abra o arquivo ``.env``` e preencher o que for necessário com base em seu ambiente
+Após isso abra o arquivo ```.env``` e preencher o que for necessário com base em seu ambiente
 
 Ao alterar arquivos JavaScript e/ou CSS é necessário minificá-los novamente através dos comandos:
 

@@ -45,7 +45,7 @@ class User extends Authenticatable
      * Cria os registros padrões no banco de dados
      * @return void
      */
-    public static function initialize()
+    public static function initialize(): void
     {
         self::create([
             'name' => 'Admin',
