@@ -1,12 +1,15 @@
-img {
-    max-width: 100%;
-    max-height: 100%;
+#updateProfilePicture{
+    top: 40px;
+    right: 40px;
+    margin-bottom: -50px;
 }
 
-a#logo {
-    width: 160px;
-    height: 45px;
-    background: url('/img/logo.png') left center/160px no-repeat;
+a {
+    text-decoration: none !important;
+}
+
+.navbar-brand {
+    line-height: 45px;
 }
 
 .grecaptcha-badge {
@@ -25,6 +28,22 @@ a#logo {
     background: linear-gradient(to top, #fbad50, #8a3ab9);
 }
 
+.form-signin {
+    width: 330px;
+}
+
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"], .form-signin input[type="text"] {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+
 .card-header > .twt {
     background-color: #00acee;
 }
@@ -34,11 +53,11 @@ a#logo {
     color: #fff;
 }
 
-.card-header > button {
-    padding: 5px;
-    width: 30px;
-    border-radius: 30px;
-    height: 30px;
+.share {
+    padding: 10px;
+    width: 40px;
+    border-radius: 40px;
+    height: 40px;
     line-height: 20px;
     font-size: 20px;
 }
@@ -88,22 +107,6 @@ img.loja {
 
 #social > a {
     margin-right: 10px;
-}
-
-.wp-button {
-    width: 60px;
-    height: 60px;
-    background-color: #34af23;
-    position: fixed;
-    bottom: 5%;
-    right: 5%;
-    padding-top: 10px;
-}
-
-.wp-button > a {
-    line-height: 35px;
-    color: #fff;
-    font-size: 35px;
 }
 
 .categoria img {
@@ -177,18 +180,9 @@ img[alt=Ponto] {
     }
 }
 
-@media (min-width: 800px) {
-    a#logo {
-        width: 235px;
-        height: 61px;
-        background: url('/img/logo.png') left center/235px no-repeat;
-    }
-}
-
 @media (min-width: 992px) {
-    .col-lg-3-5 {
-        width: 30%;
-        flex: 0 0 auto;
+    .w-lg-30 {
+        width: 30% !important;
     }
 
     div.toast-footer {

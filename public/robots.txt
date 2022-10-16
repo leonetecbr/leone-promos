@@ -1,4 +1,2 @@
-User-Agent: *
-Disallow: /search
-Disallow: /admin
-Sitemap: https://ofertas.leone.tec.br/sitemap.txt
+User-agent: *
+Disallow:

@@ -1,0 +1,76 @@
+{
+    "name": "Leone Promos",
+    "description": "Aproveite as melhores promoções da internet com total segurança!",
+    "short_name": "Ofertas",
+    "lang": "pt",
+    "dir": "ltr",
+    "display": "standalone",
+    "theme_color": "#da6709",
+    "id": "/?utm_source=web_app_manifest&utm_medium=screen_initial&utm_campaign=home_manifest",
+    "start_url": "/?utm_source=web_app_manifest&utm_medium=screen_initial&utm_campaign=home_manifest",
+    "scope": "/",
+    "orientation": "portrait",
+    "background_color": "#da6709",
+    "icons": [
+        {
+            "src": "/img/32.png",
+            "type": "image/png",
+            "sizes": "32x32",
+            "purpose": "any"
+        },
+        {
+            "src": "/img/72.png",
+            "type": "image/png",
+            "sizes": "72x72",
+            "purpose": "any"
+        },
+        {
+            "src": "/img/96.png",
+            "type": "image/png",
+            "sizes": "96x96",
+            "purpose": "any"
+        },
+        {
+            "src": "/img/128.png",
+            "type": "image/png",
+            "sizes": "128x128",
+            "purpose": "any"
+        },
+        {
+            "src": "/img/168.png",
+            "type": "image/png",
+            "sizes": "168x168",
+            "purpose": "any"
+        },
+        {
+            "src": "/img/x32.png",
+            "type": "image/png",
+            "sizes": "32x32",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/img/x72.png",
+            "type": "image/png",
+            "sizes": "72x72",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/img/x96.png",
+            "type": "image/png",
+            "sizes": "96x96",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/img/x128.png",
+            "type": "image/png",
+            "sizes": "128x128",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/img/x168.png",
+            "type": "image/png",
+            "sizes": "168x168",
+            "purpose": "maskable"
+        }
+    ]
+}

@@ -1,7 +1,7 @@
 <div align="center">
     <img src="https://raw.githubusercontent.com/leonetecbr/leone-promos/main/public/img/128.png" alt="Leone Promos">
     <h1>Leone Promos</h1>
-    <img src="https://img.shields.io/badge/PHP->=7.4-green.svg" alt="Versão mínima do PHP"/>&nbsp;&nbsp;
+    <img src="https://img.shields.io/badge/PHP->=8.0.2-green.svg" alt="Versão mínima do PHP"/>&nbsp;&nbsp;
     <img src="https://img.shields.io/github/license/leonetecbr/leone-promos.svg" alt="Licença"/>&nbsp;&nbsp;
     <img src="https://img.shields.io/website-up-down-green-red/https/ofertas.leone.tec.br.svg" alt="Website ativo ?"/>&nbsp;&nbsp;
     <img src="https://img.shields.io/github/issues/leonetecbr/leone-promos.svg" alt="Problemas"/>&nbsp;&nbsp;
@@ -13,24 +13,16 @@
 
 ## Instalação
 
-O mínimo recomendo é:
+Tendo o Composer instalado, basta rodar `composer install` para instalar as dependências do projeto.
 
-```PHP 8.0.2 ou superior```
+Após isso abra o arquivo ```.env``` e preencha o que for necessário com base em seu ambiente e logo apos rode o comando 
+`php artisan migrate` para criar as tabelas no banco de dados.
 
-Estando rodando essa versão do PHP ou superior e tendo o Composer instalado, basta rodar os
-seguintes comandos:
-
-```composer install```
-
-```php artisan migrate```
-
-Após isso abra o arquivo ```.env``` e preencher o que for necessário com base em seu ambiente
-
-Ao alterar arquivos JavaScript e/ou CSS é necessário minificá-los novamente através dos comandos:
+Ao alterar arquivos JavaScript e/ou CSS é necessário minificá-los novamente.
 
 Para instalar os pacotes necessários: `npm install`
 
-Para minificar: `npm run prod`
+Para minificar: `npm run build`
 
 ## História do site
 

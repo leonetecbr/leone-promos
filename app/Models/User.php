@@ -2,11 +2,26 @@
 
 namespace App\Models;
 
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property integer $id
+ * @property string $name
+ * @property null|string $image
+ * @property string $username
+ * @property string $email
+ * @property null|string $email_verified_at
+ * @property string $password
+ * @property array $privileges
+ * @property null|integer $google_id
+ * @property null|integer $facebook_id
+ * @property string $created_at
+ * @property string $updated_at
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -14,7 +29,7 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         'name',
@@ -25,7 +40,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -35,24 +50,43 @@ class User extends Authenticatable
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'privileges' => 'array',
+        'image' => 'boolean',
     ];
 
     /**
-     * Cria os registros padrões no banco de dados
-     * @return void
+     * Verifica se o usuário é um administrador
+     *
+     * @return bool
      */
-    public static function initialize(): void
+    public function isAdmin(): bool
     {
-        self::create([
-            'name' => 'Admin',
-            'email' => 'admin@' . env('APP_DOMAIN'),
-            'email_verified_at' => time(),
-            'password' => password_hash(env('APP_PASSWORD'), PASSWORD_DEFAULT),
-            'remember_token' => bin2hex(openssl_random_pseudo_bytes(32))
-        ]);
+        return in_array('administrator', $this->privileges);
+    }
+
+    /**
+     * Retorna a URL da imagem do usuário
+     *
+     * @return string
+     */
+    public function getAvatar(): string
+    {
+        return $this->image ? "/img/users/$this->id.jpg" : '/img/users/default.jpg';
+    }
+
+    /**
+     * Retorna a data de criação da conta
+     *
+     * @return string
+     */
+    public function getCreateDate(): string
+    {
+        setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+        date_default_timezone_set('America/Sao_Paulo');
+        return strftime('%d de %B de %Y', strtotime($this->created_at));
     }
 }

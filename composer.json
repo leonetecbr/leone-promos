@@ -4,23 +4,19 @@
     "description": "Feito para levar ofertas relevantes e em sites seguros para todos",
     "keywords": [
         "laravel",
-        "ofertas",
-        "lomadee"
+        "ofertas"
     ],
-    "version": "2.5.0",
+    "version": "3.0.0",
     "license": "MIT",
     "require": {
         "php": ">=8.0.2",
-        "fruitcake/laravel-cors": "^3.0",
+        "google/apiclient": "^2.12",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "minishlink/web-push": "^7.0",
-        "ext-mbstring": "*",
-        "ext-curl": "*",
-        "ext-json": "*",
-        "ext-openssl": "*"
+        "league/oauth2-google": "^4.0",
+        "ext-mbstring": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\VerifyCsrfToken;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,160 +15,43 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/* BEGIN Suspensão do funcionamento do site
-if (env('SITE_OFF', false)) {
-    Route::any('/{uri?}', function ($uri = '') {
-        return view('suspend');
-    })->name('home');
-}
-END Suspensão do funcionamento do site*/
+Route::get('/', [Controllers\HomeController::class, 'get'])->name('home');
 
-Route::domain(env('APP_DOMAIN'))->group(function () {
+Route::prefix('login')
+    ->name('login')
+    ->controller(Controllers\LoginController::class)->group(function () {
 
-    Route::get('/', Controllers\HomeController::class)->name('home');
-
-    Route::controller(Controllers\CategoriesController::class)->prefix('categorias')->group(function () {
-        Route::get('/', 'get')->name('categorias');
-
-        Route::get('/{categoria}/{page?}', 'process')->whereAlpha('categoria')->where('page', '^[1-9]+[0-9]*$')->name('categoria');
+        Route::get('/', 'get')->middleware('guest');
+        Route::post('/google', 'google')->name('.google')->withoutMiddleware(VerifyCsrfToken::class);
     });
 
-    Route::controller(Controllers\StoresController::class)->prefix('lojas')->group(function () {
-        Route::get('/', 'get')->name('lojas');
+Route::middleware('auth')->group(function () {
+    Route::get('/logout', [Controllers\LoginController::class, 'logout'])->name('logout');
 
-        Route::get('/{loja}/{page?}', 'process')->whereAlpha('loja')->where('page', '^[1-9]+[0-9]*$')->name('loja');
-    });
+    Route::prefix('perfil')
+        ->name('profile')
+        ->controller(Controllers\ProfileController::class)->group(function () {
 
-    Route::get('/cupons/{page?}', [Controllers\CouponsController::class, 'get'])->where('page', '^[1-9]+[0-9]*$')->name('cupons');
-
-    Route::match(['get', 'post'], '/search/{query}/{page?}', [Controllers\SearchController::class, 'search'])->where(['query' => '[\w ]+', 'page' => '^[1-9]+[0-9]*$'])->name('pesquisa');
-
-    Route::controller(Controllers\RedirectController::class)->prefix('redirect')->group(function () {
-        Route::get('/', 'get')->name('redirect.page');
-
-        Route::post('/', 'api')->name('redirect.api');
-    });
-
-    Route::controller(Controllers\NotificationController::class)->group(function () {
-        Route::prefix('notificacoes')->group(function () {
-            Route::get('/', 'get')->name('notificacoes');
-
-            Route::post('/manage', 'userManage');
+            Route::get('/', 'my');
+            Route::get('/{user:username}', 'others')->name('.others')->withoutMiddleware('auth');
+            Route::post('/nova-foto', 'newPicture')->name('.newPicture');
+            Route::post('/editar-username', 'editUsername')->name('.editUsername');
         });
-
-        Route::prefix('prefer')->group(function () {
-            Route::post('/get', 'getPrefer');
-
-            Route::post('/set', 'setPrefer')->name('prefer.set');
-        });
-    });
-
-    Route::get('/rastreio', [Controllers\TrackingController::class, 'get'])->name('rastreio');
-    Route::get('/login', [Controllers\UserController::class, 'login'])->name('login');
-
-    Route::middleware(['auth'])->group(function () {
-        Route::get('/logout', [Controllers\UserController::class, 'logout'])->name('logout');
-
-        Route::prefix('admin')->group(function () {
-            Route::post('/', [Controllers\UserController::class, 'auth'])->withoutMiddleware('auth');
-
-            Route::get('/', [Controllers\AdminController::class, 'get'])->name('dashboard');
-
-            Route::controller(Controllers\TopPromosController::class)->prefix('promos')->group(function () {
-                Route::get('/', 'list')->name('promos.list');
-
-                Route::get('/new', 'new')->name('promos.new');
-
-                Route::get('/edit/{id}', 'edit')->whereNumber('id');
-
-                Route::get('/delete/{id}', 'delete')->whereNumber('id')->name('promos.delete');
-
-                Route::post('/save', 'save')->name('promos.save');
-            });
-
-            Route::prefix('notification')->group(function () {
-                Route::get('/', [Controllers\NotificationController::class, 'getAdmin'])->name('notification.new');
-
-                Route::post('/send', [Controllers\NotificationController::class, 'send'])->name('notification.send');
-
-                Route::get('/history/{page?}', [Controllers\SendedNotificationController::class, 'get'])->name('notification.history');
-            });
-
-            Route::controller(controllers\StoresController::class)->prefix('lojas')->group(function () {
-                Route::get('/new', 'new')->name('lojas.new');
-
-                Route::post('/save', 'save')->name('lojas.save');
-            });
-        });
-    });
-
-    Route::get('/403', function () {
-        return abort(403);
-    });
-
-    Route::view('/privacidade', 'privacy')->name('privacidade');
-
-    Route::view('/cookies', 'cookies')->name('cookies');
 });
 
-Route::domain(env('SHORT_DOMAIN'))->group(function () {
-    Route::redirect('/', env('APP_URL'));
+Route::get('/configuracoes', [Controllers\SettingsController::class, 'get'])->name('settings');
 
-    Route::prefix('amazon')->group(function () {
-        Route::redirect('/', '/redirect?url=https://www.amazon.com.br/');
 
-        Route::get('/{product_id}', function ($product_id) {
-            return redirect("/redirect?url=https://www.amazon.com.br/gp/product/$product_id");
-        });
-    });
+Route::get('/cadastrar', [Controllers\RegisterController::class, 'get'])->name('register')
+    ->middleware('guest');
 
-    Route::prefix('magalu')->group(function () {
-        Route::redirect('/', 'https://www.magazinevoce.com.br/magazineofertasleone/');
+Route::view('/privacidade', 'privacy')->name('privacidade');
 
-        Route::get('/{product_id}', function ($product_id) {
-            return redirect("https://www.magazinevoce.com.br/magazineofertasleone/p/$product_id");
-        });
-    });
+Route::view('/cookies', 'cookies')->name('cookies');
 
-    Route::prefix('americanas')->group(function () {
-        Route::redirect('/', '/redirect?url=https://www.americanas.com.br/');
-
-        Route::get('/{product_id}', function ($product_id) {
-            return redirect("/redirect?url=https://www.americanas.com.br/produto/$product_id");
-        })->whereNumber('product_id');
-    });
-
-    Route::prefix('shoptime')->group(function () {
-        Route::redirect('/', '/redirect?url=https://www.shoptime.com.br/');
-
-        Route::get('/{product_id}', function ($product_id) {
-            return redirect("/redirect?url=https://www.shoptime.com.br/produto/$product_id");
-        })->whereNumber('product_id');
-    });
-
-    Route::prefix('submarino')->group(function () {
-        Route::redirect('/', '/redirect?url=https://www.submarino.com.br/');
-
-        Route::get('/{product_id}', function ($product_id) {
-            return redirect("/redirect?url=https://www.submarino.com.br/produto/$product_id");
-        })->whereNumber('product_id');
-    });
-
-    Route::prefix('aliexpress')->group(function () {
-        Route::redirect('/', '/redirect?url=https://pt.aliexpress.com/');
-
-        Route::get('/{product_id}', function ($product_id) {
-            return redirect("/redirect?url=https://pt.aliexpress.com/item/$product_id.html");
-        })->whereNumber('product_id');
-    });
-
-    Route::prefix('shopee')->group(function () {
-        Route::redirect('/', 'https://shopee.com.br/ofertas.leone.tec.br');
-
-        Route::get('/{product_id}', function ($product_id) {
-            return redirect("https://shopee.com.br/product/306527682/$product_id");
-        })->whereNumber('product_id');
-    });
-
-    Route::get('/{dados}', [Controllers\RedirectController::class, 'shortLink'])->whereAlphaNumeric('dados');
-});
+Route::view('/cupons', 'cookies')->name('coupons');
+Route::view('/lojas', 'cookies')->name('stores');
+Route::view('/categorias', 'cookies')->name('categories');
+Route::view('/notificacoes', 'cookies')->name('notifications');
+Route::view('/rastreio', 'cookies')->name('tracking');
+Route::view('/painel', 'cookies')->name('dashboard');

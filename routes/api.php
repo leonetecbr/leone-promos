@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,19 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('v1')->group(function () {
-    Route::get('/{key}/postback', [Controllers\NotificationController::class, 'postback']);
-
-    Route::post('/rastreio', [Controllers\TrackingController::class, 'post'])->name('rastreio.api');
-
-    /*
-    APIs reservadas para um possível app
-
-    Route::get('/categoria', [Controllers\ApiController::class, 'listPromosCategorias']);
-
-    Route::get('/loja', [Controllers\ApiController::class, 'listPromosLojas']);
-
-    Route::get('/home', [Controllers\ApiController::class, 'listPromosHome']);
-
-    Route::get('/cupons', [Controllers\ApiController::class, 'listCupons']);*/
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
 });

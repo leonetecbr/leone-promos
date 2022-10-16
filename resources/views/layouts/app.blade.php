@@ -1,14 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<?php
-if (Request::filled('tag') && Request::input('utm_source') == 'push_notification') {
-    require_once(__DIR__ . '/../../../app/Includes/clickNotification.php');
-}
-?>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="UTF-8"/>
-    @if (!env('APP_DEBUG'))
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHZEX7GYK2"></script>
+    <meta charset="UTF-8">
+    @if (!env('APP_DEBUG') && env('GA_TRACKING_ID'))
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ env('GA_TRACKING_ID') }}"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
 
@@ -17,12 +12,13 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
             }
 
             gtag('js', new Date());
-            gtag('config', 'G-VHZEX7GYK2');
+            gtag('config', '{{ env('GA_TRACKING_ID') }}');
         </script>
     @endif
-    <link rel="stylesheet" type="text/css" href="{{ mix('css/bootstrap.min.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ mix('css/app.min.css') }}"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="{{ Vite::asset('resources/css/app.css') }}">
+    <link rel="stylesheet" href="{{ Vite::asset('resources/css/bootstrap.scss') }}">
+    <link rel="stylesheet" href="{{ Vite::asset('node_modules/bootstrap-icons/font/bootstrap-icons.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title') | {{ env('APP_NAME') }}</title>
     @hasSection('description')
         <meta name="description" content="@yield('description')">
@@ -34,207 +30,170 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
               content="Aproveite as melhores promoções e os melhores cupons das melhores lojas da internet com total segurança!">
     @endif
     @hasSection('keywords')
-        <meta name="keywords" content="@yield('keywords')">
+        <meta name="keywords" content="{{ env('APP_NAME') }}, @yield('keywords')">
+    @else
+        <meta name="keywords"
+              content="{{ env('APP_NAME') }}, promoção, menor preço, ofertas, promoções, oferta, cupom, cupons">
     @endif
-    <meta name="robots" content="{{ $robots ?? 'index, follow' }}">
+    @if (request()->routeIs('search'))
+        <meta name="robots" content="noindex">
+    @else
+        <meta name="robots" content="index, follow">
+    @endif
     <meta name="author" content="Leone Oliveira">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <script src="https://kit.fontawesome.com/6719bc67c5.js" crossorigin="anonymous" async></script>
-    <link rel="icon" href="{{ url('/img/icon.png') }}">
-    <meta property="og:locale" content="pt_BR"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:site_name" content="{{ env('APP_NAME') }}"/>
-    <meta property="og:url" content="{{ Request::url() }}"/>
-    <meta property="og:title" content="@yield('title') | {{ env('APP_NAME') }}"/>
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ env('APP_NAME') }}">
+    <meta property="og:url" content="{{ request()->url() }}">
+    <meta property="og:title" content="@yield('title') | {{ env('APP_NAME') }}">
+    <link rel="manifest" href="{{ url('/manifest.json') }}">
+    <meta name="application-title" content="Ofertas">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="Ofertas"/>
+    <meta name="apple-mobile-web-app-title" content="Ofertas">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="msapplication-TileColor" content="#da6709"/>
-    <meta name="msapplication-TileImage" content="{{ url('/img/icon.png') }}"/>
-    <link rel="apple-touch-icon" href="{{ url('/img/icon.png') }}"/>
-    <link rel="manifest" href="{{ url('/json/manifest.json') }}">
-    <meta name="application-name" content="Ofertas">
-    <link rel="icon" sizes="152x152" href="{{ url('/img/152.png') }}">
-    <link rel="apple-touch-icon" sizes="152x152" href="{{ url('/img/152.png') }}"/>
-    <link rel="icon" sizes="144x144" href="{{ url('/img/144.png') }}">
-    <link rel="apple-touch-icon" sizes="144x144" href="{{ url('/img/144.png') }}"/>
-    <link rel="icon" sizes="128x128" href="{{ url('/img/128.png') }}">
-    <link rel="icon" sizes="96x96" href="{{ url('/img/96.png') }}">
-    <link rel="icon" sizes="90x90" href="{{ url('/img/90.png') }}">
-    <link rel="icon" sizes="72x72" href="{{ url('/img/72.png') }}">
-    <link rel="apple-touch-icon" sizes="72x72" href="{{ url('/img/72.png') }}"/>
-    <link rel="icon" sizes="64x64" href="{{ url('/img/64.png') }}">
-    <link rel="icon" sizes="60x60" href="{{ url('/img/60.png') }}">
-    <link rel="icon" sizes="32x32" href="{{ url('/img/32.png') }}">
-    <link rel="icon" sizes="16x16" href="{{ url('/img/16.png') }}">
+    <link rel="apple-touch-icon" href="{{ url('/img/icon.png') }}">
+    <meta name="msapplication-TileColor" content="#da6709">
+    <meta name="msapplication-TileImage" content="{{ url('/img/icon.png') }}">
+    <link rel="icon" href="{{ url('/img/icon.png') }}">
     <meta name="theme-color" content="#da6709">
-    <link rel="canonical" href="{{ Request::url() }}"/>
-    <script src="https://www.google.com/recaptcha/api.js?render={{ env('PUBLIC_RECAPTCHA_V3') }}"
-            async></script>@yield('headers')
+    <link rel="canonical" href="{{ request()->url() }}">
+    @yield('headers')
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100 bg-light">
 @if (empty($_COOKIE['accept']))
-    <section class="fixed-bottom bg-primary col-12 col-md-9 col-lg-8 mx-auto mb-md-3 text-light p-3" id="aviso-cookie">
+    <section class="fixed-bottom bg-primary col-12 col-md-9 col-lg-8 mx-auto mb-md-3 text-light p-3" id="alertCookie" role="alert">
         <div class="mb-2">Esse site utiliza cookies para te dá uma melhor experiência de navegação. <a
                 href="{{ route('cookies') }}" target="_blank" class="text-light">Saiba mais &raquo;</a></div>
         <div class="text-end">
-            <button class="btn btn-outline-light" id="accept">Fechar e aceitar</button>
+            <button type="button" class="btn btn-outline-light" id="accept">
+                Fechar e aceitar
+            </button>
         </div>
     </section>
 @endif
-<header id="cabecalho" class="border border-bottom container-fluid bg-light">
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <a href="{{ route('home') }}" class="navbar-brand" id="logo">
-            <{{ (Route::currentRouteName()=='home')?'h1':'span'; }} class
-            ="d-none">{{ env('APP_NAME') }}</{{ (Route::currentRouteName()=='home')?'h1':'span'; }}>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a href="{{ (Route::currentRouteName()=='home')?'#':route('home') }}"
-                       class="nav-link{{ (Route::currentRouteName()=='home')?' active':''; }}">Início</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ (Route::currentRouteName()=='cupons')?'#':route('cupons') }}"
-                       class="nav-link{{ (Route::currentRouteName()=='cupons')?' active':''; }}">Cupons</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ (Route::currentRouteName()=='lojas')?'#':route('lojas') }}"
-                       class="nav-link{{ (Route::currentRouteName()=='lojas')?' active':''; }}">Lojas</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ (Route::currentRouteName()=='categorias')?'#':route('categorias') }}"
-                       class="nav-link{{ (Route::currentRouteName()=='categorias')?' active':''; }}">Categorias</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ (Route::currentRouteName()=='notificacoes')?'#':route('notificacoes') }}"
-                       class="nav-link{{ (Route::currentRouteName()=='notificacoes')?' active':''; }}">Notificações</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ (Route::currentRouteName()=='rastreio')?'#':route('rastreio') }}"
-                       class="nav-link{{ (Route::currentRouteName()=='rastreio')?' active':''; }}">Rastreio</a>
-                </li>
-            </ul>
-            <form id="search" class="d-flex justify-content-center ajax-form col-lg-3 col-xl-4 ms-3"
-                  data-action="search" action="/search/" novalidate>
-                <div class="me-2">
-                    <input class="form-control" type="search" placeholder="Pesquisar" minlength="3" maxlength="20"
-                           required aria-label="Pesquisar" value="{{ $query ?? '' }}" name="q" id="q">
-                </div>
-                <div>
-                    <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
-                </div>
-            </form>
-            <div class="text-center small py-3 d-lg-none w-75 mx-auto">Esta pesquisa é protegida pelo Google reCAPTCHA
-                para garantir que você não é um robô. <a target="_blank" rel="nofollow"
-                                                         href="https://policies.google.com/privacy">Políticas de
-                    Privacidade</a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos
-                    de Serviço</a> do Google são aplicáveis.
+<header id="cabecalho" class="border border-bottom bg-light sticky-top shadow-sm">
+    <nav class="navbar navbar-expand-md navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand text-primary fw-bolder fs-4"
+               href="{{ request()->routeIs('home') ? '#' : env('APP_URL') }}">
+                <img src="{{ url('/img/icon.png') }}" alt="{{ env('APP_NAME') }}" width="45">
+                {{ env('APP_NAME') }}
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav ms-auto">
+                    <x-nav-item route="home" title="Início"></x-nav-item>
+                    <x-nav-item route="coupons" title="Cupons"></x-nav-item>
+                    <x-nav-item route="stores" title="Lojas"></x-nav-item>
+                    <x-nav-item route="categories" title="Categorias"></x-nav-item>
+                    <x-nav-item route="notifications" title="Notificações"></x-nav-item>
+                    <x-nav-item route="tracking" title="Rastreio"></x-nav-item>
+                </ul>
+                @guest
+                    <a href="{{ route('register') }}" class="btn btn-primary text-white mt-3 ms-3 mt-md-0 float-start"
+                       aria-label="Cadastre-se">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </a>
+                    <a href="{{ route('login') }}" class="btn btn-secondary mt-3 ms-3 mt-md-0 float-end"
+                       aria-label="Entre">
+                        <i class="bi bi-person-check-fill"></i>
+                    </a>
+                @else
+                    <div class="dropstart ms-3">
+                        <button class="border-0 bg-transparent dropdown-toggle" id="dropdownUser" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Menu de usuário</span>
+                            <img src="{{ request()->user()->getAvatar() }}" alt="{{ request()->user()->username }}" width="24" height="24" class="rounded-circle">
+                        </button>
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdownUser">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('profile') }}">Perfil</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('settings') }}">Configurações</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                @endif
             </div>
-            @if (Auth::check())
-                <a href="{{ route('dashboard') }}" class="ms-3">
-                    <button id="btn-admin" class="btn btn-outline-info mt-3 mt-md-0 float-start"><i
-                            class="fa-solid fa-lock"></i></button>
-                </a>
-                <a href="{{ route('logout') }}" class="ms-3">
-                    <button id="btn-logout" class="btn btn-outline-danger mt-3 mt-md-0 float-end"><i
-                            class="fas fa-sign-out-alt"></i></button>
-                </a>
-            @endif
         </div>
     </nav>
-    <div class="text-end small pb-3 d-none d-lg-block">Esta pesquisa é protegida pelo Google reCAPTCHA para garantir que
-        você não é um robô. <a target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas de
-            Privacidade</a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de
-            Serviço</a> do Google são aplicáveis.
-    </div>
 </header>
-@if (empty($_COOKIE['no_notification']) && (Route::currentRouteName()!='notificacoes'))
+@if (empty($_COOKIE['no_notification']) && !request()->routeIs('notifications'))
     <div id="notification" class="container d-none border-bottom p-3">
-        <p>Receba nossas seleção de melhores promoções em primeira mão por notificação no seu navegador!</p><br/>
+        <p>Receba nossas seleção de melhores promoções em primeira mão por notificação no seu navegador!</p><br>
         <div class="float-end me-2" id="i-notification"><i class="fw-bolder far fa-eye-slash pointer"></i></div>
         <div class="text-center">
-            <button id="btn-notification" class="btn btn-primary text-light" disabled>Ativar notificações</button>
+            <button id="btn-notification" class="btn btn-primary text-light" disabled type="button">
+                Ativar notificações
+            </button>
         </div>
     </div>
 @endif
-<form action="/search/" id="search-desktop" data-action="search" class="d-none d-lg-none needs-validation p-3"
-      method="post" novalidate>
-    <div class="row mb-3">
-        <div class="col-10 col-sm-11">
-            <input type="search" name="q" id="qs" placeholder="Digite sua pesquisa ..." class="form-control" required
-                   autocomplete="off" value="{{ $query ?? '' }}"/>
-        </div>
-        <div class="col-1">
-            <button type="submit" class="btn btn-outline-success"><i class="fas fa-search"></i></button>
-        </div>
-    </div>
-    <div class="invalid-feedback">Pesquisa inválida (Mínimo de 3 caracteres e máximo 20)</div>
-    <p class="small">Esta pesquisa é protegida pelo Google reCAPTCHA para garantir que você não é um robô. <a
-            target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas de Privacidade</a> e
-        <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de Serviço</a> do Google são
-        aplicáveis.</p>
-</form>
 <div class="d-flex justify-content-center">
-    <div class="toast align-items-center text-white bg-success border-0 position-fixed fs-5 z-index-fixed"
-         id="copy-success" data-bs-delay="3000">
+    <div class="toast text-white bg-success position-fixed fs-5 z-index-fixed" id="copySuccess"
+         data-bs-delay="3000" role="alert" aria-atomic="true">
         <div class="d-flex">
             <div class="toast-body mx-auto">
                 <i class="fa fa-check"></i> Texto copiado com sucesso!
             </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Fechar">
+            </button>
         </div>
     </div>
-    <div class="col-8 col-lg-6 toast align-items-center text-white bg-danger border-0 position-fixed fs-5 z-index-fixed"
-         id="error-alert" data-bs-delay="5000">
+    <div class="toast col-10 text-white bg-danger position-fixed fs-5 z-index-fixed" id="errorToast"
+         data-bs-delay="3000" role="alert" aria-atomic="true">
         <div class="d-flex">
-            <div class="toast-body mx-auto">
-                <i class="fa-solid fa-xmark"></i> <span id="error-message"></span>
+            <div class="toast-body">
+                <span id="errorMessage"></span>
             </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Fechar">
+            </button>
         </div>
     </div>
 </div>
-<main class="p-3 px-md-5 my-auto">
+<main class="px-3 my-auto">
+    @if(request()->routeIs('home'))
+        <h1 class="visually-hidden">{{ env('APP_NAME') }}</h1>
+    @endif
     @yield('content')
 </main>
-<div class="wp-button rounded-circle text-light float-end text-center">
-    <a href="https://wa.me/{{ env('WHATSAPP_NUMBER') }}" target="_blank" rel="nofollow" id="btn-whatsapp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-</div>
-<script>
-    const CSRF = '{{ csrf_token() }}';
-    const KEY_V3_RECAPTCHA = '{{ env("PUBLIC_RECAPTCHA_V3") }}';
-    const KEY_VAPID_PUBLIC = '{{ env("VAPID_PUBLIC_KEY") }}';
-</script>
-<script src="{{ mix('js/jquery.min.js') }}"></script>
+@vite('resources/js/app.js')
 @yield('scripts')
-<script src="{{ mix('js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ mix('js/functions.js') }}" async defer></script>
-<script src="{{ mix('js/app.min.js') }}" async defer></script>
-<footer id="rodape" class="text-center border-top p-3 bg-light mt-auto">
+<footer class="text-center border-top p-3 bg-white mt-auto">
     <div id="social" class="mx-auto fs-2 mb-3">
-        <a href="https://wa.me/{{ env('WHATSAPP_NUMBER') }}"><i class="fab fa-whatsapp-square"></i></a>
-        <a href="https://instagram.com/ofertas.leone"><i class="fab fa-instagram-square"></i></a>
-        <a href="https://facebook.com/ofertas.leone"><i class="fab fa-facebook-square"></i></a>
-        <a href="https://github.com/leonetecbr/leone-promos/"><i class="fab fa-github-square"></i></a>
+        <a href="https://github.com/leonetecbr/leone-promos/" aria-label="GitHub"><i class="bi bi-github"></i></a>
+        <a href="https://facebook.com/ofertas.leone" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+        <a href="https://instagram.com/ofertas.leone" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/leonetecbr/" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
     </div>
-    <div id="copyright" class="fs-6 fw-light">
+    <div id="copyright" class="small">
         <p>Ao abrir ou comprar um produto mostrado aqui no site, algumas lojas poderão nos pagar uma comissão, mas isso
             não influencia em quais promoções são postadas por aqui. Em caso de divergência no preço, o preço válido é o
             da loja. O preço informado não inclui frete e outras taxas. Consulte termos e condições das ofertas e
             cupons.</p>
-        <p><span class="fw-bolder">&copy; {{ date('Y') }} - {{ env('APP_NAME') }}</span> - Todos os direitos reservados.
+        <p>
+            <span class="fw-bolder">&copy; {{ date('Y') }} - {{ env('APP_NAME') }}</span> - Todos os direitos
+            reservados.
         </p>
     </div>
     <p class="fs-6">
-        <span class="bolder">Políticas: </span> <a href="`{{ route('privacidade') }}" target="_blank"
-                                                   class="text-decoration-none">de Privacidade</a> | <a
-            href="{{ route('cookies') }}" target="_blank"
-            class="text-decoration-none">de Cookies</a>
+        <span class="bolder">Políticas: </span>
+        <a href="{{ route('privacidade') }}" target="_blank">
+            de Privacidade
+        </a> | <a href="{{ route('cookies') }}" target="_blank">
+            de Cookies
+        </a>
     </p>
 </footer>
 </body>

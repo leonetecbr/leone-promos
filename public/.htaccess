@@ -18,12 +18,4 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
-    
-    # Redirect HTTPS
-    RewriteCond %{HTTPS} off
-    RewriteCond %{HTTP_HOST}% !localhost
-    RewriteCond %{HTTP_HOST}% !127.0.0.1
-    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 </IfModule>
-
-ErrorDocument 403 https://%{HTTP_HOST}%/403

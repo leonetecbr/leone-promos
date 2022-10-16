@@ -1,44 +1,51 @@
 @extends('layouts.app')
-@section('title', 'Login administrativo')
+@section('title', 'Login')
 @section('content')
     <article class="container">
-        <h1 class="display-5 mb-4 text-center">Login administrativo</h1>
-        <div id="login">
-            <form action="{{ route('dashboard') }}" method="post"
-                  class="col-12 col-md-8 col-lg-6 col-xl-5 mx-auto mt-2 d-flex flex-column border py-5 px-3">
-                @if ($errors->any())
-                    @foreach ($errors->all() as $error)
-                        <div class="alert alert-danger text-center w-100 mb-4 mx-auto">{{ $error }}</div>
-                    @endforeach
-                @endif
-                <div class="row col-lg-9 mx-auto">
-                    <div class="col-auto">
-                        <label for="email">Email: </label>
-                    </div>
-                    <div class="col-auto col-lg-9">
-                        <input type="text" name="email" id="email" class="form-control"
-                               placeholder="Digite seu email ..." required value="{{ old('email') }}">
-                    </div>
+        <form action="{{ route('dashboard') }}" method="post" novalidate data-action="login" id="login"
+              class="form-signin mx-auto d-flex flex-column justify-content-center align-items-center py-5 px-3 needs-validation">
+            <img src="{{ url('/img/90.png') }}" alt="Leone Promos" width="90" height="90">
+            <h2 class="fw-normal mb-0 mt-3">Acesse sua conta</h2>
+            <span class="small mb-4">Ainda não tem conta? <a href="{{ route('register') }}">Cadastre-se</a></span>
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    <x-alert type="danger" message="{{ $error }}"></x-alert>
+                @endforeach
+            @endif
+            @csrf
+            <div class="form-floating text-start w-100">
+                <input type="email" @class(['form-control', 'is-invalid' => $errors->has('email')]) id="email" required
+                       name="email" placeholder="Digite seu email ..." value="{{ old('email') }}">
+                <label for="email" class="form-label">E-mail</label>
+            </div>
+            <div class="form-floating text-start w-100">
+                <input type="password" @class(['form-control', 'is-invalid' => $errors->has('password')]) required
+                        id="password" name="password" placeholder="Digite sua senha ...">
+                <label for="password" class="form-label">Senha</label>
+            </div>
+            <div class="d-flex justify-content-between mt-3 w-100">
+                <div class="form-check">
+                    <input type="checkbox" value=true name="remember" id="remember" class="form-check-input">
+                    <label for="remember" class="form-check-label">Lembrar-me</label>
                 </div>
-                <div class="row col-lg-9 mx-auto my-4">
-                    <div class="col-auto">
-                        <label for="password">Senha: </label>
-                    </div>
-                    <div class="col-auto col-lg-9">
-                        <input type="password" name="password" id="password"
-                               class="form-control @error('password') is-invalid @enderror"
-                               placeholder="Digite sua senha ...">
-                    </div>
-                </div>
-                <div class="g-recaptcha mb-4 mx-auto" data-sitekey="{{ env('PUBLIC_RECAPTCHA_V2') }}"
-                     data-callback="submit"></div>
-                <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}"/>
-                <button type="submit" class="btn btn-primary btn-lg text-light col-8 mx-auto">Logar</button>
-            </form>
-        </div>
+                <button class="border-0 bg-transparent" id="showPass">
+                    <i class="bi bi-eye-fill" id="iconShowPass"></i> <span id="textShowPass">Mostrar</span> senha
+                </button>
+            </div>
+            <button type="submit" class="mt-3 btn btn-primary btn-lg text-light btn-block w-100 mx-auto"
+                    id="loginSubmit">
+                Entrar
+            </button>
+            <hr class="my-3 col-12">
+            <script src="https://accounts.google.com/gsi/client" async defer></script>
+            <div id="g_id_onload" data-client_id="{{ env('GOOGLE_CLIENT_ID') }}"
+                 data-login_uri="{{ route('login.google') }}">
+            </div>
+            <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline"
+                 data-text="continue_with" data-shape="rectangular" data-logo_alignment="left"></div>
+        </form>
     </article>
 @endsection
 @section('headers')
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?render={{ env('VITE_PUBLIC_RECAPTCHA_V3') }}" async></script>
 @endsection
-    <?php $robots = 'noindex'; ?>

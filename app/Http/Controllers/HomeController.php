@@ -2,23 +2,74 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\ApiHelper;
-use Exception;
 use Illuminate\Contracts\View\View;
-use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends Controller
 {
-
     /**
-     * Gera a página inicial
-     * @returns View
-     * @throws Exception
+     * Exibe a página inicial.
+     *
+     * @return View
      */
-    #[Route('/', name: 'home')]
-    public function __invoke(): View
+    public function get(): View
     {
-        $offers = ApiHelper::getPromo(9999);
-        return view('home', ['promos' => $offers['offers'], 'catId' => 0, 'page' => 1]);
+        $collection = collect([
+            [
+                'id' => 123,
+                'group_id' => 1,
+                'store_id' => 2,
+                'name' => 'Testando',
+                'link' => '#',
+                'image' => '',
+                'from' => 100,
+                'for' => 10,
+                'times' => NULL,
+                'installments' => NULL,
+                'page' => 1,
+                'store' => [
+                    'name' => 'Teste',
+                    'link' => '#',
+                    'image' => '',
+                ]
+            ],
+            [
+                'id' => 124,
+                'group_id' => 1,
+                'store_id' => 2,
+                'name' => 'Testando',
+                'link' => '#',
+                'image' => '',
+                'from' => 100,
+                'for' => 10,
+                'times' => NULL,
+                'installments' => NULL,
+                'page' => 1,
+                'store' => [
+                    'name' => 'Teste',
+                    'link' => '#',
+                    'image' => '',
+                ]
+            ],
+            [
+                'id' => 125,
+                'group_id' => 1,
+                'store_id' => 2,
+                'name' => 'Testando',
+                'link' => '#',
+                'image' => '',
+                'from' => 100,
+                'for' => 10,
+                'times' => NULL,
+                'installments' => NULL,
+                'page' => 1,
+                'store' => [
+                    'name' => 'Teste',
+                    'link' => '#',
+                    'image' => '',
+                ]
+            ]
+        ]);
+
+        return view('home', ['promos' => $collection]);
     }
 }
