@@ -4,8 +4,8 @@
     <article class="container">
         <form action="{{ route('dashboard') }}" method="post" novalidate data-action="login" id="login"
               class="form-signin mx-auto d-flex flex-column justify-content-center align-items-center py-5 px-3 needs-validation">
-            <img src="{{ url('/img/90.png') }}" alt="Leone Promos" width="90" height="90">
-            <h2 class="fw-normal mb-0 mt-3">Crie sua conta</h2>
+            <img src="{{ url('/img/128.png') }}" alt="Leone Promos">
+            <h2 class="fw-normal mb-0">Crie sua conta</h2>
             <span class="small mb-4">Já tem conta? <a href="{{ route('login') }}">Entre</a></span>
             @if ($errors->any())
                 @foreach ($errors->all() as $error)
@@ -16,11 +16,11 @@
             <div class="form-floating text-start w-100">
                 <input type="email" @class(['form-control', 'is-invalid' => $errors->has('email')]) id="email" required
                        name="email" placeholder="Digite seu email ..." value="{{ old('email') }}">
-                <label for="email" class="form-label">E-mail</label>
+                <label for="email" class="form-label">Email</label>
             </div>
             <div class="form-floating text-start w-100">
                 <input type="password" @class(['form-control', 'is-invalid' => $errors->has('password')]) required
-                       id="password" name="password" placeholder="Digite sua senha ...">
+                       minlength="8" maxlength="32" id="password" name="password" placeholder="Digite sua senha ...">
                 <label for="password" class="form-label">Senha</label>
             </div>
             <div class="d-flex justify-content-between mt-3 w-100">

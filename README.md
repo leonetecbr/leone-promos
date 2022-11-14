@@ -15,7 +15,7 @@
 
 Tendo o Composer instalado, basta rodar `composer install` para instalar as dependências do projeto.
 
-Após isso abra o arquivo ```.env``` e preencha o que for necessário com base em seu ambiente e logo apos rode o comando 
+Após isso abra o arquivo ```.env``` e preencha o que for necessário com base em seu ambiente e logo apos rode o comando
 `php artisan migrate` para criar as tabelas no banco de dados.
 
 Ao alterar arquivos JavaScript e/ou CSS é necessário minificá-los novamente.

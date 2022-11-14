@@ -51,6 +51,15 @@ $('.needs-validation').on('submit', function (e) {
     this.classList.add('was-validated')
 })
 
+$('.simple-validation').on('submit', function (e) {
+    if (!this.checkValidity()) {
+        e.preventDefault()
+        e.stopPropagation()
+    }
+
+    this.classList.add('was-validated')
+})
+
 if (navigator.share) $('.mre').removeClass('d-none')
 
 $('.share').on('click', function () {

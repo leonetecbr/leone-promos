@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 class ProfileController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth')->except('others');
+    }
+
     /**
      * Mostre o perfil do usuário logado.
      *
@@ -39,10 +44,11 @@ class ProfileController extends Controller
     /**
      * Atualiza a imagem do perfil do usuário
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return RedirectResponse
      */
-    public function newPicture(Request $request): RedirectResponse{
+    public function newPicture(Request $request): RedirectResponse
+    {
         $request->validate([
             'profile-picture' => 'required|image|size:3072'
         ]);
@@ -70,7 +76,7 @@ class ProfileController extends Controller
     public function editUsername(Request $request): RedirectResponse
     {
         $request->validate([
-            'username' => 'required|alpha_dash|min:3|max:32|unique:users,username'
+            'username' => 'required|alpha_dash|min:3|max:32|unique:users'
         ]);
 
         $request->user()->username = $request->input('username');

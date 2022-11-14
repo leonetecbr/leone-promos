@@ -62,7 +62,8 @@
 </head>
 <body class="d-flex flex-column min-vh-100 bg-light">
 @if (empty($_COOKIE['accept']))
-    <section class="fixed-bottom bg-primary col-12 col-md-9 col-lg-8 mx-auto mb-md-3 text-light p-3" id="alertCookie" role="alert">
+    <section class="fixed-bottom bg-primary col-12 col-md-9 col-lg-8 mx-auto mb-md-3 text-light p-3" id="alertCookie"
+             role="alert">
         <div class="mb-2">Esse site utiliza cookies para te dá uma melhor experiência de navegação. <a
                 href="{{ route('cookies') }}" target="_blank" class="text-light">Saiba mais &raquo;</a></div>
         <div class="text-end">
@@ -103,14 +104,15 @@
                         <i class="bi bi-person-check-fill"></i>
                     </a>
                 @else
-                    <div class="dropstart ms-3">
+                    <div class="dropdown ms-3 float-end">
                         <button class="border-0 bg-transparent dropdown-toggle" id="dropdownUser" type="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="visually-hidden">Menu de usuário</span>
-                            <img src="{{ request()->user()->getAvatar() }}" alt="{{ request()->user()->username }}" width="24" height="24" class="rounded-circle">
+                            <img src="{{ request()->user()->getAvatar() }}" alt="{{ request()->user()->username }}"
+                                 width="24" height="24" class="rounded-circle">
                         </button>
 
-                        <ul class="dropdown-menu" aria-labelledby="dropdownUser">
+                        <ul class="dropdown-menu" aria-labelledby="dropdownUser" id="dropdownMenuUser">
                             <li>
                                 <a class="dropdown-item" href="{{ route('profile') }}">Perfil</a>
                             </li>

@@ -15,7 +15,7 @@ class GoogleHelper
      * @param Request $request
      * @return RedirectResponse|array
      */
-    public static function getUser(Request $request): array
+    public static function getUser(Request $request): RedirectResponse|array
     {
         if (empty($_COOKIE['g_csrf_token']) || $request->input('g_csrf_token') !== $_COOKIE['g_csrf_token']) {
             return back()->withErrors(['CSRF token inválido']);
