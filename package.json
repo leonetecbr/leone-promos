@@ -11,7 +11,7 @@
     },
     "devDependencies": {
         "autoprefixer": "10.4.5",
-        "axios": "^0.27",
+        "axios": "^0.28",
         "bootstrap": "latest",
         "jquery": "latest",
         "laravel-mix": "^6.0.49",
