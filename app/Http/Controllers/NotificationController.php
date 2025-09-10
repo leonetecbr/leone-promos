@@ -18,8 +18,6 @@ class NotificationController extends Controller
 
     /**
      * Retorna as preferências de notificação do usuário
-     * @param Request $request
-     * @return array
      */
     #[Route('/prefer/get')]
     public static function getPrefer(Request $request): array
@@ -60,8 +58,6 @@ class NotificationController extends Controller
 
     /**
      * Define as preferências de notificação do usuário
-     * @param Request $request
-     * @return array
      */
     #[Route('/prefer/set', name: 'prefer.set')]
     public static function setPrefer(Request $request): array
@@ -111,8 +107,6 @@ class NotificationController extends Controller
 
     /**
      * Cadastra, atualiza e exclui credenciais para envio de notificações push
-     * @param Request $request
-     * @return array
      * @throws ErrorException
      */
     #[Route('/notificacoes/manage')]
@@ -203,9 +197,6 @@ class NotificationController extends Controller
 
     /**
      * Envia notificações quando uma venda é realizada
-     * @param Request $request
-     * @param string $key
-     * @return array
      * @throws ErrorException
      */
     #[Route('/api/v1//{key}/postback')]
@@ -246,7 +237,6 @@ class NotificationController extends Controller
 
     /**
      * Gera a página de envio de notificações
-     * @returns View
      */
     #[Route('/notification', name: 'notification.new')]
     public function getAdmin(): View
@@ -256,8 +246,6 @@ class NotificationController extends Controller
 
     /**
      * Envia a(s) notificação(ões) para o(s) destinatário(s)
-     * @param Request $request
-     * @return RedirectResponse
      * @throws ErrorException
      * @throws ValidationException
      */
@@ -266,7 +254,7 @@ class NotificationController extends Controller
     {
         $todos = $request->input('para', false);
 
-        $dados = $this->validate($request, [
+        $dados = $request->validate([
             'title' => 'required',
             'link' => 'required',
             'content' => 'required'
@@ -286,7 +274,7 @@ class NotificationController extends Controller
 
         if (!$todos) {
             if ($request->filled('para2')) {
-                $dados = $this->validate($request, [
+                $dados = $request->validate([
                     'para2' => 'required|integer'
                 ], [
                     'para2.required' => 'Digite o id que receberá a notificação!',
@@ -344,7 +332,6 @@ class NotificationController extends Controller
 
     /**
      * Gera o histórico de notificações enviadas
-     * @returns View
      */
     #[Route('/notificacoes', name: 'notificacoes')]
     public function get(): View

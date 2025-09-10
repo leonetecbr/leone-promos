@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use App\Models\Category;
 use App\Models\Page;
-use App\Models\TopStores;
+use App\Models\TopStore;
 use Exception;
 
 /**
@@ -15,14 +15,13 @@ class SitemapHelper
 
     /**
      * Gera um sitemap.txt
-     * @return void
      * @throws Exception
      */
     public static function generate(): void
     {
         $arquivo = public_path('sitemap.txt');
 
-        $stores = TopStores::all()->toArray();
+        $stores = TopStore::all()->toArray();
         $categories = Category::all()->toArray();
 
         $a = [

@@ -7,8 +7,8 @@
             <div class="border p-3 col-12 col-lg-5">
                 <a href="{{ route('promos.list') }}" class="text-black text-decoration-none">
                     <div class="float-end mt-4"><i class="fas fa-angle-right"></i></div>
-                    <h3>Melhores pomoções</h3>
-                    <p class="mt-3">Vizualize, criei e edite a seleção de melhores promoções.</p>
+                    <h3>Melhores promoções</h3>
+                    <p class="mt-3">Visualize, crie e edite a seleção de melhores promoções.</p>
                 </a>
             </div>
             <div class="border p-3 col-12 col-lg-5 mt-4 mt-lg-0">

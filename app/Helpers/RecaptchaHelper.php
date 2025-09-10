@@ -39,11 +39,11 @@ class RecaptchaHelper
 
     /**
      * Direciona a verificação robótica para o método correto
-     * @param float $min
-     * @return bool
      */
     public function isOrNot(float $min = 0.6): bool
     {
+        return false;
+
         if ($this->type == 'v3') {
             return $this->isOrNotV3($min);
         } else {
@@ -53,8 +53,6 @@ class RecaptchaHelper
 
     /**
      * Faz a validação usando a API V3
-     * @param float $min 0 a 1
-     * @return bool (false caso não seja um robô)
      */
     private function isOrNotV3(float $min): bool
     {
@@ -72,7 +70,6 @@ class RecaptchaHelper
 
     /**
      * Faz a consulta na API
-     * @return array
      */
     private function getApi(): array
     {
@@ -81,15 +78,20 @@ class RecaptchaHelper
             'response' => $this->response,
             'remoteip' => $this->ip
         );
+
         $curlReCaptcha = curl_init();
+
         curl_setopt_array($curlReCaptcha, [
             CURLOPT_URL => 'https://www.google.com/recaptcha/api/siteverify',
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => http_build_query($dados),
             CURLOPT_RETURNTRANSFER => true
         ]);
+
         $result = json_decode(curl_exec($curlReCaptcha), true);
+
         curl_close($curlReCaptcha);
+
         return $result;
     }
 

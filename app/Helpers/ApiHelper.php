@@ -40,11 +40,7 @@ class ApiHelper
     private static int $groupId;
 
     /**
-     * Verifica se as promoções salvas no banco de dados ainda estão adequadas para uso, se sim, as usa, se não pega da API
-     * @param int $id
-     * @param int $page
-     * @param int $loja
-     * @return array
+     * Verifica se as promoções salvas no banco de dados continuam adequadas para uso, se sim, as usa, se não pega da API
      * @throws Exception
      */
     public static function getPromo(int $id, int $page = 1, int $loja = 0): array
@@ -103,8 +99,6 @@ class ApiHelper
 
     /**
      * Obtém as promoções atualizadas, exclui as antigas e passa as novas para o banco de dados
-     * @param bool $exists
-     * @return array
      * @throws Exception
      */
     private static function toCachedPromos(bool $exists = false): array
@@ -173,7 +167,6 @@ class ApiHelper
 
     /**
      * Pega os cupons ou promoções da API da Lomadee
-     * @return array
      * @throws Exception
      */
     private static function getAPI(): array
@@ -212,10 +205,7 @@ class ApiHelper
     }
 
     /**
-     * Verifica se os cupons salvos no banco ainda estão adequados para uso, se sim, os usa, se não pega da API
-     * @param int $page
-     * @param int $loja
-     * @return array
+     * Verifica se os cupons salvos no banco continuam adequados para uso, se sim, os usa, se não pega da API
      * @throws Exception
      */
     public static function getCoupons(int $page, int $loja = 0): array

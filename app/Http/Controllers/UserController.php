@@ -36,7 +36,7 @@ class UserController extends Controller
     #[Route('/admin')]
     public function auth(Request $request): RedirectResponse
     {
-        $this->validate($request, [
+        $request->validate([
             'email' => 'required|email',
             'password' => 'required',
             'g-recaptcha-response' => 'required'

@@ -20,25 +20,24 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
             gtag('config', 'G-VHZEX7GYK2');
         </script>
     @endif
-    <link rel="stylesheet" type="text/css" href="{{ mix('css/bootstrap.min.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ mix('css/app.min.css') }}"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    @vite(['resources/views/layouts/app.scss', 'resources/css/app.css'])
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
     <title>@yield('title') | {{ env('APP_NAME') }}</title>
     @hasSection('description')
-        <meta name="description" content="@yield('description')">
-        <meta name="og:description" content="@yield('description')">
+        <meta name="description" content="@yield('description')"/>
+        <meta name="og:description" content="@yield('description')"/>
     @else
         <meta name="description"
-              content="Aproveite as melhores promoções e os melhores cupons das melhores lojas da internet com total segurança!">
+              content="Aproveite as melhores promoções e os melhores cupons das melhores lojas da internet com total segurança!"/>
         <meta name="og:description"
-              content="Aproveite as melhores promoções e os melhores cupons das melhores lojas da internet com total segurança!">
+              content="Aproveite as melhores promoções e os melhores cupons das melhores lojas da internet com total segurança!"/>
     @endif
     @hasSection('keywords')
-        <meta name="keywords" content="@yield('keywords')">
+        <meta name="keywords" content="@yield('keywords')"/>
     @endif
-    <meta name="robots" content="{{ $robots ?? 'index, follow' }}">
-    <meta name="author" content="Leone Oliveira">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="robots" content="{{ $robots ?? 'index, follow' }}"/>
+    <meta name="author" content="Leone Oliveira"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <script src="https://kit.fontawesome.com/6719bc67c5.js" crossorigin="anonymous" async></script>
     <link rel="icon" href="{{ url('/img/icon.png') }}">
     <meta property="og:locale" content="pt_BR"/>
@@ -46,28 +45,29 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
     <meta property="og:site_name" content="{{ env('APP_NAME') }}"/>
     <meta property="og:url" content="{{ Request::url() }}"/>
     <meta property="og:title" content="@yield('title') | {{ env('APP_NAME') }}"/>
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-title" content="Ofertas"/>
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
     <meta name="msapplication-TileColor" content="#da6709"/>
     <meta name="msapplication-TileImage" content="{{ url('/img/icon.png') }}"/>
     <link rel="apple-touch-icon" href="{{ url('/img/icon.png') }}"/>
-    <link rel="manifest" href="{{ url('/json/manifest.json') }}">
-    <meta name="application-name" content="Ofertas">
+    <link rel="manifest" href="{{ url('/json/manifest.json') }}"/>
+    <meta name="application-name" content="Ofertas"/>
     <link rel="icon" sizes="152x152" href="{{ url('/img/152.png') }}">
     <link rel="apple-touch-icon" sizes="152x152" href="{{ url('/img/152.png') }}"/>
     <link rel="icon" sizes="144x144" href="{{ url('/img/144.png') }}">
     <link rel="apple-touch-icon" sizes="144x144" href="{{ url('/img/144.png') }}"/>
-    <link rel="icon" sizes="128x128" href="{{ url('/img/128.png') }}">
-    <link rel="icon" sizes="96x96" href="{{ url('/img/96.png') }}">
-    <link rel="icon" sizes="90x90" href="{{ url('/img/90.png') }}">
-    <link rel="icon" sizes="72x72" href="{{ url('/img/72.png') }}">
+    <link rel="icon" sizes="128x128" href="{{ url('/img/128.png') }}"/>
+    <link rel="icon" sizes="96x96" href="{{ url('/img/96.png') }}"/>
+    <link rel="icon" sizes="90x90" href="{{ url('/img/90.png') }}"/>
+    <link rel="icon" sizes="72x72" href="{{ url('/img/72.png') }}"/>
     <link rel="apple-touch-icon" sizes="72x72" href="{{ url('/img/72.png') }}"/>
-    <link rel="icon" sizes="64x64" href="{{ url('/img/64.png') }}">
-    <link rel="icon" sizes="60x60" href="{{ url('/img/60.png') }}">
-    <link rel="icon" sizes="32x32" href="{{ url('/img/32.png') }}">
-    <link rel="icon" sizes="16x16" href="{{ url('/img/16.png') }}">
-    <meta name="theme-color" content="#da6709">
+    <link rel="icon" sizes="64x64" href="{{ url('/img/64.png') }}"/>
+    <link rel="icon" sizes="60x60" href="{{ url('/img/60.png') }}"/>
+    <link rel="icon" sizes="32x32" href="{{ url('/img/32.png') }}"/>
+    <link rel="icon" sizes="16x16" href="{{ url('/img/16.png') }}"/>
+    <meta name="theme-color" content="#da6709"/>
+    <meta name="lomadee" content="2324685" />
     <link rel="canonical" href="{{ Request::url() }}"/>
     <script src="https://www.google.com/recaptcha/api.js?render={{ env('PUBLIC_RECAPTCHA_V3') }}"
             async></script>@yield('headers')
@@ -113,10 +113,6 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
                 <li class="nav-item">
                     <a href="{{ (Route::currentRouteName()=='notificacoes')?'#':route('notificacoes') }}"
                        class="nav-link{{ (Route::currentRouteName()=='notificacoes')?' active':''; }}">Notificações</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ (Route::currentRouteName()=='rastreio')?'#':route('rastreio') }}"
-                       class="nav-link{{ (Route::currentRouteName()=='rastreio')?' active':''; }}">Rastreio</a>
                 </li>
             </ul>
             <form id="search" class="d-flex justify-content-center ajax-form col-lg-3 col-xl-4 ms-3"
@@ -210,11 +206,14 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
     const KEY_V3_RECAPTCHA = '{{ env("PUBLIC_RECAPTCHA_V3") }}';
     const KEY_VAPID_PUBLIC = '{{ env("VAPID_PUBLIC_KEY") }}';
 </script>
-<script src="{{ mix('js/jquery.min.js') }}"></script>
+@vite([
+    'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js?commonjs-entry',
+    'resources/js/app.js'
+])
 @yield('scripts')
-<script src="{{ mix('js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ mix('js/functions.js') }}" async defer></script>
-<script src="{{ mix('js/app.min.js') }}" async defer></script>
+@if (empty($_COOKIE['no_notification']) || (Route::currentRouteName() === 'notificacoes'))
+    @vite( 'resources/js/notification.js')
+@endif
 <footer id="rodape" class="text-center border-top p-3 bg-light mt-auto">
     <div id="social" class="mx-auto fs-2 mb-3">
         <a href="https://wa.me/{{ env('WHATSAPP_NUMBER') }}"><i class="fab fa-whatsapp-square"></i></a>

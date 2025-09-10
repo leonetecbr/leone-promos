@@ -14,7 +14,6 @@ class CategoriesController extends Controller
 
     /**
      * Retorna a lista com as principais categorias
-     * @return View
      */
     #[Route('/categorias', name: 'categorias')]
     public static function get(): View
@@ -25,9 +24,6 @@ class CategoriesController extends Controller
 
     /**
      * Encontra o código corresponde a categoria através do nome para poder buscar os dados corretos no banco de dados
-     * @param string $name
-     * @param int $page
-     * @return View
      * @throws Exception
      */
     #[Route('/categorias/{categoria}/{page?}', name: 'categoria')]

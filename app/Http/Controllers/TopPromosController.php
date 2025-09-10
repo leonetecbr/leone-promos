@@ -104,7 +104,7 @@ class TopPromosController extends Controller
     #[Route('/admin/promos/save', name: 'promos.save')]
     public function save(Request $request): RedirectResponse
     {
-        $dados = $this->validate($request, [
+        $dados = $request->validate([
             'name' => 'required',
             'link' => 'required',
             'thumbnail' => 'required',

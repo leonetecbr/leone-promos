@@ -22,7 +22,7 @@ if (env('SITE_OFF', false)) {
 }
 END Suspensão do funcionamento do site*/
 
-Route::domain(env('APP_DOMAIN'))->group(function () {
+Route::domain(config('app.domain'))->group(function () {
 
     Route::get('/', Controllers\HomeController::class)->name('home');
 
@@ -90,7 +90,7 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
 
                 Route::post('/send', [Controllers\NotificationController::class, 'send'])->name('notification.send');
 
-                Route::get('/history/{page?}', [Controllers\SendedNotificationController::class, 'get'])->name('notification.history');
+                Route::get('/history/{page?}', [Controllers\SentNotificationController::class, 'get'])->name('notification.history');
             });
 
             Route::controller(controllers\StoresController::class)->prefix('lojas')->group(function () {
@@ -110,8 +110,8 @@ Route::domain(env('APP_DOMAIN'))->group(function () {
     Route::view('/cookies', 'cookies')->name('cookies');
 });
 
-Route::domain(env('SHORT_DOMAIN'))->group(function () {
-    Route::redirect('/', env('APP_URL'));
+Route::domain(config('app.short_domain'))->group(function () {
+    Route::redirect('/', config('app.url'));
 
     Route::prefix('amazon')->group(function () {
         Route::redirect('/', '/redirect?url=https://www.amazon.com.br/');
@@ -127,30 +127,6 @@ Route::domain(env('SHORT_DOMAIN'))->group(function () {
         Route::get('/{product_id}', function ($product_id) {
             return redirect("https://www.magazinevoce.com.br/magazineofertasleone/p/$product_id");
         });
-    });
-
-    Route::prefix('americanas')->group(function () {
-        Route::redirect('/', '/redirect?url=https://www.americanas.com.br/');
-
-        Route::get('/{product_id}', function ($product_id) {
-            return redirect("/redirect?url=https://www.americanas.com.br/produto/$product_id");
-        })->whereNumber('product_id');
-    });
-
-    Route::prefix('shoptime')->group(function () {
-        Route::redirect('/', '/redirect?url=https://www.shoptime.com.br/');
-
-        Route::get('/{product_id}', function ($product_id) {
-            return redirect("/redirect?url=https://www.shoptime.com.br/produto/$product_id");
-        })->whereNumber('product_id');
-    });
-
-    Route::prefix('submarino')->group(function () {
-        Route::redirect('/', '/redirect?url=https://www.submarino.com.br/');
-
-        Route::get('/{product_id}', function ($product_id) {
-            return redirect("/redirect?url=https://www.submarino.com.br/produto/$product_id");
-        })->whereNumber('product_id');
     });
 
     Route::prefix('aliexpress')->group(function () {

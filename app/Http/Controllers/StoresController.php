@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\RequestException;
 use App\Helpers;
 use App\Models\Store;
-use App\Models\TopStores;
+use App\Models\TopStore;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -23,7 +23,7 @@ class StoresController extends Controller
     #[Route('/lojas', name: 'lojas')]
     public static function get(): View
     {
-        $stores = TopStores::all()->toArray();
+        $stores = TopStore::all()->toArray();
         return view('stores', ['stores' => $stores]);
     }
 
@@ -40,7 +40,7 @@ class StoresController extends Controller
         try {
 
             $title = '';
-            $stores = TopStores::all()->toArray();
+            $stores = TopStore::all()->toArray();
 
             foreach ($stores as $store) {
                 if ($store['name'] == $name) {
@@ -90,7 +90,7 @@ class StoresController extends Controller
     #[Route('/lojas/save', name: 'lojas.save')]
     public function save(Request $request): RedirectResponse
     {
-        $dados = $this->validate($request, [
+        $dados = $request->validate([
             'id' => 'required|integer',
             'name' => 'required',
             'image' => 'required',

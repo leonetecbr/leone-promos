@@ -3,7 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Notification;
-use App\Models\SendedNotification;
+use App\Models\SentNotification;
 use ErrorException;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -35,9 +35,6 @@ class NotificationHelper
 
     /**
      * Envia uma notificação para um usuário
-     * @param array $subscription
-     * @param array $payload
-     * @return bool
      * @throws ErrorException
      * @throws Exception
      */
@@ -76,7 +73,7 @@ class NotificationHelper
         $webPush->setReuseVAPIDHeaders(true);
         $report = $webPush->sendOneNotification($subscription, json_encode($payload));
         if ($report->isSuccess()) {
-            SendedNotification::create($notification);
+            SentNotification::create($notification);
             return true;
         }
         return false;
@@ -84,9 +81,6 @@ class NotificationHelper
 
     /**
      * Adiciona parâmetros de rastreio no link que vai ser enviado por notificação
-     * @param string $link
-     * @param string $id
-     * @return string
      */
     function insertParams(string $link, string $id): string
     {
@@ -100,9 +94,6 @@ class NotificationHelper
 
     /**
      * Envia notificações para vários usuários
-     * @param array $subscriptions
-     * @param array $payload
-     * @return bool
      * @throws ErrorException
      * @throws Exception
      */
@@ -143,20 +134,21 @@ class NotificationHelper
         }
 
         $result = true;
-        $sended = 0;
+        $sent = 0;
+
         foreach ($webPush->flush() as $report) {
             if (!$report->isSuccess()) {
                 $endpoint = $report->getRequest()->getUri()->__toString();
                 Notification::where('endpoint', $endpoint)->delete();
                 $result = false;
             } else {
-                $sended++;
+                $sent++;
             }
         }
 
-        if ($sended > 0) {
-            $notification['to'] = $sended;
-            SendedNotification::create($notification);
+        if ($sent > 0) {
+            $notification['to'] = $sent;
+            SentNotification::create($notification);
         }
 
         return $result;

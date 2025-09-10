@@ -12,7 +12,6 @@ class CouponsController extends Controller
 {
 
     const TOP_STORES = [
-        'Americanas' => 5632,
         'Casas Bahia' => 2,
         'Consul' => 5937,
         'Ponto' => 4,
@@ -24,12 +23,7 @@ class CouponsController extends Controller
 
     /**
      * Gera a página de cupons
-     *
-     * @param Request $request
-     * @param int $page
-     * @return View
      * @throws Exception
-     * @paramint $page
      */
     #[Route('/cupons/{page?}', name: 'cupons')]
     public static function get(Request $request, int $page = 1): View

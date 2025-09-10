@@ -15,8 +15,6 @@ class ApiController extends Controller
 
     /**
      * Lista as promoções filtrando por loja
-     * @param Request $request
-     * @return array
      * @throws Exception
      */
     #[Route('/api/v1/loja')]
@@ -24,15 +22,16 @@ class ApiController extends Controller
     {
         $page = $request->input('page', 1);
         $id = $request->input('id');
-        if (!$id) : return [];
-        endif;
+
+        if (!$id) {
+            return [];
+        }
+
         return Helpers\ApiHelper::getPromo(999, $page, $id);
     }
 
     /**
      * Lista as promoções selecionadas por categoria
-     * @param Request $request
-     * @return array
      * @throws Exception
      */
     #[Route('/api/v1/categoria')]
@@ -40,14 +39,16 @@ class ApiController extends Controller
     {
         $page = $request->input('page', 1);
         $id = $request->input('id');
-        if (!$id) : return [];
-        endif;
+
+        if (!$id) {
+            return [];
+        }
+
         return Helpers\ApiHelper::getPromo($id, $page);
     }
 
     /**
      * Lista as promoções da página inicial
-     * @return array
      * @throws Exception
      */
     #[Route('/api/v1/home')]
@@ -58,8 +59,6 @@ class ApiController extends Controller
 
     /**
      * Lista os cupons
-     * @param Request $request
-     * @return array
      * @throws Exception
      */
     #[Route('/api/v1/cupons')]
@@ -67,6 +66,7 @@ class ApiController extends Controller
     {
         $page = $request->input('page', 1);
         $loja = $request->input('loja', 0);
+
         return Helpers\ApiHelper::getCoupons($page, $loja);
     }
 }

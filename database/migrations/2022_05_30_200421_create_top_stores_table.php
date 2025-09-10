@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\TopStores;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,8 +20,6 @@ class CreateTopStoresTable extends Migration
             $table->text('image');
             $table->text('url')->nullable();
         });
-
-        TopStores::initialize();
     }
 
     /**

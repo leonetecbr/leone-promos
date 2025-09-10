@@ -11,51 +11,68 @@
 @endsection
 @section('scripts')
     <script>
-        const URL = '{{Request::get('url')}}'
-        if (URL === '' || URL.indexOf('https://') !== 0) {
-            window.location.href = '/'
+        const URL = '{{Request::get('url')}}';
+
+        if (URL === '' || !URL.startsWith('https://')) {
+            window.location.href = '/';
         } else {
-            let progressBar = document.getElementById('load')
-            let progress = 0, url
+            let progressBar = document.getElementById('load');
+            let progress = 0, url;
 
             function updateBar() {
-                progressBar.classList.remove('w-' + progress)
-                progress += 25
-                progressBar.classList.add('w-' + progress)
+                progressBar.classList.remove(`w-${progress}`);
+                progress += 25;
+                progressBar.classList.add(`w-${progress}`);
                 if (progress === 100) {
-                    redirect()
+                    redirect();
                 }
             }
 
-            updateBar()
+            updateBar();
 
-            setTimeout(updateBar, 1000)
+            setTimeout(updateBar, 1000);
 
             function urlError() {
-                alert('Falha ao obter link do produto, tentaremos novamente!')
-                document.location.reload()
+                alert('Falha ao obter link do produto, tentaremos novamente!');
+                document.location.reload();
             }
 
             function redirect() {
-                window.location.href = url
+                window.location.href = url;
             }
 
-            $.ajax({
-                url: '/redirect',
-                data: JSON.stringify({'url': URL, '_token': CSRF}),
-                dataType: 'json',
-                contentType: 'application/json',
-                type: 'POST'
-            }).done((data) => {
-                updateBar()
+            (async () => {
+                try {
+                    const response = await fetch('/redirect', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            'url': URL,
+                            '_token': CSRF
+                        })
+                    });
 
-                if (data.success) {
-                    url = data.url
-                    updateBar()
-                } else {
-                    return urlError()
+                    if (!response.ok) {
+                        throw new Error('HTTP status ' + response.status);
+                    }
+
+                    const data = await response.json();
+
+                    updateBar();
+
+                    if (data.success) {
+                        url = data.url;
+                        updateBar();
+                    } else {
+                        urlError();
+                    }
+                } catch (error) {
+                    urlError();
                 }
-            }).fail(urlError)
+            })();
         }
     </script>
 @endsection
