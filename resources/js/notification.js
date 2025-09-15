@@ -1,5 +1,15 @@
-let isSubscribed = false, swRegistration = null, sub
-const btn = $('#btn-notification')
+import {createCookie, deleteCookie, getPrefer} from './functions'
+
+let isSubscribed = false
+let swRegistration = null
+let sub
+
+const btn = document.querySelector('#notification-btn')
+const notificationBanner = document.querySelector('#notification')
+const notificationUnsupported = document.querySelector('#notification-unsupported')
+const notificationBlocked = document.querySelector('#notification-blocked')
+const notificationPreferences = document.querySelector('#preferencias')
+const notifyContainer = document.querySelector('#notify')
 
 function urlB64ToUint8Array(base64String) {
     const padding = '='.repeat((4 - base64String.length % 4) % 4)
@@ -16,25 +26,27 @@ function urlB64ToUint8Array(base64String) {
     return outputArray
 }
 
-if ('serviceWorker' in navigator && 'PushManager' in window) {
-    navigator.serviceWorker.register('/sw.js').then((swReg) => {
-        swRegistration = swReg
-        initializeUI()
-    })
-} else {
-    btn.html('Notificações não suportadas')
-    $('#notification-unsupported').removeClass('d-none')
+if (btn) {
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+        navigator.serviceWorker.register('/sw.js').then((swReg) => {
+            swRegistration = swReg
+            initializeUI()
+        })
+    } else {
+        btn.textContent = 'Notificações não suportadas'
+        notificationUnsupported.classList.remove('d-none')
+    }
 }
 
 function initializeUI() {
     if (document.cookie.indexOf('no-notification') < 0) {
-        $('#notification').removeClass('d-none')
+        notificationBanner.classList.remove('d-none')
     }
 
-    btn.attr('disabled', false)
-    btn.on('click', () => {
-        btn.attr('disabled', true)
-        btn.html('Aguarde ...')
+    btn.disabled = false
+    btn.addEventListener('click', () => {
+        btn.disabled = true
+        btn.textContent = 'Aguarde ...'
         if (isSubscribed) {
             unsubscribeUser()
         } else {
@@ -49,7 +61,7 @@ function initializeUI() {
             if (isSubscribed) {
                 if (window.location.pathname === '/notificacoes') {
                     getPrefer(subscription.endpoint)
-                    $('#endpoint').val(subscription.endpoint)
+                    document.querySelector('#endpoint').value = subscription.endpoint
                 } else if (window.location.pathname === '/' && document.cookie.indexOf('no_update') < 0) {
                     update('update')
                 }
@@ -71,30 +83,35 @@ function initializeUI() {
 
 function updateBtn() {
     if (Notification.permission === 'denied') {
-        btn.html('Notificações bloqueadas')
-        btn.attr("disabled", true)
-        $('#notification-blocked').removeClass('d-none')
+        btn.textContent = 'Notificações bloqueadas'
+        btn.disabled = true
+        notificationBlocked.classList.remove('d-none')
+
         if (sub) {
             update('remove')
         }
+
         return
     }
 
-    btn.attr('disabled', false)
+    btn.disabled = false
+
     if (isSubscribed) {
         setTimeout(() => {
             createCookie('no-notification', 1, 60)
-            $('#notification').hide('slow')
+            notificationBanner.classList.add('d-none')
         }, 1000)
-        btn.html('Desativar notificações')
+        btn.textContent = 'Desativar notificações'
     } else {
-        btn.html('Ativar notificações')
+        btn.textContent = 'Ativar notificações'
     }
 }
 
 function subscribeUser() {
     deleteCookie('no_resubscribe')
+
     const applicationServerKey = urlB64ToUint8Array(KEY_VAPID_PUBLIC)
+
     swRegistration.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: applicationServerKey
@@ -108,63 +125,75 @@ function subscribeUser() {
 
 function unsubscribeUser() {
     createCookie('no_resubscribe', 1, 365)
+
     if (sub) {
         sub.unsubscribe()
         isSubscribed = false
         update('remove')
-        $('#preferencias').addClass('d-none')
+        notificationPreferences.classList.add('d-none')
     } else {
         updateBtn()
     }
 }
 
+
 function update(action) {
     let interval = setInterval(function () {
         if (window.grecaptcha) {
             clearInterval(interval)
+
             grecaptcha.ready(() => {
                 grecaptcha.execute(KEY_V3_RECAPTCHA, {action: 'change_notification'})
-                    .then((token) => {
-                        const data = {
+                    .then(async (token) => {
+                        const payload = {
                             subscription: sub,
                             action: action,
                             token: token,
                             _token: CSRF
                         }
 
-                        $.ajax({
-                            url: '/notificacoes/manage',
-                            type: 'POST',
-                            data: JSON.stringify(data),
-                            dataType: 'json',
-                            contentType: 'application/json',
-                            success: (data) => {
-                                processResponse(data, action)
+                        try {
+                            const response = await axios.post('/notificacoes/manage', payload)
+
+                            processResponse(response.data, action)
+
+                        } catch (error) {
+                            console.error('Axios Error:', error.response || error.message)
+
+                            const errorP = document.createElement('p')
+                            errorP.className = 'erro mt-2 center'
+                            errorP.textContent = 'Erro desconhecido!'
+                            notifyContainer.appendChild(errorP)
+
+                            if (sub) {
+                                sub.unsubscribe()
+                                isSubscribed = false
                             }
-                        })
-                            .fail(() => {
-                                $('#notify').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
-                                if (sub) {
-                                    sub.unsubscribe()
-                                    isSubscribed = false
-                                }
-                                return updateBtn()
-                            })
+
+                            return updateBtn()
+                        }
                     })
             })
         }
     }, 100)
 }
 
+function appendErrorMessage(parent, message) {
+    const errorP = document.createElement('p')
+    errorP.className = 'erro mt-2 center'
+    errorP.textContent = message
+    parent.appendChild(errorP)
+}
+
 function processResponse(data, action) {
     if (action === 'update') {
-        if (typeof data.success === undefined || !data.success) {
+        if (typeof data.success === 'undefined' || !data.success) {
             return
         }
         createCookie('no_update', 1, 10)
     } else {
-        if (typeof data.success === undefined) {
-            $('#notification').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
+        if (typeof data.success === 'undefined') {
+            appendErrorMessage(notificationBanner, 'Erro desconhecido!')
             if (sub) {
                 sub.unsubscribe()
                 isSubscribed = false
@@ -173,14 +202,14 @@ function processResponse(data, action) {
             isSubscribed = true
         } else if (data.success && action === 'remove') {
             isSubscribed = false
-        } else if (typeof data.erro !== undefined) {
-            $('#notification').append('<p class="erro mt-2 center">' + data.erro + '</p>')
+        } else if (typeof data.erro !== 'undefined') {
+            appendErrorMessage(notificationBanner, data.erro)
             if (sub) {
                 sub.unsubscribe()
                 isSubscribed = false
             }
         } else {
-            $('#notification').append('<p class="erro mt-2 center">Erro desconhecido!</p>')
+            appendErrorMessage(notificationBanner, 'Erro desconhecido!')
             if (sub) {
                 sub.unsubscribe()
                 isSubscribed = false

@@ -6,10 +6,6 @@ class CsvHelper
 {
     /**
      * Faz a leitura de arquivos CSV
-     * @param string $filename
-     * @param bool $header
-     * @param string $delimiter
-     * @return array
      */
     public static function readCSV(string $filename, bool $header = true, string $delimiter = ','): array
     {

@@ -1,20 +1,19 @@
 {
+    "$schema": "https://json.schemastore.org/package.json",
     "private": true,
+    "type": "module",
     "scripts": {
-        "dev": "npm run development",
-        "development": "mix",
-        "watch": "mix watch",
-        "watch-poll": "mix watch -- --watch-options-poll=1000",
-        "hot": "mix watch --hot",
-        "prod": "npm run production",
-        "production": "mix --production"
+        "build": "vite build",
+        "dev": "vite"
     },
     "devDependencies": {
-        "autoprefixer": "10.4.5",
-        "axios": "^0.27",
-        "bootstrap": "latest",
-        "jquery": "latest",
-        "laravel-mix": "^6.0.49",
+        "@tailwindcss/vite": "^4.0.0",
+        "axios": "^1.11.0",
+        "concurrently": "^9.0.1",
+        "laravel-vite-plugin": "^2.0.0",
+        "tailwindcss": "^4.0.0",
+        "vite": "^7.0.4",
+        "bootstrap": "^5.3.8",
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.54.8",
         "sass-loader": "^12.1.0"

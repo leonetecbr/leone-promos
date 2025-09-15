@@ -3,7 +3,7 @@
 @section('keywords', 'Leone Promos, promoção, menor preço, ofertas, promoções, oferta')
 @section('content')
     <div id="ig-share" class="d-none fixed-top bg-white p-3 w-100 h-100 text-center">
-        <div id="logomarca" class="border-bottom mh-10">
+        <div id="trademark" class="border-bottom mh-10">
             <img src="{{ url('/img/logo.png') }}" alt="Logo" class="mx-auto">
         </div>
         <img id="product-image" class="my-3 mh-33" alt="Imagem do produto">
@@ -48,7 +48,7 @@
         </div>
     </div>
     <h2 class="display-6 mb-4 mt-2">Melhores promoções</h2>
-    @include('utils.promo')
+    @include('utils.promotions')
     <h2 class="display-6">Verificar promoção</h2>
     <p class="f-5 my-3">Está com dúvidas se está na pagina real? Não sabe se a promoção é verdadeira? Cole o link da
         promoção abaixo e você será redirecionado para essa promoção com total segurança.</p>

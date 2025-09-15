@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\SendedNotification;
+use App\Models\SentNotification;
 
-$notification = SendedNotification::find(Request::input('tag'));
+$notification = SentNotification::find(Request::input('tag'));
 
 if (!empty($notification)) {
     $notification->cliques++;

@@ -14,51 +14,28 @@ class CategoriesController extends Controller
 
     /**
      * Retorna a lista com as principais categorias
-     * @return View
      */
     #[Route('/categorias', name: 'categorias')]
     public static function get(): View
     {
-        $categories = Category::all()->toArray();
-        return view('categories', ['categories' => $categories]);
+        $categories = Category::all();
+
+        return view('categories', compact('categories'));
     }
 
     /**
      * Encontra o código corresponde a categoria através do nome para poder buscar os dados corretos no banco de dados
-     * @param string $name
-     * @param int $page
-     * @return View
-     * @throws Exception
      */
-    #[Route('/categorias/{categoria}/{page?}', name: 'categoria')]
-    public static function process(string $name, int $page = 1): View
+    #[Route('/categorias/{categoria}', name: 'categoria')]
+    public static function process(string $category): View
     {
-        try {
-            $title = '';
-            $categories = Category::all()->toArray();
+        $category = Category::select(['id', 'name'])->where('slug', $category)->firstOrFail();
 
-            foreach ($categories as $category) {
-                if ($category['name'] == $name) {
-                    $id = $category['id'];
-                    $title = $category['title'];
-                }
-            }
+        $promotions = $category->promotions()->with('store:id,name,image,link')->paginate(12);
 
-            if (empty($id)) {
-                throw new RequestException('Categoria não encontrada!');
-            }
+        $title = "Promoções $category->name - Página {$promotions->currentPage()} de {$promotions->lastPage()}";
+        $subtitle = $category->name;
 
-            $data = Helpers\ApiHelper::getPromo($id, $page);
-            $offers = $data['offers'];
-            $endPage = $data['totalPage'];
-            $subtitle = $title;
-            $title = "Categoria: {$title} - Página {$page} de {$endPage}";
-        } catch (RequestException $e) {
-            $title = 'Não encontrada';
-            $offers = '<div class="alert alert-danger mt-3 text-center">' . $e->getMessage() . '</div>';
-            $top = false;
-        }
-
-        return view('promos', ['title' => $title, 'subtitle' => $subtitle ?? $title, 'promos' => $offers, 'catId' => $id ?? 0, 'page' => $page, 'endPage' => $endPage ?? '', 'top' => $top ?? true, 'isLoja' => false, 'groupName' => $name ?? '']);
+        return view('promotions', compact('title', 'subtitle', 'promotions'));
     }
 }

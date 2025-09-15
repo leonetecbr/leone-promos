@@ -6,15 +6,14 @@
     <article class="container">
         <h1 class="display-5">Gerenciar notificações</h1>
         <div id="notifications">
-            <p class="my-3">Receba nossas seleção de melhores promoções em primeira mão por notificação no seu
-                navegador! Aqui você pode ativar, desativar e gerenciar suas preferências de notificação.</p>
+            <p class="my-3">
+                Receba nossas seleção de melhores promoções em primeira mão por notificação no seu navegador! Aqui você
+                pode ativar, desativar e gerenciar suas preferências de notificação.
+            </p>
             <div class="text-center mb-3">
-                <button id="btn-notification" class="btn btn-primary text-light" disabled>Ativar notificações</button>
-            </div>
-            <div class="text-center small">O sistema de notificações é protegido pelo Google reCAPTCHA para garantir que
-                você não é um robô. <a target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas
-                    de Privacidade</a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos
-                    de Serviço</a> do Google são aplicáveis.
+                <button id="btn-notification" class="btn btn-primary text-light" disabled>
+                    Ativar notificações
+                </button>
             </div>
         </div>
 

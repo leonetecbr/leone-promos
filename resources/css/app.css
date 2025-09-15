@@ -26,7 +26,7 @@ a#logo {
 }
 
 .card-header > .twt {
-    background-color: #00acee;
+    background-color: #000;
 }
 
 .card-header > .pls {
@@ -53,22 +53,18 @@ a#logo {
     text-align: center;
 }
 
-img.loja {
+img.store-badge {
     max-width: 50px;
     margin-bottom: 10px;
     text-align: center;
 }
 
-.categoria > a > img {
+.category > a > img, .store > a > img {
     height: 100px;
     max-width: 200px;
 }
 
-#categorias > .categoria a {
-    margin-top: 10px;
-}
-
-.categoria {
+.category, .store {
     height: 140px;
     width: 240px;
     border: 1px solid grey;
@@ -80,10 +76,15 @@ img.loja {
 
 }
 
-.categoria > a {
+.category > a, .store > .a {
     color: #000;
-    text-decoration: none;
+    margin-top: 10px;
     text-align: center;
+    text-decoration: none;
+}
+
+.category img, .store img {
+    max-width: 115px;
 }
 
 #social > a {
@@ -106,20 +107,16 @@ img.loja {
     font-size: 35px;
 }
 
-.categoria img {
-    max-width: 115px;
-}
-
 .pointer {
     cursor: pointer;
 }
 
 .product-image,
-.loja {
+.store-image {
     max-height: 300px;
 }
 
-#logomarca > img {
+#trademark > img {
     width: 250px;
 }
 
@@ -129,9 +126,9 @@ img[alt=Ponto] {
     padding: 10px;
 }
 
-.loja-image[alt=Extra],
-.loja-image[alt=Ponto],
-.loja-image[alt="Casas Bahia"] {
+.store-image[alt=Extra],
+.store-image[alt=Ponto],
+.store-image[alt="Casas Bahia"] {
     margin-bottom: 3rem;
     margin-top: 2rem;
 }
@@ -172,7 +169,7 @@ img[alt=Ponto] {
         flex: none;
     }
 
-    div.final {
+    div.card-end {
         margin-top: auto;
     }
 }

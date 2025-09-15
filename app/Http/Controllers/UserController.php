@@ -7,7 +7,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends Controller
@@ -31,12 +30,11 @@ class UserController extends Controller
      * Realiza a autenticação do usuário
      * @param Request $request
      * @return RedirectResponse
-     * @throws ValidationException
      */
     #[Route('/admin')]
     public function auth(Request $request): RedirectResponse
     {
-        $this->validate($request, [
+        $request->validate([
             'email' => 'required|email',
             'password' => 'required',
             'g-recaptcha-response' => 'required'

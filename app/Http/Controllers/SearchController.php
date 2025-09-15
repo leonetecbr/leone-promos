@@ -21,8 +21,8 @@ class SearchController extends Controller
      * @return View
      * @throws Exception
      */
-    #[Route('/search/{query}/{page?}', name: 'pesquisa')]
-    public static function search(Request $request, string $query, int $page = 1): View
+    #[Route('/search/{query}', name: 'pesquisa')]
+    public static function search(Request $request, string $query): View
     {
         try {
             $recaptchaResponse = $request->input('g-recaptcha-response');
@@ -71,20 +71,15 @@ class SearchController extends Controller
             }
             $subtitle = 'Erro encontrado!';
         } finally {
-            return view('promos', [
+            return view('promotions', [
                 'title' => $title,
                 'subtitle' => $subtitle,
-                'promos' => $offers,
+                'promotions' => $offers,
                 'endPage' => $endPage ?? '',
-                'top' => $top ?? true,
                 'headers' => $headers ?? '',
-                'catId' => 0,
-                'page' => $page,
                 'query' => $query,
                 'robots' => 'noindex',
-                'isLoja' => false,
                 'groupName' => $query,
-                'share' => false
             ]);
         }
     }

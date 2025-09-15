@@ -20,25 +20,24 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
             gtag('config', 'G-VHZEX7GYK2');
         </script>
     @endif
-    <link rel="stylesheet" type="text/css" href="{{ mix('css/bootstrap.min.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ mix('css/app.min.css') }}"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    @vite(['resources/views/layouts/app.scss', 'resources/css/app.css'])
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
     <title>@yield('title') | {{ env('APP_NAME') }}</title>
     @hasSection('description')
-        <meta name="description" content="@yield('description')">
-        <meta name="og:description" content="@yield('description')">
+        <meta name="description" content="@yield('description')"/>
+        <meta name="og:description" content="@yield('description')"/>
     @else
         <meta name="description"
-              content="Aproveite as melhores promoções e os melhores cupons das melhores lojas da internet com total segurança!">
+              content="Aproveite as melhores promoções e os melhores cupons das melhores lojas da internet com total segurança!"/>
         <meta name="og:description"
-              content="Aproveite as melhores promoções e os melhores cupons das melhores lojas da internet com total segurança!">
+              content="Aproveite as melhores promoções e os melhores cupons das melhores lojas da internet com total segurança!"/>
     @endif
     @hasSection('keywords')
-        <meta name="keywords" content="@yield('keywords')">
+        <meta name="keywords" content="@yield('keywords')"/>
     @endif
-    <meta name="robots" content="{{ $robots ?? 'index, follow' }}">
-    <meta name="author" content="Leone Oliveira">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="robots" content="{{ $robots ?? 'index, follow' }}"/>
+    <meta name="author" content="Leone Oliveira"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <script src="https://kit.fontawesome.com/6719bc67c5.js" crossorigin="anonymous" async></script>
     <link rel="icon" href="{{ url('/img/icon.png') }}">
     <meta property="og:locale" content="pt_BR"/>
@@ -46,31 +45,33 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
     <meta property="og:site_name" content="{{ env('APP_NAME') }}"/>
     <meta property="og:url" content="{{ Request::url() }}"/>
     <meta property="og:title" content="@yield('title') | {{ env('APP_NAME') }}"/>
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-title" content="Ofertas"/>
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
     <meta name="msapplication-TileColor" content="#da6709"/>
     <meta name="msapplication-TileImage" content="{{ url('/img/icon.png') }}"/>
     <link rel="apple-touch-icon" href="{{ url('/img/icon.png') }}"/>
-    <link rel="manifest" href="{{ url('/json/manifest.json') }}">
-    <meta name="application-name" content="Ofertas">
+    <link rel="manifest" href="{{ url('/json/manifest.json') }}"/>
+    <meta name="application-name" content="Ofertas"/>
     <link rel="icon" sizes="152x152" href="{{ url('/img/152.png') }}">
     <link rel="apple-touch-icon" sizes="152x152" href="{{ url('/img/152.png') }}"/>
     <link rel="icon" sizes="144x144" href="{{ url('/img/144.png') }}">
     <link rel="apple-touch-icon" sizes="144x144" href="{{ url('/img/144.png') }}"/>
-    <link rel="icon" sizes="128x128" href="{{ url('/img/128.png') }}">
-    <link rel="icon" sizes="96x96" href="{{ url('/img/96.png') }}">
-    <link rel="icon" sizes="90x90" href="{{ url('/img/90.png') }}">
-    <link rel="icon" sizes="72x72" href="{{ url('/img/72.png') }}">
+    <link rel="icon" sizes="128x128" href="{{ url('/img/128.png') }}"/>
+    <link rel="icon" sizes="96x96" href="{{ url('/img/96.png') }}"/>
+    <link rel="icon" sizes="90x90" href="{{ url('/img/90.png') }}"/>
+    <link rel="icon" sizes="72x72" href="{{ url('/img/72.png') }}"/>
     <link rel="apple-touch-icon" sizes="72x72" href="{{ url('/img/72.png') }}"/>
-    <link rel="icon" sizes="64x64" href="{{ url('/img/64.png') }}">
-    <link rel="icon" sizes="60x60" href="{{ url('/img/60.png') }}">
-    <link rel="icon" sizes="32x32" href="{{ url('/img/32.png') }}">
-    <link rel="icon" sizes="16x16" href="{{ url('/img/16.png') }}">
-    <meta name="theme-color" content="#da6709">
+    <link rel="icon" sizes="64x64" href="{{ url('/img/64.png') }}"/>
+    <link rel="icon" sizes="60x60" href="{{ url('/img/60.png') }}"/>
+    <link rel="icon" sizes="32x32" href="{{ url('/img/32.png') }}"/>
+    <link rel="icon" sizes="16x16" href="{{ url('/img/16.png') }}"/>
+    <meta name="theme-color" content="#da6709"/>
+    <meta name="lomadee" content="2324685"/>
+{{--    TODO--}}
     <link rel="canonical" href="{{ Request::url() }}"/>
-    <script src="https://www.google.com/recaptcha/api.js?render={{ env('PUBLIC_RECAPTCHA_V3') }}"
-            async></script>@yield('headers')
+    <script src="https://www.google.com/recaptcha/api.js?render={{ env('PUBLIC_RECAPTCHA_V3') }}" async></script>
+    @yield('headers')
 </head>
 <body class="d-flex flex-column min-vh-100">
 @if (empty($_COOKIE['accept']))
@@ -82,11 +83,14 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
         </div>
     </section>
 @endif
-<header id="cabecalho" class="border border-bottom container-fluid bg-light">
+<header id="header" class="sticky-top border border-bottom container-fluid bg-light shadow-sm">
     <nav class="navbar navbar-expand-lg navbar-light">
         <a href="{{ route('home') }}" class="navbar-brand" id="logo">
-            <{{ (Route::currentRouteName()=='home')?'h1':'span'; }} class
-            ="d-none">{{ env('APP_NAME') }}</{{ (Route::currentRouteName()=='home')?'h1':'span'; }}>
+            @if(Route::is('home'))
+                <h1 class="d-none">
+                    {{ env('APP_NAME') }}
+                </h1>
+            @endif
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,28 +99,24 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a href="{{ (Route::currentRouteName()=='home')?'#':route('home') }}"
-                       class="nav-link{{ (Route::currentRouteName()=='home')?' active':''; }}">Início</a>
+                    <a href="{{ Route::is('home') ? '#' : route('home') }}"
+                       class="nav-link @if(Route::is('home')) active @endif">Início</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ (Route::currentRouteName()=='cupons')?'#':route('cupons') }}"
-                       class="nav-link{{ (Route::currentRouteName()=='cupons')?' active':''; }}">Cupons</a>
+                    <a href="{{ Route::is('cupons*') ? '#' : route('cupons') }}"
+                       class="nav-link @if(Route::is('cupons*') ) active @endif">Cupons</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ (Route::currentRouteName()=='lojas')?'#':route('lojas') }}"
-                       class="nav-link{{ (Route::currentRouteName()=='lojas')?' active':''; }}">Lojas</a>
+                    <a href="{{ Route::is('lojas*') ? '#' : route('lojas') }}"
+                       class="nav-link @if(Route::is('lojas*') ) active @endif">Lojas</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ (Route::currentRouteName()=='categorias')?'#':route('categorias') }}"
-                       class="nav-link{{ (Route::currentRouteName()=='categorias')?' active':''; }}">Categorias</a>
+                    <a href="{{ Route::is('categorias*') ? '#' : route('categorias') }}"
+                       class="nav-link @if(Route::is('categorias*') ) active @endif">Categorias</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ (Route::currentRouteName()=='notificacoes')?'#':route('notificacoes') }}"
-                       class="nav-link{{ (Route::currentRouteName()=='notificacoes')?' active':''; }}">Notificações</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ (Route::currentRouteName()=='rastreio')?'#':route('rastreio') }}"
-                       class="nav-link{{ (Route::currentRouteName()=='rastreio')?' active':''; }}">Rastreio</a>
+                    <a href="{{  Route::is('notificacoes*') ? '#' : route('notificacoes') }}"
+                       class="nav-link @if(Route::is('notificacoes*') ) active @endif">Notificações</a>
                 </li>
             </ul>
             <form id="search" class="d-flex justify-content-center ajax-form col-lg-3 col-xl-4 ms-3"
@@ -129,11 +129,12 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
                     <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
                 </div>
             </form>
-            <div class="text-center small py-3 d-lg-none w-75 mx-auto">Esta pesquisa é protegida pelo Google reCAPTCHA
-                para garantir que você não é um robô. <a target="_blank" rel="nofollow"
-                                                         href="https://policies.google.com/privacy">Políticas de
-                    Privacidade</a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos
-                    de Serviço</a> do Google são aplicáveis.
+            <div class="text-center small py-3 d-lg-none w-75 mx-auto">
+                Esta pesquisa é protegida pelo Google reCAPTCHA para garantir que você não é um robô.
+                <a target="_blank" rel="nofollow" href="https://policies.google.com/privacy">
+                    Políticas de Privacidade
+                </a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de Serviço</a>
+                do Google são aplicáveis.
             </div>
             @if (Auth::check())
                 <a href="{{ route('dashboard') }}" class="ms-3">
@@ -147,13 +148,8 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
             @endif
         </div>
     </nav>
-    <div class="text-end small pb-3 d-none d-lg-block">Esta pesquisa é protegida pelo Google reCAPTCHA para garantir que
-        você não é um robô. <a target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas de
-            Privacidade</a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de
-            Serviço</a> do Google são aplicáveis.
-    </div>
 </header>
-@if (empty($_COOKIE['no_notification']) && (Route::currentRouteName()!='notificacoes'))
+@if (empty($_COOKIE['no_notification']) && Route::is('notificacoes*'))
     <div id="notification" class="container d-none border-bottom p-3">
         <p>Receba nossas seleção de melhores promoções em primeira mão por notificação no seu navegador!</p><br/>
         <div class="float-end me-2" id="i-notification"><i class="fw-bolder far fa-eye-slash pointer"></i></div>
@@ -174,10 +170,6 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
         </div>
     </div>
     <div class="invalid-feedback">Pesquisa inválida (Mínimo de 3 caracteres e máximo 20)</div>
-    <p class="small">Esta pesquisa é protegida pelo Google reCAPTCHA para garantir que você não é um robô. <a
-            target="_blank" rel="nofollow" href="https://policies.google.com/privacy">Políticas de Privacidade</a> e
-        <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de Serviço</a> do Google são
-        aplicáveis.</p>
 </form>
 <div class="d-flex justify-content-center">
     <div class="toast align-items-center text-white bg-success border-0 position-fixed fs-5 z-index-fixed"
@@ -210,19 +202,29 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
     const KEY_V3_RECAPTCHA = '{{ env("PUBLIC_RECAPTCHA_V3") }}';
     const KEY_VAPID_PUBLIC = '{{ env("VAPID_PUBLIC_KEY") }}';
 </script>
-<script src="{{ mix('js/jquery.min.js') }}"></script>
+@vite([
+    'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js?commonjs-entry',
+    'resources/js/app.js'
+])
 @yield('scripts')
-<script src="{{ mix('js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ mix('js/functions.js') }}" async defer></script>
-<script src="{{ mix('js/app.min.js') }}" async defer></script>
-<footer id="rodape" class="text-center border-top p-3 bg-light mt-auto">
+@if (empty($_COOKIE['no_notification']) || Route::is('notificacoes*'))
+    @vite( 'resources/js/notification.js')
+@endif
+<footer id="footer" class="text-center border-top p-3 bg-light mt-auto">
     <div id="social" class="mx-auto fs-2 mb-3">
         <a href="https://wa.me/{{ env('WHATSAPP_NUMBER') }}"><i class="fab fa-whatsapp-square"></i></a>
         <a href="https://instagram.com/ofertas.leone"><i class="fab fa-instagram-square"></i></a>
         <a href="https://facebook.com/ofertas.leone"><i class="fab fa-facebook-square"></i></a>
-        <a href="https://github.com/leonetecbr/leone-promos/"><i class="fab fa-github-square"></i></a>
+        <a href="https://github.com/leonetecbr/leone-promotions/"><i class="fab fa-github-square"></i></a>
     </div>
     <div id="copyright" class="fs-6 fw-light">
+        <p>
+            Esse site é protegido pelo Google reCAPTCHA para garantir que você não é um robô.
+            <a target="_blank" rel="nofollow" href="https://policies.google.com/privacy">
+                Políticas de Privacidade
+            </a> e <a target="_blank" rel="nofollow" href="https://policies.google.com/terms">Termos de Serviço</a>
+            do Google são aplicáveis.
+        </p>
         <p>Ao abrir ou comprar um produto mostrado aqui no site, algumas lojas poderão nos pagar uma comissão, mas isso
             não influencia em quais promoções são postadas por aqui. Em caso de divergência no preço, o preço válido é o
             da loja. O preço informado não inclui frete e outras taxas. Consulte termos e condições das ofertas e
@@ -231,10 +233,9 @@ if (Request::filled('tag') && Request::input('utm_source') == 'push_notification
         </p>
     </div>
     <p class="fs-6">
-        <span class="bolder">Políticas: </span> <a href="`{{ route('privacidade') }}" target="_blank"
-                                                   class="text-decoration-none">de Privacidade</a> | <a
-            href="{{ route('cookies') }}" target="_blank"
-            class="text-decoration-none">de Cookies</a>
+        <span class="bolder">Políticas: </span>
+        <a href="{{ route('privacidade') }}" target="_blank" class="text-decoration-none">de Privacidade</a> |
+        <a href="{{ route('cookies') }}" target="_blank" class="text-decoration-none">de Cookies</a>
     </p>
 </footer>
 </body>

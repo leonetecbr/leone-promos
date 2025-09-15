@@ -5,7 +5,7 @@ namespace App\Helpers;
 use App\Exceptions\RequestException;
 use App\Models\Coupon;
 use App\Models\Page;
-use App\Models\Promo;
+use App\Models\Promotion;
 use App\Models\Store;
 use Exception;
 use Illuminate\Http\Request;
@@ -40,27 +40,23 @@ class ApiHelper
     private static int $groupId;
 
     /**
-     * Verifica se as promoções salvas no banco de dados ainda estão adequadas para uso, se sim, as usa, se não pega da API
-     * @param int $id
-     * @param int $page
-     * @param int $loja
-     * @return array
+     * Verifica se as promoções salvas no banco de dados continuam adequadas para uso, se sim, as usa, se não pega da API
      * @throws Exception
      */
     public static function getPromo(int $id, int $page = 1, int $loja = 0): array
     {
         $groupId = ($loja == 0) ? $id : $loja;
-        $promos = ($id == 9999) ?
-            Promo::where('group_id', $groupId)->where('page', $page)->take(12)->orderBy('created_at', 'DESC') :
-            Promo::where('group_id', $groupId)->where('page', $page)->take(12);
+        $promotions = ($id == 9999) ?
+            Promotion::where('group_id', $groupId)->where('page', $page)->take(12)->orderBy('created_at', 'DESC') :
+            Promotion::where('group_id', $groupId)->where('page', $page)->take(12);
         $promotions = [];
 
         // Verifica se tem as promoções solicitadas no banco de dados
-        if ($promos->exists()) {
-            $promos = $promos->get();
+        if ($promotions->exists()) {
+            $promotions = $promotions->get();
 
             // Verifica se o horário da última atualização é maior que 24 horas atrás
-            if (time() - strtotime($promos[0]->created_at) > 86400 && $id !== 9999) {
+            if (time() - strtotime($promotions[0]->created_at) > 86400 && $id !== 9999) {
                 self::$id = $id;
                 self::$page = $page;
                 self::$store = $loja;
@@ -69,22 +65,22 @@ class ApiHelper
             }
 
             $store = [];
-            for ($i = 0; $i < count($promos); $i++) {
-                $promotions['offers'][$i] = $promos[$i]->toArray();
+            for ($i = 0; $i < count($promotions); $i++) {
+                $promotions['offers'][$i] = $promotions[$i]->toArray();
 
                 // Adiciona informações das lojas
                 if ($loja !== 0) {
                     if (empty($store)) {
-                        $store = Store::find($promos[$i]->store_id)->toArray();
+                        $store = Store::find($promotions[$i]->store_id)->toArray();
                     }
                     $promotions['offers'][$i]['store'] = $store;
                 } else {
                     if (empty($store)) {
-                        $store[$promos[$i]->store_id] = Store::find($promos[$i]->store_id)->toArray();
-                    } elseif (!array_key_exists($promos[$i]->store_id, $store)) {
-                        $store[$promos[$i]->store_id] = Store::find($promos[$i]->store_id)->toArray();
+                        $store[$promotions[$i]->store_id] = Store::find($promotions[$i]->store_id)->toArray();
+                    } elseif (!array_key_exists($promotions[$i]->store_id, $store)) {
+                        $store[$promotions[$i]->store_id] = Store::find($promotions[$i]->store_id)->toArray();
                     }
-                    $promotions['offers'][$i]['store'] = $store[$promos[$i]->store_id];
+                    $promotions['offers'][$i]['store'] = $store[$promotions[$i]->store_id];
                 }
             }
             $promotions['totalPage'] = Page::find($promotions['offers'][0]['group_id'])->total;
@@ -103,14 +99,12 @@ class ApiHelper
 
     /**
      * Obtém as promoções atualizadas, exclui as antigas e passa as novas para o banco de dados
-     * @param bool $exists
-     * @return array
      * @throws Exception
      */
     private static function toCachedPromos(bool $exists = false): array
     {
         $dados = self::getAPI();
-        $promos = $dados['offers'];
+        $promotions = $dados['offers'];
 
         // Atualiza o número total de páginas
         $page = Page::firstOrNew([
@@ -121,13 +115,13 @@ class ApiHelper
 
         // Limpa os itens antigos do banco
         if ($exists) {
-            Promo::where('group_id', self::$groupId)->where('page', self::$page)->take(12)->delete();
+            Promotion::where('group_id', self::$groupId)->where('page', self::$page)->take(12)->delete();
         }
 
         $lojas = [];
         $promotions = [];
-        for ($i = 0; $i < count($promos); $i++) {
-            $storeId = $promos[$i]['store']['id'];
+        for ($i = 0; $i < count($promotions); $i++) {
+            $storeId = $promotions[$i]['store']['id'];
 
             // Verifica se a loja já está na lista de lojas e adiciona se não tiver
             if (!array_key_exists($storeId, $lojas)) {
@@ -136,31 +130,31 @@ class ApiHelper
                 ]);
 
                 if (empty($store->link)) {
-                    $store->name = $promos[$i]['store']['name'];
-                    $store->link = $promos[$i]['store']['link'];
-                    $store->image = $promos[$i]['store']['thumbnail'];
+                    $store->name = $promotions[$i]['store']['name'];
+                    $store->link = $promotions[$i]['store']['link'];
+                    $store->image = $promotions[$i]['store']['thumbnail'];
                     $store->save();
                 }
 
                 $lojas[$storeId] = $store->toArray();
             }
 
-            $id = (is_numeric($promos[$i]['id'])) ? self::$groupId . $promos[$i]['id'] : 9 . date('His') . $i;
+            $id = (is_numeric($promotions[$i]['id'])) ? self::$groupId . $promotions[$i]['id'] : 9 . date('His') . $i;
 
-            $from = ($promos[$i]['discount'] > 0) ? $promos[$i]['priceFrom'] : NULL;
+            $from = ($promotions[$i]['discount'] > 0) ? $promotions[$i]['priceFrom'] : NULL;
 
             // Insere os dados da promoção no banco
-            $promo = Promo::create([
+            $promo = Promotion::create([
                 'id' => $id,
                 'group_id' => self::$groupId,
                 'store_id' => $storeId,
-                'name' => mb_strimwidth($promos[$i]['name'], 0, 60, '...', 'UTF-8'),
-                'link' => $promos[$i]['link'],
-                'image' => $promos[$i]['thumbnail'],
+                'name' => mb_strimwidth($promotions[$i]['name'], 0, 60, '...', 'UTF-8'),
+                'link' => $promotions[$i]['link'],
+                'image' => $promotions[$i]['thumbnail'],
                 'from' => $from,
-                'for' => $promos[$i]['price'],
-                'times' => $promos[$i]['installment']['quantity'] ?? NULL,
-                'installments' => $promos[$i]['installment']['value'] ?? NULL,
+                'for' => $promotions[$i]['price'],
+                'times' => $promotions[$i]['installment']['quantity'] ?? NULL,
+                'installments' => $promotions[$i]['installment']['value'] ?? NULL,
                 'page' => self::$page
             ]);
 
@@ -173,7 +167,6 @@ class ApiHelper
 
     /**
      * Pega os cupons ou promoções da API da Lomadee
-     * @return array
      * @throws Exception
      */
     private static function getAPI(): array
@@ -212,10 +205,7 @@ class ApiHelper
     }
 
     /**
-     * Verifica se os cupons salvos no banco ainda estão adequados para uso, se sim, os usa, se não pega da API
-     * @param int $page
-     * @param int $loja
-     * @return array
+     * Verifica se os cupons salvos no banco continuam adequados para uso, se sim, os usa, se não pega da API
      * @throws Exception
      */
     public static function getCoupons(int $page, int $loja = 0): array
@@ -302,7 +292,7 @@ class ApiHelper
                 'code' => $data[$i]['code'],
                 'link' => $data[$i]['link'],
                 'description' => mb_strimwidth($data[$i]['description'], 0, 60, '...', 'UTF-8'),
-                'expiration' => str_replace(':59:00', ':59:59', $data[$i]['vigency']),
+                'expiration' => str_replace(':59:00', ':59:59', $data[$i]['validity']),
                 'store_id' => $data[$i]['store']['id']
             ]);
 
@@ -338,7 +328,7 @@ class ApiHelper
             /**if ($dado[$i][1] === 'Aliexpress BR & LATAM') {
              * $coupon[$a] = [
              * 'code' => $dado[$i][4],
-             * 'vigency' => $dado[$i][7],
+             * 'validity' => $dado[$i][7],
              * 'description' => $dado[$i][5],
              * 'link' => $dado[$i][11],
              * 'store' => [
@@ -353,7 +343,7 @@ class ApiHelper
             if ($dado[$i][1] === 'Casas Bahia BR') {
                 $coupon[$a] = [
                     'code' => $dado[$i][4],
-                    'vigency' => $dado[$i][7],
+                    'validity' => $dado[$i][7],
                     'description' => ucfirst($dado[$i][5]),
                     'link' => $dado[$i][11],
                     'store' => [
@@ -367,7 +357,7 @@ class ApiHelper
             } elseif ($dado[$i][1] === 'Extra BR') {
                 $coupon[$a] = [
                     'code' => $dado[$i][4],
-                    'vigency' => $dado[$i][7],
+                    'validity' => $dado[$i][7],
                     'description' => ucfirst($dado[$i][5]),
                     'link' => $dado[$i][11],
                     'store' => [
@@ -381,7 +371,7 @@ class ApiHelper
             } elseif ($dado[$i][1] === 'Ponto BR') {
                 $coupon[$a] = [
                     'code' => $dado[$i][4],
-                    'vigency' => $dado[$i][7],
+                    'validity' => $dado[$i][7],
                     'description' => ucfirst($dado[$i][5]),
                     'link' => $dado[$i][11],
                     'store' => [
@@ -453,22 +443,22 @@ class ApiHelper
 
         $data = json_decode($json, true);
 
-        $promos = $data['offers'];
+        $promotions = $data['offers'];
 
-        for ($i = 0; $i < count($promos); $i++) {
+        for ($i = 0; $i < count($promotions); $i++) {
             $promo['offers'][$i] = [
-                'name' => $promos[$i]['name'],
+                'name' => $promotions[$i]['name'],
                 'store' => [
-                    'name' => $promos[$i]['store']['name'],
-                    'image' => $promos[$i]['store']['thumbnail'],
-                    'link' => $promos[$i]['store']['link']
+                    'name' => $promotions[$i]['store']['name'],
+                    'image' => $promotions[$i]['store']['thumbnail'],
+                    'link' => $promotions[$i]['store']['link']
                 ],
-                'link' => $promos[$i]['link'],
-                'image' => $promos[$i]['thumbnail'],
-                'from' => $promos[$i]['priceFrom'] ?? NULL,
-                'for' => $promos[$i]['price'],
-                'times' => $promos[$i]['installment']['quantity'] ?? NULL,
-                'installments' => $promos[$i]['installment']['value'] ?? NULL
+                'link' => $promotions[$i]['link'],
+                'image' => $promotions[$i]['thumbnail'],
+                'from' => $promotions[$i]['priceFrom'] ?? NULL,
+                'for' => $promotions[$i]['price'],
+                'times' => $promotions[$i]['installment']['quantity'] ?? NULL,
+                'installments' => $promotions[$i]['installment']['value'] ?? NULL
             ];
         }
 

@@ -18,8 +18,6 @@ class RedirectController
 
     /**
      * Decodifica o link curto e redireciona
-     * @param string $dados
-     * @return RedirectResponse
      * @throws Exception
      */
     #[Route('/{dados}')]
@@ -43,8 +41,6 @@ class RedirectController
 
     /**
      * Gera a resposta para a api
-     * @param Request $request
-     * @return array
      */
     #[Route('/redirect', name: 'redirect.api')]
     public function api(Request $request): array
@@ -52,11 +48,13 @@ class RedirectController
         $url = $request->input('url');
         $urlAfiliados = $this->process($url);
         $result['success'] = true;
+
         if ($urlAfiliados == '/') {
             $result['url'] = '/';
         } else {
             $result['url'] = $urlAfiliados;
         }
+
         return $result;
     }
 
@@ -79,7 +77,7 @@ class RedirectController
                 if (str_contains($url, '/ref')) {
                     $url = strstr($url, '/ref', true);
                 }
-                $to = $url . '?tag=leonepromos08-20';
+                $to = $url . '?tag=leonepromotions08-20';
             } elseif (str_starts_with($url, 'https://redir.lomadee.com/') || str_starts_with($url, 'https://www.awin1.com/cread.php') || str_starts_with($url, 'https://amzn.to/')) {
                 $to = $url;
             } elseif (str_starts_with($url, 'https://m.magazineluiza.com.br') || str_starts_with($url, 'https://www.magazineluiza.com.br') || str_starts_with($url, 'https://magazineluiza.com.br') || str_starts_with($url, 'https://www.magazinevoce.com.br')) {
@@ -92,12 +90,6 @@ class RedirectController
                 $to = RedirectHelper::processAwin($url, 17874);
             } elseif (str_starts_with($url, 'https://m.casasbahia.com.br') || str_starts_with($url, 'https://www.casasbahia.com.br') || str_starts_with($url, 'https://casasbahia.com.br')) {
                 $to = RedirectHelper::processAwin($url, 17629);
-            } elseif (str_starts_with($url, 'https://www.submarino.com.br') || str_starts_with($url, 'https://submarino.com.br')) {
-                $to = RedirectHelper::processAwin($url, 22195, env('ID_AFILIADO_B2W'));
-            } elseif (str_starts_with($url, 'https://www.shoptime.com.br') || str_starts_with($url, 'https://shoptime.com.br')) {
-                $to = RedirectHelper::processAwin($url, 22194, env('ID_AFILIADO_B2W'));
-            } elseif (str_starts_with($url, 'https://www.americanas.com.br') || str_starts_with($url, 'https://americanas.com.br')) {
-                $to = RedirectHelper::processAwin($url, 22193, env('ID_AFILIADO_B2W'));
             } else {
                 $to = RedirectHelper::processLomadee($url);
             }
@@ -112,7 +104,7 @@ class RedirectController
      * Gera a página de redirecionamento
      * @return View
      */
-    #[Route('/redirect', name: 'redirect.page')]
+    #[Route('/redirect', name: 'redirect')]
     public function get(): View
     {
         return view('redirect');

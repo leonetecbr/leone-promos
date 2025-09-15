@@ -25,4 +25,13 @@ $utilities: (
             200: 200px))
 );
 
-@import '~bootstrap/scss/bootstrap';
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+
+.modal-footer {
+    justify-content: space-between;
+}
+
+.alert {
+    margin: 1rem 0;
+    text-align: center;
+}

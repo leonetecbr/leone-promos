@@ -3,14 +3,12 @@
 namespace App\Helpers;
 
 use App\Models\Category;
-use App\Models\TopStores;
+use App\Models\TopStore;
 
 class RedirectHelper
 {
     /**
      * Gera os links de afiliado para produtos da Magazine Luiza
-     * @param string $url
-     * @return string
      */
     public static function processMagalu(string $url): string
     {
@@ -25,10 +23,6 @@ class RedirectHelper
 
     /**
      *  Gera os links de afiliado para as lojas parceira pelo awin, por enquanto apenas Aliexpress, Extra, Ponto e Casas Bahia
-     * @param string $url
-     * @param int $advertiserId
-     * @param int|null $uid
-     * @return string
      */
     public static function processAwin(string $url, int $advertiserId, int $uid = null): string
     {
@@ -41,8 +35,6 @@ class RedirectHelper
 
     /**
      * Gera os links de afiliado para produtos das demais lojas parceiras pela Lomadee
-     * @param string $url
-     * @return string
      */
     public static function processLomadee(string $url): string
     {
@@ -51,22 +43,13 @@ class RedirectHelper
 
     /**
      * Encontra o link da página da ofertas
-     *
-     * @paramint $catId
-     * @paramint $page
-     * @paramint|null $ofertaId
-     * @param int $catId
-     * @param int $page
-     * @param int|null $ofertaId
-     * @param bool|null $pageNumber
-     * @return string
      */
     public static function processPage(int $catId, int $page, ?int $ofertaId = null, ?bool $pageNumber = false): string
     {
         if ($catId !== 0) {
             $data = Category::find($catId);
             if (empty($data)) {
-                $data = TopStores::find($catId);
+                $data = TopStore::find($catId);
                 if (empty($data)): return ''; endif;
                 $path = 'lojas/' . $data['name'];
             } else {

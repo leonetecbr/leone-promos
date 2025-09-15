@@ -6,7 +6,7 @@ use App\Helpers\SitemapHelper;
 use Exception;
 use Illuminate\Console\Command;
 
-class generateSitemap extends Command
+class GenerateSitemap extends Command
 {
     /**
      * The name and signature of the console command.
@@ -24,8 +24,6 @@ class generateSitemap extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -34,11 +32,9 @@ class generateSitemap extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return void
      * @throws Exception
      */
-    public function handle()
+    public function handle(): void
     {
         SitemapHelper::generate();
         $this->line('<fg=green>Sitemap gerado com sucesso.</>');

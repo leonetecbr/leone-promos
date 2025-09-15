@@ -9,7 +9,6 @@ class AdminController extends Controller
 {
     /**
      * Gera a página inicial do painel administrativo
-     * @returns View
      */
     #[Route('/admin', name: 'dashboard')]
     public function get(): View
